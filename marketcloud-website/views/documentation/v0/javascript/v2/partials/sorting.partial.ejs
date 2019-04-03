@@ -1,0 +1,10 @@
+<a class="anchor" id="sorting"></a>
+<h3 >Sorting</h3>
+<p>Whenever you are requesting a list of resources, using a <code>list(query,callback)</code> method, you can pass sorting parameters to the query object:</p>
+<pre><code class="javascript">
+client.products.list({
+  sort_by : "name",
+  sort_order : "ASC"
+})
+</code></pre>
+<p><code>sort_by</code> is the name of the attribute you want to use for sorting and <code>sort_order</code> can have two values, <code>ASC</code> or <code>DESC</code>.</p>

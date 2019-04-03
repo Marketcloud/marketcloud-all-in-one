@@ -1,0 +1,85 @@
+
+<!-- NEW HOOK MODAL -->
+<div class="modal fade" tabindex="-1" role="dialog" id="newWebhookModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">New webhook</h4>
+      </div>
+      <div class="modal-body">
+        <p class="small">To receive events that occurs on this application (such as cart updates or order creation) you should configure one or more webhooks. To learn more, please read the <a class="link" href="/documentation/guides/webhooks">webhooks documentation</a>.</p>
+        <div class="form">
+          <div class="form-group"  ng-class="{'has-error' : 'event' === invalidPropertyName}">
+            <label>Event</label>
+            <div class="text-muted italic f14">Which event should trigger this webhook?</div>
+            <select class="form-control"
+              ng-model="newWebhook.event"
+            ng-options="event as event for event in events"></select>
+            <div class="text-danger"  ng-if="'event' === invalidPropertyName">{{error}}</div>
+          </div>
+          
+          <div class="form-group" ng-class="{'has-error' : 'url' === invalidPropertyName}">
+            <label>URL</label>
+            <div class="text-muted f14 italic">The URL that should be invoked</div>
+            <input class="form-control"
+            type="text"
+            placeholder="https://example.com/webhooks" 
+            ng-model="newWebhook.url"
+            />
+            <div class="text-danger"  ng-if="'url' === invalidPropertyName">{{error}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-empty-default" data-dismiss="modal">Close</button>
+        <button ng-show="mode === 'create'" type="button" class="btn btn-success" ng-click="saveWebhook()">Save</button>
+        <button ng-show="mode === 'update'" type="button" class="btn btn-success" ng-click="updateWebhook()">Update</button>
+      </div>
+      </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+
+
+
+
+    
+    <div class="container-fluid mt20">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-xs-12">
+          <div class="card card-table">
+            <div class="card-toolbar text-right">
+              <button class="btn btn-info" ng-click="showCreateModal()"><span class="fa fa-plus"></span> Add</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Event</th>
+                    <th>URL</th>
+                    <th>actions</th>
+                  </tr>
+                </thead>
+                <tbody  ng-show="webhooks.length > 0 ">
+                  <tr ng-repeat="hook in webhooks">
+                    <td>{{hook.event}}</td>
+                    <td>{{hook.url}}</td>
+                    <td>
+                      <button class="btn" ng-click="edit(hook)"><span class="fa fa-edit"></span></button>
+                      <button class="btn" ng-click="delete(hook)"><span class="fa fa-trash"></span></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div ng-show="webhooks.length <= 0">
+              <div class="center text-muted mb20">
+                <span class="fa fa-exchange f48"></span>
+              </div>
+              <p class="lead text-muted text-center">You haven't created any webhook yet</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

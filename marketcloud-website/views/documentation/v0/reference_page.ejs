@@ -1,0 +1,102 @@
+<% include ../../header/ %>
+<% include ../../navbar/ %>
+
+<link rel="stylesheet" href="/modules/documentation/css/documentation.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github.min.css">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<% include ./documentation-fixed-navbar.partial.ejs %>
+<section class="documentation-page">
+  <div class="container-fluid">
+    
+    
+    <div class="row">
+      
+        <%- include("./"+language+"/partials/index.partial.ejs") %>
+      
+      <div class="col-lg-6 col-lg-offset-3 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-xs-12">
+        
+        <div class="row">
+          <div class="col-lg-12 col-md-9 col-xs-12">
+            <div class="hidden-lg hidden-md hidden-sm">
+              <a href="#" id="showMobileIndex"><i class="fa fa-bars fa-2x"></i> Show index</a>
+            </div>
+            <h1> SDK documentation</h1>
+          </div>
+        </div>
+        
+        
+    <%- include("./"+language+'/partials/introduction.partial.ejs') %>
+
+
+    <%- include("./"+language+'/partials/addresses.partial.ejs') %>
+
+    <%- include("./"+language+'/partials/brands.partial.ejs') %>
+
+    <%- include("./"+language+'/partials/carts.partial.ejs') %>
+
+    <%- include("./"+language+'/partials/categories.partial.ejs') %>
+
+    <%- include("./"+language+'/partials/collections.partial.ejs') %>
+
+    <%- include("./"+language+'/partials/coupons.partial.ejs') %>
+
+    <%- include("./"+language+'/partials/orders.partial.ejs') %>
+
+    <%- include("./"+language+'/partials/payments.partial.ejs') %>
+
+    <%- include("./"+language+'/partials/paymentMethods.partial.ejs') %>
+
+    <%- include("./"+language+'/partials/products.partial.ejs') %>
+
+    <%- include("./"+language+'/partials/promotions.partial.ejs') %>
+
+    <%- include("./"+language+'/partials/shippings.partial.ejs') %>
+    
+    <%- include("./"+language+'/partials/users.partial.ejs') %>
+
+    <%- include("./"+language+'/partials/variables.partial.ejs') %>
+
+    <!-- Comments and questions -->
+    <% include ./questionbox.ejs %>
+
+    <% include ./reference_footer.ejs %>
+    </div>
+  </div>
+</div>
+</section>
+<script type="text/javascript">
+$(document).ready(function(){
+
+  $("nav>ul#api-reference-index>li>a").click(function(e){
+    e.preventDefault();
+    $(e.target).parent().toggleClass('active');
+  })
+
+  $("nav>ul#api-reference-index>li> ul > li > a").click(function(e){
+
+  $("nav>ul#api-reference-index>li> ul > li.active").toggleClass('active')
+  $(e.target).parent().toggleClass('active');
+
+  })
+
+
+  $("#showMobileIndex").on("click touch",function(){
+    $("#mobile-index").show();
+  })
+
+  $("#hideMobileIndex").on("click touch",function(){
+    $("#mobile-index").hide();
+  })
+
+  $("#mobile-index a").on("click touch",function(){
+    $("#mobile-index").hide();
+  })
+
+})
+
+</script>
+</body>
+</html>

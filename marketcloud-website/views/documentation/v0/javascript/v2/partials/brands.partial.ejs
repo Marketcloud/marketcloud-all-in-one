@@ -1,0 +1,56 @@
+
+<h3 id="brands">Brands</h3>
+<p ></p>
+<a class="anchor" id="brands.getById"></a>
+<div class="method-title">Retrieve a brand</div>
+            <pre><code class="javascript">//Retrieves a brand by its id
+  marketcloud.brands.getById(brand_id, function(err,response){
+              
+});</code></pre>
+<a class="anchor" id="brands.list"></a>
+<div class="method-title">List all brands</div>
+<p>Retrieves a list of Brands filtered and sorted by the query object.</p>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">fields</td>
+            <td>String</td>
+            <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+          </tr>
+          <tr>
+            <td  class="code">per_page</td>
+            <td>Number</td>
+            <td>The number of brands to retrieve per page</td>
+          </tr>
+          <tr>
+            <td class="code">page</td>
+            <td>Number</td>
+            <td>The page number of brands to display</td>
+          </tr>
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+<pre><code class="javascript">//Retrieves a list of Brands filtered and sorted by the query object
+marketcloud.brands.list(query, function(err,response){
+});</code></pre>
+<h3 id="categories">Categories</h3>
+<p ></p>
+<a class="anchor" id="categories.getById"></a>
+<div class="method-title">Retrieve a category</div>
+<pre><code class="javascript">//Retrieves a category by its id
+  marketcloud.categories.getById(category_id, function(err,response){
+              
+});</code></pre>
+<a class="anchor" id="categories.list"></a>
+<div class="method-title">List all categories</div>
+<pre><code class="javascript">//Retrieves a list of categories filtered and sorted by the query object
+  marketcloud.categories.list(query, function(err,response){
+});</code></pre>

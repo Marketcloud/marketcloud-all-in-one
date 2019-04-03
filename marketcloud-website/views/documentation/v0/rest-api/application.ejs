@@ -1,0 +1,101 @@
+<% include ../../../header/ %>
+<% include ../../../navbar %>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github.min.css">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" href="/modules/documentation/css/documentation.css" />
+<section class="mt100" style="padding-top:100px;padding-bottom:200px">
+  <div class="container-fluid">
+	
+	<a name="introduction"></a>
+	<div class="row">
+	  <div class="col-lg-3 col-md-3">
+	  <% include ./index.partial.ejs %>
+	  </div>
+	  <div class="col-lg-6 col-lg-offset-0 col-md-9 col-md-offset-0 col-sm-9 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+		
+
+			<div class="row">
+						<ol class="breadcrumb mt20">
+						  <li><a href="/documentation">Index</a></li>
+						  <li><a href="/documentation/rest-api">REST api</a></li>
+						  <li class="active">Application</li>
+						</ol>
+						<h2>Application</h2>
+						<p>This resource represent your application's settings and information.</p>
+
+
+			</div>
+
+
+
+					<div class="documentation">
+						<h3>GET /application</h3>
+						<p>Returns the current application's information. The amount of information retrieved depends on the current authentication scope. A client with admin auth scope will return all the information about the app, any lower level auth scope will just return public information:</p>
+						<pre><code class="http">GET https://api.marketcloud.it/v0/application</code></pre>
+						
+						
+						<div class="spacer"></div>	
+						<h5>Example JSON response (200) with admin scope</h5>
+						<pre><code class="javascript">{
+"status": true,
+"data": [
+    {
+        "api_calls_quota_left": 440311, 
+        "api_calls_quota_max": 450000, 
+        "created_at": "2015-12-05T10:16:58.000Z", 
+        "currency_code": "EUR", 
+        "email_address": "info@superstore.com", 
+        "id": 1, 
+        "logo": "https://www.marketcloud.it/img/logo/normal.png", 
+        "name": "Nerd Store", 
+        "owner": "john@superstore.com", 
+        "renew_date": "2016-01-05T10:16:59.000Z", 
+        "storage_left": 524288, 
+        "storage_max": 524288, 
+        "tax_rate": 0, 
+        "tax_type": "all", 
+        "timezone": "GMT Standard Time", 
+        "url": null
+    }
+]
+
+
+    
+}
+</code></pre>	
+<div class="spacer"></div>					
+<h5>Example JSON response (200) with public scope</h5>
+						<pre><code class="javascript">{
+"status": true,
+"data": [
+        {
+            "currency_code": "EUR", 
+            "logo": "https://www.marketcloud.it/img/logo/normal.png", 
+            "name": "Nerd Store", 
+            "tax_rate": 0, 
+            "tax_type": "all", 
+            "timezone": "GMT Standard Time"
+        }
+    ], 
+
+
+
+    
+}
+</code></pre>							
+							</div>
+<!-- / file CREATE -->						
+
+
+	   
+		</div>
+	  </div>
+</div>
+</div>
+</section>
+
+</body>
+</html>

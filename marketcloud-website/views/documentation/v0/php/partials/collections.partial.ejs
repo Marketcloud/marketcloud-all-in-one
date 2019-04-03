@@ -1,0 +1,160 @@
+<!-- Collections -->
+<section class="resource">
+  <h3 class="section-title"  id="collections">Collections</h3>
+  <a class="anchor" id="collections.getById"></a>
+  <div class="method-title">Retrieve a collection</div>
+      <h5>Example request</h5>
+        <pre><code class="php">
+//Retrieves a collection by its id
+Marketcloud\Collections::getById($id);
+      </code></pre>
+     <a class="anchor" id="collections.list"></a>
+ <div class="method-title">List all collections</div>
+      <p>Retrieves a list of Collections filtered and sorted by the query object.</p>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">fields</td>
+            <td>String</td>
+            <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+          </tr>
+          <tr>
+            <td  class="code">per_page</td>
+            <td>Integer</td>
+            <td>The number of collections to retrieve per page</td>
+          </tr>
+          <tr>
+            <td class="code">page</td>
+            <td>Integer</td>
+            <td>The page number of collections to display</td>
+          </tr>
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+      <pre><code class="php">
+Marketcloud\Collections::get();
+</code></pre>
+     <a class="anchor" id="collections.create"></a>
+ <div class="method-title">Create a new collection</div>
+      <div class="table-responsive">
+  <table class="table table-striped documentation">
+    <thead>
+      <tr>
+        <th>Attribute</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="code">name <span  class="label label-success">Required</span></td>
+        <td>String</td>
+        <td>The name of the collection</td>
+      </tr>
+      <tr>
+        <td class="code">slug</td>
+        <td>String</td>
+        <td>URL friendly string</td>
+      </tr>
+       <tr>
+        <td class="code">Description</td>
+        <td>String</td>
+        <td>A description of the collection</td>
+      </tr>
+
+      <tr>
+        <td class="code">items</td>
+        <td>Array</td>
+        <td>An array of collection entries, see the table below for more details</td>
+      </tr>
+    
+     
+      
+    </tbody>
+  </table>
+</div>
+
+
+<h5>Collection entry</h5>
+<div class="table-responsive">
+  <table class="table table-striped documentation">
+    <thead>
+      <tr>
+        <th>Attribute</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="code">product_id <span  class="label label-success">Required</span></td>
+        <td>Number</td>
+        <td>The id of the product entry.</td>
+      </tr>
+      <tr>
+        <td class="code">variant_id <span  class="label label-success">Required</span></td>
+        <td>Number</td>
+        <td>The variant_id of the product entry</td>
+      </tr>
+       
+      
+    </tbody>
+  </table>
+</div>
+
+      <h5>Example request</h5>
+        <pre><code class="php">
+$new_collection = array(
+"name" => "2016 Winter collection",
+"items" => array(
+  array("product_id" => 123, "variant_id" => 1),
+  array("product_id" => 124, "variant_id" => 1),
+  array("product_id" => 125, "variant_id" => 1),
+)
+);
+Marketcloud\Collections::create($new_collection);
+      </code></pre>
+     <a class="anchor" id="collections.update"></a>
+ <div class="method-title">Update a collection</div>
+      <p class="method-description">Updates a collection by id.</p>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>collection_id <span class="label label-success">Required</span></td>
+            <td>Integer</td>
+            <td>The univocal collection identifier</td>
+          </tr>
+          <tr>
+            <td>update_data <span class="label label-success">Required</span></td>
+            <td>Object</td>
+            <td>An object containing the updates. See <a href="#collections.create" class="link">Collections::create()</a> for more informations.</td>
+          </tr>
+          
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+        <pre><code class="php">
+$collection_update = array("name" => "2016 Spring Collection");
+Marketcloud\Collections::update($collection_id,$collection_update);
+      </code></pre>
+     <a class="anchor" id="collections.delete"></a>
+ <div class="method-title">Delete a collection</div>
+      <p class="method-description">Deletes a collection by id.</p>
+      <h5>Example request</h5>
+      <pre><code class="php">
+Marketcloud\Collections::delete($collection_id);
+      </code></pre>
+
+<!-- End of Collections -->
+
+</section>

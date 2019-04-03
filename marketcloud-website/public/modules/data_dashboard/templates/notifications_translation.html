@@ -1,0 +1,100 @@
+<div class="dashboard-section-header"><span class="fa fa-paper-plane-o"></span> <a class="root link" href="#/notifications">Notifications</a> / edit / {{::notification.name}}
+
+<button class="btn btn-info pull-right" ng-click="updateTranslations()">Save</button>
+<back-button></back-button>
+</div>
+<div class="container-fluid" style="padding-bottom: 50px;">
+	<div class="row">
+		<div class="col-xs-12 col-lg-8 md-push-12 sm-push-12 xs-push-12">
+			
+			<div class="card mb20">
+				<div class="card-header"><h4>Basic information</h4></div>
+				<div class="card-content" >
+
+					<div class="form-group">
+							<label>Event</label>
+							<div class="small text-muted">Emit this notification when...</div>
+							<select name="notification event"
+									class="form-control"
+									ng-model="notification.event"
+									ng-options="k as v for (k, v) in events"
+									ng-change="updateNotificationPreset()"
+									ng-disabled="true">
+							</select>
+					</div>
+
+
+					<div class="form-group">
+							<label>Name</label>
+							<input type="text" name="notification name"
+									class="form-control"
+									ng-disabled="true"
+									ng-model="notification.name"/>
+					</div>
+
+					<div class="form-group">
+							<label>Description</label>
+							<input type="text" name="notification description"
+									class="form-control"
+									ng-disabled="true"
+									ng-model="notification.description"/>
+					</div>
+
+					
+					
+					
+
+					
+					<div class="form-group">
+							<label>Subject</label>
+							<div class="small text-muted">The subject to display in the email</div>
+							<input type="text" name="notification subject"
+									class="form-control"
+									placeholder="{{notification.subject}}" 
+									ng-model="notification.locales[currentLocale.code].subject"/>
+					</div>
+					
+				</div>
+				
+			</div>
+
+				<div class="card mb20" ng-if="notification.template">
+				<div class="card-header"><h4>Card template values</h4></div>
+				<div class="card-content">
+					<p class="text-muted">In this section you can customize the content of the notification. Below you can see a preview of the notification.</p>
+					<div class="form-group" ng-repeat="(k,v) in notification.template">
+						<div ng-if="templateVariablesLabels.hasOwnProperty(k)">
+							<label>{{templateVariablesLabels[k]}}</label>
+							<input type="text"
+							ng-model="notification.locales[currentLocale.code].template[k]"
+							placeholder="{{notification.template[k]}}" 
+							class="form-control">
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		<div class="col-xs-12 col-lg-4 md-pull-12 sm-pull-12 xs-pull-12">
+			<div class="card mb20">
+				<div class="form-group">
+					<span class="flag-icon" ng-class="getFlagClassName()"></span>
+					<label>Current translation</label>
+					<select class="form-control"
+						ng-model="currentLocale"
+						ng-options="o as o.name for o in availableLocales"
+						ng-change="switchLocale()"
+						>
+					</select>
+				</div>
+				<a class="link" target="_blank" href="#/system/localization">Add languages..</a>
+			</div>
+		</div>
+		<div class="col-xs-12" ng-if="notification.locales[currentLocale.code].template">
+			<div class="card">
+			<div class="card-header"><h4>Notification Preview</h4></div>
+			<ng-include src="'/modules/data_dashboard/templates/email/'+notification.event+'.html'"></ng-include>
+			</div>
+		</div>
+	</div>
+</div>

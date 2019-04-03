@@ -1,0 +1,162 @@
+<!-- CARTS -->
+    <section class="resource">
+    <h3 class="section-title"  id="carts">Carts</h3>
+    <a class="anchor" id="carts.create"></a>
+    <div class="method-title">Create a new cart</div>
+    <p>Creates a new cart with a product in it.</p>
+    <h5>Arguments</h5>
+    <div class="table-responsive"><table class="table table-striped documentation">
+      <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>user_id</td>
+          <td>Number</td>
+          <td>The univocal user identifier</td>
+        </tr>
+        <tr>
+          <td>items <span class="label label-success">Required</span></td>
+          <td>Array of Objects</td>
+          <td>The list of items, in the form <code>{product_id:1,quantity:10, [variant_id:1]}</code>, added on the cart</td>
+        </tr>
+      </tbody>
+    </table></div>
+    <br>
+    <p>A line item is an object with the following attributes:</p>
+    <br>
+    <div class="table-responsive"><table class="table table-striped documentation">
+      <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>product_id <span class="label label-success">Required</span></td>
+          <td>Number</td>
+          <td>The univocal product identifier</td>
+        </tr>
+        <tr>
+          <tr>
+            <td>variant_id</td>
+            <td>Number</td>
+            <td>The univocal number identifying a product's variant.</td>
+          </tr>
+          <tr>
+            <td>quantity <span class="label label-success">Required</span></td>
+            <td>Number</td>
+            <td>A <i>positive</i> number that indicates how many units of the chosen product must be added to cart.</td>
+          </tr>
+        </tbody>
+      </table></div>
+      
+      <h5>Example request</h5>
+            <pre><code class="php">
+
+Marketcloud\Carts::create(array(
+            "items" => array(
+              array( "product_id" => 2222, "quantity" =>2 ),
+              array( "product_id" => 3333, "quantity" =>2 )
+            )
+)
+  
+      </code></pre>
+      <a class="anchor" id="carts.list"></a>
+<div class="method-title">List all carts</div>
+      <p>Retrieves a list of carts filtered and sorted by the query object.</p>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>user_id</td>
+            <td>Number</td>
+            <td>Display carts that belong to the user with the given id.</td>
+          </tr>
+          <tr>
+            <td class="code">fields</td>
+            <td>String</td>
+            <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+          </tr>
+          <tr>
+            <td  class="code">per_page</td>
+            <td>Number</td>
+            <td>The number of products to retrieve per page</td>
+          </tr>
+          <tr>
+            <td class="code">page</td>
+            <td>Number</td>
+            <td>The page number of products to display</td>
+          </tr>
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+          <pre><code class="php">
+Marketcloud\Carts::get($query);
+</code></pre>
+      <a class="anchor" id="carts.getById"></a>
+<div class="method-title">Retrieve a cart</div>
+      <h5>Example request</h5>
+<pre><code class="php">
+Marketcloud\Carts::getById($cart_id);
+</code></pre>
+      <a class="anchor" id="carts.add"></a>
+<div class="method-title">Add items to cart</div>
+      <h5>Example request</h5>
+            <pre><code class="php">
+Marketcloud\Carts::add($cart_id,
+        array( array("product_id" => 5785, "quantity" =>2))
+)
+      </code></pre>
+      <a class="anchor" id="carts.update"></a>
+<div class="method-title">Update cart contents</div>
+      <p>Update quantities of products in cart or add new products to cart.</p>
+      <h5>Example request</h5>
+        <pre><code class="php">
+
+Marketcloud\Carts::update(testCart.id,array(
+  array("product_id" => 5712,"quantity" =>1),
+  array("product_id" => 5785,"quantity" =>1)
+))
+      </code></pre>
+      <a class="anchor" id="carts.remove"></a>
+<div class="method-title">Remove items from cart</div>
+      <h5>Example request</h5>
+      <pre><code class="php">
+Marketcloud\Carts::remove(testCart.id,array(
+  array("product_id" => 5712),
+  array("product_id" => 5785)
+))
+
+      </code></pre>
+      <p>If your store works with <b>variants</b>, you need to explicitly indicate which variant you want to add/remove/update .</p>
+            <pre><code class="php">
+        //Adds an item to the cart
+Marketcloud\Carts::add(cart_id,array(
+  array( "product_id" => 5785,
+    "quantity" =>2,
+    "varitant_id" => 3
+  )))
+//Updates an item in the cart
+
+Marketcloud\Carts::update(cart_id,array(array(
+  'product_id'=> 5785,
+  'quantity'=>1,
+  'variant_id' => 3
+)))
+        //Remove an item from the cart
+Marketcloud\Carts::remove(cart_id,array(array(
+  "product_id" => 5785,
+  "varitant_id" => 3
+)))
+      </code></pre>
+      <a class="anchor" id="carts.delete"></a>
+<div class="method-title">Delete a cart</div>
+      <p >Deletes a cart by id.</p>
+      <h5>Example request</h5>
+      <pre><code class="php">
+Marketcloud\Carts::delete($cart_id)
+      </code></pre>
+      </section>
+      <!-- /CARTS -->

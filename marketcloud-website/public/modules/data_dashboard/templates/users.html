@@ -1,0 +1,128 @@
+<div class="dashboard-section-header">
+  <span class="root">Customers</span>
+  <back-button></back-button>
+</div>
+<div class="row">
+  <div class="col-lg-8 col-lg-offset-2 col-xs-12">
+    
+    <div class="card card-table">
+      <div class="card-toolbar" ng-show="getSelectedItems().length === 0">
+        <div class="row">
+          <div class="col-lg-6 col-xs-8 has-feedback" >
+            <input type="text"
+            class="form-control no-border"
+            placeholder="Search users by email"
+            style="padding-left:30px;"
+            ng-model="query.email.$regex"
+            ng-model-options='{ debounce: 500 }'
+            focus-on-show
+            ng-change="prepareRegex();loadData()">
+            <i class="fa fa-search form-control-feedback text-muted" style="left:10px;right:0px;"></i>
+          </div>
+          <div class="col-lg-6 col-xs-4 text-right">
+            <a class="btn btn-info btn-sm raised" href="#/users/create">Add a customer</a>
+            <div class="actions dropdown pull-right">
+                <a class="toolbar-action-icon" data-toggle="dropdown" role="button" >
+                  <i class="fa fa-ellipsis-v"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li><a data-toggle="modal" ng-click="loadData()">Reload</a></li>
+                  <li><a ng-click="bulkJSONExport()">Export to JSON</a></li>
+                </ul>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-toolbar" ng-show="getSelectedItems().length > 0">
+        <strong style="margin-right:50px;">{{getSelectedItems().length}} selected</strong>
+        <button class="btn btn-sm btn-default" ng-click="bulkDelete()">Delete</button>
+        <div class="actions dropdown pull-right">
+          <a class="toolbar-action-icon" data-toggle="dropdown" role="button" >
+            <i class="fa fa-ellipsis-v"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li><a data-toggle="modal" ng-click="loadData()">Reload</a></li>
+            <li><a ng-click="bulkJSONExport()">Export to JSON</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped " >
+          <thead>
+            <tr>
+              <th>
+                <div class="form-group m0">
+                  <div class="checkbox m0">
+                    <input type="checkbox" ng-change="toggleAll()" ng-model="selectAll"/>
+                    <label></label>
+                  </div>
+                </div>
+              </th>
+              <th></th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Registered since</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody ng-show="resources.length > 0">
+            <tr ng-repeat="u in resources">
+              <td>
+                <div class="form-group">
+                  <div class="checkbox">
+                    <input type="checkbox" ng-model="u.selected"/>
+                    <label></label>
+                  </div>
+                </div></td>
+                <td>
+                  
+                <avatar 
+                    ng-if="!u.image_url"
+                    initials="{{u.name.substr(0,2).toUpperCase()}}"
+                    round-shape="true" 
+                    width="45" 
+                    height="45"></avatar>
+            
+            
+            <img 
+            ng-if="!!u.image_url"
+            style="height:45px; border-radius: 50%;"
+            ng-src="{{u.image_url || '/img/user.png'}}"
+            fallback-src="/img/user.png"/>
+                  
+                  
+                </td>
+                
+                <td>{{u.name}}</td>
+                <td><a href="#/users/{{u.id}}/view" class="link">{{u.email}}</a></td>
+                <td>{{u.created_at  | date : "MMM d, yyyy"}}</td>
+                <td>
+                  <a href="#/users/{{u.id}}/view" class="btn btn-default btn-sm"><span class="fa fa-search"></span></a>
+                  <button ng-click="delete(u.id)" class="btn btn-default btn-sm"><span class="fa fa-trash-o"></span></button>
+                </td>
+                
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div ng-show="resources.length === 0" class="center text-muted p10">
+          <span class="fa fa-user-o f48"></span>
+          <p class="lead">Your Customers will be displayed here</p>
+          <a href="#/users/create" class="btn btn-info">Add a customer</a>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+              <div class="col-xs-12 text-right">
+                <pagination-selector
+                  pagination="pagination"
+                  per-page="query.per_page"
+                  page="query.page"
+                  on-change-page-size="loadData({per_page : per_page })"
+                  on-change-page-number="loadData({page:page})"
+                ></pagination-selector>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,104 @@
+<div class="card card-table mb50">
+	<div class="card-header"><h4>{{ctrl.title || "Add products"}}</h4></div>
+	<div class="card-toolbar">
+		<div class="row">
+			<div class="col-xs-12 has-feedback" style="position: relative;">
+				<!-- <label>Add products</label>
+				<p class="small text-muted">Type product names and then click on the result to add it to your collection</p> -->
+				<input type="text"
+				class="form-control no-border input-lg"
+				placeholder="Search here for products.."
+				ng-model="query.name.$regex"
+				style="padding-left:30px;"
+				focus-on-show
+				ng-model-options='{ debounce: 600 }'
+				ng-change="prepareRegex();loadProducts()"
+				ng-focus="showList()"
+				ng-blur="hideList()"
+				>
+				<i class="fa fa-search form-control-feedback text-muted"
+					style="left:0px;right:none;font-size:18px"></i>
+				<div style="position: absolute;top:85px;left:0px;right:0px;z-index: 999;padding:15px;">
+					<div class="list-group"
+						style="border-top-left-radius: 0px;border-top-right-radius: 0px;"
+						ng-show="!!query.name.$regex == true && showTheList === true">
+						<a 	class="list-group-item"
+							style="cursor: pointer;"
+							ng-repeat="product in products track by $index"
+							ng-click="addProduct(product)">
+						<img ng-src="{{product.images[0]}}" style="max-width:32px;max-height: 32px;"> {{product.name}}</a>
+						<a class="list-group-item"
+							style="font-weight:bold"
+							href="#/products/create"
+						target="_blank">Add {{query.name.$regex}}..</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Image</th>
+					<th>Name</th>
+					<th>Price</th>
+					<th ng-repeat="additionalField in config.additionalFields">
+						
+						{{additionalField.name}}
+
+					</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody ng-show="ctrl.items.length > 0"
+			dnd-list="ctrl.items"
+			dnd-drop="callback({targetList: ctrl.items, targetIndex: index})">
+				<tr ng-repeat="item in ctrl.items track by $index"
+				dnd-draggable="item"
+	      dnd-effect-allowed="move"
+	      dnd-callback="swapArrayItemPosition($index, targetIndex,ctrl.items)">
+					<td><img ng-src="{{item.images[0]}}" style="max-height: 32px;"></td>
+					<td>{{item.name}}</td>
+					<td>{{item.price}}</td>
+					<td ng-repeat="additionalField in config.additionalFields">
+						<input type="number"
+								class="form-control" 
+								ng-model="item[additionalField.name]"
+								ng-if="'number' === additionalField.type"
+								>
+
+						<input type="string"
+								class="form-control" 
+								ng-model="item[additionalField.name]"
+								ng-if="'string' === additionalField.type"
+								>
+
+					</td>
+					<td>
+						<button
+							class="btn btn-sm btn-default"
+							title="Remove item from collection"
+							ng-click="removeProduct($index)"><span class="fa fa-trash"></span></button>
+						<div class="btn-group">
+						<button
+							class="btn btn-sm btn-default"
+							title="Move item up"
+							ng-click="swapArrayItemPosition($index,$index-1,ctrl.items)"><i class="fa fa-angle-up" ></i></button>
+						<button
+						class="btn btn-sm btn-default"
+						title="Move item down"
+						ng-click="swapArrayItemPosition($index,$index+1,ctrl.items)"><i class="fa fa-angle-down" ></i></button>
+						</div>
+						
+						</td>
+				</tr>
+				<!--define a custom <tr> placeholder -->
+     		<tr class="dndPlaceholder" style="background-color: black;height: 64px;"><td colspan="4"></td></tr>
+			</tbody>
+		</table>
+	</div>
+	<div ng-hide="ctrl.items.length > 0">
+		<p class="text-muted text-center">Start typing on the search box above to add products.</p>
+	</div>
+</div>

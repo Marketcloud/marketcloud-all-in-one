@@ -1,0 +1,146 @@
+<div class="dashboard-section-header"><a class="root link" href="#/system/taxes">Taxes</a> <i class="fa fa-angle-right"></i> {{tax.name}} > edit
+<button class="btn btn-sm btn-info pull-right" ng-click="saveTax()">Save</button>
+<back-button></back-button>
+</div>
+
+
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-12 col-lg-8">
+			
+			<div class="card mb50">
+				<div class="card-header"><h4>Basic information</h4></div>
+				<div class="card-content">
+					<div class="row">
+					<div class="form-group col-sm-6">
+						<p class="small text-muted">Add an easy to remember name to your tax class. It will show up in product pages when selecting the tax class.</p>
+						<label>Name</label>
+						<input type="text" ng-model="tax.name" class="form-control input-lg" placeholder="e.g. Base tax">
+					</div>
+					</div>
+					
+					
+				</div>
+			</div>
+			</div>
+			</div>
+
+
+<div class="row">
+		<div class="col-xs-12">
+			<div class="card card-table mb50">
+				<div class="card-header">
+				<button class="btn btn-sm btn-default pull-right" ng-click="addRate()">Add</button>
+				<h4>Tax rates</h4>
+				</div>
+				<div class="card-content">
+					<p class="text-small text-muted small">In this section you can add different rates for different locations. For example you may have a tax rate for Italy and a different tax rate for UK. You can also set priorities for your rates. A higher priority means that when multiple rates are appliable, the one with the higher rate will be used.</p>
+					<div class="text-right">
+						<button class="btn btn-default btn-sm" ng-click="importCSV()">Import CSV</button>
+						
+						<input type="file" ng-show="false" id="chooseFileButton" custom-on-change="handleFileSelect"/>
+						
+						<div class="btn-group">
+  <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    From country <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu scrollable-menu" style="right:0px;left:inherit">
+   
+   <li ng-repeat="country in countriesWithTaxRates"><a ng-click="loadRatesFromCountry(country)">{{country}}</a></li>
+  </ul>
+</div>
+					</div>
+				</div>
+
+				<div class="table-responsive hasOverflow">
+					
+					<table class="table table-striped">
+          <thead>
+            <tr>
+              
+              <th>Country</th>
+              <th>State</th>
+              <th>Code</th>
+              <th>City</th>
+              <th>Rate %</th>
+              <th>Priority</th>
+              <th></th>
+            </tr></thead>
+            <tbody>
+
+
+              <tr ng-repeat="rate in tax.rates track by $index">
+                
+                <td>
+								<autocomplete 
+								items="countries" 
+								label="name" 
+								value="name"
+								my-model="rate.country"
+								on-selected="updateStates(rate);updatePostcode(rate);updateCity(rate);"/>
+
+                </td>
+                <td>
+                	<select ng-model="rate.state"
+								class="form-control input-smm"
+								ng-if="states[rate.country].length > 0"
+								ng-disabled="'*' === rate.country"
+								ng-change="updatePostcode(rate);updateCity(rate)"
+								ng-options="s.name as s.name for s in states[rate.country]">
+							</select>
+							<input type="text"
+							name="state"
+							class="form-control input-sm"
+							placeholder="*" 
+							ng-model="rate.state"
+							ng-change="updatePostcode(rate);updateCity(rate)"
+							ng-disabled="'*' === rate.country"
+							ng-if="0 === states[rate.country].length || !states[rate.country]">
+
+                </td>
+                 <td>
+                <input type="text"
+							ng-model="rate.postcode"
+							class="form-control input-sm"
+							ng-disabled="'*' === rate.state"
+							ng-change="updateCity(rate)"
+							placeholder="*">
+                </td>
+                <td>
+                <input type="text"
+							ng-model="rate.city"
+							class="form-control input-sm"
+							ng-disabled="rate.postcode.indexOf('*') > -1"
+							placeholder="*"></td>
+                <td>
+            
+						<input type="text" 
+							ng-model="rate.rate"
+							money
+							precision="4"
+							min="0"
+							max="100"  
+						 class="form-control input-sm"
+						 placeholder="22">
+						 
+						 </td>
+						 <td>
+                	<input type="number" class="form-control input-sm" ng-model="rate.priority">
+                </td>
+                <td>
+                  <button class="btn btn-default btn-sm" ng-click="deleteRate($index)" alt="delete"><span class="fa fa-trash-o"></span></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div ng-if="tax.rates.length === 0" class="text-muted text-center">
+          	This tax class has no rates yet.
+          </div>
+				</div>
+
+			</div>
+			
+		</div>
+	</div>
+</div>

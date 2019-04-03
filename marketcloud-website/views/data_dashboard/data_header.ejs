@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en" >
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Marketcloud Dashboard</title>
+      
+
+    <!-- Flags icons -->
+    <link rel="stylesheet" type="text/css" href="/libs/flag-icon-css/css/flag-icon.min.css">
+
+    <!-- Font awesome -->
+    <link rel="stylesheet" type="text/css" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    <!-- Bundle css -->
+    <link rel="stylesheet"
+          type="text/css"
+          href="/modules/data_dashboard/dist/app-v1505208219736.bundle.css" />
+
+
+
+
+  </head>
+  <body ng-app="DataDashboard">
+
+
+
+
+
+
+
+    <div ng-controller="SidebarController">
+      
+<style type="text/css">
+  @keyframes fadeIn { 
+  from { opacity: 0; } 
+}
+
+.splashscreen-logo {
+    animation: fadeIn 0.5s infinite alternate;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+}
+
+
+/*
+  Navy blue   #1E3D58
+  Royal blue  #057DCD
+  Blue grotto #43B0F1  
+  White       #E8EEF1
+*/
+
+
+
+</style>
+
+<style type="text/css">
+  /** North theme **/
+  .sidebar{
+    background-color: #1E3D58;
+  }
+
+  .sidebar a.entry.active,
+  .sidebar a.entry:hover {
+    background-color: #242e38;
+  }
+  .user-info-container {
+    background-color: #1E3D58;
+    border-bottom: 1px solid #242e38;
+  }
+  .sidebar a.sub-entry {
+    background-color: #242e38;
+  }
+</style>
+
+
+    <!-- SPLASHSCREEN -->
+      <div id="splashscreen" ng-cloak="">
+        <div class="splashscreen-container">
+
+          <div class="text-center">
+            <img src="https://marketcloud.azureedge.net/website-v2/logo.png" class="splashscreen-logo" />
+            <!-- <div class="spinner"></div> -->
+          
+          </div>
+        </div>
+      </div>
+      <!-- END OF SPLASHSCREEN -->
+
+      <!-- switch application modal -->
+<div class="modal fade" id="application-switcher-modal">
+<div class="modal-dialog modal-sm" role="document" >
+    <div class="modal-content">
+      <div class="modal-header">Switch store</div>
+      <div class="modal-body">
+        <div class="list-group">
+          <a href="#" class="list-group-item active">Stores you own</a>
+          <% for (var i=0; i< owned_applications.length; i++)  {%>
+            
+            <a class="list-group-item" ng-click="switchToApp(<%= owned_applications[i].id %>)"><%= owned_applications[i].name %></a>
+                  <% }; %>
+          <a href="#" class="list-group-item active">Stores you are collaborating to</a>
+          <% for (var i=0; i< collaborating_applications.length; i++)  {%>
+          <a class="list-group-item" ng-click="switchToApp(<%= collaborating_applications[i].id %>)"><%= collaborating_applications[i].name %></a>
+          <% }; %>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!-- END OF SWITCHAPP MODAL  -->
+
+
+
+<div class="sidebar">
+  
+  <div class="sidebar-logo-container">
+    <img src="http://cdn.marketcloud.it/website-v2/logo-v2.1-right-inverse.png?v=000001" >
+  </div>
+  
+  <div class="dropdown user-info-container">
+    <a class="dropdown-toggle entry user-entry" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="display:block;">
+      
+     
+      <div class="email">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-2 p0">
+              <img src="<%= user.image_url %>" class="fluid avatarImage">
+            </div>
+            <div class="col-xs-10" style="text-overflow: ellipsis;overflow-x: hidden;">
+
+              
+              <div>
+                <div class="application-name"><%= current_application.name %></div>
+                <div class="user-email"><%= user.email %> <i class="fa fa-angle-down"></i></div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+      
+    </a>
+    <ul class="dropdown-menu pull-right">
+      <li><a href="/account">Account settings</a></li>
+      <li><a href="/applications">Applications</a></li>
+      <li><a data-toggle="modal" data-target="#application-switcher-modal">Switch store</a></li>
+      <% if (current_application.owner === user.email || current_application.role === 'admin') {%>
+      <li><a href="/applications#/applications/<%= current_application.id %>/overview">Development settings</a></li>
+      <% } %>
+      <li role="separator" class="divider"></li>
+      <li><a href="/account/logout">Logout</a></li>
+    </ul>
+  </div>
+  
+  
+
+  
+  
+  
+  
+
+  <div class="sidebar-title">Store</div>
+  <a class="entry" ng-class="{'active' : currentSection === 'home'}" href="#/"><i class="fa fa-home"></i> <span>Home</span></a>
+  <a class="entry" ng-click="toggleSubEntries('inventory')" ng-class="{'active' : subEntriesGroupShown['inventory'] === true}" ><i class="fa fa-tags"></i> <span>Inventory</span> </a>
+
+  <div ng-if="subEntriesGroupShown['inventory'] === true">
+    <a class="entry sub-entry" href="#/products" ng-class="{'active' : currentSection === 'products'}"><span>Products</span></a>
+    <a class="entry sub-entry" href="#/categories" ng-class="{'active' : currentSection === 'categories'}"><span>Categories</span></a>
+    <a class="entry sub-entry" href="#/brands" ng-class="{'active' : currentSection === 'brands'}"><span>Brands</span></a>
+    <a class="entry sub-entry" href="#/collections" ng-class="{'active' : currentSection === 'collections'}"><span>Collections</span></a>
+    </div>
+
+  <a class="entry" href="#/promotions" ng-class="{'active' : currentSection === 'promotions'}"><i class="fa fa-bullhorn"></i> <span>Promotions</span></a>
+
+
+  <a class="entry" href="#/coupons" ng-class="{'active' : currentSection === 'coupons'}"><i class="fa fa-ticket"></i> <span>Coupons</span></a>
+
+  <div class="sidebar-title">Sales</div>
+  <a class="entry" href="#/orders" ng-class="{'active' : currentSection === 'orders'}"><i class="fa fa-file-text-o"></i> <span>Orders</span></a>
+  
+
+  <a class="entry" href="#/invoices" ng-class="{'active' : currentSection === 'invoices'}"><i class="fa fa-file-o"></i> <span>Invoices</span></a>
+ 
+  
+
+  <a class="entry" href="#/users" ng-class="{'active' : currentSection === 'users'}"><i class="fa fa-user-o"></i> <span>Customers</span></a>
+  
+  <div class="sidebar-title">Other</div>
+  <a class="entry" href="#/contents" ng-class="{'active' : currentSection === 'contents'}"><i class="fa fa-newspaper-o"></i> <span>Contents</span></a>
+  
+
+  <a class="entry" href="#/variables" ng-class="{'active' : currentSection === 'variables'}"><i class="fa fa-table"></i> <span>Variables</span></a>
+  
+
+  <a class="entry" href="#/media" ng-class="{'active' : currentSection === 'media'}"><i class="fa fa-picture-o"></i> <span>Files</span></a>
+  
+
+
+  <% var enabled_accounts = ['mattia@marketcloud.it','cikkense@gmail.com','test@test.com']  %>
+  <% if (enabled_accounts.indexOf(user.email) >= 0){ %>
+  <!-- Section for restricted sub sections -->
+  <!-- // -->
+  <% } %>
+  
+
+
+  <a class="entry" ng-click="toggleSubEntries('system')" ng-class="{'active' : currentSection === 'system'}"><i class="fa fa-cog"></i> <span>System</span></a>
+
+  <div ng-if="subEntriesGroupShown['system'] === true">
+    <a class="entry" href="#/system/settings" ng-class="{'active' : currentSection === 'settings'}"><span>Settings</span></a>
+    <a class="entry" href="#/system/payments" ng-class="{'active' : currentSection === 'payments'}"><span>Payments</span></a>
+    <a class="entry" href="#/system/localization" ng-class="{'active' : currentSection === 'localization'}"><span>Localization</span></a>
+    <a class="entry" href="#/system/shippings" ng-class="{'active' : currentSection === 'shippings'}"><span>Shippings</span></a>
+    <a class="entry" href="#/system/taxes" ng-class="{'active' : currentSection === 'taxes'}"><span>Taxes</span></a>
+    <a class="entry" href="#/notifications" ng-class="{'active' : currentSection === 'notifications'}"><span>Notifications</span></a>
+    </div>
+  
+  
+  <div style="background-color: rgba(0,0,0,.25); border-radius: 4px;padding:5px;color:#FFF;width:100%; margin: 20px auto;text-align: center;">
+<!--     <div>New dashboard version available</div> -->
+    <a class="btn btn-success" href="/applications/{{application.id}}/preview_dashboard">Try new dashboard</a>
+  </div>
+</div>
+     
+      <div class="sidebar sub-sidebar" ng-show="true === showingSubSidebar">
+        
+        <div ng-show="'inventory' === currentSidebarSection">
+          <div class="title">INVENTORY <span class="fa fa-close pull-right" ng-click="hideSubSidebar()" style="cursor:pointer;"></span></div>
+          <a class="entry" href="#/products"><span>Products</span></a>
+          <a class="entry" href="#/categories"><span>Categories</span></a>
+          <a class="entry" href="#/brands"><span>Brands</span></a>
+          <a class="entry" href="#/collections" ng-class="{'active' : currentSection === 'collections'}"><span>Collections</span></a>
+          
+        </div>
+        <div ng-show="'system' === currentSidebarSection">
+          <div class="title">SYSTEM <span class="fa fa-close pull-right" ng-click="hideSubSidebar()" style="cursor:pointer;"></span></div>
+          <a class="entry" href="#/system/settings"><span>Settings</span></a>
+          <a class="entry" href="#/system/localization"><span>Localization</span></a>
+          <a class="entry" href="#/system/shippings"><span>Shippings</span></a>
+          <a class="entry" href="#/system/taxes"><span>Taxes</span></a>
+          <a class="entry" href="#/system/payments"><span>Payments</span></a>
+          <a class="entry" href="#/notifications" ><span>Notifications</span></a>
+          
+        </div>
+        
+      </div>
+      <div class="sidebar-mobile">
+  
+  <div class="logo">
+    <img src="https://marketcloud.azureedge.net/website-v2/logo.png" style="max-height:48px">
+  </div>
+  <div class="dropdown">
+    <a class="dropdown-toggle entry user-entry" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="line-height:48px">
+      <span class="user_email"><img src="<%- user.image_url %>" class="fluid" /></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="/account">My Account</a></li>
+      <li><a href="/applications">Applications</a></li>
+      <li><a data-toggle="modal" data-target="#application-switcher-modal">Switch store</a></li>
+      <% if (current_application.owner === user.email || current_application.role === 'admin') {%>
+      <li><a href="/applications#/applications/<%= current_application.id %>/overview">Development settings</a></li>
+      <%}%>
+      <li role="separator" class="divider"></li>
+      <li><a href="/account/logout">Logout</a></li>
+    </ul>
+  </div>
+  
+
+
+  <a class="entry" ng-class="{'active' : currentSection === 'home'}" href="#/"><i class="fa fa-home"></i></a>
+
+
+  <a class="entry" ng-click="showSubSidebar('inventory')" ng-class="{'active' : subEntriesGroupShown['inventory'] === true}" ><i class="fa fa-tags"></i></a>
+
+ <a class="entry" href="#/promotions" ng-class="{'active' : currentSection === 'promotions'}"><i class="fa fa-bullhorn"></i></a>
+  
+  <a class="entry" href="#/coupons" ng-class="{'active' : currentSection === 'coupons'}"><i class="fa fa-ticket"></i></a>
+
+
+
+  <a class="entry" href="#/orders" ng-class="{'active' : currentSection === 'orders'}"><i class="fa fa-file-text-o"></i></a>
+
+
+  <a class="entry" href="#/invoices" ng-class="{'active' : currentSection === 'invoices'}"><i class="fa fa-file-o"></i></a>
+
+
+  <a class="entry" href="#/users" ng-class="{'active' : currentSection === 'users'}"><i class="fa fa-user-o"></i></a>
+
+
+  <a class="entry" href="#/contents" ng-class="{'active' : currentSection === 'contents'}"><i class="fa fa-newspaper-o"></i></a>
+
+  <a class="entry" href="#/variables" ng-class="{'active' : currentSection === 'variables'}"><i class="fa fa-table"></i></a>
+
+  <a class="entry" href="#/media" ng-class="{'active' : currentSection === 'media'}"><i class="fa fa-picture-o"></i></a>
+
+  <a class="entry" ng-click="showSubSidebar('system')" ng-class="{'active' : currentSection === 'system'}"><i class="fa fa-cog"></i></a>
+</div>
+    </div>
+
+
+
+    <div id="page-wrapper">
+ 
+
+
+
+    

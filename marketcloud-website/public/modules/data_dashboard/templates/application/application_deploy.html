@@ -1,0 +1,68 @@
+<div class="dashboard-section-header" style="box-shadow: none">
+  <span class="root">Application settings</span> / deploy
+  <back-button></back-button>
+  
+  
+</div>
+
+<div ng-include="'/modules/data_dashboard/templates/application_settings_navigation.partial.html'" class="navigation-container"></div>
+
+
+
+
+<div class="container-fluid mt20">
+	<div class="row">
+		
+		<div class="col-lg-8 col-lg-offset-2 col-xs-12">
+			<div class="card">
+				<div class="card-content">
+				<div class="row">
+					<div class="col-xs-6">
+						<b>Deploy to Heroku</b>
+						<p class="text-muted">Choose a starter template and deploy it to heroku</p>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label>Application template</label>
+							<select class="form-control" ng-model="selectedTemplate">
+								<option value="https://github.com/Marketcloud/node-marketcloud-starter">NodeJS Starter</option>
+								<option value="https://github.com/Marketcloud/php-marketcloud-starter">PHP Starter</option>
+							</select>
+						</div>
+						<a ng-href="{{null === selectedTemplate ? '' : getHerokuURL()}}" ng-class="{disabled : null === selectedTemplate}" target="blank">
+						  <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
+						</a>
+					</div>
+				</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <div class="row mt20">
+		
+		<div class="col-lg-8 col-lg-offset-2 col-xs-12">
+			<div class="card">
+				<div class="card-content">
+				<div class="row">
+					<div class="col-xs-6">
+						<b>Build mobile app</b>
+						<p class="text-muted">Generate a mobile app from a selection of templates. We will build it, connect it to Marketcloud and send it to your email address.</p>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label>Application template</label>
+							<select class="form-control" ng-model="selectedMobileAppTemplate">
+								<option value="">Android app</option>
+								<option value="">Hybrid app</option>
+							</select>
+						</div>
+						<a ng-href="" class="btn btn-primary" target="blank">
+						  Generate app
+						</a>
+					</div>
+				</div>	
+			</div>
+			</div>
+		</div>
+	</div> -->
+</div>

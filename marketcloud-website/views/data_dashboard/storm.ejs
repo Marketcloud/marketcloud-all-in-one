@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en" >
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Marketcloud Dashboard</title>
+      
+
+    <!-- Flags icons -->
+    <link rel="stylesheet" type="text/css" href="/libs/flag-icon-css/css/flag-icon.min.css">
+
+    <!-- Font awesome -->
+    <link rel="stylesheet" type="text/css" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    <!-- Bundle css -->
+    <link rel="stylesheet"
+          type="text/css"
+          href="/modules/data_dashboard/dist/app.bundle.css?v=1542555284609" />
+
+
+
+  <style type="text/css">
+
+</style>
+
+  </head>
+  <body ng-app="DataDashboard">
+
+
+    <div>
+      
+      <!-- SPLASHSCREEN -->
+      <div id="splashscreen" ng-cloak="">
+        <div class="splashscreen-container">
+          <div class="text-center">
+            <img src="/img/logo/logo.png" class="splashscreen-logo" />
+            
+          </div>
+        </div>
+      </div>
+      <!-- END OF SPLASHSCREEN -->
+
+
+      <navbar></navbar>
+
+
+
+
+<style type="text/css">
+.dashboard-navbar {
+  position: fixed;
+  right: 0px;
+  z-index: 9;
+  left: 250px;
+  top: 100px;
+  margin-top: 0px;
+}
+.navigation-container + div.container-fluid {
+  padding-top: 100px;
+}
+
+.dropdown-menu {
+  border:0px;
+  border-radius: 2px;
+}
+
+.dropdown-menu li:not(.divider) {
+  padding: 3px;
+}
+.dropdown-menu li:not(.divider):not(.dropdown-header):not(.dropdown-input):hover {
+  background-color: #F0F0F0;
+}
+.dropdown-menu li.dropdown-input {
+  padding-left:5px;
+  padding-right:5px;
+}
+.dropdown-menu li:hover>a {
+  color: #333;
+}
+</style>
+
+
+<sidebar></sidebar>
+
+
+
+
+</div>
+<div id="page-wrapper">
+<% if (env === 'production') { %>
+<script type="text/javascript">
+console.log = function(){};
+</script>
+<% } else {%>
+<script type="text/javascript">
+console.log("%cTHIS MARKETCLOUD INSTANCE IS IN <%= env %> MODE","color:orange; background:blue; font-size: 16pt")
+</script>
+<% }%>
+
+
+
+
+
+<script>
+  window.applications = <%- JSON.stringify(owned_applications.concat(collaborating_applications)) %>
+  window.token = "<%= token %>";
+  window.current_application = <%- JSON.stringify(current_application) %>;
+  window.user = <%- JSON.stringify(user) %>;
+  window.public_key = "<%= public %>";
+</script>
+
+<div class="container-fluid" style="padding-bottom: 50px;">
+  <div ng-show="true === showLoadingAnimation" >
+    <div class="spinner"
+    id="routeChangeSpinner" 
+    style="height: 64px;width:64px;border-width: 3px;position:absolute;top:50%;left:50%;margin-left:-32px;margin-top: -32px;">  
+    </div>
+  </div>
+  <!--  -->
+  <ng-view ng-hide="true === showLoadingAnimation"></ng-view>
+</div>
+
+<script type="text/javascript">
+  
+</script>
+
+
+
+</div>
+
+
+
+<!-- Cache busting -->
+<script type="text/javascript">
+  /*
+    This is automatically updated by the gulpfile
+    This global is used to cache bust angularjs templates
+  */
+  window.CACHE_BUST_VERSION = "1542555284609";
+</script>
+
+
+
+<!-- Dependencies code -->
+<script type="text/javascript" src="/modules/data_dashboard/dist/vendor.bundle.js?v=1542555284609"></script>
+
+
+<!-- Trumbowyg -->
+<!-- <link rel="stylesheet" href="/libs/trumbowyg/dist/ui/trumbowyg.min.css"> -->
+<script type="text/javascript">
+  // We need to rewrite the svg path
+  $.trumbowyg.svgPath = '/libs/trumbowyg/dist/ui/icons.svg';
+</script>
+
+
+
+<!-- Application code -->
+<script type="text/javascript" src="/modules/data_dashboard/dist/app.bundle.js?v=1542555284609"></script>
+
+<% if ('production' === env) {%>
+<!-- Template Cache -->
+<script type="text/javascript" src="/modules/data_dashboard/dist/templates.bundle.js?v=1542555284609"></script>
+<%}%>
+
+
+<script type="text/javascript">
+
+
+var Alert = {};
+
+
+
+  Alert.confirm = function(config){
+    config.title = config.title || "Warning";
+    config.title = config.message || "Do you confirm this action?"
+    var el = $('<div class="modal fade" tabindex="-1" role="dialog">  <div class="modal-dialog  modal-sm" role="document">    <div class="modal-content">      <div class="modal-header">        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><div class="modal-body text-center"> <div class="text-warning"><i class="fa fa-exclamation-triangle fa-3x text-warning"></i></div> <div class="fw500 f18 mb20 mt10">'+config.title+'</div>        <p class="text-muted f16 mt10">'+config.message+'</p><button type="button" class="btn btn-warning btn-lg btn-block mt20 confirm-button">Continue</button>      </div>      </div> </div>  </div></div>');
+
+    $(el).find('button.confirm-button').click(function(){
+      config.onConfirm();
+      $(el).modal('hide');
+    });
+
+    $(el).modal('show');
+  }
+
+
+  Alert.error = function(config){
+    config.title = config.title || "Error";
+    config.message = config.message || "An error has occurred. Please try again :)";
+    
+    var el = $('<div class="modal fade" tabindex="-1" role="dialog">  <div class="modal-dialog  modal-sm" role="document">    <div class="modal-content">      <div class="modal-header">        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><div class="modal-body text-center"> <div><i class="fa fa-exclamation-triangle fa-3x" style="color:#C9302C;"></i></div> <h3>'+config.title+'</h3>        <p class="text-muted f16 mt10">'+config.message+'</p><button type="button" class="btn btn-danger btn-lg btn-block mt20" data-dismiss="modal">Dismiss</button>      </div>      </div> </div>  </div></div>');
+
+    $(el).find('button.ok-button').click(function(){
+      $(el).modal('hide');
+    });
+
+    $(el).modal('show');
+  }
+
+  Alert.warning = function(config){
+    config.title = config.title || "Warning";
+    config.message = config.message || "Please pay attention";
+    
+    var el = $('<div class="modal fade" tabindex="-1" role="dialog">  <div class="modal-dialog  modal-sm" role="document">    <div class="modal-content">      <div class="modal-header">        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><div class="modal-body text-center"> <div class="text-warning"><i class="fa fa-exclamation-triangle fa-3x text-warning"></i></div> <div class="fw500 f18 mb20 mt10">'+config.title+'</div>        <p class="text-muted f16 mt10">'+config.message+'</p><button type="button" class="btn btn-warning btn-lg btn-block mt20" data-dismiss="modal">Dismiss</button>      </div>      </div> </div>  </div></div>');
+
+    $(el).find('button.ok-button').click(function(){
+      $(el).modal('hide');
+    });
+
+    $(el).modal('show');
+  }
+
+  Alert.success = function(config){
+    config.title = config.title || "Success";
+    config.message = config.message || "It worked! Yay!";
+    
+    var el = $('<div class="modal fade" tabindex="-1" role="dialog">  <div class="modal-dialog  modal-sm" role="document">    <div class="modal-content">      <div class="modal-header">        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><div class="modal-body text-center"> <div><i class="fa fa-check fa-3x" style="color:green;"></i></div> <h3>'+config.title+'</h3>        <p class="text-muted f16 mt10">'+config.message+'</p><button type="button" class="btn btn-success btn-lg btn-block mt20" data-dismiss="modal">Dismiss</button>      </div>      </div> </div>  </div></div>');
+
+    $(el).find('button.ok-button').click(function(){
+      $(el).modal('hide');
+    });
+
+    $(el).modal('show');
+  }
+
+
+  Alert.input = function(config){
+    var el = $('<div class="modal fade" tabindex="-1" role="dialog">  <div class="modal-dialog modal-sm" role="document">    <div class="modal-content">      <div class="modal-header">        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>        <h4 class="modal-title">'+config.title+'</h4>      </div>      <div class="modal-body"><div class="form"><div class="form-group"><input type="text" class="form-control" id="theFormInput"></div></div></div>      <div class="modal-footer">        <button type="button" class="btn btn-transparent" data-dismiss="modal">Cancel</button>   <button type="button" class="btn btn-info confirm-button" >Confirm</button></div></div> </div>  </div></div>');
+
+    var input = $(el).find("input#theFormInput");
+
+    $(el).find('button.confirm-button').click(function(){
+      var value = $(el).find("input#theFormInput").val();
+      config.onConfirm(value);
+      $(el).modal('hide');
+    });
+
+    if (config.placeholder)
+      input.attr("placeholder",config.placeholder);
+
+    if (config.label)
+      input.parent().prepend($("<label>"+config.label+"</label>"))
+
+
+
+
+    $(el).modal('show');
+  }
+
+
+
+</script>
+
+
+
+</body>
+</html>

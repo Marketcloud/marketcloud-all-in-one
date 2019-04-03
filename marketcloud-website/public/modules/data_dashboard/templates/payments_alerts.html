@@ -1,0 +1,69 @@
+<div class="dashboard-section-header">
+  <span class="fa fa-bolt"></span> <span class="root">Payments alerts</span>
+  <back-button></back-button>
+</div>
+<div class="container-fluid">
+  
+  <div class="row">
+    <div class="col-xs-12">
+      <!-- -->
+      <div class="card card-table">
+        <div class="card-toolbar" ng-show="getSelectedItems().length > 0">
+          <strong style="margin-right:50px;">{{getSelectedItems().length}} selected</strong>
+          <button class="btn btn-sm btn-default" ng-click="bulkDelete()">Delete</button>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped" >
+            <thead>
+              <tr>
+                
+                <th>Status</th>
+                <th>Description</th>
+                <th>Date</th>
+                
+              </tr>
+            </thead>
+            <tbody ng-show="resources.length > 0">
+              <tr ng-repeat="p in resources  track by $index" ng-class="{'selected-row':true === p.selected}">
+                
+                <td>
+                <span class="label label-success" ng-if="p.response.status > 199 && p.response.status < 400">{{p.response.status}} OK</span>
+                <span class="label label-warning" ng-if="p.response.status > 399 && p.response.status < 500">{{p.response.status}} Error</span>
+                <span class="label label-danger" ng-if="p.response.status >= 500">{{p.response.status}} Error</span>
+                </td>
+                <td>{{p.request.method}} {{p.request.path}}</td>
+                <td>{{p.time}}</td>
+                  
+                
+                
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div ng-show="resources.length <= 0" class="text-center p10">
+          
+            <span class="fa fa-bolt f48 text-muted"></span>
+            <p class="lead text-muted text-center">Your events will be displayed here</p>
+        </div>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-xs-6">
+              <span class="text-muted">Showing <select
+                ng-model="query.per_page"
+                ng-options="o as o for o in [10,20,50,100]"
+                ng-change="loadData()">
+              </select> items of {{pagination.count}}.</span>
+            </div>
+            <div class="col-xs-6 text-right">
+              <pagination-nav
+                pagination="pagination"
+                on-change-page="loadPage(page)"
+              ></pagination-nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>

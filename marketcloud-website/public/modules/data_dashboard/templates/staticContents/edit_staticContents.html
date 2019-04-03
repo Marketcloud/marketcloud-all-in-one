@@ -1,0 +1,127 @@
+<div class="dashboard-section-header">
+	<a href="#/contents" class="link root">Contents</a> / edit / {{content.id}}
+	<button class="btn btn-info pull-right" ng-click="updateContent()">Save</button>
+	<back-button></back-button>
+</div>
+<div class="container-fluid">
+	<div class="row">
+		
+		<div class="col-lg-8 col-xs-12">
+			<div class="card mb50">
+			<div class="card-header"><h4>Basic information</h4></div>
+				<div class="form-group">
+					<label>Title</label>
+					<input type="text"
+					class="form-control input-lg solid"
+					placeholder="e.g. Latest news"
+					ng-change="updateSlug()"
+					ng-model="content.title" />
+				</div>
+				<div class="checkbox">
+					<input type="checkbox" ng-model="unsafeSlug" id="unsafeSlug" />
+					<label for="unsafeSlug">
+						Editable slug
+					</label>
+				</div>
+				<div class="form-group">
+					<label>Slug</label>
+					<input type="text"
+					class="form-control input-lg solid"
+					ng-disabled="false === unsafeSlug"
+					ng-model="content.slug" />
+				</div>
+				<div class="form-group">
+					<label>Category</label>
+					<input type="text"
+					class="form-control input-lg solid"
+					placeholder="e.g. Sales"
+					ng-model="content.category" />
+				</div>
+				<div class="form-group">
+					<label>Date</label>
+					<div class="input-group">
+					<input
+						 type="text"
+						 class="form-control"
+             placeholder="Select a date..."
+             moment-picker="content.date"
+             locale="en"
+             ng-model="content.date"
+             format="MMMM Do YYYY"
+             today="true"
+             min-view="month"
+             max-view="month"
+             ng-model-options="{ updateOn: 'blur' }">
+             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+             </div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-8 col-xs-12">
+				<images-card items="content.images"></images-card>
+			</div>
+		</div>
+		<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			<div class="card card-table mb50">
+			<div class="card-header"><h4>Editor</h4></div>
+				<div class="form-group">
+
+					<div trumbowyg-ng
+					     ng-model="content.text"
+					     editor-config="{btns:[['viewHTML'],['formatting'],'btnGrp-semantic',['superscript','subscript'],['link'],['insertImage'],'btnGrp-justify','btnGrp-lists',['horizontalRule'],['removeformat'],['fullscreen']]}">
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			
+			<div class="card mb50">
+				<div class="card-header"><h4>Author</h4></div>
+				<div class="form-group">
+					<label>Name</label>
+					<input type="text"
+					class="form-control input-lg solid"
+					placeholder="e.g. Luke Skywalker"
+					ng-model="content.author.name" />
+				</div>
+				<div class="form-group">
+					<media-manager
+				            button-class="btn btn-info"
+				            button-text="Media manager"
+				            button-icon="fa fa-picture-o"
+				            images-container="content.author.images">
+				</div>
+				<div class="form-group">
+					<label>Description</label>
+					<textarea
+					class="form-control solid"
+					placeholder="e.g. former Jedi apprentice, Jedi master. Tempted by dark side, once."
+					ng-model="content.author.description"></textarea>
+				</div>
+			</div>
+		</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-8 col-xs-12">
+				<seo-form seo="content.seo"></seo-form>
+			</div>
+		</div>
+		<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			
+			<div class="card mb50">
+				<div class="row">
+					<div class="text-right col-xs-12">
+						<button class="btn btn-lg btn-success" ng-click="updateContent()">Update Content</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,157 @@
+<!-- ADDRESSES -->
+<section class="resource">
+      <h3 class="section-title"  id="addresses">Addresses</h3>
+      <a class="anchor" id="addresses.create"></a>
+      <section class="resource-action">
+        <div class="method-title">Create an address</div>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>full_name <span class="label label-success">Required</span></td>
+            <td>String</td>
+            <td>The full name of the resident</td>
+          </tr>
+          <tr>
+            <td>email <span class="label label-success">Required</span></td>
+            <td>String</td>
+            <td>A valid email address</td>
+          </tr>
+          <tr>
+            <td>country <span class="label label-success">Required</span></td>
+            <td>String</td>
+            <td>The country of the address</td>
+          </tr>
+          <tr>
+            <td>state</td>
+            <td>String</td>
+            <td>The state of the address</td>
+          </tr>
+          <tr>
+            <td>city  <span class="label label-success">Required</span></td>
+            <td>String</td>
+            <td>The city of the address</td>
+          </tr>
+          <tr>
+            <td>address1  <span class="label label-success">Required</span></td>
+            <td>String</td>
+            <td>The first address</td>
+          </tr>
+          <tr>
+            <td>address2</td>
+            <td>String</td>
+            <td>Additional address space</td>
+          </tr>
+          <tr>
+            <td>postal_code  <span class="label label-success">Required</span></td>
+            <td>String</td>
+            <td>The postal code of the address</td>
+          </tr>
+          <tr>
+            <td>phone_number</td>
+            <td>String</td>
+            <td>The phone number for the address</td>
+          </tr>
+          <tr>
+            <td>alternate_phone_number</td>
+            <td>String</td>
+            <td>An alternate phone number for the address</td>
+          </tr>
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+      <pre><code class="php">
+Marketcloud\Addresses::create($new_address)
+      </code></pre>
+</section>
+
+<section class="resource-action">
+      <a class="anchor" id="addresses.list"></a>
+<div class="method-title">List all addresses</div>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>user_id</td>
+            <td>Number</td>
+            <td>Filter addresses by the customer's id.</td>
+          </tr>
+          <tr>
+            <td class="code">fields</td>
+            <td>String</td>
+            <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+          </tr>
+          <tr>
+            <td  class="code">per_page</td>
+            <td>Number</td>
+            <td>The number of addresses to retrieve per page</td>
+          </tr>
+          <tr>
+            <td class="code">page</td>
+            <td>Number</td>
+            <td>The page number of addresses to display</td>
+          </tr>
+        </tbody>
+      </table></div>
+      <p>Retrieves a list of addresses filtered and sorted by the query object.</p>
+      <h5>Example request</h5>
+          <pre><code class="php">
+Marketcloud\Addresses::get($query);
+      </code></pre>
+</section>
+<section class="resource-action">
+      <a class="anchor" id="addresses.getById"></a>
+<div class="method-title">Retrieve an address</div>
+      <p>Retrieves an address by its id.</p>
+      <h5>Example request</h5>
+        <pre><code class="php">
+Marketcloud\Addresses::getById($address_id)
+      </code></pre>
+</section>
+<section class="resource-action">      
+      <a class="anchor" id="addresses.update"></a>
+<div class="method-title">Update an address</div>
+      <p >Updates an address by id.</p>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>address_id <span class="label label-success">Required</span></td>
+            <td>Number</td>
+            <td>The univocal address identifier</td>
+          </tr>
+          <tr>
+            <td>update_data <span class="label label-success">Required</span></td>
+            <td>Object</td>
+            <td>An object containing the updates. See <a href="#addresses.create" class="link">addresses.create()</a> for more informations.</td>
+          </tr>
+          
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+      <pre><code class="php">
+$update_data = array(
+    "city" => "Berlin"
+    "country" => "Germany"
+)
+Marketcloud\Addresses::update($address_id, $update_data);
+      </code></pre>
+      <a class="anchor" id="addresses.delete"></a>
+<div class="method-title">Delete an address</div>
+      <p >Deletes an address by id.</p>
+      <h5>Example request</h5>
+      <pre><code class="php">
+Marketcloud\Addresses::delete($address_id);
+      </code></pre>
+</section>
+
+</section>

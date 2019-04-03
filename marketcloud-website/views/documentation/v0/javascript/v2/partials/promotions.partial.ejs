@@ -1,0 +1,19 @@
+<h3 id="promotions">Promotions</h3>
+<p ></p>
+<a class="anchor" id="promotions.getById"></a>
+<div class="method-title">Retrieve a promotion</div>
+<pre><code class="javascript">//Retrieves a promotion by its id
+  marketcloud.categories.getById(category_id, function(err,response){
+              
+});</code></pre>
+<a class="anchor" id="promotions.list"></a>
+<div class="method-title">List all promotions</div>
+<pre><code class="javascript">//Retrieves a list of promotions filtered and sorted by the query object
+  marketcloud.promotions.list(query, function(err,response){
+});</code></pre>
+
+<a class="anchor" id="promotions.getByCart"></a>
+<div class="method-title">Get by cart id </div>
+<pre><code class="javascript">//Retrieves a list of promotions eligible for a specific cart
+  marketcloud.promotions.getByCart(cart_id, function(err,response){
+});</code></pre>

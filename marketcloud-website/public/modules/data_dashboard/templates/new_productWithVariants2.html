@@ -1,0 +1,503 @@
+<div class="dashboard-section-header">
+  <span class="hidden-xs">
+    <a class="root link" href="#/products">Products</a>  / New product <b>with variants</b>
+  </span>
+  <button class="btn btn-info pull-right" ng-click="saveProduct()">Save</button>
+<back-button></back-button></div>
+<div class="container-fluid" style="padding-bottom: 50px;">
+  <style type="text/css">
+    .card.card-multiplexer {
+      padding:0px;
+      display: flex;
+      background-color: #FFF;
+    }
+    .card-multiplexer-sidebar {
+      background-color: #F6F6F6;
+      color: #777;
+      border-right: 1px solid #CCC;
+      width: 30%;
+      font-size: 14px;
+    }
+    .card-multiplexer-sidebar-title {
+      color: #333;
+      font-weight: 500;
+      display: block;
+      padding:10px 20px;
+      font-size: 16px;
+
+    }
+    a.card-multiplexer-sidebar-item {
+      color: #666;
+      font-weight: 500;
+      display: block;
+      padding:10px 20px;
+      cursor: pointer;
+    }
+    a.card-multiplexer-sidebar-item:hover {
+      background-color: #f0f0f0;
+    }
+    a.card-multiplexer-sidebar-item.active {
+      color: #FFFFFF;
+      background-color: #2980b9;
+      font-weight: 500;
+      display: block;
+      padding:10px 20px;
+    }
+    .card-multiplexer-container {
+      flex:1;
+    }
+    .card-multiplexer-section { 
+      display: none;
+      padding:10px;
+    }
+    
+    
+
+    .card-multiplexer-section.active { display: block }
+  </style>
+  <script type="text/javascript">
+    function showSection(){
+      var target_id = $(this).data("target");
+
+      $(".card-multiplexer-sidebar-item").removeClass("active")
+      $(this).addClass("active")
+      
+      $(".card-multiplexer-section.active").removeClass("active");
+      $(".card-multiplexer-section#"+target_id).addClass("active");
+    }
+    $(document).ready(function(){
+      $('[data-action="showSection"]').click(showSection)
+    })
+  </script>
+  <div class="row">
+    <div class="col-md-4 col-xs-6">
+      <div class="form-group">
+        
+        <div class="form-group">
+          <label>Copy from existing product</label>
+          <input type="text"
+          class="form-control"
+          placeholder="Search for products.."
+          ng-model="query.name.$regex"
+          focus-on-show
+          ng-model-options='{ debounce: 600 }'
+          ng-change="prepareRegex();loadProducts()"
+          ng-focus="showList()"
+          ng-blur="hideList()"
+          >
+          <div style="position: absolute;left:0px;right:0px;z-index: 999;padding:15px;">
+            <div class="list-group"
+              style="border-top-left-radius: 0px;border-top-right-radius: 0px;"
+              ng-show="!!query.name.$regex == true && showTheList === true">
+              <a  class="list-group-item"
+                style="cursor: pointer;"
+                ng-repeat="product in products track by $index"
+                ng-click="applyTemplate(product)">
+                <div class="row">
+                  <div class="col-xs-2">
+                    <img ng-src="{{product.images[0]}}"  class="img-reponsive"/>
+                  </div>
+                  <div class="col-xs-10">
+                    <div>{{product.name}}</div>
+                    <div class="text-muted">{{product.display_price}}</div>
+                  </div>
+                </div>
+              </a>
+              <a class="list-group-item"
+                style="font-weight:bold"
+                href="#/products/create"
+              target="_blank">Add {{query.name.$regex}}..</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+
+      <div class="card card-multiplexer">
+        <div class="card-multiplexer-sidebar">
+          <div class="card-multiplexer-sidebar-title">Sections</div>
+          <a class="card-multiplexer-sidebar-item active" data-action="showSection" data-target="basic-information">
+            Basic information
+          </a>
+           <a class="card-multiplexer-sidebar-item" data-action="showSection" data-target="inventory">
+            Inventory
+          </a>
+          <a class="card-multiplexer-sidebar-item" data-action="showSection" data-target="images">
+            Images
+          </a>
+           <a class="card-multiplexer-sidebar-item" data-action="showSection" data-target="shipping">
+            Shipping
+          </a>
+           <a class="card-multiplexer-sidebar-item" data-action="showSection" data-target="seo">
+            SEO
+          </a>
+           <a class="card-multiplexer-sidebar-item" data-action="showSection" data-target="custom-attributes">
+            Custom attributes
+          </a>
+           <a class="card-multiplexer-sidebar-item" data-action="showSection" data-target="variants">
+            Variants
+          </a>
+        </div>
+        <div class="card-multiplexer-container">
+          
+          <!-- Custom attributes section -->
+          <div class="card-multiplexer-section" id="custom-attributes">
+              <h4>Custom attributes</h4>
+              <custom-attributes-form
+              remove-card-frame="true"
+              resource="product"
+              properties="customPropertiesData"
+              ></custom-attributes-form>
+          </div>
+          <!-- ENd of custom attrubutes section -->
+
+          <!-- SEO section -->
+          <div class="card-multiplexer-section" id="seo">
+              <h4>Search engine optimization</h4>
+              <seo-form seo="product.seo" remove-card-frame="true"></seo-form>
+          </div>
+          <!-- ENd of SEO section -->
+
+           <!-- Variants section -->
+          <div class="card-multiplexer-section" id="variants">
+            <h4>Variants</h4>
+              <div class="card-content">
+          <p class="text-muted">Type the variant name on the left box and then add the list of comma separated variant values on the right box. </p>
+          <p class="text-muted">Example: Type 'size' on the left box and then on the right box add some tshirt sizes: xxl, xl, l and so on.</p>
+          <div >
+            
+            
+            <div class="row" ng-repeat="variant in addedVariants2 track by $index">
+              
+              <div class="form-group col-xs-4">
+                <label>Variant name</label>
+                <input type="text"
+                class="form-control"
+                placeholder="e.g. Color"
+                ng-change="validateVariantName()"
+                ng-model="variant.name" />
+              </div>
+              <div class="form-group col-xs-6">
+                <label>Variant values</label>
+                <tags-input
+                ng-model="variant.values"
+                min-length="1"
+                placeholder="e.g Blue"
+                on-tag-added="updateVariantsConfiguration()"
+                on-tag-removed="updateVariantsConfiguration()"
+                ></tags-input>
+              </div>
+              <div class="form-group col-xs-2">
+                <label class="invisible">.</label><br>
+                <button class="btn btn-default btn-lg"
+                ng-click="deleteVariant(v_name,$index)"><span class="fa fa-trash"></span></button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="invisible">.</label><br>
+              <button class="btn btn-info"
+              ng-click="addEmptyVariant()">Add a variant</button>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive" ng-if="computedVariants.length > 0">
+          {{computedVariants[0]}}
+          <table class="table table-bodered">
+            <thead>
+              <tr>
+                
+                <th></th>
+                <th>Variant</th>
+                <th>Inventory</th>
+                <th>Stock</th>
+                <th>Price</th>
+                <th>SKU</th>
+              </tr>
+            </thead>
+            <tbody ng-show="computedVariants.length > 0">
+              <tr ng-repeat="variant in computedVariants track by $index">
+                <td>
+                  <div class="checkbox">
+                    <input type="checkbox" ng-model="variant.save">
+                    <label for="variantCheck">
+                      
+                    </label>
+                  </div>
+                </td>
+                
+                <td>
+                  
+                  <span ng-repeat="(k,v) in filterVariantProps(variant) track by $index" class="{{getVariantClass($index)}}" style="margin-right:5px;">{{v}}</span>
+                </td>
+                <td>
+                  <select class="form-control  "
+                  ng-model="variant.stock_type">
+                  <option value="track">Track quantities</option>
+                  <option value="status">Status</option>
+                  
+                </select>
+              </td>
+              <td>
+                <input type="number"
+                class="form-control"
+                ng-show="variant.stock_type === 'track'"
+                ng-model="variant.stock_level" />
+                
+                <select class="form-control "
+                  ng-show="variant.stock_type === 'status'"
+                  ng-model="variant.stock_status">
+                  <option value="in_stock">In stock</option>
+                  <option value="out_of_stock">Out of stock</option>
+                  
+                </select>
+              </td>
+              <td><input type="number"  class="form-control" ng-model="variant.price" /></td>
+              <td><input type="text" class="form-control" ng-model="variant.sku" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+          </div>
+          <!-- End of Variants section -->
+
+          <!-- Basic information section -->
+          <div class="card-multiplexer-section active" id="basic-information">
+            <h4>Basic information</h4>
+            <div class="form-group" ng-class="{'has-error' : errorField === 'name'}">
+            <label>Name*</label>
+            <input type="text"
+            class="form-control  "
+            placeholder="My product's name"
+            ng-change="updateSlug()"
+            ng-model="product.name" />
+            
+          </div>
+          <div class="checkbox">
+            <input type="checkbox" ng-model="unsafeSlug" id="unsafeSlug" />
+            <label for="unsafeSlug">
+              Editable slug
+            </label>
+          </div>
+          <div class="form-group">
+            <label>Slug</label>
+            <input type="text"
+            class="form-control  solid"
+            ng-disabled="false === unsafeSlug"
+            ng-model="product.slug" />
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-12">
+              
+              <label>Description</label>
+              <div trumbowyg-ng
+                ng-model="product.description"
+                editor-config="{btns:[['viewHTML'],['formatting'],'btnGrp-semantic',['superscript','subscript'],['link'],['insertImage'],'btnGrp-justify','btnGrp-lists',['horizontalRule'],['removeformat'],['fullscreen']]}">
+              </div>
+            </div>
+          </div>
+          
+          </div>
+
+          <!-- Shipping section -->
+          <div class="card-multiplexer-section" id="shipping">
+            <h4>Shipping</h4>
+            <div class="form-group">
+          <div class="checkbox">
+            <input type="checkbox"
+            ng-model="product.requires_shipping"
+            id="requires_shipping"
+            />
+            <label for="requires_shipping">
+              This product requires shipping
+            </label>
+          </div>
+        </div>
+        <div ng-show="true === product.requires_shipping">
+          <div class="row">
+            <div class="form-group col-lg-8 col-xs-12">
+              <label>Weight (Kg)</label>
+              
+              <div class="input-group input-group-right">
+                <input type="number"
+                class="form-control  "
+                placeholder="0.1"
+                ng-model="product.weight" />
+                <span class="input-group-addon ">kg</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-4">
+              <label>Depth</label>
+              
+              <div class="input-group input-group-right">
+                <input type="number"
+                class="form-control  "
+                placeholder="e.g. 22"
+                ng-model="product.depth" />
+                <span class="input-group-addon ">cm</span>
+              </div>
+            </div>
+            <div class="form-group col-xs-4">
+              <label>Width (cm)</label>
+              <div class="input-group input-group-right">
+                <input type="number"
+                class="form-control  "
+                placeholder="e.g. 22"
+                ng-model="product.width" />
+                <span class="input-group-addon ">cm</span>
+              </div>
+            </div>
+            <div class="form-group col-xs-4">
+              <label>Height (cm)</label>
+              <div class="input-group input-group-right">
+                <input type="number"
+                class="form-control  "
+                placeholder="e.g. 22"
+                ng-model="product.height" />
+                <span class="input-group-addon ">cm</span>
+              </div>
+            </div>
+          </div>
+        </div>
+          </div>
+
+          <!-- Images section -->
+          <div class="card-multiplexer-section" id="images">
+            <h4>Images</h4>
+            <images-card items="product.images" remove-card-frame="true"></images-card>
+          </div>
+
+          <div class="card-multiplexer-section" id="inventory">
+            <h4>Inventory</h4>
+             <div class="row">
+          <div class="form-group col-lg-6"  ng-class="{'has-error' : errorField === 'stock_type'}">
+            <label>Inventory policy *</label>  <span class="fa fa-question-circle" data-placement="right" title="Choose how should Marketcloud track your inventory"></span>
+            <select class="form-control  "
+              ng-model="product.stock_type"
+              ng-change="updateStockManagementForVariants()">
+              <option value="track">Track quantities</option>
+              <option value="status">Status</option>
+              
+            </select>
+          </div>
+          <div class="form-group col-lg-6"
+            ng-show="product.stock_type === 'track'"
+            ng-class="{'has-error' : errorField === 'stock_level'}">
+            <label>Stock level</label>
+            <input type="number"
+            class="form-control  "
+            placeholder="99"
+            ng-model="product.stock_level" />
+          </div>
+          <div class="form-group col-lg-6"
+            ng-show="product.stock_type === 'status'"
+            ng-class="{'has-error' : errorField === 'stock_status'}">
+            <label>Stock status</label>
+            <select class="form-control  "
+              ng-model="product.stock_status">
+              <option value="in_stock">In stock</option>
+              <option value="out_of_stock">Out of stock</option>
+              
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-lg-6"
+            ng-class="{'has-error' : errorField === 'sku'}">
+            <label>SKU</label>
+            <input type="text"
+            class="form-control  "
+            placeholder="MY-PRODUCT-SKU"
+            ng-model="product.sku" />
+          </div>
+          <div class="form-group col-lg-6"
+            ng-class="{'has-error' : errorField === 'barcode'}">
+            <label>Barcode</label>
+            <input type="text"
+            class="form-control  "
+            placeholder="0101010101"
+            ng-model="product.barcode" />
+          </div>
+        </div>
+          </div>
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card mb20">
+        <div class="card-header"><h4>Publishing</h4></div>
+        <div class="card-content">
+          <div class="form-group">
+            
+            <label>Product published</label>
+            <div>
+              <switch value="product.published"></switch>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      <div class="card mb20">
+        <div class="card-header"><h4>Pricing</h4></div>
+        <div class="card-content">
+          
+          <div class="form-group"  ng-class="{'has-error' : errorField === 'price'}">
+            <label>Price*</label>
+            <div class="input-group input-group-right">
+              <input type="text"
+              class="form-control  "
+              placeholder="9.99"
+              ng-model="product.price" money/>
+              <span class="input-group-addon ">{{application.currency_code}}</span>
+            </div>
+            
+          </div>
+          <div class="form-group"  ng-class="{'has-error' : errorField === 'price_discount'}">
+            <label>Discount price</label>
+            <div class="input-group input-group-right">
+              <input type="text"
+              class="form-control  "
+              placeholder="9.99"
+              ng-model="product.price_discount" money/>
+              <span class="input-group-addon ">{{application.currency_code}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Tax class</label>
+            <taxes-selector
+            tax="product.tax_id"></taxes-selector>
+          </div>
+          
+        </div>
+      </div>
+      <div class="card mb20">
+        <div class="card-header"><h4>Taxonomy</h4></div>
+        <div class="card-content">
+          <div class="form-group"
+            ng-class="{'has-error' : errorField === 'category_id'}">
+            <label>Category</label>  <span class="fa fa-question-circle" data-placement="right" title="Choose your product's category"></span>
+            <categories-selector
+            category="product.category_id"></categories-selector>
+          </div>
+          <div class="form-group"  ng-class="{'has-error' : errorField === 'brand_id'}">
+            <label>Brand</label>  <span class="fa fa-question-circle" data-placement="right" title="Choose your product's brand"></span>
+            
+            <brands-selector
+            brand="product.brand_id"></brands-selector>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+</div>

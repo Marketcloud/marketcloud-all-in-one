@@ -1,0 +1,61 @@
+	<div class="container-fluid">
+		<div class="row">
+			
+			<div class="col-xs-12">
+				<div class="text-center">
+					<em class="icon-shell-alt f64"></em>
+				</div>
+			</div>
+		</div>
+		<div class="row mb20">
+			<div class="col-xs-10 col-xs-offset-1 col-lg-6 col-lg-offset-3">
+				<strong class="f24 bold">Create a Marketcloud application</strong>
+				
+				<p class="bold mt20">A Marketcloud account is required</p>
+				<p class="lead text-muted">In order to create an application, you need to create a Marketcloud account first.</p>
+				<a href="/account/signup" class="btn btn-empty-success" target="_blank">Create an account</a>
+				<p class="bold mt20">Create an application</p>
+				<p class="lead text-muted">An application is where your store's data will live. Simply create one choosing an application name and a plan. We’ve got several plans including our favorite, Free!</p>
+			</div>
+		</div>
+		<div class="row mt20">
+			<div class="col-xs-10 col-xs-offset-1 col-lg-6 col-lg-offset-3">
+				<strong class="f24 bold">Create your first product</strong>
+				<p class="bold mt20">Add data using the dashboard</p>
+				<p class="lead text-muted">Once you created your application you can log into its dashboard just by clicking on it. Here you can open the "products" section and create your first product You can also add images and variants!</p>
+			</div>
+		</div>
+		<div class="row mt20">
+			<div class="col-xs-10 col-xs-offset-1 col-lg-6 col-lg-offset-3">
+				<strong class="f24 bold">Query the API</strong>
+				<p class="bold mt20">Use the cURL client</p>
+				<p class="lead text-muted">Congratulations you are ready to query the API! Use the client to retrieve the product you created earlier:</p>
+				<pre><code class="curl">
+curl --request GET \
+  --url https://api.marketcloud.it/v0/products \
+  --header 'Content-Type: application/json' \
+  --header 'Authorization: PUBLIC_KEY'
+				</code></pre>
+				<p class="lead text-muted">The code above will retrieve a paginated list of products, you can also use the first parameter to filter them by any key. For example, assuming that we added some books with a "author" property to the application, we could easily retrieve books writter by Tolkien:</p>
+				<pre><code class="javascript">
+curl --request GET \
+  --url https://api.marketcloud.it/v0/products?author=Tolkien \
+  --header 'Content-Type: application/json' \
+  --header 'Authorization: PUBLIC_KEY'
+				</code></pre>
+			</div>
+		</div>
+		<div class="row mt20">
+			<div class="col-xs-10 col-xs-offset-1 col-lg-6 col-lg-offset-3">
+				<strong class="f24 bold">Well done!</strong>
+				<p class="lead text-muted mt20">You have a Marketcloud powered application!</p>
+				<p class="text-muted lead">In these 5 little steps you obtained:</p>
+				<ul>
+					<li><p class="lead text-muted">Full featured dashboard to manage your store</p></li>
+					<li><p class="lead text-muted">Infinite frontend flexibility</p></li>
+					<li><p class="lead text-muted">A fast and scalable backend for your eCommerce applications</p></li>
+				</ul>
+				<p class="lead text-muted mt20">Now you can add more features to your app by checking the <a href="/documentation" class="link">documentation</a>, or you can spend more time on the dashboard adding more stuff!</p>
+			</div>
+		</div>
+	</div>

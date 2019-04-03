@@ -1,0 +1,183 @@
+<div class="dashboard-section-header">
+  <span class="fa fa-credit-card"></span> <a class="root link" href="#/system/payments">Payments</a> / Braintree
+  <back-button></back-button>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="BraintreeCredentialsModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Braintree configuration</h4>
+      </div>
+      <div class="modal-body">
+        
+        <div class="container-fluid">
+          
+
+
+          <div class="row mb20">
+            <div class="col-xs-12">
+              <p class="text-muted">In order to process payments on your behalf, we need your Braintree credentials. You can find the required information in your Braintree dashboard under Account > My user > Api keys .</p>
+            </div>
+          </div>
+
+
+          <div class="row mb20">
+            <div class="col-xs-6">
+              <label>Enable Braintree integration</label>
+            </div>
+            <div class="col-xs-6 text-right">
+              <switch value="braintreeUpdate.isActive"></switch>
+            </div>
+          </div>
+
+
+
+          <div class="row mb20">
+            <div class="col-xs-6">
+              <label>Environment</label>
+            </div>
+            <div class="col-xs-6 text-right">
+              <select ng-init="braintreeUpdate.environment = braintreeUpdate.environment || 'Sandbox'" ng-model="braintreeUpdate.environment" class="form-control input-sm">
+                <option value="Sandbox">Sandbox</option>
+                <option value="Production">Production</option>
+              </select>
+            </div>
+          </div>
+
+
+
+          <div class="row mb20">
+            <div class="col-xs-6">
+              <label>Credentials</label>
+              <p class="small text-muted">For security reasons, we will not display the credentials you previously entered, but you can still update them.</p>
+            </div>
+            <div class="col-xs-6 text-right">
+              <button class="btn btn-warning btn-sm" ng-click="toggleCredentialsForm()" ng-hide="true === displayCredentialsForm">Update Braintree credentials</button>
+              <button class="btn btn-info" ng-click="toggleCredentialsForm()" ng-show="true === displayCredentialsForm">Hide Braintree credentials</button>
+            </div>
+          </div>
+
+
+          
+          <div class="row mb20" ng-if="true === displayCredentialsForm">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label>Merchant id</label>
+                <input type="text" name="merchant_id"
+                autocomplete="off"
+                role="presentation"
+                ng-model="braintreeUpdate.merchantId"
+                class="form-control"
+                ng-disabled="false === braintreeUpdate.isActive">
+              </div>
+              <div class="form-group">
+                <label>Public key</label>
+                <input type="text" name="publicKey"
+                autocomplete="off"
+                role="presentation"
+                ng-model="braintreeUpdate.publicKey"
+                class="form-control"
+                ng-disabled="false === braintreeUpdate.isActive">
+              </div>
+              <div class="form-group">
+                <label>Private key</label>
+                <input type="text" name="key"
+                autocomplete="off"
+                role="presentation"
+                ng-model="braintreeUpdate.privateKey"
+                class="form-control"
+                ng-disabled="false === braintreeUpdate.isActive">
+              </div>
+            </div>
+          </div>
+
+           <div class="row mb20">
+              <div class="col-xs-6">
+                <label>Enable automatic settlement</label>
+                 <p class="small text-muted">When this option is active, every Braintree transaction will be automatically submitted for settlement. <a href="https://articles.braintreepayments.com/support/get-started/transaction-life-cycle" class="link" target="_blank">Read more</a></p>
+              </div>
+              <div class="col-xs-6 text-right">
+                <switch value="braintreeUpdate.autoSubmitForSettlement"></switch>
+              </div>
+            </div>
+
+            <div class="row mb20">
+              <div class="col-xs-6">
+                <label>Additional fee</label>
+                 <p class="small text-muted">You can specify a fixed payment method fee to be added to every payment made with Braintree.</p>
+              </div>
+              <div class="col-xs-6 text-right">
+                <div class="form-group">
+                  <div class="input-group input-group-right">
+                    <input type="text"
+                    class="form-control "
+                    placeholder="1.00" 
+                    ng-model="braintreeUpdate.paymentMethodFee" money>
+                    <span class="input-group-addon ">{{application.currency_code}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+        </div>
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="saveBraintreeConfiguration()">Save changes</button>
+      </div>
+      </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      <div class="container-fluid mt100">
+        <div class="row">
+          <div class="col-lg-3 col-lg-offset-1 col-md-4">
+            <div class="text-center">
+              <img src="https://marketcloud.azureedge.net/storm-images/braintree-logo.jpg" style="max-width:100%;" fallback-src="/img/user.png"/>
+            </div>
+            <button
+            class="btn btn-success btn-block mt20"
+            target="_blank"
+            ng-click="showModal()">
+            <span ng-if="true === isIntegrationInstalled">Configure</span>
+            <span ng-if="false === isIntegrationInstalled">Install</span>
+            </button>
+            <div class="list-group mt20">
+              <a href="https://www.braintreepayments.com" class="list-group-item">Visit website <span class="fa fa-chevron-right pull-right"></span></a>
+              <a href="/documentation/integrations/braintree" class="list-group-item" target="_blank"> Documentation  <span class="fa fa-chevron-right pull-right"></span></a>
+            </div>
+            
+          </div>
+          <div class="col-lg-6 col-md-8">
+            <div class="card">
+              <div class="card-header"><h4>Braintree</h4></div>
+              <div class="card-content">
+                <div class="mb20"><span class="label label-info">Payments</span></div>
+                <p class="lead">Braintree is a full online payment infrastructure that makes it easy to start accepting payments online.</p>
+                <p>This integration will allow you to charge credit cards directly on Marketcloud, so you don't need to spin up a server side application just to process card data.</p>
+                <p>Before using this integration you have to configure it, clicking on the "configure" button. You will need to provide your Braintree account's API keys, so you can authorize Marketcloud to accept payments on your behalf. </p>
+              </div>
+              
+              <div class="card-footer">
+                <div ng-if="false === isIntegrationInstalled">This integration is not installed yet</div>
+                <div class="row" ng-cloak ng-if="true === isIntegrationInstalled">
+                  <div class="col-xs-3">
+                    <switch
+                    value="braintreeConfiguration.isActive"
+                    on-update="toggleIntegration()">
+                    </switch>
+                  </div>
+                  <div class="col-xs-9">
+                    <strong ng-if="true === braintreeConfiguration
+                    .isActive">Enabled ({{braintreeConfiguration.environment}})</strong>
+                    <strong ng-if="false === braintreeConfiguration.isActive">Disabled ({{braintreeConfiguration.environment}})</strong>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

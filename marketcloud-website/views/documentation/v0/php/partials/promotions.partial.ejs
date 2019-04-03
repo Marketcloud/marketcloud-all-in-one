@@ -1,0 +1,210 @@
+
+<section class="resource">
+<!-- Promotions -->
+      <h3 class="section-title"  id="promotions">Promotions</h3>
+      <blockquote class="blockquote-warning">
+    <b>Warning</b><br/> This is a new feature, if you find some issue, please report at info@marketcloud.it.
+    Also, note that you have to create promotions from the dashboard.
+  </blockquote>
+
+
+
+     <a class="anchor" id="promotions.list"></a>
+ <div class="method-title">List promotions</div>
+      <h5>Example request</h5>
+        <pre><code class="php">//Retrieves a paginated list of promotions
+$query = array(
+  "active" => true 
+)
+Marketcloud\Promotions::get($query);
+      
+      </code></pre>
+
+
+     <a class="anchor" id="promotions.create"></a>
+ <div class="method-title">Create a promotion</div>
+  <div class="table-responsive">
+  <table class="table table-striped documentation">
+    <thead>
+      <tr>
+        <th>Attribute</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="code">name <span  class="label label-success">Required</span></td>
+        <td>String</td>
+        <td>The name of the promotion</td>
+      </tr>
+      <tr>
+        <td class="code">conditions <span  class="label label-success">Required</span></td>
+        <td>Mixed</td>
+        <td>An array of conditions, a condition is an object describing the rules under which a promotion can be applied to an order. See the table below for further information</td>
+      </tr>
+       <tr>
+        <td class="code">effects <span  class="label label-success">Required</span></td>
+        <td>Mixed</td>
+        <td>An array of effects, an effect is an object describing the impact of the promotion on the final order. See the table below for further information</td>
+      </tr>
+
+      <tr>
+        <td class="code">active</td>
+        <td>Boolean</td>
+        <td>If false, the promotion can not be used by any order.</td>
+      </tr>
+    
+     
+      
+    </tbody>
+  </table>
+</div>
+
+
+<h5>Promotion condition model</h5>
+<div class="table-responsive">
+  <table class="table table-striped documentation">
+    <thead>
+      <tr>
+        <th>Attribute</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="code">type <span  class="label label-success">Required</span></td>
+        <td>String</td>
+        <td>The type of the condition, possible values are <code>'MIN_NUMBER_OF_PRODUCTS'</code> triggered when the cart has at least a certain number of products, <code>'MIN_CART_VALUE'</code> triggered when the total value of the products in cart is greater than or equal to a certain value, <code>'CART_HAS_ITEM'</code> when the cart contain a certain item.</td>
+      </tr>
+      <tr>
+        <td class="code">value <span  class="label label-success">Required</span></td>
+        <td>Number</td>
+        <td>The value of the</td>
+      </tr>
+       
+      
+    </tbody>
+  </table>
+</div>
+
+
+
+<h5>Promotion effect model</h5>
+<div class="table-responsive">
+  <table class="table table-striped documentation">
+    <thead>
+      <tr>
+        <th>Attribute</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="code">type <span  class="label label-success">Required</span></td>
+        <td>String</td>
+        <td>The type of the effect, possible values are <code>'CART_VALUE_PERCENTAGE_REDUCTION'</code> will reduce the total cart value by a percentage value, <code>'CART_VALUE_NET_REDUCTION'</code> will redduce the total cart value by a fixed value, <code>'CART_ITEMS_NET_REDUCTION'</code> will reduce only the value of items by a fixed value, <code>'CART_ITEMS_PERCENTAGE_REDUCTION'</code> will reduce only the value of items by a percentage value, <code>FREE_SHIPPING</code> will discount the value of shipping.</td>
+      </tr>
+      <tr>
+        <td class="code">value <span  class="label label-success">Required</span></td>
+        <td>Number</td>
+        <td>The value of the effect.</td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+
+      <h5>Example request</h5>
+        <pre><code class="php">//Creates a new promotion that grants 
+//free shipping on order with a cart value above 70$ 
+$promotion = array(
+  "name" => "Free shipping above 70$",
+  "conditions" => array(
+    array(
+      "type" => "MIN_CART_VALUE",
+      "value" => 70
+    )
+  ),
+  "effects" => array(
+    array(
+        "type" : "FREE_SHIPPING",
+        "value" : "FREE SHIPPING"
+      )
+  ),
+
+)
+
+Marketcloud\Promotions::create($promotion);
+</code></pre>
+
+
+<div class="method-container">
+<a class="anchor" id="promotions.update"></a>
+ <div class="method-title">Updates a promotion</div>
+      <h5>Example request</h5>
+        <pre><code class="php">//Updates promotion,
+$promotion_update = array(
+"name" => "Free shipping above 50$",
+  "conditions" => array(
+    array(
+      "type" => "MIN_CART_VALUE",
+      "value" => 50
+    )
+  ),
+)
+
+Marketcloud\Promotions::update($promotion_id,$promotion_update);
+      </code></pre>
+
+
+  <a class="anchor" id="promotions.delete"></a>
+ <div class="method-title">Delete a promotion</div>
+      <h5>Example request</h5>
+        <pre><code class="php">//Delete a promotion with id $id
+Marketcloud\Promotions::delete($id);
+      </code></pre>
+
+</div>
+
+
+
+
+
+     <a class="anchor" id="promotions.getById"></a>
+ <div class="method-title">Retrieve a promotion</div>
+      <h5>Example request</h5>
+        <pre><code class="php">//Retrieves a promotion by its id
+Marketcloud\Promotions::getById($id);
+      </code></pre>
+     <a class="anchor" id="promotions.getByCart"></a>
+ <div class="method-title">Get by cart</div>
+      <p>Retrieves a list of Promotions that can be applied to the given cart.</p>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td class="code">cart_id</td>
+            <td>Integer</td>
+            <td>Return only those promotion methods are compatibles with the cart with id <code>cart_id</code> </td>
+          </tr>
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+      <pre><code class="php">
+// Get eligible promotions for cart with id 1234
+Marketcloud\Promotions::getByCart(1234);
+</code></pre>
+<!-- /Promotions -->
+
+</section>

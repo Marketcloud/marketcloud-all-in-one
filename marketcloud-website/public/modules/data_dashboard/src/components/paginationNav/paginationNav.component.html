@@ -1,0 +1,59 @@
+<style type="text/css">
+
+  nav.resource-pagination ul.pagination > li > a {
+    cursor: pointer;
+  }
+  nav.resource-pagination ul.pagination > li > a.active {
+    font-weight: bold;
+    /*color: #FFFFFF;*/
+    color:#000;
+    background-color: transparent;
+  }
+  .pagination>li>a, .pagination>li>span {
+    border : 0px;
+    color: #4b4b4b;
+  }
+  ul.pagination{
+    margin:0px;
+  }
+ </style>
+
+
+<!-- Pagination controls -->
+          <nav class="resource-pagination" ng-show="ctrl.pagination.numberOfPages > 1">
+            <ul class="pagination">
+              <li>
+                
+                <a aria-label="First" class="text-muted" ng-click="loadPage(1)" >
+                  <span><i class="fa fa-angle-double-left f18"></i></span>
+                </a>
+                
+              </li>
+              <li>
+                <a aria-label="Previous" ng-show="null !== ctrl.pagination.previousPage" ng-click="loadPage(ctrl.pagination.currentPage-1)">
+                  <span aria-hidden="true"><i class="fa fa-angle-left"></i></span>
+                </a>
+               
+                
+              </li>
+              <li ng-repeat="n in getListOfPages() track by $index">
+                <a ng-click="loadPage(n)" ng-class="{'active' :ctrl.pagination.currentPage === n }">{{n}}</a>
+                
+              </li>
+
+              <li>
+                <a aria-label="Next" ng-show="null !== ctrl.pagination.nextPage" ng-click="loadPage(ctrl.pagination.currentPage+1)" style="cursor:pointer;">
+                  <span aria-hidden="true"><i class="fa fa-angle-right f18"></i></span>
+                </a>
+                
+              </li>
+              <li>
+                
+                <a aria-label="Last" class="text-muted" ng-click="loadPage(ctrl.pagination.numberOfPages)" >
+                  <span><i class="fa fa-angle-double-right f18"></i></span>
+                </a>
+                
+              </li>
+            </ul>
+          </nav>
+          <!-- end of pagination controls -->

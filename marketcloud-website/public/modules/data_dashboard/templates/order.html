@@ -1,0 +1,879 @@
+<div class="dashboard-section-header">
+	<a class="link" href="#/orders">Orders</a> / {{order.id}}
+	<back-button></back-button>
+</div>
+<div class="container-fluid">
+	<style type="text/css">
+	.logTable {
+		font-family: "Menlo","Monaco","Consolas","Courier New";
+	}
+	span.key {
+		font-weight: bold;
+		font-family: "Montserrat","Arial";
+	}
+	span.string {
+		color: #e67e22;
+	}
+</style>
+<div class="modal fade" tabindex="-1" role="dialog" id="editAddressModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Edit address</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form">
+					<div class="form-group">
+						<label>Email</label>
+						<input type="email" ng-model="addressToEdit.email" class="form-control">
+					</div>
+
+					<div class="form-group">
+						<label>Full name</label>
+						<input type="text" ng-model="addressToEdit.full_name" class="form-control">
+					</div>
+					<div class="form-group">
+						<label>Country</label>
+						<autocomplete
+						items="countries"
+						label="name"
+						value="name"
+						my-model="addressToEdit.country"
+						on-selected=""/>
+					</div>
+					<div class="form-group">
+						<label>State</label>
+						<input type="text" ng-model="addressToEdit.state" class="form-control">
+					</div>
+					<div class="form-group">
+						<label>City</label>
+						<input type="text" ng-model="addressToEdit.city" class="form-control">
+					</div>
+					<div class="form-group">
+						<label>Postal code</label>
+						<input type="text" ng-model="addressToEdit.postal_code" class="form-control">
+					</div>
+					<div class="form-group">
+						<label>Address line 1</label>
+						<input type="text" ng-model="addressToEdit.address1" class="form-control">
+					</div>
+					<div class="form-group">
+						<label>Address line 2</label>
+						<input type="text" ng-model="addressToEdit.address2" class="form-control">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" ng-click="saveAddress()">Save</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="JsonInspector">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Inspector</h4>
+			</div>
+			<div class="modal-body">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-12">
+							<div ng-bind-html="json"></div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="row mb20">
+
+	<div class="col-xs-12 col-md-8">
+
+		<div class="card mb50">
+			<div class="card-header"><h4>Details</h4></div>
+			<div class="card-content">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="text-muted small">Order date</div>
+						<p>{{order.created_at | date : "MMM d, yyyy 'at' hh:mm"}}</p>
+					</div>
+					<div class="col-md-6">
+						<div class="text-muted small">Order status</div>
+						<div class="dropdown">
+							<a class="link dropdown-toggle" data-toggle="dropdown">{{order.status}} <i class="fa fa-caret-down"></i></a>
+							<ul class="dropdown-menu">
+								<li><a class="link" ng-click="updateStatus('pending')">Pending payment</a></li>
+								<li><a class="link" ng-click="updateStatus('processing')">Processing</a></li>
+								<li><a class="link" ng-click="updateStatus('completed')">Completed</a></li>
+								<li><a class="link" ng-click="updateStatus('on_hold')">On Hold</a></li>
+								<li><a class="link" ng-click="updateStatus('canceled')">Canceled</a></li>
+								<li><a class="link" ng-click="updateStatus('refunded')">Refunded</a></li>
+								<li><a class="link" ng-click="updateStatus('failed')">Failed payment</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="text-muted small">Shipping method</div>
+						<p ng-if="null !== order.shipping">
+							<a href="#/shippings/{{order.shipping.id}}/edit" class="link">{{order.shipping.name}}</a>
+						</p>
+						<p ng-if="!order.shipping">
+							This order has no shipping method
+						</p>
+					</div>
+					<div class="col-md-6">
+						<div class="text-muted small">Payment method</div>
+						<p ng-if="!!order.payment_method">
+							<a href="#/system/payments" class="link">{{order.payment_method.name}}</a>
+						</p>
+						<p ng-if="!order.hasOwnProperty('payment_method') && ( !order.hasOwnProperty('payments') || order.payments.length === 0 )">
+							This order has no payment method
+						</p>
+						<p ng-if="!order.hasOwnProperty('payment_method') && order.hasOwnProperty('payments') && order.payments.length > 0">
+							<a href="#/system/payments" class="link">{{order.payments[0].method}}</a>
+						</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="text-muted small">Invoice</div>
+						<p ng-if="order.hasOwnProperty('invoice_id')">
+							<a href="#/invoices/{{order.invoice_id}}/edit" class="link">Invoice #{{order.invoice_id}}</a>
+							<br/>
+
+							<button class="btn btn-sm btn-info" ng-click="createPDFInvoice()">Download Invoice</button>
+						</p>
+						<p ng-show="!order.hasOwnProperty('invoice_id')">
+							<a href="#/invoices/create/{{order.id}}" class="link">Click to create an invoice</a>
+						</p>
+					</div>
+					<div class="col-md-6">
+						<div class="text-muted small">Total</div>
+						<p><b>{{order.display_total}}</b></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card mb50" ng-show="order.status === 'processing' || order.status === 'pending'">
+			<div class="row">
+				<div class="col-xs-8">
+					<p class="v-align-to-btn">
+						<span class="fa fa-question-circle mr10"></span>
+						<span>Did you ship the order?</span>
+					</p>
+				</div>
+				<div class="col-xs-4 text-right">
+					<button class="btn btn-info raised" ng-click="fullfill()">Mark as completed</button>
+				</div>
+			</div>
+		</div>
+		<div class="card mb50 emphasis-top emphasis-success" ng-show="order.status == 'completed'">
+			<div class="row">
+				<div class="col-xs-8">
+					<div class=" v-align-to-btn">
+						<span class="fa fa-check"></span>
+						This order has been shipped! Good job!
+					</div>
+				</div>
+			</div>
+		</div>
+		<div ng-show="!!order.notes">
+			<h4>Customer's notes</h4>
+			<div class="card mb50">
+				<p class="lead text-muted italic">"{{order.notes}}"</p>
+			</div>
+		</div>
+
+
+
+		<div class="card card-table mb50">
+			<div class="card-header"><h4>Items</h4></div>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Product</th>
+							<th>Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="product in order.products">
+							<td>
+								<div class="thumbnail" style="width:48px;height:48px;padding:0px;">
+									<img ng-src="{{product.images[0] || 'marketcloud.azureedge.net/storm-images/placeholder.png'}}" class="fluid" fallback-src="https://marketcloud.azureedge.net/storm-images/placeholder.png"/>
+								</div>
+							</td>
+							<td>
+								<a ng-href="#/{{product.type}}/{{product.id}}/edit" class="link">{{product.name}}</a> <span>x{{product.quantity}}</span>
+								<div ng-if="true === product.has_variants">
+									<span ng-repeat="(k,v) in getSelectedVariantValues(product) track by $index" style="margin-right:5px;" class="text-muted small">{{v}} /</span>
+								</div>
+							</td>
+							<td ng-if="product.type==='simple_product'">
+								<div ng-hide="product.price_discount">{{round(product.price * product.quantity)  | currency:application.currency_code+" ":2}}</div>
+								<div ng-show="product.price_discount">
+									<span style="text-decoration: line-through;">{{round(product.price * product.quantity)  | currency:application.currency_code+" ":2}}</span>
+									<span>{{round(product.price_discount * product.quantity)  | currency:application.currency_code+" ":2}}</span>
+								</div>
+							</td>
+							<td ng-if="product.type==='product_with_variants'">
+								<div ng-hide="product.variant.price_discount">{{round(product.variant.price * product.quantity)  | currency:application.currency_code+" ":2}}</div>
+								<div ng-show="product.variant.price_discount">
+									<span style="text-decoration: line-through;">{{round(product.variant.price * product.quantity)   | currency:application.currency_code+" ":2}}</span>
+									<span>{{round(product.variant.price_discount * product.quantity)  | currency:application.currency_code+" ":2}}</span>
+								</div>
+							</td>
+						</tr>
+						<tr ng-repeat="product in refundedProducts">
+							<td>
+								<div class="thumbnail" style="width:48px;height:48px;padding:0px;">
+									<img ng-src="{{product.images[0] || 'marketcloud.azureedge.net/storm-images/placeholder.png'}}" class="fluid" fallback-src="https://marketcloud.azureedge.net/storm-images/placeholder.png"/>
+								</div>
+							</td>
+							<td>
+								<a ng-href="#/{{product.type}}/{{product.id}}/edit" class="link">{{product.name}}</a> <span>x{{product.quantity}}</span> <span class="label label-danger">REFUNDED</span>
+								<div ng-if="true === product.has_variants">
+									<span ng-repeat="(k,v) in getSelectedVariantValues(product) track by $index" style="margin-right:5px;" class="text-muted small">{{v}} /</span>
+								</div>
+							</td>
+							<td ng-if="product.type==='simple_product'">
+								<div ng-hide="product.price_discount">{{round(product.price * product.quantity)  | currency:application.currency_code+" ":2}}</div>
+								<div ng-show="product.price_discount">
+									<span style="text-decoration: line-through;">{{round(product.price * product.quantity)  | currency:application.currency_code+" ":2}}</span>
+									<span>{{round(product.price_discount * product.quantity)  | currency:application.currency_code+" ":2}}</span>
+								</div>
+							</td>
+							<td ng-if="product.type==='product_with_variants'">
+								<div ng-hide="product.variant.price_discount">{{round(product.variant.price * product.quantity)  | currency:application.currency_code+" ":2}}</div>
+								<div ng-show="product.variant.price_discount">
+									<span style="text-decoration: line-through;">{{round(product.variant.price * product.quantity)   | currency:application.currency_code+" ":2}}</span>
+									<span>{{round(product.variant.price_discount * product.quantity)  | currency:application.currency_code+" ":2}}</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td class="text-muted">Items total</td>
+							<td>{{order.items_total | currency:application.currency_code+" ":2}}</td>
+						</tr>
+						<tr ng-if="order.refunds_total">
+							<td></td>
+							<td class="text-muted">Refunds total</td>
+							<td>{{order.refunds_total | currency:application.currency_code+" ":2}}</td>
+						</tr>
+						<tr ng-show="order.promotion">
+							<td></td>
+							<td class="text-muted">Promotions (<a class="link small" href="#/promotions/{{order.promotion.id}}/edit">{{order.promotion.name}}</a>)</td>
+							<td>- {{order.promotion_total | currency:application.currency_code+" ":2}}</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td class="text-muted">Shipping <span ng-if="order.hasOwnProperty('shipping')">(<a class="link small" href="#/system/shippings/{{order.shipping.id}}/edit">{{order.shipping.name}}</a>)</span></td>
+							<td>{{order.shipping_total | currency:application.currency_code+" ":2}}</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td class="text-muted">Taxes</td>
+							<td>{{order.taxes_total | currency:application.currency_code+" ":2}}</td>
+						</tr>
+						<tr ng-if="order.hasOwnProperty('coupon_total')">
+							<td></td>
+							<td class="text-muted">Coupon <code>{{order.coupon.code}}</code></td>
+							<td>{{order.coupon_total | currency:application.currency_code+" ":2}}</td>
+						</tr>
+						<tr ng-if="order.hasOwnProperty('payment_method_total')">
+							<td></td>
+							<td class="text-muted">Payment method (<a class="link small" href="#/system/payments">{{order.payment_method.name}}</a>)</td>
+							<td>{{order.payment_method_total | currency:application.currency_code+" ":2}}</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><b>Order total</b></td>
+							<td><b>{{order.total | currency:application.currency_code+" ":2}}</b></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="card-footer text-right">
+				<a class="btn btn-default btn-sm" data-toggle="modal" ng-click="showRefundModal()" ng-if="order.products.length > 0">Refund</a>
+				<p ng-if="order.products.length === 0">All items were refunded</p>
+			</div>
+		</div>
+
+
+
+		<div class="card card-table mb50" ng-if="order.hasOwnProperty('refunds')">
+			<div class="card-header"><h4>Refunds</h4></div>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Date</th>
+							<th>Items</th>
+							<th>Total</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="refund in order.refunds">
+							<td>{{refund.date || "" | date  : "MMM d, yyyy 'at' hh:mm" }}</td>
+							<td>{{refund.line_items.length}}</td>
+							<td>{{refund.total.toFixed(2)}}</td>
+							<td><a class="link" ng-click="createPDFCreditNote(refund)">Download credit note</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+
+		<div class="modal fade" tabindex="-1" role="dialog" id="paymentModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Add a payment</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form">
+							<div class="form-group">
+								<label>Payment method</label>
+								<input type="text" disabled="disabled" name="" ng-model="order.payment_method.name" class="form-control" ng-if="order.hasOwnProperty('payment_method')">
+								<select class="form-control"
+								ng-model="newPayment.payment_method_id"
+								ng-options="method.id as method.name for method in paymentMethods"
+								ng-if="!order.hasOwnProperty('payment_method')"
+								></select>
+							</div>
+							<div class="form-group">
+								<label>Amount</label>
+								<div class="input-group">
+									<input type="number"
+									class="form-control "
+									placeholder="{{order.total}}"
+									ng-model="newPayment.amount"
+									ng-init="newPayment.amount = order.total" />
+									<span class="input-group-addon">{{application.currency_code}}</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label>Description</label>
+								<textarea ng-model="newPayment.description" class="form-control"></textarea>
+							</div>
+							<div class="form-group">
+								<label>Date</label>
+								<input
+								type="text"
+								class="form-control"
+								placeholder="Select a date..."
+								moment-picker="newPayment.created_at"
+								locale="en"
+								ng-model="newPayment.created_at"
+								format="YYYY-MM-DD"
+								today="true"
+								min-view="month"
+								max-view="month"
+								ng-model-options="{ updateOn: 'blur' }">
+							</div>
+							<div class="checkbox">
+								<input type="checkbox" name="" ng-model="savePaymentAndSetToProcessing">
+								<label>Save payment and set order to "processing"</label>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" ng-click="savePayment()">Save payment</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div>
+
+		<div class="card card-table mb50">
+			<div class="card-header"><h4>Payment</h4></div>
+			<div class="card-toolbar"  ng-hide='true === order.hasOwnProperty("payment")'>
+				<div class="text-right">
+					<button class="btn btn-info btn-sm raised" ng-click="showPaymentModal()" >Add a payment</button>
+
+				</div>
+			</div>
+			<div class="table-responsive">
+				<table class="table table-striped" >
+					<thead>
+						<tr>
+							<th>Method</th>
+							<th>Date</th>
+							<th>Status</th>
+							<th>Description</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody ng-if='true === order.hasOwnProperty("payment")'>
+						<tr>
+							<td><span class="label label-info">{{order.payment.method}}</span></td>
+							<td>{{order.payment.created_at  | date : "MMM d, yyyy 'at' hh:mm"}}</td>
+							<td>{{order.payment.data.description || order.payment.description}}</td>
+							<td><button class="btn btn-sm btn-default" ng-click="inspectObject(order.payment)"><span class="fa fa-search"></span></button></td>
+						</tr>
+					</tbody>
+					<tbody ng-if='true === order.hasOwnProperty("payments")'>
+						<tr ng-repeat="payment in order.payments">
+							<td><span class="label label-info">{{payment.method}}</span></td>
+							<td>{{payment.created_at  | date : "MMM d, yyyy 'at' hh:mm"}}</td>
+							<td>
+								<span ng-if="payment.successful === true" class="label label-success">Succeded</span>
+								<span ng-if="payment.successful !== true" class="label label-danger">Failed</span>
+							</td>
+							<td>{{payment.data.description || payment.description}}</td>
+							<td><button class="btn btn-sm btn-default" ng-click="inspectObject(payment)"><span class="fa fa-search"></span></button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div ng-if='(!order.payment && !order.payments ) || order.payments.length ===0'>
+				<div class="center text-muted">
+					<span class="fa fa-credit-card f48"></span>
+				</div>
+				<p class="lead text-muted text-center">No payment was captured for this order.</p>
+
+			</div>
+		</div>
+		<div class="modal fade" tabindex="-1" role="dialog" id="shipmentModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Add a shipment</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form">
+							<div class="form-group">
+								<label>Shipping method</label>
+								<select class="form-control"
+								ng-model="newShipment.method"
+								ng-options="method as method.name for method in shippingMethods"></select>
+							</div>
+							<div class="row">
+								<div class="form-group col-xs-6">
+									<label>Tracking code </label>
+									<input class="form-control"
+									type="text"
+									ng-model="newShipment.tracking_code"
+									placeholder="00000" />
+								</div>
+								<div class="form-group col-xs-6">
+									<label>Tracking link</label>
+									<input class="form-control"
+									type="url"
+									ng-model="newShipment.tracking_link"
+									placeholder="http://trackingsite.com/track/00000" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label>Notes</label>
+								<textarea ng-model="newShipment.description" class="form-control"></textarea>
+							</div>
+							<div class="row">
+								<div class="form-group col-xs-6">
+									<label>Date shipped</label>
+									<input
+									type="text"
+									class="form-control"
+									placeholder="Select a date..."
+									moment-picker="newShipment.date"
+									locale="en"
+									ng-model="newShipment.date"
+									format="YYYY-MM-DD"
+									today="true"
+									min-view="month"
+									max-view="month"
+									ng-model-options="{ updateOn: 'blur' }">
+								</div>
+								<div class="form-group col-xs-6">
+									<label>Estimated delivery date</label>
+									<input
+									type="text"
+									class="form-control"
+									placeholder="Select a date..."
+									moment-picker="newShipment.delivery_date"
+									locale="en"
+									ng-model="newShipment.delivery_date"
+									format="YYYY-MM-DD"
+									today="true"
+									min-view="month"
+									max-view="month"
+									ng-model-options="{ updateOn: 'blur' }">
+
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="checkbox">
+									<input type="checkbox" ng-model="saveShipmentAndFullfill"/>
+									<label>Add shippment and fullfill order</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" ng-click="saveShipment()">Save changes</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+			<div class="modal fade" tabindex="-1" role="dialog" id="editShipmentModal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h4 class="modal-title">Edit shipment</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form">
+								<div class="form-group">
+									<label>Shipping method</label>
+									<select class="form-control" ng-model="shipmentToEdit.method" ng-options="method as method.name for method in shippingMethods"></select>
+								</div>
+								<div class="row">
+									<div class="form-group col-xs-6">
+										<label>Tracking code </label>
+										<input class="form-control" type="text" ng-model="shipmentToEdit.tracking_code" placeholder="00000" />
+									</div>
+									<div class="form-group col-xs-6">
+										<label>Tracking link</label>
+										<input class="form-control" type="url" ng-model="shipmentToEdit.tracking_link" placeholder="http://trackingsite.com/track/00000"
+										/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label>Notes</label>
+									<textarea ng-model="shipmentToEdit.description" class="form-control"></textarea>
+								</div>
+								<div class="row">
+									<div class="form-group col-xs-6">
+										<label>Date shipped</label>
+										<input type="text" class="form-control" placeholder="Select a date..." moment-picker="shipmentToEdit.date" locale="en" ng-model="shipmentToEdit.date"
+										 format="YYYY-MM-DD" today="true" min-view="month" max-view="month" ng-model-options="{ updateOn: 'blur' }">
+									</div>
+									<div class="form-group col-xs-6">
+										<label>Estimated delivery date</label>
+										<input type="text" class="form-control" placeholder="Select a date..." moment-picker="shipmentToEdit.delivery_date" locale="en"
+										 ng-model="shipmentToEdit.delivery_date" format="YYYY-MM-DD" today="true" min-view="month" max-view="month" ng-model-options="{ updateOn: 'blur' }">
+			
+									</div>
+								</div>
+							
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary" ng-click="updateShipment()">Save changes</button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal-dialog -->
+			</div>
+			<!-- /.modal -->
+
+		<div class="card card-table mb50">
+			<div class="card-header"><h4>Shipments</h4></div>
+			<div class="card-toolbar text-right">
+				<button class="btn btn-info btn-sm btn-raised" ng-click="showShipmentModal()">Create shipment</button>
+			</div>
+
+
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Method</th>
+							<th>Tracking</th>
+							<th>Creation date</th>
+							<th>Delivery date</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody ng-show='order.hasOwnProperty("shipments")'>
+						<tr ng-repeat="shipment in order.shipments track by $index">
+							<td><a class="link" href="#/system/shippings/{{shipment.method.id}}/edit">{{shipment.method.name}}</a></td>
+							<td>
+								<a ng-if="shipment.tracking_code" href="{{shipment.tracking_link}}" class="link" target="_blank">{{shipment.tracking_code}}</a>
+								<span ng-if="!shipment.tracking_code">Not provided</span>
+							</td>
+							<td>{{shipment.date.toDate()  | date : "MMM d, yyyy"}}</td>
+							<td>{{shipment.delivery_date.toDate()  | date : "MMM d, yyyy"}}</td>
+							<td><a ng-click="showEditShipmentModal(shipment,$index)">Edit</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div ng-hide='order.hasOwnProperty("shipments")'>
+
+				<div class="center text-muted">
+					<span class="fa fa-truck f48"></span>
+				</div>
+				<p class="lead text-muted text-center">This order has no shipments</p>
+
+
+			</div>
+
+
+		</div>
+	</div>
+	<div class="col-xs-12 col-md-4">
+
+		<div class="card mb20">
+			<div class="card-header"><h4>Customer details</h4></div>
+			<div class="card-content" ng-if="order.user">
+				<div class="row">
+					<div class="col-xs-3">
+						<img src="img-responsive" ng-src="{{order.user.image_url || '/img/user.png'}}"  fallback-src="/img/user.png" style="border-radius: 2px; box-shadow: 1px 1px 1px rgba(0,0,0,.18)">
+					</div>
+					<div class="col-xs-9">
+						<div>
+							<a class="link" ng-href="#/users/{{order.user.id}}/view">{{order.user.email}} </a>
+							<div class="text-muted">{{order.user.name || "name unkown"}}</div>
+						</div>
+						<div ng-if="order.billing_address.vat">
+							<div class="small text-muted">VAT / Tax number</div>
+							<div></div>{{order.billing_address.vat}}</div>
+						</div>
+					</div>
+				</div>
+				<div ng-if="!order.user" class="card-content">
+
+					<div><span class="small text-muted">Name</span></div>
+					<div> {{order.shipping_address.full_name}} <em>&lt;Guest user&gt;</em></div>
+					<div><span class="small text-muted">Email</span></div>
+					<div>{{order.shipping_address.email}}</div>
+
+					<p ng-show="order.billing_address.vat">
+						<b>VAT number</b><br/>
+					{{order.billing_address.vat}}</p>
+				</div>
+				<div class="card-content" style="border-top: 1px solid #DDD">
+					<div class="row">
+						<div class="col-md-12 col-xs-6">
+							<h4 class="mt20">Shipping address</h4>
+							<div><a href="" class="link pull-right" ng-click="showEditAddressDialog(order.shipping_address)">Edit</a></div>
+
+
+							<div class="mb10">
+								<div><div class="text-muted small">Email address</div></div>
+								<div>{{order.shipping_address.email || "Empty"}}</div>
+							</div>
+							<div class="mb10">
+								<div><div class="text-muted small">Full name</div></div>
+								<div>{{order.shipping_address.full_name || "Empty"}}</div>
+							</div>
+
+							<div class="mb10">
+								<div><div class="text-muted small">Country</div></div>
+								<div>{{order.shipping_address.country || "Empty"}}</div>
+							</div>
+
+							<div class="mb10">
+								<div><div class="text-muted small">State</div></div>
+								<div>{{order.shipping_address.state || "Empty"}}</div>
+							</div>
+
+
+							<div class="mb10">
+								<div><div class="text-muted small">City</div></div>
+								<div>{{order.shipping_address.city || "Empty"}}</div>
+							</div>
+							<div class="mb10">
+								<div><div class="text-muted small">Postal code</div></div>
+								<div>{{order.shipping_address.postal_code || "Empty"}}</div>
+							</div>
+							<div class="mb10">
+								<div><div class="text-muted small">Address line 1</div></div>
+								<div>{{order.shipping_address.address1 || "Empty"}}</div>
+							</div>
+							<div class="mb10">
+								<div><div class="text-muted small">Address line 2</div></div>
+								<div>{{order.shipping_address.address2 || "Empty"}}</div>
+							</div>
+							<div class="mb10">
+								<div><div class="text-muted small">Phone number</div></div>
+								<div>{{order.shipping_address.phone_number || "Not available"}}</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="card-content" style="border-top: 1px solid #DDD">
+					<div class="row">
+						<div class="col-md-12 col-xs-6">
+							<h4 class="mt20">Billing address</h4>
+
+							<div><a href="" class="link pull-right" ng-click="showEditAddressDialog(order.billing_address)">Edit</a></div>
+							<div class="mb10">
+								<div><div class="text-muted small">Email address</div></div>
+								<div>{{order.billing_address.email || "Empty"}}</div>
+							</div>
+							<div class="mb10">
+								<div><div class="text-muted small">Full name</div></div>
+								<div>{{order.billing_address.full_name || "Empty"}}</div>
+							</div>
+
+
+							<div class="mb10">
+								<div><div class="text-muted small">Country</div></div>
+								<div>{{order.billing_address.country || "Empty"}}</div>
+							</div>
+
+							<div class="mb10">
+								<div><div class="text-muted small">State</div></div>
+								<div>{{order.billing_address.state || "Empty"}}</div>
+							</div>
+
+							<div class="mb10">
+								<div><div class="text-muted small">City</div></div>
+								<div>{{order.billing_address.city || "Empty"}}</div>
+							</div>
+							<div class="mb10">
+								<div><div class="text-muted small">Postal code</div></div>
+								<div>{{order.billing_address.postal_code || "Empty"}}</div>
+							</div>
+							<div class="mb10">
+								<div><div class="text-muted small">Address line 1</div></div>
+								<div>{{order.billing_address.address1 || "Empty"}}</div>
+							</div>
+							<div class="mb10">
+								<div><div class="text-muted small">Address line 2</div></div>
+								<div>{{order.billing_address.address2 || "Empty"}}</div>
+							</div>
+							<div class="mb10">
+								<div><div class="text-muted small">Phone number</div></div>
+								<div>{{order.billing_address.phone_number || "Not available"}}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="modal fade" tabindex="-1" role="dialog" id="RefundModal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Refund</h4>
+				</div>
+				<div class="modal-body p0">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-xs-12">
+								<div class="mt10 mb10">
+									<b>Note</b><br>
+									<p>Please note this refund preset only takes in account items values and applied taxes. You might want to adjust the total refunded amount yourself to match any discount or additional fee.</p></div>
+								</div>
+							</div>
+							<div class="row">
+
+								<div class="col-xs-12 p0">
+
+									<table class="table">
+										<thead>
+											<tr>
+												<th>Product</th>
+												<th>Quantity</th>
+												<th>Total</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="product in newRefund.line_items">
+												<td>
+													<a ng-href="#/{{product.type}}/{{product.id}}/edit" class="link">{{product.name}}</a>
+													<div ng-if="true === product.has_variants">
+														<span ng-repeat="(k,v) in getSelectedVariantValues(product) track by $index" style="margin-right:5px;" class="text-muted small">{{v}} /</span>
+													</div>
+												</td>
+												<td>
+													<input type="number" min="0" class="form-control input-sm" ng-model="product.quantity" max="{{product.quantityInOrder}}" style="max-width: 80px;" ng-change="updateNewRefund()">
+
+												</td>
+												<td ng-if="product.type==='simple_product'">
+													<div ng-hide="product.price_discount">{{round(product.price * product.quantity)  | currency:application.currency_code+" ":2}}</div>
+													<div ng-show="product.price_discount">{{round(product.price_discount * product.quantity)  | currency:application.currency_code+" ":2}}
+													</div>
+												</td>
+												<td ng-if="product.type==='product_with_variants'">
+													<div ng-hide="product.variant.price_discount">{{round(product.variant.price * product.quantity)  | currency:application.currency_code+" ":2}}</div>
+													<div ng-show="product.variant.price_discount"> {{round(product.variant.price_discount * product.quantity)  | currency:application.currency_code+" ":2}} <span style="text-decoration: line-through;">{{round(product.variant.price * product.quantity)   | currency:application.currency_code+" ":2}}</span>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td class="text-muted">Items total</td>
+												<td></td>
+												<td>{{newRefund.items_total | currency:application.currency_code+" ":2}}</td>
+											</tr>
+
+
+											<tr>
+												<td class="text-muted">Taxes</td>
+												<td></td>
+												<td>{{newRefund.taxes_total | currency:application.currency_code+" ":2}}</td>
+											</tr>
+										</tbody>
+									</table>
+
+								</div>
+
+								<div class="col-xs-12" style="border-top: 1px solid #DDD; padding-top: 20px;">
+									<div class="form-group">
+										<label>Refund number</label>
+										<input type="number" name="refund_number" placeholder="1234" class="form-control" ng-model="newRefund.number" />
+									</div>
+								</div>
+
+								<div class="col-xs-12">
+									<div class="form-group">
+										<label>Refund message (optional)</label>
+										<input type="text" name="refund_message" placeholder="e.g. Returned goods." class="form-control" ng-model="newRefund.message" />
+									</div>
+								</div>
+
+								<div class="col-xs-6">
+									<div class="checkbox">
+										<input type="checkbox" name="restock_refunded_items" class="checkbox" ng-model="newRefund.restock_refunded_items">
+										<label>Restock refunded items</label>
+									</div>
+								</div>
+								<div class="col-xs-6">
+									<div class="form-group">
+										<label>Refund total</label>
+										<input type="text" money class="form-control input-sm" ng-model="newRefund.total">
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-empty-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" ng-click="saveRefund()" >Create refund</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+													</div><!-- /.modal -->

@@ -1,0 +1,837 @@
+<% include ../../../header/ %>
+<% include ../../../navbar %>
+<link rel="stylesheet" type="text/css" href="/libs/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github.min.css" />
+<style type="text/css">
+
+
+</style>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" href="/modules/documentation/css/documentation.css" />
+<!-- <section class="inverse sub-navbar">
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12">
+          <ul class="horizontal-menu nav navbar-nav">
+
+             <li><a href="/documentation">Documentation</a></li>
+             <li><a><i class="fa fa-angle-right"></i></a></li>
+             <li><a href="/documentation/reference">API Reference</a></li>
+             <li><a><i class="fa fa-angle-right"></i></a></li>
+             <li><a href="/documentation/reference/javascript">Javascript</a></li>
+             
+           </ul>
+        </div>
+      </div>
+  </div>
+</section> -->
+<% include ../documentation-fixed-navbar.partial.ejs %>
+<section class="documentation-page">
+
+  <div class="container-fluid">
+    
+    <a name="introduction"></a>
+    <div class="row">
+      <div class="col-lg-3 col-md-3">
+        <aside class="page-navigation">
+          
+          <nav id="index">
+            <div>
+              <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  Version v1.0.0+
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="/documentation/reference/javascript/v2">Version 2.0.0+</a></li>
+                  <li><a href="/documentation/reference/javascript/v1">Version 1.0.0+</a></li>
+                </ul>
+              </div>
+            </div>
+            <h5>Getting Started</h5>
+            
+            <ul>
+              <li><a href="#introduction">Introduction</a></li>
+              <li><a href="#installation">Installation</a></li>
+              <li><a href="#authentication">Authentication</a></li>
+            </ul>
+            
+            <h5>API Reference</h5>
+            
+            <ul id="api-reference-index">
+              
+              <li>
+                <a href="#products">Products</a>
+                <ul>
+                  <li><a href="#products.list">List all products</a></li>
+                  <li><a href="#products.getById">Retrieve a product</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="#brands" >Brands</a>
+                <ul>
+                  <li><a href="#brands.list">List all brands</a></li>
+                  <li><a href="#brands.getById">Retrieve a brand</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="#carts" >Carts</a>
+                <ul>
+                  <li><a href="#carts.create">Create a cart</a></li>
+                  <li><a href="#carts.getById">Retrieve a cart</a></li>
+                  <li><a href="#carts.add">Add items to cart</a></li>
+                  <li><a href="#carts.update">Update cart contents</a></li>
+                  <li><a href="#carts.remove">Remove items from cart</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="#users" >Users</a>
+                <ul>
+                  <li><a href="#users.create">Create a user</a></li>
+                  <li><a href="#users.authenticate">Authenticate a user</a></li>
+                  <li><a href="#users.isloggedin">Check login status</a></li>
+                  <li><a href="#users.logout">Logout</a></li>
+                  <li><a href="#users.getCurrent">Retrieve the user</a></li>
+                  <li><a href="#users.update">Update the user</a></li>
+                  <li><a href="#users.delete">Delete the user</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="#addresses" >Addresses</a>
+                <ul>
+                  <li><a href="#addresses.create">Create an address</a></li>
+                  <li><a href="#addresses.list">List all addresses</a></li>
+                  <li><a href="#addresses.getById">Retrieve an address</a></li>
+                  <li><a href="#addresses.update">Update an address</a></li>
+                  <li><a href="#addresses.delete">Delete an address</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="#orders" >Orders</a>
+                <ul>
+                  <li><a href="#orders.create">Create an order</a></li>
+                  <li><a href="#orders.list">List all orders</a></li>
+                  <li><a href="#orders.getById">Retrieve an order</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="#categories" >Categories</a>
+                <ul>
+                  <li><a href="#categories.list">List all categoriess</a></li>
+                  <li><a href="#categories.getById">Retrieve a category</a></li>
+                </ul>
+              </li>
+              <!--<li>
+                <a href="#shippings" >Shippings</a>
+                <ul>
+                  <li><a href="#shippings.list">List all shippings</a></li>
+                  <li><a href="#shippings.getById">Retrieve a shipping</a></li>
+                </ul>
+              </li>-->
+              
+              
+            </ul>
+          </nav>
+        </aside>
+
+       
+      </div>
+      <div class="col-lg-6 col-lg-offset-0 col-md-9 col-md-offset-0 col-sm-9 col-sm-offset-3 col-xs-12">
+        
+        <div class="row">
+          <div class="col-lg-12 col-md-9 col-xs-12">
+            <h1>Javascript SDK documentation</h1>
+            
+          </div>
+
+        </div>
+        <div class="row mb20">
+          <div class="col-lg-12 col-md-9 col-xs-12">
+            <nav id="mobile-index" >
+              <a class="link" data-toggle="collapse" href="#mobile-index-collapse"><i class="fa fa-chevron-right"></i> <b>TOGGLE INDEX</b></a>
+              <div class="collapse" aria-expanded="false" id="mobile-index-collapse">
+            <h5>Getting Started</h5>
+            
+            <ul>
+              <li><a href="#introduction">Introduction</a></li>
+              <li><a href="#installation">Installation</a></li>
+              <li><a href="#authentication">Authentication</a></li>
+            </ul>
+            
+            <h5>API Reference</h5>
+            
+            <ul id="api-reference-index">
+              
+              <li>
+                <a href="#products">Products</a>
+                
+              </li>
+              <li>
+                <a href="#brands" >Brands</a>
+                
+              </li>
+              <li>
+                <a href="#carts" >Carts</a>
+                
+              </li>
+              <li>
+                <a href="#users" >Users</a>
+               
+              </li>
+              <li>
+                <a href="#addresses" >Addresses</a>
+                
+              </li>
+              <li>
+                <a href="#orders" >Orders</a>
+                
+              </li>
+              <li>
+                <a href="#categories" >Categories</a>
+                
+              </li>
+
+              
+              
+            </ul>
+            </div>
+          </nav>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-9 col-xs-12">
+            <p>This is the documentation for the official Marketcloud Javascript SDK. It is a wrapper for our REST api and it makes it easier to use.</p>
+            <blockquote class="blockquote-warning">
+              <b>Warning</b><br/>
+              You are viewing the documentation for an older version of the SDK. We highly suggest you to use the latest version of the SDK.
+            </blockquote>
+          </div>
+        </div>
+        
+        <div class="row">
+        <div class="col-xs-12">
+        
+          </div>
+        </div>
+        <h3 id="introduction">Introduction</h3>
+        <p >If you haven't set up an application yet, please refer to the <a href="/documentation/rest-api/gettingstarted" class="link">Getting Started</a> section. You can also check out our API Reference for more detailed information about our SDK.</p>
+        <p >In Marketcloud, you create an App for each of your web/mobile applications. Each App has its own public key that you insert into your web app. Your account on Marketcloud can handle multiple Apps.</p>
+        <h3 id="installation">Installation</h3>
+        <p>You can get the javascript SDK from <a href="https://github.com/Marketcloud/marketcloud-js" class="link">Github</a>: </p>
+      <pre><code class="javascript">git clone https://github.com/Marketcloud/marketcloud-js.git</code></pre>
+      <p>Or you can use bower:</p>
+    <pre><code class="javascript">bower install marketcloud-js</code></pre>
+    <p>At this point you can include the minified javascript file in your application</p>
+  <pre><code class="html">&lt;script type="text/javascript" src="dist/marketcloud.min.js">&lt;/script></code></pre>
+  <h3 id="authentication">Authentication and security</h3>
+  <p >Every application identifies itself to Marketcloud using a unique public key. Since you must ship the public key with your client application code, this key is <b>public</b>. The application security is guaranteed by the secret key, which you should never share with anyone, since it would allow to ignore every authorization mechanism. The only place where it should be safe to store and use the secret key is (in case you need it) your server side code.</p>
+        <pre><code class="javascript">//Set your application's public key
+  marketcloud.public = 'put-your-public-key-here';</code></pre>
+  <p>Some methods requires a user authorization token. This is because, for example, only logged users should be able to edit their profile informations, or review their orders and items in carts. Whenever a method requires authentication, you will see a <span class="label label-danger"><i class="fa fa-warning"></i> Authentication Required</span> label.
+</p>
+<p>In order to authenticate a user, use the <a href="#users" class="link">users.authenticate()</a> method.</p>
+<h4>Social login</h4>
+<p>Starting with version 0.1.0 of the SDK, users can be authenticated using facebook. You can achieve facebook login using the <a href="#users.authenticate" class="link">authenticateWithFacebook()</a> method.</p>
+
+
+
+<h3 id="products">Products</h3>
+<p ></p>
+<a class="anchor" id="products.getById"></a>
+<div class="method-title">Retrieve a product</div>
+<pre><code class="javascript">//Retrieves a product by its id
+  marketcloud.products.getById(product_id, function(err,product){
+              
+});</code></code></pre>
+
+<p><b>product</b> is in the following form:</p>
+<pre><code class="json">
+  {
+      "id": 1111,
+      "name": "The lord of the rings",
+      "sku": "TLOTR",
+      "price": 15.50,
+      "description": "A brief description of this fantastic book.",
+      "published": true,
+      "stock_level": 30,
+      "stock_type": "track",
+      "stock_status": null
+  }
+</code></pre>
+<p>Products can also have custom attributes! :</p>
+<pre><code class="json">
+  {
+      "id": 13687,
+      "name": "A song of fire and ice: A feast for crows",
+      "sku": "ASOFAI_AFFC",
+      "price": 7.79,
+      "description": "A brief description of this fantastic book.",
+      "published": true,
+      "stock_level": 30,
+      "stock_type": "track",
+      "stock_status": null,
+      "author": "George R. R. Martin",
+      "isbn-10": "055358202X",
+      "isbn-13": "978-0553582024",
+      "pages": 1060,
+      "editor": "Bantam Books",
+      "genre": "Fantasy",
+      "cover": "Paperback",
+      "publication_year": "2001"
+    }
+</code></pre>
+<p>Note that starting from author, the remaining fields are custom attributes defined when the product was created.</p>
+
+<a class="anchor" id="products.list"></a>
+<div class="method-title">List all products</div>
+<p>Retrieves a list of products filtered and sorted by the query object.</p>
+    <h5>Arguments</h5>
+    <div class="table-responsive"><table class="table table-striped documentation">
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="code">q</td>
+          <td>String</td>
+          <td>Filter results performing a text research on your products.</td>
+        </tr>
+        <tr>
+          <td class="code">price_gt</td>
+          <td>Number</td>
+          <td>Display only products that cost more than the specified value.</td>
+        </tr>
+        <tr>
+          <td class="code">price_lt</td>
+          <td>Number</td>
+          <td>Display only products that cost less than the specified value.</td>
+        </tr>
+        <tr>
+          <td><code>&lt;attribute_name&gt;</code></td>
+          <td>Mixed</td>
+          <td>Filter products by any custom field.</td>
+        </tr>
+        <tr>
+          <td class="code">fields</td>
+          <td>String</td>
+          <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+        </tr>
+        <tr>
+          <td  class="code">per_page</td>
+          <td>Number</td>
+          <td>The number of products to retrieve per page</td>
+        </tr>
+        <tr>
+          <td class="code">page</td>
+          <td>Number</td>
+          <td>The page number of products to display</td>
+        </tr>
+      </tbody>
+    </table></div>
+    <h5>Example request</h5>
+<pre><code class="javascript">//Retrieves a list of products filtered and sorted by the query object
+  marketcloud.products.list(query, function(err,products){
+})</code></pre>
+<p>The query parameter is an object and you can use it to filter your products.</p>
+<pre><code class="javascript">var query = {
+    category_id : 5,
+    price_lt:50
+  }
+</code></pre>
+<p>The previous example queries the api for products that belongs to the category with id equal to 5 and that cost less than 50</p>
+
+
+<!-- ADDRESSES -->
+      <h3 class="section-title"  id="addresses">Addresses</h3>
+      <a class="anchor" id="addresses.create"></a>
+<div class="method-title">Create an address</div>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>full_name <span class="label label-success">Required</span></td>
+            <td>String</td>
+            <td>The full name of the resident</td>
+          </tr>
+          <tr>
+            <td>email <span class="label label-success">Required</span></td>
+            <td>String</td>
+            <td>A valid email address</td>
+          </tr>
+          <tr>
+            <td>country <span class="label label-success">Required</span></td>
+            <td>String</td>
+            <td>The country of the address</td>
+          </tr>
+          <tr>
+            <td>state</td>
+            <td>String</td>
+            <td>The state of the address</td>
+          </tr>
+          <tr>
+            <td>city  <span class="label label-success">Required</span></td>
+            <td>String</td>
+            <td>The city of the address</td>
+          </tr>
+          <tr>
+            <td>address1  <span class="label label-success">Required</span></td>
+            <td>String</td>
+            <td>The first address</td>
+          </tr>
+          <tr>
+            <td>address2</td>
+            <td>String</td>
+            <td>Additional address space</td>
+          </tr>
+          <tr>
+            <td>postal_code  <span class="label label-success">Required</span></td>
+            <td>String</td>
+            <td>The postal code of the address</td>
+          </tr>
+          <tr>
+            <td>phone_number</td>
+            <td>String</td>
+            <td>The phone number for the address</td>
+          </tr>
+          <tr>
+            <td>alternate_phone_number</td>
+            <td>String</td>
+            <td>An alternate phone number for the address</td>
+          </tr>
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+      <pre><code class="javascript">
+marketcloud.addresses.create(new_address,function(err,address){
+
+})
+</code></pre>
+      <a class="anchor" id="addresses.list"></a>
+<div class="method-title">List all addresses</div>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>user_id</td>
+            <td>Number</td>
+            <td>Filter addresses by the customer's id.</td>
+          </tr>
+          <tr>
+            <td class="code">fields</td>
+            <td>String</td>
+            <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+          </tr>
+          <tr>
+            <td  class="code">per_page</td>
+            <td>Number</td>
+            <td>The number of addresses to retrieve per page</td>
+          </tr>
+          <tr>
+            <td class="code">page</td>
+            <td>Number</td>
+            <td>The page number of addresses to display</td>
+          </tr>
+        </tbody>
+      </table></div>
+      <p>Retrieves a list of addresses filtered and sorted by the query object.</p>
+      <h5>Example request</h5>
+          <pre><code class="javascript">
+marketcloud.addresses.list(query,function(err){
+  // Your code here
+})
+      </code></pre>
+      <a class="anchor" id="addresses.getById"></a>
+<div class="method-title">Retrieve an address</div>
+      <p>Retrieves an address by its id.</p>
+      <h5>Example request</h5>
+        <pre><code class="javascript">
+marketcloud.addresses.getById(address_id,function(err,address){
+  // Your code here
+})
+      </code></pre>
+      <a class="anchor" id="addresses.update"></a>
+<div class="method-title">Update an address</div>
+      <p class="lead">Updates a address by id.</p>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>address_id <span class="label label-success">Required</span></td>
+            <td>Number</td>
+            <td>The univocal address identifier</td>
+          </tr>
+          <tr>
+            <td>update_data <span class="label label-success">Required</span></td>
+            <td>Object</td>
+            <td>An object containing the updates. See <a href="#addresses.create" class="link">addresses.create()</a> for more informations.</td>
+          </tr>
+          
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+      <pre><code class="javascript">
+marketcloud.addresses.update(address_id,update_data,function(err,updated_address){
+  // Your code here
+})
+
+      </code></pre>
+      <a class="anchor" id="addresses.delete"></a>
+<div class="method-title">Delete an address</div>
+      <p class="lead">Deletes a address by id.</p>
+      <h5>Example request</h5>
+      <pre><code class="javascript">
+marketcloud.addresses.delete(address_id,function(err){
+  // Your code here
+})
+      </code></pre>
+
+
+<h3 id="carts">Carts</h3>
+
+
+<a class="anchor" id="carts.create"></a>
+<div class="method-title">Create a cart</div>
+<h5>Arguments</h5>
+    <div class="table-responsive"><table class="table table-striped documentation">
+      <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>items <span class="label label-success">Required</span></td>
+          <td>Array of Objects</td>
+          <td>The list of items, in the form <code>{product_id:1,quantity:10, [variant_id:1]}</code>, added on the cart</td>
+        </tr>
+      </tbody>
+    </table></div>
+    <p>A line item is an object with the following attributes</p>
+    <div class="table-responsive"><table class="table table-striped documentation">
+      <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>product_id <span class="label label-success">Required</span></td>
+          <td>Number</td>
+          <td>The univocal product identifier</td>
+        </tr>
+        <tr>
+          <tr>
+            <td>variant_id</td>
+            <td>Number</td>
+            <td>The univocal number identifying a product's variant.</td>
+          </tr>
+          <tr>
+            <td>quantity <span class="label label-success">Required</span></td>
+            <td>Number</td>
+            <td>A <i>positive</i> number that indicates how many units of the chosen product must be added to cart.</td>
+          </tr>
+        </tbody>
+      </table></div>
+      <p>Creates a new cart with a product in it.</p>
+      <h5>Example request</h5>
+    <pre><code class="javascript">
+  //Creates a new cart for the user with given email
+  marketcloud.carts.create({
+      items:[{'product_id':111,'quantity':1}]
+  },function(err,cart){
+    
+  });
+</code></pre>
+<a class="anchor" id="carts.getById"></a>
+<div class="method-title">Retrieve a cart</div>
+      <h5>Example request</h5>
+        <pre><code class="javascript">
+marketcloud.carts.getById(cart_id,function(err,cart){
+  // Your code here
+})
+
+</code></pre>
+<a class="anchor" id="carts.add"></a>
+<div class="method-title">Add items to cart</div>
+    <pre><code class="javascript">
+  //Add products to a cart identified by its id
+  marketcloud.carts.add(cart_id,[{'product_id':5785,'quantity':2}],
+  ,function(err,cart){
+    
+  });
+</code></pre>
+<a class="anchor" id="carts.update"></a>
+<div class="method-title">Update cart contents</div>
+    <pre><code class="javascript">
+  marketcloud.carts.update(testCart.id,[
+                      {'product_id':5712,'quantity':1},
+                      {'product_id':5785,'quantity':1}
+      ],function(err,cart){
+      
+  })
+</code></pre>
+<a class="anchor" id="carts.remove"></a>
+<div class="method-title">Remove cart contents</div>
+    <pre><code class="javascript">
+  marketcloud.carts.remove(testCart.id,[
+                      {'product_id':5712},
+                      {'product_id':5785}
+      ],function(err,cart){
+          //Assuming that the cart had only 2 products,
+          //It should be empty now
+          
+      })
+</code></pre>
+
+<p>If your store works with <b>variants</b>, you need to explicitly indicate which variant you want to add/remove/update .</p>
+    <pre><code class="javascript">
+  //Adds an item to the cart
+  marketcloud.carts.add(cart_id,[{'product_id':5785,'quantity':2, 'variant_id' : 3}],
+  ,function(err,cart){
+    
+  });
+
+  //Updates an item in the cart
+  marketcloud.carts.update(cart_id,[{'product_id':5785,'quantity':1, 'variant_id' : 3}],
+  ,function(err,cart){
+    
+  });
+
+  //Remove an item from the cart
+  marketcloud.carts.remove(cart_id,[{'product_id':5785, 'variant_id' : 3}],
+  ,function(err,cart){
+    
+  });
+</code></pre>
+
+<h3 id="brands">Brands</h3>
+<p ></p>
+<a class="anchor" id="brands.getById"></a>
+<div class="method-title">Retrieve a brand</div>
+            <pre><code class="javascript">//Retrieves a brand by its id
+  marketcloud.brands.getById(brand_id, function(err,brand){
+              
+});</code></pre>
+<a class="anchor" id="brands.list"></a>
+<div class="method-title">List all brands</div>
+<p>Retrieves a list of Brands filtered and sorted by the query object.</p>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">fields</td>
+            <td>String</td>
+            <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+          </tr>
+          <tr>
+            <td  class="code">per_page</td>
+            <td>Number</td>
+            <td>The number of brands to retrieve per page</td>
+          </tr>
+          <tr>
+            <td class="code">page</td>
+            <td>Number</td>
+            <td>The page number of brands to display</td>
+          </tr>
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+<pre><code class="javascript">//Retrieves a list of Brands filtered and sorted by the query object
+  marketcloud.brands.list(query, function(err,brands){
+});</code></pre>
+<h3 id="categories">Categories</h3>
+<p ></p>
+<a class="anchor" id="categories.getById"></a>
+<div class="method-title">Retrieve a category</div>
+<pre><code class="javascript">//Retrieves a category by its id
+  marketcloud.categories.getById(category_id, function(err,category){
+              
+});</code></pre>
+<a class="anchor" id="categories.list"></a>
+<div class="method-title">List all categories</div>
+<pre><code class="javascript">//Retrieves a list of categories filtered and sorted by the query object
+  marketcloud.categories.list(query, function(err,categories){
+});</code></pre>
+
+
+
+<!--
+<h3 id="shippings">Shipping</h3>
+<div class="method-title">Retrieve a shipping rule</div>
+            <pre><code class="javascript">//Retrieves a shipping by its id
+  marketcloud.shippings.getById(871, function(err,shippings){
+              
+});</code></pre>
+<div class="method-title">List all shipping rules</div>
+            <pre><code class="javascript">//Retrieves a list of shippings filtered and sorted by the query object
+  marketcloud.shippings.list(query, function(err,shippings){
+});</code></pre>
+
+
+-->
+<h3 id="users">Users</h3>
+<a class="anchor" id="users.authenticate"></a>
+<div class="method-title">Authenticate a user</div>
+<h4>Authenticate with username and password</h4>
+<p>Authenticates a user with email and password. Under the hood, the marketcloud api tests the user credentials and if they are valid, a token is received from the API and stored in the user's browser.</p>
+<pre><code class="javascript">
+marketcloud.users.authenticate('john.snow@wall.com','IKnowNothing',
+  function(err,data){
+    //data.user contains user data
+})      
+</code></pre>
+<p>If the authentication is successful, <code>data</code> is an object:</p>
+<pre><code class="javascript">{
+  user : {
+    email : "john.doe@example.com",
+    full_name : "John Doe",
+    custom_attribute : "Some Value"
+  },
+  token : "SECRET_TOKEN"
+}
+</code> </pre>
+<h4>Authenticate with Facebook</h4>
+<p>Authenticates a user using Facebook login. Please, note that using this authentication strategy requires a couple more setup steps on the Facebook side. We have a <a href="/documentation/guides/facebook-login" class="link">dedicated guide</a> to help you get started with Facebook and Marketcloud.</p>
+<pre><code class="javascript">
+marketcloud.users.authenticateWithFacebook(user_id,access_token,
+  function(err,data){
+    //data.user contains user data
+})      
+</code></pre>
+<p>The data object is the same as in the authenticate() method.</p>
+<a class="anchor" id="users.logout"></a>
+<div class="method-title">Logout</div>
+<p>This method will log the user out, forgetting the auth token and the current cart's id</p>
+<pre><code class="javascript">
+marketcloud.users.logout(function(){
+  
+});     
+</code></pre>
+<a class="anchor" id="users.isloggedin"></a>
+<div class="method-title">Check login status</div>
+
+<p>This method will return true if there is a local auth token. False otherwise.</p>
+<pre><code class="javascript">var isLogged = marketcloud.users.isLoggedIn();
+</code></pre>
+<a class="anchor" id="users.create"></a>
+<div class="method-title">Create a user</div>
+<p>Use this method to register users to you eCommerce app.</p>
+<pre><code class="javascript">
+  //Authenticates a user given email and password
+  marketcloud.users.create({
+                    name: "John Snow",
+                    email: "john.snow@thewall.com",
+                    password : "IknowKnothing"
+              },function(err,user){
+  })      
+</code></pre>
+
+<a class="anchor" id="users.getCurrent"></a>
+<div class="method-title">Retrieve the currently authenticated user</div>
+<span class="label label-danger"><i class="fa fa-warning"></i> Authentication Required</span>
+        <pre><code class="javascript">
+//Returns complete informations about the currently authenticated user
+marketcloud.users.getCurrent(function(err,user){
+
+})      
+</code></pre>
+
+<a class="anchor" id="users.update"></a>
+<div class="method-title">Update a user</div>
+<span class="label label-danger"><i class="fa fa-warning"></i> Authentication Required</span>
+        <pre><code class="javascript">
+//Update the information about the currently authenticated user
+marketcloud.users.update({email : 'newaddress@example.com'},function(err,user){
+
+})      
+</code></pre>
+<a class="anchor" id="users.delete"></a>
+<div class="method-title">Delete a user</div>
+<span class="label label-danger"><i class="fa fa-warning"></i> Authentication Required</span>
+        <pre><code class="javascript">
+  //Delete the currently authenticated user
+  marketcloud.users.delete(function(err){
+  })      
+</code></pre>
+<h3 id="orders">Orders</h3>
+<a class="anchor" id="orders.list"></a>
+<div class="method-title">List all orders</div>
+<span class="label label-danger"><i class="fa fa-warning"></i> Authentication Required</span>
+        <pre><code class="javascript">
+//Returns orders made by the currently authenticated user
+marketcloud.orders.list(query,function(err,orders){
+
+})      
+</code></pre>
+<a class="anchor" id="orders.getById"></a>
+<div class="method-title">Retrieve an order</div>
+<span class="label label-danger"><i class="fa fa-warning"></i> Authentication Required</span>
+        <pre><code class="javascript">
+  //Returns informations about an order made by the currently authenticated user
+  marketcloud.orders.getById(id,function(err,orders){
+  });     
+</code></pre>
+<a class="anchor" id="orders.create"></a>
+<div class="method-title">Create an order</div>
+        <pre><code class="javascript">
+  //Returns informations about an order made by the currently authenticated user
+  var the_order = {
+    shipping_address : {
+      // See address for more informations
+    },
+    billing_address : {
+      // See address for more informations
+    },
+    cart_id : 0
+  }
+  // Alternatively, instead of passing a cart_id you can pass a 'items' array
+  // containing line items. See cart for more informations.
+  var the_order = {
+    shipping_address : {
+      // See address for more informations
+    },
+    billing_address : {
+      // See address for more informations
+    },
+    items : [{product_id : 1, quantiyt: 1}]
+  }
+  marketcloud.orders.create(the_order,function(err,data){
+  });     
+</code></pre>
+
+</div>
+</div>
+</div>
+</section>
+<script type="text/javascript">
+$(document).ready(function(){
+
+  $("nav>ul#api-reference-index>li>a").click(function(e){
+    e.preventDefault();
+    $(e.target).parent().toggleClass('active');
+  })
+
+  $("nav>ul#api-reference-index>li> ul > li > a").click(function(e){
+
+  $("nav>ul#api-reference-index>li> ul > li.active").toggleClass('active')
+  $(e.target).parent().toggleClass('active');
+
+  })
+})
+
+</script>
+</body>
+</html>

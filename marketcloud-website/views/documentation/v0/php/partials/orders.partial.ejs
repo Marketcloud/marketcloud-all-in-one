@@ -1,0 +1,134 @@
+<!-- orders -->
+<section class="resource">
+      <h3 class="section-title"  id="orders">Orders</h3>
+      <a class="anchor" id="orders.list"></a>
+<div class="method-title">List all orders</div>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>user_id</td>
+            <td>Number</td>
+            <td>Filter orders by the customer's id.</td>
+          </tr>
+          <tr>
+            <td class="code">fields</td>
+            <td>String</td>
+            <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+          </tr>
+          <tr>
+            <td  class="code">per_page</td>
+            <td>Number</td>
+            <td>The number of products to retrieve per page</td>
+          </tr>
+          <tr>
+            <td class="code">page</td>
+            <td>Number</td>
+            <td>The page number of products to display</td>
+          </tr>
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+        <pre><code class="php">
+Marketcloud\Orders::get($query);   
+      </code></pre>
+      <a class="anchor" id="orders.getById"></a>
+<div class="method-title">Retrieve an order</div>
+      <h5>Example request</h5>
+      <pre><code class="php">
+Marketcloud\Orders::getById($id);
+      </code></pre>
+      <a class="anchor" id="orders.create"></a>
+<div class="method-title">Create a new order</div>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>items</td>
+            <td>Array</td>
+            <td>An array of line items.This is required if the <span class="code">cart_id</span> is missing.</td>
+          </tr>
+          <tr>
+            <td>cart_id <span class="label label-success">Required</span></td>
+            <td>Number</td>
+            <td>The id of the cart that is going to be turned into an order. This is required if <span class="code">items</span> is missing</td>
+          </tr>
+          <tr>
+            <td>state</td>
+            <td>String</td>
+            <td>The state of the order. Defaults to <i>created</i></td>
+          </tr>
+          <tr>
+            <td>shipping_address_id <span class="label label-success">Required</span></td>
+            <td>Number</td>
+            <td>The id of the shipping address</td>
+          </tr>
+          <tr>
+            <td>shipping_address</td>
+            <td>Object</td>
+            <td>A shipping address object. See Address for more informations. This is required if the <span class="code">shipping_address_id</span> is missing.</td>
+          </tr>
+          <tr>
+            <td>billing_address_id <span class="label label-success">Required</span></td>
+            <td>Number</td>
+            <td>The id of the billing address</td>
+          </tr>
+          <tr>
+            <td>billing_address</td>
+            <td>Object</td>
+            <td>A sbilling address object. See Address for more informations. This is required if the <span class="code">billing_address_id</span> is missing.</td>
+          </tr>
+          <tr>
+            <td>user_id</td>
+            <td>Number</td>
+            <td>The id of the user making the order</td>
+          </tr>
+          <tr>
+            <td>store_id</td>
+            <td>Number</td>
+            <td>The id of the store receiving in the order</td>
+          </tr>
+          <tr>
+              <td>promotion_id</td>
+              <td>Number</td>
+              <td>The id of the promotion to apply.</td>
+          </tr>
+          <tr>
+              <td>coupon_code</td>
+              <td>String</td>
+              <td>The code of the coupon to apply.</td>
+          </tr>
+          <tr>
+              <td>payment_method_id</td>
+              <td>Number</td>
+              <td>The id of the custom payment method selected for the order.</td>
+          </tr>
+          <tr>
+              <td>shipping_id</td>
+              <td>Number</td>
+              <td>The id of the shipping method selected for the order.</td>
+          </tr>
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+          <pre><code class="php">
+
+$order = array(
+  "shipping_address_id" => 111,
+  "billing_address" => 111,
+  "promotion_id" => $promotion->id,
+  "shipping_id" => $shipping_method->id,
+  "items" => array(array("product_id" => 1, "quantity" => 1), array("product_id" => 2, "quantity" => 1))
+)
+Marketcloud\Orders::create(the_order)
+      </code></pre>
+
+</section>

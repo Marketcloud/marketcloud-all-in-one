@@ -1,0 +1,116 @@
+<h3 id="carts">Carts</h3>
+
+
+<a class="anchor" id="carts.create"></a>
+<div class="method-title">Create a cart</div>
+<h5>Arguments</h5>
+    <div class="table-responsive"><table class="table table-striped documentation">
+      <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>items <span class="label label-success">Required</span></td>
+          <td>Array of Objects</td>
+          <td>The list of items, in the form <code>{product_id:1,quantity:10, [variant_id:1]}</code>, added on the cart</td>
+        </tr>
+      </tbody>
+    </table></div>
+    <p>A line item is an object with the following attributes</p>
+    <div class="table-responsive"><table class="table table-striped documentation">
+      <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>product_id <span class="label label-success">Required</span></td>
+          <td>Number</td>
+          <td>The univocal product identifier</td>
+        </tr>
+        <tr>
+          <tr>
+            <td>variant_id</td>
+            <td>Number</td>
+            <td>The univocal number identifying a product's variant.</td>
+          </tr>
+          <tr>
+            <td>quantity <span class="label label-success">Required</span></td>
+            <td>Number</td>
+            <td>A <i>positive</i> number that indicates how many units of the chosen product must be added to cart.</td>
+          </tr>
+        </tbody>
+      </table></div>
+      <p>Creates a new cart with a product in it.</p>
+      <h5>Example request</h5>
+    <pre><code class="javascript">
+  //Creates a new cart for the user with given email
+  marketcloud.carts.create({
+      items:[{'product_id':111,'quantity':1}]
+  },function(err,response){
+    
+  });
+</code></pre>
+<a class="anchor" id="carts.getById"></a>
+<div class="method-title">Retrieve a cart</div>
+      <h5>Example request</h5>
+        <pre><code class="javascript">
+marketcloud.carts.getById(cart_id,function(err,response){
+  // Your code here
+})
+
+</code></pre>
+<a class="anchor" id="carts.add"></a>
+<div class="method-title">Add items to cart</div>
+    <pre><code class="javascript">
+  //Add products to a cart identified by its id
+  marketcloud.carts.add(cart_id,[{'product_id':5785,'quantity':2}],
+  ,function(err,response){
+    
+  });
+</code></pre>
+<a class="anchor" id="carts.update"></a>
+<div class="method-title">Update cart contents</div>
+    <pre><code class="javascript">
+  marketcloud.carts.update(testCart.id,[
+                      {'product_id':5712,'quantity':1},
+                      {'product_id':5785,'quantity':1}
+      ],function(err,response){
+      
+  })
+</code></pre>
+<a class="anchor" id="carts.addCoupon"></a>
+<div class="method-title">Add a coupon to the cart</div>
+    <pre><code class="javascript">
+  marketcloud.carts.addCoupon(testCart.id,"COUPON_CODE",function(err,response){
+      
+  })
+</code></pre>
+<a class="anchor" id="carts.remove"></a>
+<div class="method-title">Remove cart contents</div>
+    <pre><code class="javascript">
+  marketcloud.carts.remove(testCart.id,[
+                      {'product_id':5712},
+                      {'product_id':5785}
+      ],function(err,response){
+          //Assuming that the cart had only 2 products,
+          //It should be empty now
+          
+      })
+</code></pre>
+
+<p>If your store works with <b>variants</b>, you need to explicitly indicate which variant you want to add/remove/update .</p>
+    <pre><code class="javascript">
+  //Adds an item to the cart
+  marketcloud.carts.add(cart_id,[{'product_id':5785,'quantity':2, 'variant_id' : 3}],
+  ,function(err,response){
+    
+  });
+
+  //Updates an item in the cart
+  marketcloud.carts.update(cart_id,[{'product_id':5785,'quantity':1, 'variant_id' : 3}],
+  ,function(err,response){
+    
+  });
+
+  //Remove an item from the cart
+  marketcloud.carts.remove(cart_id,[{'product_id':5785, 'variant_id' : 3}],
+  ,function(err,response){
+    
+  });
+</code></pre>

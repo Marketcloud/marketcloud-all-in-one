@@ -1,0 +1,247 @@
+<% include ../../../header/ %>
+
+
+
+<% include ../../../navbar/ %>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github.min.css">
+<link rel="stylesheet" href="/modules/documentation/css/documentation.css" />
+<section class="inverse sub-navbar">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12">
+        <ul class="horizontal-menu nav navbar-nav">
+          <li><a href="/documentation">Documentation</a></li>
+          <li><a><i class="fa fa-angle-right"></i></a></li>
+          <li><a href="/documentation">Integrations</a></li>
+          <li><a><i class="fa fa-angle-right"></i></a></li>
+          <li><a href="#">Braintree</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="documentation-page">
+<div class="container-fluid mt20">
+  
+  <div class="row">
+    <div class="col-lg-2 col-lg-offset-2 col-xs-4">
+      <div class="text-center">
+      <img src="/img/3rdparty/braintree-logo.jpg" style="width:100%;" fallback-src="/img/user.png"/>
+      </div>
+    
+      <div class="list-group mt20">
+		  <a href="https://www.braintreepayments.com" class="list-group-item">Visit website <span class="fa fa-chevron-right pull-right"></span></a>
+		</div>
+    </div>
+    <div class="col-lg-6 col-xs-8 mb50">
+      <span class="f32 mb20">Braintree</span>
+      <div class="mb20"><span class="label label-info">Payments</span></div>
+     
+
+      <p>This integration will allow you to charge credit cards and generate client tokens directly on Marketcloud, so you don't need to spin up a server side application just to process transactions.</p>
+
+      
+      
+      <h4>Create a Marketcloud application</h4>
+      <p>This is an obvious step, but you really need to create an application first.</p>
+
+      <h4>Activate the integration</h4>
+      <p>Log into the Marketcloud dashboard, click on  <b>SETTINGS</b> > <b>Payments</b> > <b>Braintree</b> </p>
+      <p>Click the "configure" button, then check the "enable this integration" checkbox. </p>	
+      <p>Now click on the "update braintree credentials" button to show the form in which you will enter your braintree credentials.</p>
+      <div class="theme-default left-emphasis-info p10">
+        You can find your credentials by visiting Braintree official website and logging into your Braintree dashboard under <b>Account</b> > <b>My user</b> > <b>View Authorizations</b>.
+      </div>
+      <h4>Interact with the API</h4>
+    <p>Once the integration is configured, you can fire a http request to the dedicated endpoint to charge credit cards and/or PayPal accounts. Remember that you will have to include a client-side Braintree SDK in your application and use it to generate a nonce.</p>
+
+    
+    <div class="table-responsive">
+    	<table class="table">
+    		<thead>
+    			<tr>
+    				<th>Method</th>
+    				<th>Endpoint</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			<tr>
+    				<td><span class="label label-info">POST</span></td>
+    				<td><code>https://api.marketcloud.it/v0/payments</code></td>
+    			</tr>
+    		</tbody>
+    	</table>
+    </div>
+    <p>Braintree has <a href="https://developers.braintreepayments.com/start/hello-client/javascript/v2" class="link">a lot of documentation</a> about how to create a payment, in our example we will use the <a href="https://www.braintreepayments.com/en-it/products-and-features/drop-in-ui" class="link">Braintree Drop-in UI</a> which lets you easily accept Paypal and credit cards.</p> 
+
+    <p>In our example we will use JQuery, marketcloud.js and Braintree.js</p>
+    <ol>
+    	<li>Generate a Braintree client token</li>
+    	<li>Initialize the client side Braintree JS sdk using the token</li>
+    	<li>Create an order with Marketcloud</li>
+    	<li>Send payment data from the client to Braintree to obtain a nonce</li>
+    	<li>Create a payment with Braintree and Marketcloud</li>
+    </ol>
+    <p>The first thing is to include and initialize the Braintree.js library.</p>
+    <pre><code class="html">&lt;form id="checkout" method="post" action="/checkout"&gt;
+  &lt;div id="payment-form"&gt;&lt;/div&gt;
+  &lt;input type="submit" value="Pay $10"&gt;
+&lt;/form&gt;
+
+<script src="https://js.braintreegateway.com/js/braintree-2.24.1.min.js"></script>
+
+&lt;script src="https://js.braintreegateway.com/js/braintree-2.24.1.min.js"&gt;&lt;/script&gt;
+    </code></pre>
+
+    <p>Then, we need to generate a client token. Usually you would have to spin up a server side app and generate the token from there, but with Marketcloud you can just ask us for a token: </p>	
+<pre><code class="javascript">
+var BraintreeNonce = null;
+$.ajax({
+  method: "POST",
+  url: "https://api.marketcloud.it/v0/integrations/braintree/clientToken",
+  headers : {
+    "Authorization" : 'your-marketcloud-app-public-key'
+  }
+})
+.done(function( data ) {
+  // The client Token was correctly generated
+  var clientToken = data.clientToken;
+
+  // Now we can initialize the Drop-in UI
+  braintree.setup(clientToken, "dropin", {
+	  container: "payment-form",
+	  onPaymentMethodReceived: function (nonce) {
+
+      	// This callback is invoked after the payment method
+        // has been received and after braintree returned 
+      	// a nonce.
+      	// 
+      	// We need this nonce to make payments, so
+        // we store it in a variable.
+      	// 
+        BraintreeNonce = nonce;
+    }
+  });
+})
+.error(function(data){
+  // An error has occurred, nonce not created
+})</code></pre>
+<p>
+If you are using one of our SDKs you can avoid making a HTTP request manually. Refer to the <a href="/documentation" class="link">documentation</a> of the SDK of your choice to find out how to generate a client token.
+</p>
+
+<p>Here are some examples about how to save the order and create the payment:</p>
+<div class="card card-table">
+                <div class="grey">
+                <ul class="nav nav-pills nav-pills-light">
+                  <li role="presentation" class="active">
+                    <a href="#javascript" data-toggle="tab" >Javascript</a></li>
+                  <li role="presentation"><a href="#nodejs" data-toggle="tab">NodeJS</a></li>
+                  <li role="presentation"><a href="#php" data-toggle="tab">PHP</a></li>
+                </ul>
+                </div>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                  <div role="tabpanel" class="tab-pane active" id="javascript">
+                    <pre><code class="javascript">
+marketcloud.orders.create(order_data,function(error,created_order){
+
+  // The order is now created in "pending" state
+  // Remember to do a proper error handling :)
+
+  marketcloud.payments.create({
+    method : "Braintree",
+    order_id : created_order.id,
+    nonce : BraintreeNonce
+  },function(err,result){
+
+  // The payment was successful and the order was flagged as paid
+  // You can log into your Braintree's Dashboard for further details
+  // about the payment.
+
+  })
+});
+                    </code></pre>
+                  </div>
+                  <div role="tabpanel" class="tab-pane" id="php">
+                    
+                    <pre><code class="php">
+$order_data = array(
+   "shipping_address_id" => $_POST["shipping_address_id"],
+   "billing_address_id" => $_POST["billing_address_id"],
+   "cart_id" => $_SESSION["cart_id"],
+   "shipping_id" => $_POST["shipping_method_id"]
+);
+$order_response = Marketcloud\Orders::create($order_data);
+
+if ($order_response->body->status == false) {
+  // handle error in order creation
+}
+
+
+
+$payment_response = Marketcloud\BraintreePayments::create(array(
+  "order_id" => $order_response->body->data->id,
+  "nonce" => $_POST["braintree_nonce"]
+));
+
+if ($payment_response->body->status == false) {
+  // handle error in payment
+}
+
+//Return success message
+                    </code></pre>
+                  </div>
+                  <div role="tabpanel" class="tab-pane" id="nodejs">
+                    
+                    <pre><code class="javascript">
+var order_data = req.body.order;
+var BraintreeNonce = req.body.nonce;
+
+marketcloud.orders.create(order_data)
+.then(function(created_order){
+
+  // The order is now created in "pending" state
+  // Remember to do a proper error handling :)
+
+  return marketcloud.payments.create({
+    method : "Braintree",
+    order_id : created_order.id,
+    nonce : BraintreeNonce
+  });
+})
+.then(function(response){
+
+  // The payment was successful and the order was flagged as paid
+  // You can log into your Braintree's Dashboard for further details
+  // about the payment.
+
+  // e.g. render a thank you page
+  res.render("order_confirmed",{});
+
+})
+.catch(function(response){
+   //  Error handling
+});
+
+                    </code></pre>
+                  </div>
+                </div>
+                
+              </div>
+
+
+
+
+</div>
+
+
+
+    </div>
+
+  </div>
+</div>
+</section>
+<% include ../../../footer/ %>

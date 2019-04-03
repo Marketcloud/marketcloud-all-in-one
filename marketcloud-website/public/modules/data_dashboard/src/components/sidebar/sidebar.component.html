@@ -1,0 +1,91 @@
+<!-- START sidebar -->
+<div class="sidebar">
+  <a class="entry" ng-class="{'active' : currentSection === 'home'}" href="#/"><i class="fa fa-home"></i> <span>Home</span></a>
+  <div class="sidebar-title">Store</div>
+  
+  
+  <a class="entry" ng-click="toggleSubEntries('inventory')" ng-class="{'active' : subEntriesGroupShown['inventory'] === true}" ><i class="fa fa-tags"></i> <span>Inventory</span> </a>
+  <div ng-if="subEntriesGroupShown['inventory'] === true">
+    <a class="entry sub-entry" href="#/products" ng-class="{'active' : currentSection === 'products'}"><span>Products</span></a>
+    <a class="entry sub-entry" href="#/categories" ng-class="{'active' : currentSection === 'categories'}"><span>Categories</span></a>
+    <a class="entry sub-entry" href="#/brands" ng-class="{'active' : currentSection === 'brands'}"><span>Brands</span></a>
+    <a class="entry sub-entry" href="#/collections" ng-class="{'active' : currentSection === 'collections'}"><span>Collections</span></a>
+  </div>
+  <a class="entry" href="#/promotions" ng-class="{'active' : currentSection === 'promotions'}"><i class="fa fa-bullhorn"></i> <span>Promotions</span></a>
+  <a class="entry" href="#/coupons" ng-class="{'active' : currentSection === 'coupons'}"><i class="fa fa-ticket"></i> <span>Coupons</span></a>
+
+
+
+  <div class="sidebar-title">Sales</div>
+  <a class="entry" href="#/orders" ng-class="{'active' : currentSection === 'orders'}"><i class="fa fa-inbox"></i> <span>Orders</span></a>
+  
+  <a class="entry" href="#/invoices" ng-class="{'active' : currentSection === 'invoices'}"><i class="fa fa-file-o"></i> <span>Invoices</span></a>
+  
+  
+  <a class="entry" href="#/users" ng-class="{'active' : currentSection === 'users'}"><i class="fa fa-user-o"></i> <span>Customers</span></a>
+  <a class="entry" ng-class="{'active' : currentSection === 'analytics'}" href="#/analytics"><i class="fa fa-bar-chart"></i> <span>Analytics</span> <span class="label label-success">New</span></a>
+  
+  <div class="sidebar-title">Content</div>
+
+  <a class="entry" href="#/contents" ng-class="{'active' : currentSection === 'contents'}"><i class="fa fa-newspaper-o"></i> <span>Contents</span></a>
+
+  
+  
+  
+  <a class="entry" href="#/media" ng-class="{'active' : currentSection === 'media'}"><i class="fa fa-picture-o"></i> <span>Files</span></a>
+  
+  <div class="sidebar-title">Settings</div>
+  <a class="entry" ng-click="toggleSubEntries('system')" ng-class="{'active' : subEntriesGroupShown['system'] === true}" ><i class="fa fa-cog"></i> <span>System</span></a>
+  <div ng-if="subEntriesGroupShown['system'] === true">
+    <a class="entry sub-entry" href="#/system/settings" ng-class="{'active' : currentSubsection === 'settings'}"><span>Settings</span></a>
+    <a class="entry sub-entry" href="#/system/payments" ng-class="{'active' : currentSubsection === 'payments'}"><span>Payments</span></a>
+    <a class="entry sub-entry" href="#/system/localization" ng-class="{'active' : currentSubsection === 'localization'}"><span>Localization</span></a>
+    <a class="entry sub-entry" href="#/system/shippings" ng-class="{'active' : currentSubsection === 'shippings'}"><span>Shippings</span></a>
+    <a class="entry sub-entry" href="#/system/taxes" ng-class="{'active' : currentSubsection === 'taxes'}"><span>Taxes</span></a>
+    <a class="entry sub-entry" href="#/notifications" ng-class="{'active' : currentSubsection === 'notifications'}"><span>Notifications</span></a>
+    <a class="entry sub-entry" href="#/variables" ng-class="{'active' : currentSection === 'variables'}"><span>Variables</span></a>
+  </div>
+  
+  <div class="sidebar-footer">
+    <div class="row">
+      <div class="col-xs-6">
+        <a class="sidebar-footer-action f18 pl10" target="_blank" href="/documentation/guides/backoffice">
+          <i class="fa fa-question-circle"></i>
+        </a>
+      </div>
+      <div class="col-xs-6 text-right">
+        <a class="sidebar-footer-action" ng-click="toggleSidebar()" >
+          <i class="fa fa-2x"
+          ng-class="{'fa-angle-right' : false === sidebarIsExpanded,'fa-angle-left' : true === sidebarIsExpanded }"></i>
+        </a>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!-- END sidebar-->
+
+<!-- Storm Configuration modal -->
+<div class="modal fade" id="storm-configuration-modal">
+  <div class="modal-dialog" role="document" >
+    <div class="modal-content">
+      <div class="modal-header">Dashboard settings</div>
+      <div class="modal-body">
+        <div class="form">
+          <div class="form-group">
+            <label>Theme</label>
+            <select class="form-control" ng-model="StormConfiguration.theme">
+              <option value="light">Light theme</option>
+              <option value="blue">Blue theme</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-empty-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-info" ng-click="saveStormConfiguration()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END OF Storm Configuration MODAL  -->

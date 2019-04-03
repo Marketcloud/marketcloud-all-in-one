@@ -1,0 +1,67 @@
+<h2>Notifications</h2>
+<p>This endpoint allows you to programmatically send notifications that have already been created from your store's dashboard.</p>
+<div class="documentation mb50 mt50">
+  <h4>Table of contents</h4>
+  <ol>
+    <li><a href="#notifications.types">Available notifications</a></li>
+    <li><a href="#notifications.send">Send a notification</a></li>
+  </ol>
+</div>
+
+<a  class="anchor" id="notifications.types"></a>
+<div class="documentation">
+  <h5>Available notifications</h5>
+  <p>The list of available notification triggers is :</p>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Trigger event</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>users.create</code></td>
+          <td>Triggered whenever a user is created</td>
+        </tr>
+        <tr>
+          <td><code>users.recoverPassword</code></td>
+          <td>Triggered whenever a user requests a password reset</td>
+        </tr>
+        <tr>
+          <td><code>orders.create</code></td>
+          <td>Triggered whenever an order is created</td>
+        </tr>
+        <tr>
+          <td><code>orders.update.processing</code></td>
+          <td>Triggered whenever an order is paid</td>
+        </tr>
+        <tr>
+          <td><code>orders.completed</code></td>
+          <td>Triggered whenever an order is closed and shipped</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- notifications CREATE -->
+
+<a  class="anchor" id="notifications.send"></a>
+<div class="documentation">
+  
+  <h3>POST /notifications/:event_type/:resource_id</h3>
+  <p >Sends a notification of type <code>event_type</code> relative to the resource <code>resource_id</code></p>
+  <blockquote class="blockquote-info">
+    <b>Note:</b><br>
+  Please remember that a notification must be activated before you can send it through api. You can activate notifications from the dashboard.</blockquote>
+<pre><code class="http">POST https://api.marketcloud.it/v0/notifications/:event_type/:resource_id</code></pre>
+
+<h5>Example Request</h5>
+<p>Send a "users.create" notification for user 1010</p>
+<pre><code class="http">POST https://api.marketcloud.it/v0/notifications/users.create/1010</code></pre>
+<h5>Example Response</h5>
+<pre><code class="json">{ "status":true }</code></pre>
+</div>
+<!-- / notifications CREATE -->
+<!-- notifications LIST -->

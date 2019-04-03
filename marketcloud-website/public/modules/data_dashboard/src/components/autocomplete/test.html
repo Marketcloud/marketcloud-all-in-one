@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Autocomplete Component</title>
+	<link rel="stylesheet" type="text/css" href="/components/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/modules/data_dashboard/dist/app.bundle.css">
+</head>
+<body ng-app="TestAutocomplete" ng-controller="MainCtrl">
+
+<div class="container" style="padding-top: 100px;">
+	<div class="row">
+		<div class="col-xs-12 col-lg-4 col-lg-offset-4 text-center">
+			<img src="https://avatars2.githubusercontent.com/u/139426?v=3&s=200">
+			<h3>AngularJS Autocomplete</h3>
+			<autocomplete items="countries" label="name" value="name" />
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="../../../../../components/angular/angular.min.js"></script>
+<script type="text/javascript">
+	var app = angular.module('TestAutocomplete',[])
+	app.controller('autocompleteController', [
+	'$scope', '$element', '$attrs',
+	function(scope, $element, $attrs) {
+
+		scope.ctrl = this;
+
+
+		scope.showTheList = false;
+
+	
+		var initialList = angular.copy(scope.ctrl.items);
+
+
+		scope.query = '';
+
+		
+
+		scope.filter = function(){
+			
+			scope.ctrl.items = initialList
+			.filter(function(i){
+				return i[scope.ctrl.value].toLowerCase().indexOf(scope.query.toLowerCase()) > -1;
+			})
+		}
+
+		
+		scope.showList = function() {
+			scope.showTheList = true;
+		};
+		scope.hideList = function() {
+			window.setTimeout(function() {
+				scope.showTheList = false;
+				scope.$apply();
+			}, 200);
+
+		};
+		scope.selectItem = function(item) {
+			if (scope.ctrl.value)
+				scope.query = item[scope.ctrl.value];
+			else
+				scope.query = item;
+		};
+
+
+	}
+]);
+app
+	.component('autocomplete', {
+		templateUrl: '/modules/data_dashboard/src/components/autocomplete/autocomplete.component.html',
+		controller: 'autocompleteController',
+		bindings: {
+			items: '=',
+			config: '=',
+			overrides: '=', //overrides to the query
+			title: '@',
+			onUpdate: '&',
+			label:'@', // The property to use as a label,
+			value:'@', // The property to use as a value,
+		}
+	});
+
+	app.controller('MainCtrl',function($scope){
+		$scope.countries = [
+		{name : "Italy", code:'IT'},
+		{name : "Austria", code:'AT'},
+		{name : "Australia", code:'AU'},
+		{name : "United States", code:'US'},
+		{name : "United Kingdom", code:'UK'}
+		]
+	})
+</script>
+</body>
+
+</html>

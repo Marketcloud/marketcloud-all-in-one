@@ -1,0 +1,17 @@
+<div class="table-responsive" ng-show="ctrl.data.length > 0">
+					<table class="table">
+						<thead>
+							<tr>
+								<th ng-repeat="column in columns">{{column}}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="item in ctrl.data track by $index">
+								<td ng-repeat="column in columns">
+									{{item[column]}}
+								</td>
+								
+							</tr>
+						</tbody>
+					</table>
+				</div>

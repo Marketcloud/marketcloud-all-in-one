@@ -1,0 +1,206 @@
+<% include admin_header %>
+<body ng-app="AdminDashboard">
+	<% if('undefined' !== typeof miniprofiler) { %>
+	<%- miniprofiler.include() %>
+	<% } %>
+	
+	<style type="text/css">
+		.navbar-default .navbar-nav>li>a {
+		color: #3498db;
+	}
+		.navbar-default {
+			background-color: white !important;
+			border-bottom: 1px solid #ddd;
+		}
+		.tab-content>.active {
+			border:0px;
+		}
+		.tab-pane {
+			margin-top:20px;
+		}
+	</style>
+	<div ng-controller="NavigationController">
+		
+		<!-- SPASHSCREEN -->
+		<div id="splashscreen" ng-show="true">
+			<div class="text-center center">
+				<img src="https://marketcloud.azureedge.net/website-v2/logo.png" style=" max-height:64px; margin-bottom:20px;">
+				<loading></loading>
+			</div>
+		</div>
+		<!-- Desktop Sidebar -->
+		
+	</div>
+
+	<div id="page-wrapper" style="margin-left:0px;">
+		<div id="JSONListOfApplications" style="display:none">
+			<%= JSON.stringify(applications) %>
+		</div>
+		<div id="JSONListOfApplicationsCollaborating" style="display:none">
+			<%= JSON.stringify(collaborator_applications) %>
+		</div>
+		<div id="JSONUserData" style="display:none">
+			<%= JSON.stringify(user) %>
+		</div>
+		<div class="dashboard-navbar" style="margin-bottom: 0px;border-bottom: 1px solid #DDD">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-4 col-md-4 col-xs-6">
+						
+						<a href="/"><img src="https://marketcloud.azureedge.net/website-v2/logo-text-right-small-v2.png" style="max-height: 32px"></a>
+						
+					</div>
+					<div class="col-lg-4 col-md-4 text-center has-feedback hidden-xs hidden-sm">
+						
+					</div>
+					<div class="col-lg-4 col-md-4 col-xs-6 text-right">
+						
+						<ul class="horizontal-menu">
+							
+							
+							<li class="pull-right">
+								<div class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
+									
+									<img ng-src="{{'<%= user.image_url %>' || '/img/user.png'}}" fallback-src="/img/user.png" style="max-width: 32px;border-radius: 2px;" class="avatarImage">
+									<i class="fa fa-angle-down"></i>
+								</a>
+								<ul class="dropdown-menu pull-right">
+									<li>
+										<div class="text-center p10">
+											<img src="<%= user.image_url %>" style="max-width: 48px;border-radius: 48px;">
+											<div class="f12 text-muted"><%= user.email %></div>
+										</div>
+									</li>
+									<li role="separator" class="divider"></li>
+									<li><a href="/applications#/">Applications</a></li>
+									<li role="separator" class="divider"></li>
+									<li><a href="/account">Account settings</a></li>
+									<li role="separator" class="divider"></li>
+									<li><a href="/account/logout">Signout</a></li>
+								</ul>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div ng-controller="NavigationController" ng-cloak>
+			<div class="dashboard-navbar" style="margin:0px;border-bottom:1px solid #CCC;" ng-show="true === showNavigation">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="applications-breadcrumb">
+								<a class="root" href="#/">
+									<span class="fa fa-th"></span> Applications</a> 
+									<span class="fa fa-angle-right"></span> 
+								<span class="application-name">{{application.name}}</span>
+								<span class="fa fa-angle-right"></span> 
+								<span class="application-name">{{currentSection}}</span>
+							</div>
+							<a class="btn btn-info pull-right hidden-xs" href="/applications/{{application.id}}/dashboard">Backoffice</a>
+						</div>
+						
+						
+					</div>
+				</div>
+				
+				
+			</div>
+			<div class="dashboard-navbar"
+				style="" ng-cloak=""
+				ng-show="true === showNavigation">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-xs-12">
+							<ul class="nav nav-pills hidden-sm hidden-xs">
+								<li  ng-class="{'active' : 'overview' === currentSection}">
+									<a href="#/applications/{{application.id}}/overview">Overview</a>
+								</li>
+								<li  ng-class="{'active' : 'integrations' === currentSection}">
+									<a href="#/applications/{{application.id}}/integrations">Integrations</a>
+								</li>
+								<li  ng-class="{'active' : 'webhooks' === currentSection}">
+									<a href="#/applications/{{application.id}}/webhooks">Webhooks</a>
+								</li>
+								<li  ng-class="{'active' : 'collaborators' === currentSection}">
+									<a href="#/applications/{{application.id}}/collaborators">Collaborators</a>
+								</li>
+								<li  ng-class="{'active' : 'acl' === currentSection}">
+												<a href="#/applications/{{application.id}}/acl">Roles</a>
+								</li>
+								<li ng-class="{'active' : 'deploy' === currentSection}">
+									<a href="#/applications/{{application.id}}/deploy">Deploy</a>
+								</li>
+								<li  ng-class="{'active' : 'settings' === currentSection}">
+									<a href="#/applications/{{application.id}}/settings">Settings</a>
+								</li>
+								<!--<li  ng-class="{'active' : 'billing' === currentSection}">
+									<a href="#/applications/{{application.id}}/billing">Billing</a>
+								</li>-->
+							</ul>
+							<ul class="nav nav-pills hidden-md hidden-lg" style="margin-left: -15px">
+								<li  ng-class="{'active' : 'overview' === currentSection}">
+									<a href="#/applications/{{application.id}}/overview">
+										<i class="fa fa-dashboard"></i>
+									</a>
+								</li>
+								<li  ng-class="{'active' : 'integrations' === currentSection}">
+									<a href="#/applications/{{application.id}}/integrations">
+										<i class="fa fa-puzzle-piece"></i>
+									</a>
+								</li>
+								<li  ng-class="{'active' : 'webhooks' === currentSection}">
+									<a href="#/applications/{{application.id}}/webhooks">
+										<i class="fa fa-exchange"></i>
+									</a>
+								</li>
+								<li  ng-class="{'active' : 'collaborators' === currentSection}">
+									<a href="#/applications/{{application.id}}/collaborators">
+										<i class="fa fa-users"></i>
+									</a>
+								</li>
+								<li  ng-class="{'active' : 'acl' === currentSection}">
+												<a href="#/applications/{{application.id}}/acl"><i class="fa fa-lock"></i></a>
+								</li>
+								<li ng-class="{'active' : 'deploy' === currentSection}">
+									<a href="#/applications/{{application.id}}/deploy">
+										<i class="fa fa-cloud-upload"></i>
+									</a>
+								</li>
+								<li  ng-class="{'active' : 'settings' === currentSection}">
+									<a href="#/applications/{{application.id}}/settings">
+										<i class="fa fa-sliders"></i>
+									</a>
+								</li>
+								<!-- <li  ng-class="{'active' : 'billing' === currentSection}">
+									<a href="#/applications/{{application.id}}/billing">
+										<i class="fa fa-credit-card"></i>
+									</a>
+								</li> -->
+							</ul>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			<div class="container-fluid hidden-sm hidden-md hidden-lg" ng-show="true === showNavigation">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="text-right">
+							<a class="btn btn-info" href="/applications/{{application.id}}/dashboard">Dashboard</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div>
+			<ng-view></ng-view>
+		</div>
+
+
+		<% include admin_footer %>

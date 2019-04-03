@@ -1,0 +1,141 @@
+<% include ../../../header/ %>
+<% include ../../../navbar %>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github.min.css">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" href="/modules/documentation/css/documentation.css" />
+<section class="mt100" style="padding-top:100px;padding-bottom:200px">
+  <div class="container-fluid">
+    
+    <a name="introduction"></a>
+    <div class="row">
+      <div class="col-lg-3 col-md-3">
+      <% include ./index.partial.ejs %>
+      </div>
+      <div class="col-lg-6 col-lg-offset-0 col-md-9 col-md-offset-0 col-sm-9 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+        
+
+            <div class="row">
+
+          
+						<ol class="breadcrumb mt20">
+						  <li><a href="/documentation">Index</a></li>
+						  <li><a href="/documentation/rest-api">REST api</a></li>
+						  <li class="active">Currencies</li>
+						</ol>
+						<h2>Currencies</h2>
+
+
+<div class="row">
+
+							<div class="col-xs-12">
+								<h4>Model description</h4>
+								<div class="table-responsive"><table class="table table-striped documentation">
+									<thead>
+										<tr>
+											<th>Attribute</th>
+											<th>Type</th>
+											<th>Description</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="code">symbol</td>
+											<td>String</td>
+											<td>The currency symbol</td>
+										</tr>
+										<tr>
+											<td class="code">name</td>
+											<td>String</td>
+											<td>The currency name</td>
+										</tr>
+										<tr>
+											<td class="code">code</td>
+											<td>String</td>
+											<td>The currency code (e.g. EUR or USD)</td>
+										</tr>
+										<tr>
+											<td class="code">name_plural</td>
+											<td>String</td>
+											<td>The plural version of the currency name</td>
+										</tr>
+										<tr>
+											<td class="code">decimal_digits</td>
+											<td>Number</td>
+											<td>The number of decimal digits used</td>
+										</tr>
+									</tbody>
+								</table></div>
+							</div>
+						</div>
+
+				
+
+<!-- CURRENCY LIST -->
+						<div class="documentation">
+						<h3>GET /currencies</h3>
+						<p class="lead">Retrieves a paginated response of a list of currencies supported by Marketcloud</p>
+						<pre><code class="http">GET http://api.marketcloud.it/v0/currencies</code></pre>
+						<h5>Request parameters</h5>
+						<table class="table table-striped documentation">
+									<thead>
+										<tr>
+										<th>Field</th>
+										<th>Type</th>
+										<th>Description</th>
+										</tr>
+									</thead>
+									<tbody>
+								<tr>
+									<td class="code">fields</td>
+									<td>String</td>
+									<td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+								</tr>
+								<tr>
+									<td  class="code">skip</td>
+									<td>Number</td>
+									<td>How many resources to be skipped</td>
+								</tr>
+								<tr>
+									<td class="code">limit</td>
+									<td>Number</td>
+									<td>How many resource to be fetched</td>
+								</tr>
+
+							</tbody>
+								</table></div>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/carts/update.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+						<pre><code class="javascript">
+{
+	status:true,
+	data: [
+			{
+				"symbol": "€",
+				"name": "Euro",
+				"symbol_native": "€",
+				"decimal_digits": 2,
+				"rounding": 0,
+				"code": "EUR",
+				"name_plural": "euros"
+			}
+			...
+	]
+}</code></pre>							
+
+						</div>
+<!-- / CURRENCY LIST -->						
+
+
+       
+        </div>
+      </div>
+</div>
+</div>
+</section>
+
+</body>
+</html>

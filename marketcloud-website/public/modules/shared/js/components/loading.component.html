@@ -1,0 +1,17 @@
+<style type="text/css">
+.loading .dot {
+  background-color:#CCC;
+  width:8px;
+  height:8px;
+  border-radius:24px;
+  display: inline-block;
+}
+.dot.active {
+  background-color:#999;
+}
+</style>
+<div class="loading">
+    <div class="dot" ng-class="{'active' : 1 === counter}"></div>
+    <div class="dot" ng-class="{'active' : 2 === counter}"></div>
+    <div class="dot" ng-class="{'active' : 3 === counter}"></div>
+</div>

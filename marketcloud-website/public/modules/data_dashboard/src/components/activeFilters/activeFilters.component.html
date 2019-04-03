@@ -1,0 +1,189 @@
+<div class="activeFiltersComponent">
+  <style type="text/css">
+  
+  </style>
+  <a class="label label-info label-rounded pull-left filterLabel raised"
+    data-toggle="modal"
+    data-target="#singleFilterModal">
+    <i class="fa fa-filter"></i> Add a filter
+  </a>
+  <span class="label label-default label-rounded pull-left filterLabel"
+    ng-repeat="_filter in filters | filter:filterIsNotEmpty track by $index "
+  ng-click="removeFilter($index)">{{_filter.name}} : {{humanReadableFilterValue(_filter)}} <i class="fa fa-close"></i></span>
+  <div class="modal fade" tabindex="-1" role="dialog" id="filtersModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Filters</h4>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Property name</th>
+              <th>Value</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="filter in filters track by $index">
+              <td>
+                <select ng-options="property for property in filterAttributes"
+                  class="form-control"
+                  ng-model="filter.name"></select>
+              </td>
+              <td >
+                <!-- SPECIAL FILTERS SECTION -->
+                <!-- PRODUCT TYPE FILTER -->
+                <select
+                  ng-model="filter.value"
+                  class="form-control  solid"
+                  ng-if="'productTypeSelector' === getControlForFilter(filter)"
+                  ng-options="o.value as o.label for o in [{label : 'Simple product', value : 'simple_product'},{label : 'Product with variants', value : 'product_with_variants'}]"
+                ></select>
+                <!-- END OF PRODUCT TYPE FILTER -->
+                <!-- CATEGORY FILTER -->
+                <categories-selector
+                ng-if="'categorySelectorInput' === getControlForFilter(filter)"
+                enable-create-category="false"
+                category="filter.value"></categories-selector>
+                <!-- END OF CATEGORY FILTER -->
+                <!-- CATEGORY FILTER -->
+                <brands-selector
+                ng-if="'brandSelectorInput' === getControlForFilter(filter)"
+                enable-create-brand="false"
+                brand="filter.value"></brands-selector>
+                <!-- END OF CATEGORY FILTER -->
+                <!-- END OF SPECIAL FILTERS SECTION -->
+                <!-- STRING FILTERS -->
+                <input type="text"
+                class="form-control  solid"
+                placeholder="any text value"
+                ng-model="filter.value"
+                ng-if="'textInput' === getControlForFilter(filter)"/>
+                <!-- END OF STRING FILTERS -->
+                <!-- NUMERIC FILTERS -->
+                <input type="number"
+                class="form-control solid"
+                placeholder="any numeric value"
+                ng-model="filter.value"
+                ng-if="'numberInput' === getControlForFilter(filter)"/>
+                <!-- END OF NUMERIC FILTERS -->
+                
+                <!-- BOOLEAN FILTERS -->
+                <select
+                  ng-model="filter.value"
+                  class="form-control  solid"
+                  ng-if="'booleanInput' === getControlForFilter(filter)"
+                  ng-options="(item?'True':'False') for item in [true, false]"
+                ></select>
+                <!-- END BOOLEAN FILTERS -->
+                <!-- ELSE FILTERS -->
+                <input type="text"
+                class="form-control  solid"
+                placeholder="Select a property to filter"
+                ng-disabled="true"
+                ng-if="'disabledInput' === getControlForFilter(filter)"/>
+                <!-- END OF STRING FILTERS -->
+              </td>
+              <td><button class="btn btn-sm btn-default" ng-click="removeFilter($index,false)"> <i class="fa fa-trash-o"></i> </button></td>
+            </tr>
+            <tr>
+              <td colspan="3"><button class="btn btn-info btn-sm" ng-click="addFilter()"><i class="fa fa-plus"></i> Add filter</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="modal-footer">
+          <!-- <div class="checkbox pull-left">
+            <label>
+              <input type="checkbox" name="persistFilters" ng-model="persistFilters"> Remember these filters
+            </label>
+          </div> -->
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-info" ng-click="applyFilters()">Apply filters</button>
+        </div>
+        </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="singleFilterModal">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">New filter</h4>
+              </div>
+              <div class="container-fluid">
+                <div class="row">
+                  {{scope.newFilter}}
+                  <div class="form-group col-xs-6">
+                    <label>Property</label>
+                    <select ng-options="property for property in filterAttributes"
+                      class="form-control"
+                    ng-model="newFilter.name"></select>
+                  </div>
+                  <div class="form-group col-xs-6">
+                    <label>Value</label>
+                    <!-- SPECIAL FILTERS SECTION -->
+                    <!-- PRODUCT TYPE FILTER -->
+                    <select
+                      ng-model="newFilter.value"
+                      class="form-control  solid"
+                      ng-if="'productTypeSelector' === getControlForFilter(newFilter)"
+                      ng-options="o.value as o.label for o in [{label : 'Simple product', value : 'simple_product'},{label : 'Product with variants', value : 'product_with_variants'}]"
+                    ></select>
+                    <!-- END OF PRODUCT TYPE FILTER -->
+                    <!-- CATEGORY FILTER -->
+                    <categories-selector
+                    ng-if="'categorySelectorInput' === getControlForFilter(newFilter)"
+                    enable-create-category="false"
+                    category="newFilter.value"></categories-selector>
+                    <!-- END OF CATEGORY FILTER -->
+                    <!-- CATEGORY FILTER -->
+                    <brands-selector
+                    ng-if="'brandSelectorInput' === getControlForFilter(newFilter)"
+                    enable-create-brand="false"
+                    brand="newFilter.value"></brands-selector>
+                    <!-- END OF CATEGORY FILTER -->
+                    <!-- END OF SPECIAL FILTERS SECTION -->
+                    <!-- STRING FILTERS -->
+                    <input type="text"
+                    class="form-control  solid"
+                    placeholder="any text value"
+                    ng-model="newFilter.value"
+                    ng-if="'textInput' === getControlForFilter(newFilter)"/>
+                    <!-- END OF STRING FILTERS -->
+                    <!-- NUMERIC FILTERS -->
+                    <input type="number"
+                    class="form-control solid"
+                    placeholder="any numeric value"
+                    ng-model="newFilter.value"
+                    ng-if="'numberInput' === getControlForFilter(newFilter)"/>
+                    <!-- END OF NUMERIC FILTERS -->
+                    
+                    <!-- BOOLEAN FILTERS -->
+                    <select
+                      ng-model="newFilter.value"
+                      class="form-control  solid"
+                      ng-if="'booleanInput' === getControlForFilter(newFilter)"
+                      ng-options="(item?'True':'False') for item in [true, false]"
+                    ></select>
+                    <!-- END BOOLEAN FILTERS -->
+                    <!-- ELSE FILTERS -->
+                    <input type="text"
+                    class="form-control  solid"
+                    placeholder="Select a property to filter"
+                    ng-disabled="true"
+                    ng-if="'disabledInput' === getControlForFilter(newFilter)"/>
+                    <!-- END OF STRING FILTERS -->
+                  </div>
+                </div>
+              </div>
+              
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-info" ng-click="saveNewFilterAndApply()">Save filter</button>
+              </div>
+              </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
+            </div>

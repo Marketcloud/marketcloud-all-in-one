@@ -1,0 +1,153 @@
+/*list of all the posts*/
+
+.excerpt {
+	display: block;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	font-size: 100%;
+	vertical-align: baseline;
+	margin-bottom: 40px;
+	padding-left: 100px;
+	position: relative;
+}
+.excerpt .profile {
+	position: absolute;
+	left: 0;
+	z-index: 1;
+}
+.profile {
+	margin-bottom: 50px;
+	}
+.excerpt ~ figure {
+	display: block;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	font-size: 100%;
+	vertical-align: baseline;
+}
+.profile .profile-picture.profile-picture-small {
+	height: 70px;
+	width: 70px;
+}
+.profile .profile-picture {
+	border-radius: 200px;
+	height: 100px;
+	width: 100px;
+	margin: 0 auto 10px auto;
+	display: block;
+	position: relative;
+	overflow: hidden;
+}
+.excerpt a {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	font-size: 100%;
+	vertical-align: baseline;
+}
+.figcaption{
+	display: block;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	font-size: 100%;
+	vertical-align: baseline;
+}
+.excerpt img{
+	width: 70px;
+}
+.excerpt p{
+	margin-left: 10px;
+}
+.excerpt h2{
+	margin-left: 10px;
+}
+.logo_blog {
+	max-width:100px;
+	border-radius: 50%;
+}
+
+/*single article*/
+.profile {
+	margin-bottom: 50px;
+}
+figure{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	font-size: 100%;
+	vertical-align: baseline;
+}
+.profile .profile-picture {
+	border-radius: 200px;
+	height: 100px;
+	width: 100px;
+	margin: 0 auto 10px auto;
+	display: block;
+	position: relative;
+	overflow: hidden;
+}
+.profile .profile-picture img {
+	display: block;
+	max-height: 100%;
+	max-width: none;
+	
+}
+.blog-post img {
+	border-radius: 5px;
+}
+figcaption {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	font-size: 100%;
+	vertical-align: baseline;
+}
+.profile figcaption {
+	text-align: center;
+}
+.profile figcaption a {
+	color: #292d33;
+}
+.profile figcaption strong, .profile figcaption em {
+	display: block;
+	margin-bottom: 10px;
+}
+.blog-post>p:first-of-type {
+	font-size: 22px;
+	line-height: 32px;
+}
+
+.spread-social-header {
+	text-align: center;
+	margin-top: 45px;
+	margin-bottom: 20px;
+}
+ul.social {
+	text-align: center;
+	padding: 5px 0;
+	list-style: none;
+}
+ul.social li {
+	display: inline;
+	margin: 0 5px;
+	line-height: 22px;
+	font-size: 26px;
+}
+
+@media(max-width: 1000px){
+	figure{
+		display: none;
+	}
+	.excerpt{
+		padding-left:0px;
+	}
+}

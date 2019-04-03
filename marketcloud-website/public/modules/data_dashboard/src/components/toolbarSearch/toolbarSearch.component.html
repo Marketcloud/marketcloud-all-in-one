@@ -1,0 +1,19 @@
+<div class="toolbarSearch has-feedback">
+  <style type="text/css">
+    .toolbarSearch i.fa {
+      left:0px;right:0px;
+    }
+    .toolbarSearch__input {
+      border:0px;
+      padding-left: 30px;
+    }
+  </style>
+  <input type="text"
+  class="form-control toolbarSearch__input"
+  placeholder="Search here..."
+  ng-model="searchWord"
+  ng-model-options='{ debounce: 500 }'
+  focus-on-show
+  ng-change="onQueryChange()">
+  <i class="fa fa-search form-control-feedback text-muted" style=""></i>
+</div>

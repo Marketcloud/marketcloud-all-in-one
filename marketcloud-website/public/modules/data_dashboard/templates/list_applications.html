@@ -1,0 +1,23 @@
+<style type="text/css">
+  .application-container .title {
+    font-size: 18px;
+     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
+
+<div class="container-fluid" id="home-container" style="padding-top: 50px;">
+  <div class="row mb20" ng-show="applications.length > 0">
+    <div class="col-xs-12">
+      Your stores
+    </div>
+  </div>
+  <div class="row">
+    
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb20" ng-repeat="app in applications">
+      
+    <application application-data="app"></application>
+  </div>
+</div>
+</div>

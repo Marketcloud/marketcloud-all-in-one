@@ -1,0 +1,36 @@
+<h1>Setting up taxes</h1>
+
+        <p>Setting up taxes and tax rates is one of the first tasks you want to perform when setting up a store.</p>
+
+        
+        <blockquote class="blockquote-warning"><b>Warning</b><br/>Taxes can be a complex matter, we suggest to get help from a tax professional or a consultant to get the exact setup.</blockquote>
+        <h4 class="mt50">Table of contents</h4>
+        <ol>
+          <li><a class="link" href="#enableTaxes">Enable taxes</a></li>
+          <li><a class="link" href="#addTaxes">Add your rates</a></li>
+        </ol>
+        <a class="anchor" id="enableTaxes"></a>
+        <h4 class="mt50">Enable taxes in your store</h4>
+        <p>Open your app's dashboard then go to <b>System</b> > <b>Settings</b>. In this view, look for the <b>Taxes</b> section.</p>
+        <img src="https://marketcloud.azureedge.net/images/system_settings.png" class="img-responsive mb20">
+        <p>Here you can chose to tax only products, products and shippings or to tax nothing. When you choose to tax products and or shipping, you can setup a base tax rate. This base tax rate will be applied if your products to not specify a tax_id linked to a tax band (or tax class). We will see how to setup a tax band ind this document.</p>
+        <p>You can also choose if discounts should be applied before taxes, in this case tax fees will take in account eventual coupons and promotions applied to the order when computing the tax total.</p>
+
+        <a class="anchor" id="addTaxes"></a>
+        <h4 class="mt50">Add tax bands</h4>
+        <p>Now it's time to create tax bands for our products. We can do that in <b>System</b> > <b>Taxes</b>.</p>
+        <img src="https://marketcloud.azureedge.net/images/createatax.png" class="img-responsive mb20">
+        <p>A tax band is simply a group of rates you can apply to a group of products. For example we can add a group of tax rates for Standard VAT rates and another group for Reduced VAT rates.</p>
+        <p>For each group we can set the group name, and then on the lower block we can add a rate for each country we want to add.</p>
+        <img src="https://marketcloud.azureedge.net/images/createatax2.png" class="img-responsive mb20"> 
+        <p>Each rate will be applied to a product if the product being bought has been assigned to this tax group</p>
+       <blockquote class="blockquote-info">
+           <b>Note</b><br>
+           <p>During checkout, if a product is not assigned to any tax band, the system will apply the base tax rate (as described above)</p>
+       </blockquote>
+
+       <a class="anchor" id="assignTaxesToProducts"></a>
+        <h4 class="mt50">Assign tax bands to products</h4>
+        <p>Now that we created our first tax band, we can add it to our products. Go to <b>Inventory</b> > <b>Products</b> and click on the name of one of your products. </p>
+        <p>In the Edit product view, we can assign the new tax band to the product:</p>
+        <img src="https://marketcloud.azureedge.net/images/createatax3.png" class="img-responsive mb20"> 

@@ -1,0 +1,375 @@
+<div class="dashboard-section-header"><a href="#/products" class="link root">Products</a> / {{product.name}}
+<div class="btn-group pull-right">
+	<button type="button" class="btn btn-info btn-sm" ng-click="updateProduct()">Save</button>
+	<button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	<span class="caret"></span>
+	<span class="sr-only">Toggle Dropdown</span>
+	</button>
+	<ul class="dropdown-menu">
+		<li><a ng-click="UpdateProduct()">Save</a></li>
+		<li><a href="#/products/{{product.id}}/translations">Edit translations</a></li>
+	</ul>
+</div>
+<back-button></back-button>
+</div>
+<div class="container-fluid">
+<div class="row">
+	<div class="col-xs-12 col-lg-8">
+		
+		<div class="card mb50">
+			<div class="card-header"><h4>Basic information</h4></div>
+			<div class="form-group" ng-class="{'has-error' : errorField === 'name'}">
+				<label>Name*</label>
+				<input type="text"
+				class="form-control input-lg solid"
+				placeholder="e.g. Lightsaber"
+				ng-change="updateSlug()"
+				ng-model="product.name" />
+			</div>
+			<div class="checkbox">
+				<input type="checkbox" ng-model="unsafeSlug" id="unsafeSlug" />
+				<label for="unsafeSlug">
+					Editable slug
+				</label>
+			</div>
+			<div class="form-group">
+				<label>Slug</label>
+				<input type="text"
+				class="form-control input-lg solid"
+				ng-disabled="false === unsafeSlug"
+				ng-model="product.slug" />
+			</div>
+			
+			
+			<div class="row">
+				<div class="form-group col-xs-12">
+					<label>Description</label>
+					<div trumbowyg-ng
+						ng-model="product.description"
+						editor-config="{btns:[['viewHTML'],['formatting'],'btnGrp-semantic',['superscript','subscript'],['link'],['insertImage'],'btnGrp-justify','btnGrp-lists',['horizontalRule'],['removeformat'],['fullscreen']]}">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4 col-xs-12">
+		<div class="card mb20">
+			<div class="card-header"><b>Publishing</b></div>
+			<div class="card-content">
+				<div class="form-group">
+					
+					<label>Product published</label>
+					<div>
+						<switch value="product.published"></switch>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card mb50">
+			<div class="card-header"><h4>Pricing</h4></div>
+			<div class="card-content">
+				
+				<div class="form-group"  ng-class="{'has-error' : errorField === 'price'}">
+					<label>Price*</label>
+					<div class="input-group input-group-right">
+						<input type="number"
+						class="form-control input-lg "
+						placeholder="99.99"
+						ng-model="product.price" />
+						<span class="input-group-addon ">{{application.currency_code}}</span>
+					</div>
+				
+				</div>
+				<div class="form-group"  ng-class="{'has-error' : errorField === 'price_discount'}">
+					<label>Discount price</label>
+					<div class="input-group input-group-right">
+						<input type="number"
+						class="form-control input-lg "
+						placeholder="99.99"
+						ng-model="product.price_discount" />
+						<span class="input-group-addon ">{{application.currency_code}}</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label>Tax class</label>
+					<taxes-selector
+					tax="product.tax_id"></taxes-selector>
+				</div>
+				
+			</div>
+		</div>
+		<div class="card mb50">
+			<div class="card-header"><h4>Taxonomy</h4></div>
+			<div class="card-content">
+				<div class="form-group"
+					ng-class="{'has-error' : errorField === 'category_id'}">
+					<label>Category</label>  <span class="fa fa-question-circle" data-placement="right" title="Choose your product's category"></span>
+					<categories-selector
+					category="product.category_id"></categories-selector>
+				</div>
+				<div class="form-group"  ng-class="{'has-error' : errorField === 'brand_id'}">
+					<label>Brand</label>  <span class="fa fa-question-circle" data-placement="right" title="Choose your product's brand"></span>
+					
+					<brands-selector
+					brand="product.brand_id"></brands-selector>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12 col-lg-8">
+		
+		<div class="card mb50">
+			<div class="card-header"><h4>Inventory</h4></div>
+			<div class="row">
+				<div class="form-group col-lg-6"  ng-class="{'has-error' : errorField === 'stock_type'}">
+					<label>Inventory policy *</label>  <span class="fa fa-question-circle" data-placement="right" title="Choose how should Marketcloud track your inventory"></span>
+					<select class="form-control input-lg solid"
+						ng-model="product.stock_type"
+						ng-change="updateStockManagementForVariants()">
+						<option value="track">Track quantities</option>
+						<option value="status">Don't track</option>
+					</select>
+				</div>
+				<div class="form-group col-lg-6"
+					ng-show="product.stock_type === 'track'"
+					ng-class="{'has-error' : errorField === 'stock_level'}">
+					<label>Stock level</label>
+					<input type="number"
+					class="form-control input-lg solid"
+					placeholder="99"
+					ng-model="product.stock_level" />
+				</div>
+				<div class="form-group col-lg-6"
+					ng-show="product.stock_type === 'status'"
+					ng-class="{'has-error' : errorField === 'stock_status'}">
+					<label>Stock status</label>
+					<select class="form-control input-lg solid"
+						ng-model="product.stock_status">
+						<option value="in_stock">In stock</option>
+						<option value="out_of_stock">Out of stock</option>
+						
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-lg-6"
+					ng-class="{'has-error' : errorField === 'sku'}">
+					<label>SKU</label>
+					<input type="text"
+					class="form-control input-lg solid"
+					placeholder="any SKU"
+					ng-model="product.sku" />
+				</div>
+				<div class="form-group col-lg-6"
+					ng-class="{'has-error' : errorField === 'barcode'}">
+					<label>Barcode</label>
+					<input type="text"
+					class="form-control input-lg solid"
+					placeholder="any barcode"
+					ng-model="product.barcode" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12 col-lg-8">
+		
+		<div class="card mb50">
+			<div class="card-header"><h4>Shipping information</h4></div>
+			<div class="form-group">
+				<div class="checkbox">
+					<input type="checkbox"
+					ng-model="product.requires_shipping"
+					id="requires_shipping"
+					/>
+					<label for="requires_shipping">
+						This product requires shipping
+					</label>
+				</div>
+			</div>
+			<div ng-show="true === product.requires_shipping">
+				<div class="row">
+					<div class="form-group col-lg-8 col-xs-12">
+						<label>Weight (Kg)</label>
+						
+						<div class="input-group input-group-right">
+							<input type="number"
+							class="form-control input-lg "
+							placeholder="0.1"
+							ng-model="product.weight" />
+							<span class="input-group-addon ">kg</span>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-xs-4">
+						<label>Depth</label>
+						
+						<div class="input-group input-group-right">
+							<input type="number"
+							class="form-control input-lg "
+							placeholder="e.g. 22"
+							ng-model="product.depth" />
+							<span class="input-group-addon ">cm</span>
+						</div>
+					</div>
+					<div class="form-group col-xs-4">
+						<label>Width (cm)</label>
+						<div class="input-group input-group-right">
+							<input type="number"
+							class="form-control input-lg "
+							placeholder="e.g. 22"
+							ng-model="product.width" />
+							<span class="input-group-addon ">cm</span>
+						</div>
+					</div>
+					<div class="form-group col-xs-4">
+						<label>Height (cm)</label>
+						<div class="input-group input-group-right">
+							<input type="number"
+							class="form-control input-lg "
+							placeholder="e.g. 22"
+							ng-model="product.height" />
+							<span class="input-group-addon ">cm</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12 col-lg-8">
+		
+		<custom-attributes-form
+		resource="product"
+		properties="customPropertiesData"
+		></custom-attributes-form>
+		
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12 col-lg-8">
+		
+		<images-card items="product.images"></images-card>
+	</div>
+</div>
+<!-- -->
+<div class="modal fade" tabindex="-1" role="dialog" id="addVariantModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Add a new variant</h4>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="form">
+								<div class="form-group" ng-repeat="(k,v) in product.variantsDefinition">
+									<label>{{k}} : {{newVariant[k]}}</label>
+									<!-- <input type="text"
+									name="{{k}}"
+									class="form-control"
+									ng-model="newVariant[k]"/> -->
+
+									<autocomplete
+										allow-new-elements="true"
+                    items="product.variantsDefinition[k]"
+                    my-model="newVariant[k]"
+                    on-selected=""/>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-success" ng-click="saveNewVariant()">Save variant</button>
+			</div>
+			</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+			<div class="row">
+				<div class="col-xs-12 col-md-8 ">
+					<h4>SEO</h4>
+					
+					<seo-form seo="product.seo"></seo-form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-lg-8">
+					
+					<div class="card card-table mb50">
+						<div class="card-header"><h4>Variants</h4></div>
+						<div class="card-toolbar text-right">
+							<a class="btn btn-info btn-sm" data-toggle="modal" data-target="#addVariantModal">Add variant</a>
+						</div>
+						<div >
+							<table class="table table-bodered">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Variant</th>
+										<th>Image</th>
+										
+										<th>Price</th>
+										<th>SKU</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="variant in product.variants track by $index">
+										<td>#{{variant.variant_id}}</td>
+										<td><span ng-repeat="(k,v) in filterVariantProps(variant) track by $index" ng-style="getVariantStyle($index)">&#8226; {{v}}</span></td>
+										<td><img ng-src="{{variant.images[0] || 'marketcloud.azureedge.net/storm-images/placeholder.png'}}" style="max-width:64px;border:1px solid #CCC" fallback-src="https://marketcloud.azureedge.net/storm-images/placeholder.png"/></td>
+										
+										<td>{{variant.price}} {{application.currency_code}}</td>
+										<td>{{variant.sku || "unknown"}}</td>
+										<td>
+											<a href="#/products/{{product.id}}/variants/{{variant.variant_id}}" class="btn btn-default btn-sm" alt="edit"><span class="fa fa-pencil"></span></a>
+											<button  class="btn btn-default btn-sm" alt="delete" ng-click="deleteVariant(variant,$index)"><span class="fa fa-trash"></span></a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="alert alert-danger" ng-show="'INVALID_VARIANT_NAME' === newProductError">
+				Invalid variant name
+			</div>
+			<div class="alert alert-danger" ng-show="'VARIANT_NAME_ALREADY_EXISTS' === newProductError">
+				Variant  exists
+			</div>
+			<div class="alert alert-danger" ng-show="'VARIANT_NAME_ALREADY_EXISTS' === newProductError">
+				The variant name must be at least 2 characters long.
+			</div>
+			<hr>
+			
+			<div class="row">
+				<div class="col-lg-8 col-xs-12">
+					
+					<div class="card mb50">
+						<div class="row">
+							<div class="text-right col-xs-12">
+								<button class="btn btn-lg btn-success" ng-click="updateProduct()">Save changes</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+</div>

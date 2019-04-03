@@ -1,0 +1,89 @@
+    <h1 class="page-title">Handling errors</h1>
+        <p>Marketcloud uses conventional HTTP response codes to indicate the success or failure of an API request. In general, codes in the <code>2xx</code> range indicate success, codes in the <code>4xx</code> range indicate an error that failed given the information provided (e.g., a required parameter was omitted, or a parameter received wrong value, etc.), and codes in the <code>5xx</code> range indicate an error with Marketcloud's servers (these are rare).</p>
+        <div class="spacer"></div>
+        <h4>Example error response</h4>
+                <pre><code class="json">{
+  "code": 401, 
+  "message": "Unauthorized", 
+  "type": "Unauthorized"
+}</code></pre>
+        <p>Not every error simply map into a HTTP error, for example when you are registering a new customer to your app, but the email is already taken, simply returning 400 status would not be very useful. For this reason it is important to check the <code>type</code> property in error responses.</p>
+        <p>In the case of validation errors, the error response has additional fields to help identify what went wrong:</p>
+                <pre><code class="json">{
+  "code": 400, 
+  "failedValidator": "required", 
+  "invalidPropertyName": "name", 
+  "message": "Missing required property 'name'", 
+  "type": "BadRequest", 
+  "valid": false
+}
+        </code></pre>
+        <div class="spacer"></div>
+        <h4>Server responses</h4>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                200
+              </td>
+              <td class="bordered">
+                OK
+              </td>
+              <td>The request was successful.</td>
+            </tr>
+            
+            
+            <tr>
+              <td>
+                400
+              </td>
+              <td class="bordered">
+                Bad Request
+              </td>
+              <td>The request could not be understood or was missing required parameters.</td>
+            </tr>
+            <tr>
+              <td>
+                401
+              </td>
+              <td class="bordered">
+                Unauthorized
+              </td>
+              <td>Authentication failed or user doesn’t have permissions for requested operation.</td>
+            </tr>
+            <tr>
+              <td>
+                404
+              </td>
+              <td class="bordered">
+                Not Found
+              </td>
+              <td>Resource not found.</td>
+            </tr>
+            <tr>
+              <td>
+                405
+              </td>
+              <td class="bordered">
+                Method Not Allowed
+              </td>
+              <td>Requested method is not supported for resource.</td>
+            </tr>
+            <tr>
+              <td>
+                500
+              </td>
+              <td class="bordered">
+                Internal Server Error
+              </td>
+              <td>Something went wrong during your request</td>
+            </tr>
+          </tbody>
+        </table>

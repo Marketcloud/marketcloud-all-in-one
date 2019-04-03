@@ -1,0 +1,36 @@
+<div class="modal" tabindex="-1" role="dialog" id="addProductsModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+       
+        <h4 class="modal-title">Add products</h4>
+      </div>
+      
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Default quantity</th>
+              </tr>
+            </thead>
+            <tbody ng-show="products.length > 0">
+              <tr ng-repeat="item in products">
+                <td>{{item.images[0]}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.quantity}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary pull-right" ng-click="$parent.addSelectedProducts()"> Add selected</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

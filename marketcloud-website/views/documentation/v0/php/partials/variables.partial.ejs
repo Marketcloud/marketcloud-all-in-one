@@ -1,0 +1,96 @@
+<section class="resource">
+<!-- Variables -->
+
+
+
+<a class="anchor" id="variables.create"></a>
+ <div class="method-title">Create a variable</div>
+      <h5>Model</h5>
+      <div class="table-responsive">
+  <table class="table table-striped documentation">
+    <thead>
+      <tr>
+        <th>Attribute</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="code">name <span  class="label label-success">Required</span></td>
+        <td>String</td>
+        <td>The variable name</td>
+      </tr>
+      <tr>
+        <td class="code">value <span  class="label label-success">Required</span></td>
+        <td>Mixed</td>
+        <td>The value of your variable</td>
+      </tr>
+      <tr>
+        <td class="code">type <span  class="label label-success">Required</span></td>
+        <td>String</td>
+        <td>This parameter tells the API the type of this variable, the possible values are <code>string</code>, <code>number</code> and <code>boolean</code></td>
+      </tr>
+     
+      
+    </tbody>
+  </table>
+</div>
+      <h5>Example request</h5>
+        <pre><code class="php">//Creates a new variable
+$variable = array(
+  "name" => "google_analytics_code",
+  "code" => "UA-127168162196",
+  "type" => "string"
+)
+
+Marketcloud\Variables::create($variable);
+      </code></pre>
+
+<h3 class="section-title"  id="variables">Variables</h3>
+     <a class="anchor" id="variables.list"></a>
+ <div class="method-title">List variables</div>
+      <h5>Example request</h5>
+        <pre><code class="php">//Retrieves a paginated list of variables
+$query = array(
+  "active" => true 
+)
+Marketcloud\Variables::get($query);
+      </code></pre>
+
+<a class="anchor" id="variables.getById"></a>
+ <div class="method-title">Retrieve a variable</div>
+      <h5>Example request</h5>
+        <pre><code class="php">//Retrieves a variable by its id
+Marketcloud\Variables::getById(123);
+      </code></pre>
+
+<a class="anchor" id="variables.update"></a>
+ <div class="method-title">Update a variable</div>
+      
+      <h5>Example request</h5>
+        <pre><code class="php">//Updates a variable
+$update = array(
+  "name" => "newVariableName"
+)
+Marketcloud\Variables::update($id,$update);
+      </code></pre>
+
+
+
+     <a class="anchor" id="variables.delete"></a>
+ <div class="method-title">Delete a variable</div>
+      <h5>Example request</h5>
+        <pre><code class="php">//Delete a variable by its id
+Marketcloud\Variables::delete($id);
+      </code></pre>
+
+
+
+
+
+
+      
+<!-- End of variables -->
+
+</section>

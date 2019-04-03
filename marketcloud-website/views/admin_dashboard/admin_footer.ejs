@@ -1,0 +1,60 @@
+
+
+</div><!-- closing page-wrapper-->
+
+
+
+<!-- Stripe is required for billing management -->
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">
+  Stripe.setPublishableKey('<%= configuration.stripe.publishable %>');
+</script>
+
+
+<!-- Cache busting -->
+<script type="text/javascript">
+  /*
+    This is automatically updated by the gulpfile
+
+    This global is used to cache bust angularjs templates
+  */
+  window.CACHE_BUST_VERSION = "1508827405999";
+</script>
+
+
+
+<script type="text/javascript" src="/modules/admin_dashboard/dist/vendor-v1505281936047.bundle.js"></script>
+
+<!-- Adding RavenJS for Sentry.io error reporting, but only in production -->
+<% if ('production' === env) {%>
+  <script src="https://cdn.ravenjs.com/3.14.0/angular/raven.min.js" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    Raven
+  .config('https://f1f223a417514b57b3d0b532a292ea42@sentry.io/146948',{
+    release : window.CACHE_BUST_VERSION
+  })
+  .install();
+  </script>
+
+
+
+  <% if ('undefined' !== typeof user && user.hasOwnProperty('email')){ %>
+    <script type="text/javascript">
+      Raven.setUserContext({
+          email: '<%= user.email %>'
+        })
+    </script>
+  <%}%>
+
+
+<%}%>
+
+<script type="text/javascript" src="/modules/admin_dashboard/dist/admin-v1508827405999.bundle.js"></script>
+
+<script type="text/javascript" src="/libs/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+
+
+
+</body>
+</html>

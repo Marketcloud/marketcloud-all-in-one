@@ -1,0 +1,105 @@
+<div class="dashboard-section-header" style="box-shadow: none">
+  <span class="fa fa-cog"></span>
+  <span class="root">Application settings / Settings</span>
+  <back-button></back-button>
+  
+  
+</div>
+
+<div ng-include="'/modules/data_dashboard/templates/application_settings_navigation.partial.html'" class="navigation-container"></div>
+
+
+
+<div class="container-fluid mt20">
+	<div class="row">
+		<div class="col-lg-6 col-lg-offset-3">
+			<div class=" card form mb50">
+			<div class="card-header">
+				<h4>General information</h4>
+			</div>
+			<div class="card-content">
+				
+				<div class="form-group" ng-class="{'has-error' : 'name' === _invalid}">
+					<label>Name</label>
+					<input type="text" class="form-control input-lg solid" ng-model="application.name">
+				</div>
+				<div class="form-group" ng-class="{'has-error' : 'url' === _invalid}">
+					<label>Website</label>
+					<input type="text"
+					class="form-control input-lg solid"
+					ng-model="application.url">
+				</div>
+				
+			</div>
+			<div class="card-footer text-right">
+				<button class="btn btn-info" ng-click="updateApplication()">Save changes</button>
+			</div>
+		</div>
+
+			<div class="card mb50">
+			<div class="card-header">
+				<h4>Credentials</h4>
+			</div>
+			<div class="card-content">
+			
+			<div class="form-group">
+				<label>Public key</label>
+				<div class="input-group">
+					<input type="text"  readonly class="form-control" value="{{application.public_key}}" id="publicKeyInput">
+					<span class="input-group-btn">
+						<button class="btn btn-default btn-clip" type="button"  ngclipboard data-clipboard-target="#publicKeyInput"><i class="fa fa-copy"></i></button>
+					</span>
+					
+					</div><!-- /input-group -->
+				</div>
+				<div class="form-group">
+					<label>Secret key</label>
+					<div class="input-group">
+						<input type="text"  readonly class="form-control" value="{{application.secret_key}}" id="secretKeyInput">
+						<span class="input-group-btn">
+							<button class="btn btn-default btn-clip" type="button" ngclipboard data-clipboard-target="#secretKeyInput"><i class="fa fa-copy"></i></button>
+						</span>
+						
+					</div>
+				</div>
+				
+				</div>
+				<div class="card-footer text-right">
+					<button class="btn btn-danger" ng-click="regenerateKeys()">Reset</button>
+				</div>
+			</div>
+
+
+
+			<div class="card mb50">
+			<div class="card-header">
+				<h4>Subscription plan</h4>
+			</div>
+			<div class="card-content">
+			<div class="row">
+				<div class="form-group col-lg-4">
+					<div class="f18 uc bold">{{application.plan_name}}</div>
+					<div class="small uc">€ {{currentPlan.price_monthly}} / month</div>
+				</div>
+			</div>
+			</div>
+			<div class="card-footer text-right">
+					<a class="btn btn-info raised" href="#/application/billing">UPGRADE</a>
+				</div>
+		</div>
+
+
+
+		<div class="card mb50">
+			<div class="card-header">
+				<h4>Delete app</h4>
+			</div>
+			<div class="card-content">
+				<p class="text-muted">This is the red button. Don't press the red button unless you are <b>really sure</b> that you want to destroy your app and the related data.</p>
+				<button class="btn btn-danger btn-lg" ng-click="deleteApplication()">Delete app</button>
+		</div>
+	</div>
+</div>
+</div>
+
+</div>

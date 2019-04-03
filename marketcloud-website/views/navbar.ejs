@@ -1,0 +1,222 @@
+<style type="text/css">
+
+</style>
+<header>
+
+ <nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+       <button type="button" class="navbar-toggle sidebar-toggle">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">
+      	<img src="https://marketcloud.azureedge.net/website-v2/logo-text-right-small.png">
+      </a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+      	
+      <li class="<%= (pageTitle.toLowerCase().indexOf('homepage') > -1) ?  "active" : "" %>">
+          <a href="/">Home</a>
+        </li>
+        <li class="<%= (pageTitle.toLowerCase().indexOf('documentation') > -1) ?  "active" : "" %>">
+        	<a href="/documentation">Documentation</a>
+        </li>
+        <li class="<%= (pageTitle.toLowerCase().indexOf('integrations') > -1) ?  "active" : "" %>">
+        	<a href="/integrations">Integrations</a>
+        </li>
+
+        <!-- <li class="<%= (pageTitle.toLowerCase().indexOf('code') > -1) ? "active" : "" %>">
+        	<a href="/code">Code</a>
+        </li> -->
+
+        <li class="<%= (pageTitle.toLowerCase().indexOf('pricing') > -1) ? "active" : "" %>">
+        	<a href="/pricing">Pricing</a>
+        </li>
+        <li class="<%= (pageTitle.toLowerCase().indexOf('blog') > -1) ? "active" : "" %>">
+          <a href="/blog">Blog</a>
+        </li>
+        <li><a href="/community">Community</a></li>
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+        <% if ('undefined' !== typeof user && user.isAuthenticated===true) { %>
+					<li>
+						<p class="navbar-btn">
+							<a href="/applications" class="btn btn-empty-info">DASHBOARD</a>
+						</p>
+					</li>
+					
+					
+					<% } else { %>
+					<li><a href="/account/login" title="Log in page">Log in</a></li>
+					<li>
+						<p class="navbar-btn">
+							<a href="/account/signup" class="btn btn-info">GET STARTED FOR FREE</a>
+						</p>
+					</li>
+					<% } %>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<style type="text/css">
+nav.mobile-sidenav{
+  display: none;
+}
+.mobile-sidenav-background-overlay {
+  display: none;
+}
+@media(max-width: 768px){
+  .mobile-sidenav-background-overlay {
+    position: fixed;
+    top:0px; bottom: 0px;left:0px;right: 0px;
+    /*background-color: rgba(0,0,0,.4);*/
+    background-color: black;
+    opacity: 0.2;
+    z-index: 1030;
+  }
+  .mobile-sidenav-background-overlay.open {
+  display: block;
+  /*background-color: rgba(0,0,0,.7);
+  -webkit-transition: background-color 1000ms linear;
+  -moz-transition: background-color 1000ms linear;
+  -o-transition: background-color 1000ms linear;
+  -ms-transition: background-color 1000ms linear;
+  transition: background-color 1000ms linear;*/
+}
+  nav.mobile-sidenav{
+    display: block;
+    position: fixed;
+    left:-260px;
+    top:0px;
+    bottom: 0px;
+    width: 256px;
+    background-color: #FFF;
+    /*box-shadow: 2px 2px 2px rgba(0,0,0,.4);*/
+    z-index: 1031;
+  }
+  nav.mobile-sidenav ul {
+    padding-left: 0px;
+  }
+  nav.mobile-sidenav ul > li {
+    display: block;
+    border-bottom: 1px solid #ccc;
+    padding:10px 15px;
+  }
+  nav.mobile-sidenav ul.submenu > li {
+    border-bottom: 0px;
+  }
+  nav.mobile-sidenav ul > li > a {
+    font-weight: 500;
+  }
+  nav.mobile-sidenav ul > li.active > a {
+    color: #3498db;
+  }
+}
+
+</style>
+<div class="mobile-sidenav-background-overlay"></div>
+<nav class="mobile-sidenav">
+  <ul>
+    <li class="<%= (pageTitle.toLowerCase().indexOf('homepage') > -1) ?  "active" : "" %>">
+      <a href="/">Home</a>
+    </li>
+    <li class="<%= (pageTitle.toLowerCase().indexOf('documentation') > -1) ?  "active" : "" %>">
+      <a href="/documentation">Documentation</a>
+      <% if (pageTitle.toLowerCase().indexOf('documentation') > -1) { %>
+      <ul class="submenu">
+        <li><a href="/documentation">Overview</a></li>
+        <li><a href="/documentation/quickstart">Quickstart</a></li>
+        <li><a href="/documentation/reference">API Reference</a></li>
+        <li><a href="/documentation/examples">Examples</a></li>
+      </ul>
+      <% } %>
+    </li>
+    <li class="<%= (pageTitle.toLowerCase().indexOf('integrations') > -1) ?  "active" : "" %>">
+      <a href="/integrations">Integrations</a>
+    </li>
+    <!-- <li class="<%= (pageTitle.toLowerCase().indexOf('code') > -1) ?  "active" : "" %>">
+      <a href="/code">Code</a>
+    </li> -->
+    <li class="<%= (pageTitle.toLowerCase().indexOf('pricing') > -1) ?  "active" : "" %>">
+      <a href="/pricing">Pricing</a>
+    </li>
+    <li class="<%= (pageTitle.toLowerCase().indexOf('blog') > -1) ?  "active" : "" %>">
+      <a href="/blog">Blog</a>
+    </li>
+    <% if ('undefined' !== typeof user && user.isAuthenticated===true) { %>
+          <li>
+            <p class="navbar-btn">
+              <a href="/applications" class="btn btn-empty-info">DASHBOARD</a>
+            </p>
+          </li>
+          
+          
+          <% } else { %>
+          <li><a href="/account/login" title="Log in page">Log in</a></li>
+          <li>
+            <p class="navbar-btn">
+              <a href="/account/signup" class="btn btn-info">TRY FOR FREE</a>
+            </p>
+          </li>
+          <% } %>
+  </ul>
+</nav>
+<script type="text/javascript">
+  $(document).ready(function(){
+
+
+    $(".mobile-sidenav-background-overlay").click(function(){
+      $(".mobile-sidenav").css("left","-256px");
+      $(this).css('opacity',0.2)
+      $(this).removeClass('open');
+    })
+    //Removing unwanted handlers
+    $("button.sidebar-toggle").off();
+    //Open the sidebar
+    $("button.sidebar-toggle").on("click touch",function(){
+      $(".mobile-sidenav-background-overlay").addClass('open');
+      //$(".mobile-sidenav").show();
+      $(".mobile-sidenav").animate({
+        left : "+=256px"
+      },300,function(){
+        //..
+      });
+      $(".mobile-sidenav-background-overlay").animate({
+        opacity : "0.7"
+      },600,function(){
+        //..
+      });
+    })
+  })
+</script>
+</header>
+
+<script type="text/javascript">
+  //var def = $(".navbar.navbar-default.navbar-fixed-top").css('box-shadow')
+  var def = $(".navbar:last-of-type").css('box-shadow');
+  $(document).ready(function(){
+
+  if ($(".sub-navbar").length <= 0){
+
+    $(document).on('scroll',function(){
+      var scroll = $(window).scrollTop();
+      if (scroll === 0) {
+        $(".navbar").last().removeClass('has-shadow')
+      } else {
+        $(".navbar").last().addClass('has-shadow')
+      }
+    })
+
+  }
+  })
+</script>

@@ -1,0 +1,361 @@
+<% include ../../header %>
+<script type="text/javascript">
+</script>
+<script type="text/javascript" src="/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+<link rel="stylesheet" href="/libs/technology-icons/dist/styles/technology-icons.css">
+<link rel="stylesheet" type="text/css" href="/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css" />
+<link rel="stylesheet" type="text/css" href="/libs/font-awesome/css/font-awesome.min.css">
+<style type="text/css">
+.tab-content>.active {
+border:0px;
+}
+.tab-pane {
+margin-top:20px;
+}
+.hljs {
+font-size: 14px;
+border: 1px solid #DDD;
+}
+.pricing-tier {
+border: 2px solid #3498db;
+border-radius: 4px;
+}
+.language {
+color: #777;
+}
+</style>
+<style type="text/css">
+.documentation-platform-block{
+padding-left: 10px;
+}
+.documentation-platform-block .title {
+height: 48px;
+vertical-align: middle;
+line-height: 48px;
+}
+
+section.grey.fixed-top {
+  position: fixed;
+  top: 50px;
+  left:0px;
+  right: 0px;
+}
+</style>
+
+<% include ../../navbar %>
+
+<% include documentation-navbar.partial.ejs %>
+<div ng-app="themes" ng-controller="ctrl">
+  <section class="grey hidden-xs" style="padding-bottom:0px;display: none">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12">
+          
+          
+          <ul class="nav nav-pills nav-pills-light nav-pills-centered" id="filterThemes">
+            <li role="presentation" ng-class="{'active' : currentFilter === 'all'}" class="active">
+              <a ng-click="filter('all')">All</a>
+            </li>
+            <li role="presentation"  ng-class="{'active' : currentFilter === 'ionic'}">
+              <a ng-click="filter('ionic')">Ionic</a>
+            </li>
+            <li role="presentation" ng-class="{'active' : currentFilter === 'javascript'}">
+              <a ng-click="filter('javascript')">Javascript</a>
+            </li>
+            <li role="presentation" ng-class="{'active' : currentFilter === 'swift'}">
+              <a ng-click="filter('swift')">Swift</a>
+            </li>
+            <li role="presentation" ng-class="{'active' : currentFilter === 'android'}">  <a ng-click="filter('android')">Android</a>
+          </li>
+          <li role="presentation" ng-class="{'active' : currentFilter === 'nodejs'}">
+            <a ng-click="filter('nodejs')">NodeJS</a>
+          </li>
+          <li role="presentation" ng-class="{'active' : currentFilter === 'php'}">
+            <a ng-click="filter('php')">PHP</a>
+          </li>
+          <li role="presentation" ng-class="{'active' : currentFilter === 'deployable'}">
+            <a ng-click="filter('deployable')">Deployable</a>
+          </li>
+        </ul>
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+<section class="light-grey">
+  <div class="container-fluid">
+    <div class="row mt20" >
+      <div class="col-lg-8 col-lg-offset-2">
+        <div class="row" ng-show="themes.length === 0">
+          <!-- pre rendering -->
+<% var themes = [
+        
+  {
+    name: 'Ionic 1.x starter',
+    tags: ['ionic', 'mobile','javascript'],
+    image: 'https://marketcloudstatic01.blob.core.windows.net/images/starter_ionic.png',
+    description : 'A shopping app made with Ionic and Marketcloud',
+    links : {
+      'view' : 'http://market.ionic.io/starters/ionic-marketcloud-starter',
+      'github' : 'https://github.com/Marketcloud/ionic-marketcloud-starter',
+    }
+  },{
+    name: 'Ionic 3.x starter',
+    tags: ['ionic', 'mobile','javascript'],
+    image: 'https://marketcloudstatic01.blob.core.windows.net/images/starter_ionic.png',
+    description : 'A shopping app made with Ionic and Marketcloud',
+    links : {
+      'view' : 'https://github.com/Marketcloud/ionic-marketcloud'
+    }
+  }, {
+    name: 'Angular 1.x starter',
+    tags: ['angularjs','javascript'],
+    image: 'https://marketcloudstatic01.blob.core.windows.net/images/starter_angular.png',
+    description : 'An eCommerce webapp made with Angular and Marketcloud',
+    links : {
+      'view' : 'https://github.com/Marketcloud/angular-marketcloud-starter'
+    }
+  },{
+    name: 'ReactJS Universal starter',
+    tags: ['react','javascript'],
+    image: 'https://marketcloudstatic01.blob.core.windows.net/images/starter_react-redux-universal.png',
+    description : 'A universal eCommerce webapp made with React and Redux',
+    links : {
+      'view' : 'https://github.com/Hellenic/universal-marketcloud-storefront',
+      'demo' : 'http://karkk.ai:7998/'
+    }
+  }, {
+    name: 'NodeJS starter',
+    tags: ['nodejs','deployable'],
+    image: 'https://marketcloudstatic01.blob.core.windows.net/images/starter_nodejs.png',
+    description : 'An eCommerce website built on NodeJS and Marketcloud',
+    links : {
+      'view' : 'https://github.com/Marketcloud/node-marketcloud-starter',
+      'deploy' : 'https://heroku.com/deploy?template=https://github.com/Marketcloud/node-marketcloud-starter',
+      'demo' : 'http://marketcloud-demo.herokuapp.com'
+    }
+  }, {
+    name: 'PHP starter',
+    tags: ['php','deployable'],
+    image: 'https://marketcloudstatic01.blob.core.windows.net/images/starter_php.png',
+    description : 'An eCommerce website built on PHP and Marketcloud',
+    links : {
+      'view' : 'https://github.com/Marketcloud/marketcloud-php-starter',
+      'demo' : 'https://marketcloud-php.herokuapp.com',
+      'deploy' : 'https://heroku.com/deploy?template=https://github.com/Marketcloud/marketcloud-php-starter'
+    }
+  }, {
+    name: 'Android starter',
+    tags: ['android', 'mobile'],
+    image: 'https://marketcloudstatic01.blob.core.windows.net/images/starter_android.png',
+    description : 'A native Android shopping app made with Marketcloud',
+    links : {
+      'view' : 'https://github.com/Marketcloud/marketcloud-sample-android-application'
+    }
+  }, {
+    name: 'Swift starter',
+    tags: ['swift', 'iOS', 'mobile'],
+    image: 'https://marketcloudstatic01.blob.core.windows.net/images/starter_swift.png',
+    description : 'A native iOS shopping app made with Marketcloud',
+    links : {
+      'view' : 'https://github.com/Marketcloud/marketcloud-swift-application'
+    }
+  }
+];
+var l = themes.length;
+for (var i =0;i<l; i++ ){
+  var theme = themes[i];
+%>
+
+  <div>
+
+  <% if (i % 2 == 0){ %>
+  <div class="clearfix visible-sm-block"></div>
+  <%}%>
+  <% if (i % 3 == 0){ %>
+  <div class="clearfix visible-md-block"></div>
+  <%}%>
+  <% if (i % 3 == 0){ %>
+  <div class="clearfix visible-lg-block"></div>
+  <% } %>
+            
+
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+              <!-- <div class="card theme mb20" ng-mouseenter="toggleOverpanel(theme)" ng-mouseleave="toggleOverpanel(theme)"> -->
+              <div class="card card-image mb20">
+                <img src="<%= theme.image %>" style="width:100%;"  ng-click="toggleOverpanel(theme)"/>
+                <div style="padding:10px"  ng-click="toggleOverpanel(theme)">
+                  <h4><%= theme.name %></h4>
+                  <p><%= theme.description %></p>
+                  
+                  <!-- <span class="label label-empty-info" ng-repeat="tag in theme.tags" style="margin-right:10px;">#{{tag}}</span> -->
+                  
+                </div>
+                <div class="card-footer">
+                <div class="container-fluid">
+                <div class="row">
+                  <% for (var k in theme.links){ %>
+                  <div class="col-xs-4 ct" style="padding-left: 0px;">
+                    <a class="btn btn-white" href="<%= theme.links[k] %>" target="blank"><%= k %></a>
+                  </div>
+                  <% } %>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+<% } %>
+          
+          
+          
+          
+          
+          
+        </div>
+        
+        <div class="row" ng-show="themes.length > 0" ng-cloak>
+          <div  ng-repeat="theme in themes track by $index">
+            <div class="clearfix visible-sm-block" ng-if="$index % 2 == 0"></div>
+            <div class="clearfix visible-md-block" ng-if="$index % 3 == 0"></div>
+            <div class="clearfix visible-lg-block" ng-if="$index % 3 == 0"></div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+              <!-- <div class="card theme mb20" ng-mouseenter="toggleOverpanel(theme)" ng-mouseleave="toggleOverpanel(theme)"> -->
+              <div class="card card-image mb20">
+                <img src="{{theme.image}}" style="width:100%;"  ng-click="toggleOverpanel(theme)"/>
+                <div style="padding:10px"  ng-click="toggleOverpanel(theme)">
+                  <h4>{{theme.name}}</h4>
+                  <p>{{theme.description}}</p>
+                  
+                  <!-- <span class="label label-empty-info" ng-repeat="tag in theme.tags" style="margin-right:10px;">#{{tag}}</span> -->
+                  
+                </div>
+                <div class="card-footer">
+                <div class="container-fluid">
+                  <div class="row">
+                  <div class="col-xs-4 ct" ng-repeat="(link,href) in theme.links" style="padding-left: 0px;">
+                    <a class="btn btn-white" href="{{href}}" target="blank">{{link}}</a>
+                  </div>
+                  </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script type="text/javascript" src="/libs/angular/angular.min.js"></script>
+<script type="text/javascript">
+    angular.module('themes',[])
+    .config(['$compileProvider', function ($compileProvider) {
+    $compileProvider.debugInfoEnabled(false);
+    }])
+    .controller('ctrl',['$scope',function(scope){
+      scope.currentFilter = 'all';
+      scope.themes = [];
+      
+      scope.toggleOverpanel = function(theme){
+        
+        theme.showOverpanel = !theme.showOverpanel;
+      }
+      
+      scope.filter = function(word) {
+        
+        var originalThemes = [
+        
+  {
+    name: 'Ionic 1.x starter',
+    tags: ['ionic', 'mobile','javascript'],
+    image: 'https://marketcloudstatic01.blob.core.windows.net/images/starter_ionic.png',
+    description : 'A shopping app made with Ionic and Marketcloud',
+    links : {
+      'view' : 'http://market.ionic.io/starters/ionic-marketcloud-starter'
+    }
+  },
+  {
+    name: 'Ionic 3.x starter',
+    tags: ['ionic', 'mobile','javascript'],
+    image: 'https://marketcloudstatic01.blob.core.windows.net/images/starter_ionic.png',
+    description : 'A shopping app made with Ionic and Marketcloud',
+    links : {
+      'view' : 'https://github.com/Marketcloud/ionic-marketcloud'
+    }
+  },{
+    name: 'Angular 1.x starter',
+    tags: ['angularjs','javascript'],
+    image: 'https://marketcloudstatic01.blob.core.windows.net/images/starter_angular.png',
+    description : 'An eCommerce webapp made with Angular and Marketcloud',
+    links : {
+      'view' : 'https://github.com/Marketcloud/angular-marketcloud-starter'
+    }
+  },{
+    name: 'ReactJS Universal starter',
+    tags: ['react','javascript'],
+    image: 'https://marketcloudstatic01.blob.core.windows.net/images/starter_react-redux-universal.png',
+    description : 'A universal eCommerce webapp made with React and Redux',
+    links : {
+      'view' : 'https://github.com/Hellenic/universal-marketcloud-storefront',
+      'demo' : 'http://karkk.ai:7998/'
+    }
+  }, {
+    name: 'NodeJS starter',
+    tags: ['nodejs','deployable'],
+    image: 'https://marketcloudstatic01.blob.core.windows.net/images/starter_nodejs.png',
+    description : 'An eCommerce website built on NodeJS and Marketcloud',
+    links : {
+      'view' : 'https://github.com/Marketcloud/node-marketcloud-starter',
+      'deploy' : 'https://heroku.com/deploy?template=https://github.com/Marketcloud/node-marketcloud-starter',
+      'demo' : 'http://marketcloud-demo.herokuapp.com'
+    }
+  }, {
+    name: 'PHP starter',
+    tags: ['php','deployable'],
+    image: 'https://marketcloudstatic01.blob.core.windows.net/images/starter_php.png',
+    description : 'An eCommerce website built on PHP and Marketcloud',
+    links : {
+      'view' : 'https://github.com/Marketcloud/marketcloud-php-starter',
+      'demo' : 'https://marketcloud-php.herokuapp.com',
+      'deploy' : 'https://heroku.com/deploy?template=https://github.com/Marketcloud/marketcloud-php-starter'
+    }
+  }, {
+    name: 'Android starter',
+    tags: ['android', 'mobile'],
+    image: 'https://marketcloudstatic01.blob.core.windows.net/images/starter_android.png',
+    description : 'A native Android shopping app made with Marketcloud',
+    links : {
+      'view' : 'https://github.com/Marketcloud/marketcloud-sample-android-application'
+    }
+  }, {
+    name: 'Swift starter',
+    tags: ['swift', 'iOS', 'mobile'],
+    image: 'https://marketcloudstatic01.blob.core.windows.net/images/starter_swift.png',
+    description : 'A native iOS shopping app made with Marketcloud',
+    links : {
+      'view' : 'https://github.com/Marketcloud/marketcloud-swift-application'
+    }
+  }
+      ];
+        scope.currentFilter = word;
+        originalThemes.forEach(function(x){
+          x.showOverpanel = false;
+        });
+        
+        if ('all' === word)
+          scope.themes = originalThemes;
+        else
+          scope.themes = originalThemes.filter(function(t){
+            return t.tags.indexOf(word) >= 0;
+          })
+      }
+      scope.filter('all');
+    }]);
+</script>
+<% include ../../footer/ %>

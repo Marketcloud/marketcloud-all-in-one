@@ -1,0 +1,98 @@
+
+<nav class="vertical-index">
+  <div class="title">Concepts</div>
+  
+  <ul>
+    <li>
+<a href="/documentation/authentication" class="link">Authentication</a>
+</li>
+    <li>
+<a href="/documentation/handlingerrors" class="link">Error handling</a>
+</li>
+    <!-- <li>
+<a href="/documentation/roles" class="link">Roles</a>
+</li> -->
+    <li>
+<a href="/documentation/webhooks" class="link">Webhooks</a>
+</li>
+    <li>
+<a href="/documentation/libraries" class="link ">Libraries</a>
+</li>
+    
+    <li>
+<a href="/documentation/backoffice" class="link">Backoffice</a>
+</li>
+    <% if (path.indexOf('/backoffice') > -1) {%>
+      <ul class="list">
+        <li>
+<a href="/documentation/guides/backoffice/products-with-variants" class="link ">Products with variants</a>
+</li>
+<li>
+<a href="/documentation/guides/backoffice/setting-up-taxes" class="link ">Setting up taxes</a>
+</li>
+<li>
+<a href="/documentation/guides/backoffice/translations" class="link ">Translations</a>
+</li>
+<li>
+<a href="/documentation/guides/backoffice/currencies" class="link ">Currencies</a>
+</li>
+      </ul>
+
+      <%}%>
+      <li>
+<a href="/documentation/guides/integrations" class="link ">Integrations</a>
+</li>    
+    <% if (path.indexOf('/integrations') > -1) {%>
+      <ul class="list">
+        <li>
+<a href="/documentation/guides/integrations/braintree" class="link ">Braintree</a>
+</li>
+        <li>
+<a href="/documentation/guides/integrations/facebook-login" class="link ">Facebook</a>
+</li>
+        <li>
+<a href="/documentation/guides/integrations/stripe" class="link ">Stripe</a>
+</li>
+      </ul>
+
+      <%} else {%>
+
+      <%}%>
+  </ul>
+
+<div class="title">Platforms</div>
+  <ul>
+    <li>
+      <a class="link" data-toggle="collapse" href="#platforms-javascript-menu">Javascript</a>
+    </li>
+    <ul class="list collapse" id="platforms-javascript-menu">
+    <li><a href="/documentation/quickstart/javascript" class="link">Quickstart</a></li>
+    <li><a href="/documentation/reference/javascript" class="link">SDK Reference</a></li>
+    </ul>
+
+    <li>
+      <a class="link" data-toggle="collapse" href="#platforms-nodejs-menu">NodeJS</a>
+    </li>
+    <ul class="list collapse" id="platforms-nodejs-menu">
+    <li><a href="/documentation/quickstart/nodejs" class="link">Quickstart</a></li>
+    <li><a href="/documentation/reference/nodejs" class="link">SDK Reference</a></li>
+    </ul>
+
+
+     <li>
+      <a class="link" data-toggle="collapse" href="#platforms-php-menu">PHP</a>
+    </li>
+    <ul class="list collapse" id="platforms-php-menu">
+    <li><a href="/documentation/quickstart/php" class="link">Quickstart</a></li>
+    <li><a href="/documentation/reference/php" class="link">SDK Reference</a></li>
+    </ul>
+  </ul>
+
+
+
+  
+  </ul>
+
+ 
+
+</nav>

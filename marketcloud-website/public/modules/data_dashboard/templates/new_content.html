@@ -1,0 +1,142 @@
+<div class="dashboard-section-header">
+	<a href="#/contents" class="link root">Contents</a> / create
+	<button class="btn btn-info pull-right" ng-click="saveContent()">Save</button>
+	<back-button></back-button>
+</div>
+<div class="container-fluid">
+	
+	<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			<div class="card mb50">
+				<div class="card-header"><h4>Basic information</h4></div>
+				<div class="form-group">
+					<label>Type</label>
+					<span class="fa fa-question-circle ml20 text-muted" title="Choose visual element for creating HTML template elements"></span>
+					<select class="form-control" ng-model="content.type">
+						<option value="" selected="true" disabled="true">Select a content type</option>
+						<option value="post">Blog post</option>
+						<option value="page">Page</option>
+						<option value="element">Visual element</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Title</label>
+					<input type="text"
+					class="form-control"
+					placeholder="e.g. Latest news"
+					ng-change="updateSlug()"
+					ng-model="content.title" />
+				</div>
+				<div class="checkbox" ng-if="content.type !== 'element'">
+					<input type="checkbox" ng-model="unsafeSlug" id="unsafeSlug" />
+					<label for="unsafeSlug">
+						Editable slug
+					</label>
+				</div>
+				<div class="form-group"  ng-if="content.type !== 'element'">
+					<label>Slug</label>
+					<input type="text"
+					class="form-control  "
+					ng-disabled="false === unsafeSlug"
+					ng-model="content.slug" />
+				</div>
+				<div class="form-group"  ng-if="content.type !== 'element'">
+					<label>Category</label>
+					<input type="text"
+					class="form-control  "
+					placeholder="e.g. Sales"
+					ng-model="content.category" />
+				</div>
+				
+				<div class="form-group"  ng-if="content.type !== 'element'">
+					<label>Date</label>
+					<div class="input-group">
+						<input
+						type="text"
+						class="form-control"
+						placeholder="Select a date..."
+						moment-picker="content.date"
+						locale="en"
+						ng-model="content.date"
+						format="MMMM Do YYYY"
+						today="true"
+						min-view="month"
+						max-view="month"
+						ng-model-options="{ updateOn: 'blur' }">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row"  ng-if="content.type !== 'element'">
+		<div class="col-lg-8 col-xs-12">
+			<images-card items="content.images"></images-card>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			
+			<div class="card card-table mb50">
+				<div class="card-header"><h4>Editor</h4></div>
+				<div class="form-group">
+					<div trumbowyg-ng
+						ng-model="content.text"
+						editor-config="{btns:[['viewHTML'],['formatting'],'btnGrp-semantic',['superscript','subscript'],['link'],['insertImage'],'btnGrp-justify','btnGrp-lists',['horizontalRule'],['removeformat'],['fullscreen']]}">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row"  ng-if="content.type !== 'element'">
+		<div class="col-lg-8 col-xs-12">
+			<div class="card mb50">
+				<div class="card-header"><h4>Author</h4></div>
+				<div class="form-group">
+					<label>Name</label>
+					<input type="text"
+					class="form-control  "
+					placeholder="e.g. Luke Skywalker"
+					ng-model="content.author.name" />
+				</div>
+				<div class="row mb20">
+					<div class="col-xs-6">
+						<label>Author image</label><br>
+						<img ng-src="{{content.author.images[0]}}" style="max-width: 100%;">
+					</div>
+					<div class="form-group col-xs-6">
+						<media-manager
+						button-class="btn btn-info btn-sm pull-left"
+						button-text="Author image"
+						images="content.author.images">
+						
+						</media-manager>
+					</div>
+				</div>
+				<div class="form-group">
+					<label>Description</label>
+					<textarea
+					class="form-control "
+					placeholder="e.g. former Jedi apprentice, Jedi master. Tempted by dark side, once."
+					ng-model="content.author.description"></textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-lg-8">
+			<custom-attributes-form
+				resource="content"
+				properties="customPropertiesData"
+			></custom-attributes-form>
+		</div>
+	</div>
+	<div class="row"  ng-if="content.type !== 'element'">
+		<div class="col-lg-8 col-xs-12">
+			
+			<seo-form seo="content.seo"></seo-form>
+		</div>
+	</div>
+	
+	
+</div>

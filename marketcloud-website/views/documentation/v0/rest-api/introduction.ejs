@@ -1,0 +1,141 @@
+<% include ../../../header/ %>
+<% include ../../../navbar %>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github.min.css">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" href="/modules/documentation/css/documentation.css" />
+<section class="mt100" style="padding-top:100px;padding-bottom:200px">
+  <div class="container-fluid">
+    
+    <a name="introduction"></a>
+    <div class="row">
+      <div class="col-lg-3 col-md-3">
+      <% include ./index.partial.ejs %>
+      </div>
+      <div class="col-lg-6 col-lg-offset-0 col-md-9 col-md-offset-0 col-sm-9 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+        
+
+            <div class="row">
+
+          
+				<ol class="breadcrumb mt20">
+				  <li><a href="/documentation">Index</a></li>
+				  <li><a href="/documentation/rest-api">REST api</a></li>
+				  <li class="active">Introduction</li>
+				</ol>
+        <h2>Introduction</h2>
+
+				<p class="lead">The Marketcloud API follows the <a href="https://en.wikipedia.org/wiki/Representational_state_transfer" class="link">REST</a> architectural guidelines and uses standard HTTP response codes to indicate the result of each operation.</p>
+        <p class="lead">If you want to dive into the api, visit the <a href="/documentation/rest-api/gettingstarted" class="link">Getting started section</a>, this document will present some conventions used in our api.</p>
+				
+		<h4>Secure connections</h4>
+    <p class="lead">HTTPS is required. We provide a valid, signed certificate for all API endpoints. API wrappers are required to use HTTPS too.</p>
+    <h4>Sending and receiving data</h4>
+    <p class="lead">Our api endpoints accept and produce data as serialized <b>JSON</b>. It is a common, simple and well known format for data exchange. There are good parsers and it is very usable in web applications.</p>
+
+		<h4>Allowed HTTP methods</h4>
+<table class="table table-striped">
+	<tbody>
+		<tr>
+			<th>
+				<span class="label label-success">GET</span>
+			</th>
+			<td>Gets a resource or list of resources</td>
+		</tr>
+		<tr>
+			<th>
+				<span class="label label-primary">POST</span>
+			</th>
+			<td>Creates a resource</td>
+		</tr>
+		<tr>
+			<th>
+				<span class="label label-default">PUT</span>
+			</th>
+			<td>Updates a resource</td>
+		</tr>
+		<tr>
+			<th>
+				<span class="label label-warning">DELETE</span>
+			</th>
+			<td>Deletes a resource</td>
+		</tr>
+	</tbody>
+</table>
+<h4>Server responses</h4>
+<table class="table table-striped table-striped">
+    <tbody>
+    <tr>
+      <th>
+        <b>200</b>
+      </th>
+      <td class="bordered">
+        <b>OK</b>
+      </td>
+      <td>The request was successful.</td>
+    </tr>
+    
+    
+    <tr>
+      <th>
+
+        <b>400</b>
+      </th>
+      <td class="bordered">
+        <b>Bad Request</b>
+      </td>
+      <td>The request could not be understood or was missing required parameters.</td>
+    </tr>
+    <tr>
+      <th>
+        <b>401</b>
+      </th>
+      <td class="bordered">
+        <b>Unauthorized</b>
+      </td>
+      <td>Authentication failed or user doesn’t have permissions for requested operation.</td>
+    </tr>
+
+    <tr>
+      <th>
+        <b>404</b>
+      </th>
+      <td class="bordered">
+        <b>Not Found</b>
+      </td>
+      <td>Resource not found.</td>
+    </tr>
+    <tr>
+      <th>
+        <b>405</b>
+      </th>
+      <td class="bordered">
+        <b>Method Not Allowed</b>
+      </td>
+      <td>Requested method is not supported for resource.</td>
+    </tr>
+    <tr>
+      <th>
+        <b>500</b>
+      </th>
+      <td class="bordered">
+        <b>Internal Server Error</b>
+      </td>
+      <td>Something went wrong during your request</td>
+    </tr>
+  </tbody>
+  </table>
+					</div>	
+			</div>				
+		</div>
+	</div>
+        </div>
+      </div>
+</div>
+</div>
+</section>
+
+</body>
+</html>

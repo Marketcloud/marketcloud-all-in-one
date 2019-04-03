@@ -1,0 +1,19 @@
+<% include data_header %>
+
+<script>
+	window.token = "<%= token %>";
+	window.current_application = <%- JSON.stringify(current_application) %>;
+	window.user = <%- JSON.stringify(user) %>;
+	window.public_key = "<%= public %>";
+</script>
+
+<div class="container-fluid" style="padding-bottom: 50px;">
+	<div class="dashboard-section-header" ng-show="true === showLoadingAnimation" >
+		<div class="spinner" style="height: 30px;width:30px;margin-top: 5px;border-width: 3px;"></div>
+</div>
+	<!--  -->
+	<ng-view ng-hide="true === showLoadingAnimation"></ng-view>
+</div>
+
+
+<% include data_footer %>

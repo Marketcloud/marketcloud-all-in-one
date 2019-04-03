@@ -1,0 +1,256 @@
+<h1 class="page-title">Using Webhooks</h1>
+        <p>Use webhooks to notify other apps whenever any event occurs in your Marketcloud application. If you need further help, you can find us in our <a class="link" href="/community">slack channel</a> or writing us an email.</p>
+        <blockquote class="blockquote-info">
+          <b>Note</b><br/>
+          <p>To intercept webhooks you need a server sided app with a publicly available address. You can use services like Heroku, Azure and AWS to easily setup a web application able to listen for POST http requests.</p>
+        </blockquote>
+        <h4 class="mt50">Table of contents</h4>
+        <ol>
+          <li><a class="link" href="#createAWebhook">Create a webhook</a></li>
+          <li><a class="link" href="#receiveAWebhook">Receive a webhook</a></li>
+          <li><a class="link" href="#webhookDataStructure">Webhook data structure</a></li>
+          <li><a class="link" href="#eventsTable">Events table</a></li>
+        </ol>
+        <a class="anchor" id="createAWebhook"></a>
+        <h4 class="mt50">Create a webhook</h4>
+        <p>Go to your dashboard and open your app's settings.</p>
+        <p>Click on the "webhooks" tab to show the list of your app's webhooks. If you did not create any webhook, you should see an empty list like the following imag.</p>
+        <img src="https://marketcloud.azureedge.net/images/doc-webhook-screen-1.png" class="img-responsive mb20">
+        <p>Click on the "add" button on the upper right corner to create a new webhook. When the modal opens, select an event from the list, for example select orders.create to trigger this webhook whenever new order is created in your app.</p>
+        <img src="https://marketcloud.azureedge.net/images/doc-webhook-screen-2.png" class="img-responsive mb20">
+        <p>In the second box, insert the URL which will be invoked whenever an order is created.</p>
+        <blockquote class="blockquote-info">
+          <b>Note</b><br/>
+          The URL you provide will be invoked with a <b>POST</b> request.
+        </blockquote>
+        <img src="https://marketcloud.azureedge.net/images/doc-webhooks-screen-3.png" class="img-responsive mb20">
+        <a class="anchor" id="receiveAWebhook"></a>
+        <h4 class="mt50">Receive a webhook</h4>
+        <p>Webhook data is sent as JSON in the POST request body. The full event object included and can be used directly, after parsing the JSON.</p>
+        <div class="card card-table">
+                <div class="grey">
+                <ul class="nav nav-pills nav-pills-light">
+                  <li role="presentation" class="active"><a href="#nodejs" data-toggle="tab">NodeJS</a></li>
+                  <li role="presentation"><a href="#php" data-toggle="tab">PHP</a></li>
+                </ul>
+                </div>
+                <!-- Tab panes -->
+                <div class="tab-content">
+
+                  <div role="tabpanel" class="tab-pane" id="php">
+                    
+                    <pre><code class="php">
+/*
+  Accepting webhooks with PHP is as easy as creating a simple .php file
+*/
+$inputJSON = file_get_contents('php://input');
+
+/*
+  Your event object
+*/
+$event = json_decode($inputJSON); //convert JSON into array
+
+                    </code></pre>
+                  </div>
+                  <div role="tabpanel" class="tab-pane active" id="nodejs">
+                    
+                    <pre><code class="javascript">
+/*
+  Using a framework like ExpressJS,
+  we just need to create a new route
+*/
+app.post('/webhook',function(request,response,next){
+
+  /*
+    If you are not parsing JSON in a middleware,
+    you have to do it here
+  */
+  var event = JSON.parse(request.body);
+
+  res.send(200);
+});
+
+                    </code></pre>
+                  </div>
+                </div>
+                
+              </div>
+        <a class="anchor" id="webhookDataStructure"></a>
+        <h4 class="mt50">Webhook data structure</h4>
+        <p>When your code receives a webhook in the form of a HTTP request, the request's body will contain the relevant data for the captured event. Here's an example webhook generated when a product was updated.</p>
+        <pre><code class="json">
+{
+  "apiVersion": "v0",
+  "time": "2017-04-27T14:04:57.851Z",
+  "event":"products.update",
+  "data":{
+    "status" : true,
+    "data" : {
+      "type":"simple_product",
+      "id":20075,
+      "application_id":10338,
+      "name":"Javascript sticker",
+      "slug":"javascript-sticker",
+      "description":"",
+      "images":[
+         "http://www.example.com/image.jpg"
+      ],
+      "category_id":20862,
+      "brand_id":20743,
+      "price":3.99,
+      "price_discount":2.99,
+      "display_price":"3.99 EUR",
+      "display_price_discount":"2.99 EUR",
+      "stock_type":"status",
+      "stock_status":"in_stock",
+      "published":true
+    }
+  }
+  "request": {
+    "method": "PUT",
+    "access": "admin",
+    "path": "/v0/products/20075",
+    "body": {
+      "price": 3.99
+    },
+    "query": {}
+  }
+}    
+           
+        </code></pre>
+        <a class="anchor" id="eventsTable"></a>
+        <h4 class="mt50">Events table</h4>
+        <p>Here's a list of the events you can listen for and process.</p>
+        <div class="table-responsive">
+<table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                  <th>Event name</th>
+                  <th>Event description</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+              <tr>
+                <td><code>products.create</code></td>
+                <td>Triggered whenever a product is created</td>
+              </tr>
+            
+              <tr>
+                <td><code>products.delete</code></td>
+                <td>Triggered whenever a product is deleted</td>
+              </tr>
+            
+              <tr>
+                <td><code>products.update</code></td>
+                <td>Triggered whenever a product is updated</td>
+              </tr>
+            
+              <tr>
+                <td><code>brands.create</code></td>
+                <td>Triggered whenever a brand is created</td>
+              </tr>
+            
+              <tr>
+                <td><code>brands.delete</code></td>
+                <td>Triggered whenever a brand is deleted</td>
+              </tr>
+            
+              <tr>
+                <td><code>brands.update</code></td>
+                <td>Triggered whenever a brand is updated</td>
+              </tr>
+            
+              <tr>
+                <td><code>categories.create</code></td>
+                <td>Triggered whenever a category is created</td>
+              </tr>
+            
+              <tr>
+                <td><code>categories.delete</code></td>
+                <td>Triggered whenever a category is deleted</td>
+              </tr>
+            
+              <tr>
+                <td><code>categories.update</code></td>
+                <td>Triggered whenever a category is updated</td>
+              </tr>
+            
+              <tr>
+                <td><code>orders.create</code></td>
+                <td>Triggered whenever an order is created</td>
+              </tr>
+            
+              <tr>
+                <td><code>orders.delete</code></td>
+                <td>Triggered whenever an order is deleted</td>
+              </tr>
+            
+              <tr>
+                <td><code>orders.update</code></td>
+                <td>Triggered whenever an order is updated</td>
+              </tr>
+            
+              <tr>
+                <td><code>carts.create</code></td>
+                <td>Triggered whenever a cart is created</td>
+              </tr>
+            
+              <tr>
+                <td><code>carts.delete</code></td>
+                <td>Triggered whenever a cart is deleted</td>
+              </tr>
+            
+              <tr>
+                <td><code>carts.update</code></td>
+                <td>Triggered whenever a cart is updated</td>
+              </tr>
+            
+              <tr>
+                <td><code>payments.create</code></td>
+                <td>Triggered whenever a payment is created</td>
+              </tr>
+            
+              <tr>
+                <td><code>payments.delete</code></td>
+                <td>Triggered whenever a payment is deleted</td>
+              </tr>
+            
+              <tr>
+                <td><code>payments.update</code></td>
+                <td>Triggered whenever a payment is updated</td>
+              </tr>
+            
+              <tr>
+                <td><code>shippings.create</code></td>
+                <td>Triggered whenever a shipping is created</td>
+              </tr>
+            
+              <tr>
+                <td><code>shippings.delete</code></td>
+                <td>Triggered whenever a shipping is deleted</td>
+              </tr>
+            
+              <tr>
+                <td><code>shippings.update</code></td>
+                <td>Triggered whenever a shipping is updated</td>
+              </tr>
+            
+              <tr>
+                <td><code>users.create</code></td>
+                <td>Triggered whenever a user is created</td>
+              </tr>
+            
+              <tr>
+                <td><code>users.update</code></td>
+                <td>Triggered whenever a user is updated</td>
+              </tr>
+            
+              <tr>
+                <td><code>users.delete</code></td>
+                <td>Triggered whenever a user is deleted</td>
+              </tr>
+            
+            </tbody>
+          </table>
+        </div>

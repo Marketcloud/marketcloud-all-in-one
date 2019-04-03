@@ -1,0 +1,79 @@
+<div class="dashboard-navbar">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-6">
+
+                <a class="root" href=""><span class="fa fa-th"></span> Applications</a>
+
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 text-center has-feedback hidden-xs">
+                <input type="text" class="form-control" placeholder="Start typing to filter apps" style="padding-left:30px;" ng-model="q" ng-model-options='{ debounce: 500 }' ng-change="filterApps()">
+                <i class="fa fa-search form-control-feedback text-muted" style="left:15px;right:none;font-size:18px"></i>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-3 col-xs-6">
+
+                <a href="#/new" class="btn btn-info btn-sm raised pull-right">New application</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="card mb20">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h5>Welcome!</h5>
+                        <p class="text-muted">This is your Marketcloud dashboard, here you can access your applications' settings and data, or you can <a href="#/new" class="link">create a new one</a>.</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <ul class="list">
+                            <li>
+                                <a class="link" href="/documentation">Read documentation</a>
+                            </li>
+                            <li>
+                                <a class="link" href="/community">Ask for help</a>
+                            </li>
+                            <li>
+                                <a class="link" href="/documentation/examples">Example projects</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row" ng-show="q !== '' && applications.length === 0">
+        <div class="col-xs-12" ng-if="isNullOrUndefined(q) === false">
+            <div class="text-center text-muted lead">Your query did not match any application</div>
+
+
+        </div>
+
+        <div class="col-md-8 col-md-offset-2" ng-if="isNullOrUndefined(q) === true">
+            <div class="text-center text-muted lead card raised">
+                <p>Your applications will be displayed here.</p><a href="#/new" class="btn btn-info btn-lg">Create an application</a></div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="row">
+                
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" ng-repeat="app in applications">
+            
+                <application application-data="app"></application>
+        </div>
+            </div>
+        </div>
+        
+
+
+
+    </div>
+
+</div>

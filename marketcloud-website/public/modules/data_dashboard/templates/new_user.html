@@ -1,0 +1,93 @@
+<div class="dashboard-section-header"><a class="root link" href="#/users">Users</a> / create
+<button class="btn btn-info pull-right" ng-click="saveUser()">Save</button>
+<back-button></back-button>
+</div>
+<div class="container-fluid" style="padding-bottom: 50px;">
+
+
+	<div class="row">
+		<div class="col-xs-12 col-lg-8">
+			<div class="card mb50">
+				<div class="card-header"><h4>Basic information</h4></div>
+				<div class="card-content">
+				<div class="form-group" ng-class="{'has-error' : errorField === 'name'}">
+					<label>Name</label>
+					<input type="text"
+					class="form-control  "
+					placeholder="e.g. Luke Skywalker"
+					ng-model="user.name" />
+				</div>
+
+				<div class="form-group" ng-class="{'has-error' : errorField === 'name'}">
+					<label>Email*</label>
+					<input type="email"
+					class="form-control  "
+					placeholder="luke@theforce.co"
+					ng-model="user.email" />
+				</div>
+
+				<div class="form-group" ng-class="{'has-error' : errorField === 'name'}">
+					<label>Role</label>
+					<span class="small text-muted">Default is no role</span>
+					<select class="form-control " ng-model="user.role" ng-options="role.name as role.name for role in roles"></select>
+				</div>
+
+				<div class="row">
+
+					<div class="form-group col-lg-6">
+						<label>Password</label>
+							<input type="password"
+							class="form-control  "
+							placeholder="secretpassword"
+							ng-model="user.password" />
+					</div>
+					<div class="form-group col-lg-6">
+						<label>Confirm password</label>
+							<input type="password"
+							class="form-control  "
+							placeholder="secretpassword"
+							ng-model="confirm_password" />
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<div class="row mb50">
+		<div class="col-xs-12 col-lg-8">
+			<div class="card">
+				<div class="card-header"><h4>Default shipping address</h4></div>
+				<div class="card-content">
+					<address-form address="user.shipping_address"></address-form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row mb50">
+		<div class="col-xs-12 col-lg-8">
+			<div class="card">
+				<div class="card-header"><h4>Default billing address</h4></div>
+				<div class="card-content">
+					<div class="text-right">
+						<button class="btn btn-info btn-sm" ng-click="copyShippingAddressToBillingAddress()">Copy shipping</button>
+					</div>
+					<address-form address="user.billing_address"></address-form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+		<div class="row">
+		<div class="col-xs-12 col-lg-8">
+			<custom-attributes-form
+				resource="user"
+				properties="customPropertiesData"
+			></custom-attributes-form>
+		</div>
+	</div>
+	

@@ -1,0 +1,92 @@
+<div class="dashoard-navbar" style="margin:0px;border-bottom:1px solid #CCC;">
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="applications-breadcrumb">
+					<a class="root" href="#/">
+						<span class="fa fa-th"></span> Applications</a> 
+						<span class="fa fa-chevron-right"></span> 
+					<span class="application-name">{{application.name}}</span>
+				</div>
+			</div>
+			
+			
+		</div>
+	</div>
+	
+	
+</div>
+<div class="dashboard-navbar" style="margin:0px;">
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12">
+				
+				<ul class="nav nav-pills">
+					<li class="active"><a href="">Activities</a></li>
+					<li><a href="">Integrations</a></li>
+					<li><a href="">Webhooks</a></li>
+					<li><a href="">ACL</a></li>
+					<li><a href="">Deploy</a></li>
+				</ul>
+
+			</div>
+			
+		</div>
+	</div>
+	
+	
+</div>
+
+
+
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-6">
+
+
+
+			<h4>Latest activities</h4>
+			<div class="card card-table mb50">
+				<div ng-hide="activities.length > 0">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="center text-muted"><span class="fa fa-exchange f48"></span></div>
+							<p class="lead text-muted center">There are no activities to show yet.</p>
+						</div>
+					</div>
+				</div>
+				<div class="table-responsive" ng-show="activities.length > 0">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Method</th>
+								<th>Path</th>
+								<th>Response</th>
+								<th>Date</th>
+								<th>Source</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="activity in activities">
+								<td>
+									<span class="label" ng-class='getMethodCSSClass(activity)'>{{activity.method}}</span>
+									
+								</td>
+								<td>{{activity.path}}</td>
+								<td>{{activity.status}}</td>
+								<td>{{activity.time}}</td>
+								<td>{{activity.source}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,52 @@
+<p>This is the documentation for the official Marketcloud PHP SDK. It is a wrapper for our REST api and it makes it easier to use.</p>
+        
+        <h3 class="section-title"  id="introduction">Introduction</h3>
+        <p >If you haven't set up an application yet, please refer to this <a href="/documentation/rest-api/gettingstarted" class="link">Getting Started</a> guide.</p>
+        <p >Your account on Marketcloud can handle multiple marketcloud-apps, each one has its own public key / secret key pair that you insert into your PHP code.</p>
+        <p>The Marketcloud PHP SDK is open source and publicly available at <a href="https://github.com/Marketcloud/marketcloud-php" class="link">Github</a></p>
+        <h3 class="section-title"  id="installation">Installation</h3>
+        <p>The easiest way to get started with the PHP sdk, is to install it with composer:</p>
+      <pre><code class="php">composer require marketcloud/marketcloud-php</code></pre>
+      <p>At this point you can include the sdk in your application</p>
+    <pre><code class="php">require('./vendor/autoload.php');</code></pre>
+    <h3 class="section-title"  id="authentication">Authentication and security</h3>
+    <p >Every application identifies itself to Marketcloud using a unique public key. Since you must ship the public key with your client application code, this key is <b>public</b>. The application security is guaranteed by the secret key, which you should never share with anyone, since it would allow to ignore every authorization mechanism. The only place where it should be safe to store and use the secret key is (in case you need it) your server side code.</p>
+
+    <p>Your app's credentials are stored by the <code>Marketcloud</code> object</p>
+    
+    <pre><code class="php">Marketcloud\Marketcloud::setCredentials(array(
+  'secret_key' => 'your-secret-key-here',
+  'public_key' => 'your-public-key-here'
+));</code></pre>
+    <p>The token is transparently handled by the client and generated only when needed.</p>
+
+    <h3 class="section-title" id="making-requests">Making requests</h3>
+    <p></p>
+    <pre><code class="php">
+$query = array(
+   'category_id' => 1101,
+   'price_lt' => 50
+)
+Marketcloud\Products::get($query);
+    </code></pre>
+    <div class="method-title">Handling errors</div>
+    <p>Errors returned by the SDK have the following structure</p>
+    <pre><code class="json">
+{
+  "code" : 404,
+  "type" : "NotFound",
+  "message" : "Resource not found"
+}
+    </code></pre>
+    <p>Validation error have further attributes:</p>
+    <pre><code class="json">
+
+{    
+    "code": 400,
+    "type": "BadRequest",
+    "message": "Bad request",
+    "valid": false,
+    "failedValidator": "missingRequiredProperty",
+    "invalidPropertyName": "price"
+}
+    </code></pre>

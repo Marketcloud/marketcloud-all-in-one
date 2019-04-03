@@ -1,0 +1,59 @@
+<section class="resource">
+<!-- paymentMethods -->
+<h3 id="paymentMethods">Payment methods</h3>
+<p>Payment methods are a way to describe how customers will pay the goods they are buying. We have some default payment methods which are integrated into the system such as Braintree and Stripe, but your store might want some custom methods, such as cash on delivery.</p>
+<h5>Usage with orders</h5>
+<p>In order to tell Marketcloud that an order is using a certain payment method, just create an order with a <code>payment_method_id</code> value. See <a href="#orders.create" class="link">orders.create</a> for an example </p>
+
+
+<a class="anchor" id="paymentMethods.create"></a>
+<div class="method-title">Create a payment method</div>
+<pre><code class="php">//Creates a new payment method
+
+$new_payment_method = array(
+    "name" => "Cash on delivery",
+    "description" => "The order is paid at delivery.",
+    "cost_type" => "fixed_fee",
+    "fixed_fee" => 5,
+    "active" => true
+)
+
+  Marketcloud\PaymentMethods::create($new_payment_method)
+  </code></pre>
+
+
+
+<a class="anchor" id="paymentMethods.update"></a>
+<div class="method-title">Update a payment method</div>
+<pre><code class="php">//Updates a new payment method
+  Marketcloud\PaymentMethods::update(array("fixed_fee" => 10)
+  </code></pre>
+
+
+<a class="anchor" id="paymentMethods.delete"></a>
+<div class="method-title">Delete a payment method</div>
+<pre><code class="php">//Deletes a payment method with id 123
+  Marketcloud\PaymentMethods::delete(123)
+</code></pre>
+
+
+
+
+<a class="anchor" id="paymentMethods.getById"></a>
+<div class="method-title">Retrieve a payment method</div>
+<pre><code class="php">//Retrieves a payment method by its id
+  Marketcloud\PaymentMethods::getById(payment_method_id)
+ </code></pre>
+
+
+
+<a class="anchor" id="paymentMethods.list"></a>
+<div class="method-title">List all payment methods</div>
+<pre><code class="php">//Retrieves a list of payment methods filtered and sorted by the query object
+  Marketcloud\PaymentMethods::get(query)
+  </code></pre>
+
+
+<!-- End of payment methods-->
+
+</section>

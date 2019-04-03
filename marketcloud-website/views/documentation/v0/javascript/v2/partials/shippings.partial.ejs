@@ -1,0 +1,77 @@
+<section class="resource">
+<!-- Shippings -->
+      <h3 class="section-title"  id="shippings">Shippings</h3>
+     <a class="anchor" id="shippings.getById"></a>
+ <div class="method-title">Retrieve a shipping</div>
+      <h5>Example request</h5>
+        <pre><code class="javascript">//Retrieves a shipping by its id
+marketcloud.shippings.getById(123);
+      </code></pre>
+     <a class="anchor" id="shippings.list"></a>
+ <div class="method-title">List all shippings</div>
+      <p>Retrieves a list of Shippings filtered and sorted by the query object.</p>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">fields</td>
+            <td>String</td>
+            <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+          </tr>
+          <tr>
+            <td  class="code">per_page</td>
+            <td>Integer</td>
+            <td>The number of shippings to retrieve per page</td>
+          </tr>
+          <tr>
+            <td class="code">page</td>
+            <td>Integer</td>
+            <td>The page number of shippings to display</td>
+          </tr>
+          <tr>
+            <td class="code">value</td>
+            <td>Integer</td>
+            <td>Return only those shipping methods that allow the wanted total value </td>
+          </tr>
+          <tr>
+            <td class="code">weight</td>
+            <td>Integer</td>
+            <td>Return only those shipping methods that allow the wanted total weight </td>
+          </tr>
+          <tr>
+            <td class="code">height</td>
+            <td>Integer</td>
+            <td>Return only those shipping methods that allow the wanted total height </td>
+          </tr>
+          <tr>
+            <td class="code">depth</td>
+            <td>Integer</td>
+            <td>Return only those shipping methods that allow the wanted total depth </td>
+          </tr>
+          <tr>
+            <td class="code">width</td>
+            <td>Integer</td>
+            <td>Return only those shipping methods that allow the wanted total width </td>
+          </tr>
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+      <pre><code class="javascript">
+// Get eligible shippings methods for orders
+// with a total value of 50 $ (depends on currency)
+// and a total weight of 40
+marketcloud.shippings.list({
+    "value" : 50,
+    "weight" : 40
+});
+</code></pre>
+
+
+</section>

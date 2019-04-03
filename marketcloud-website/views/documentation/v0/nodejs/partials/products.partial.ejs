@@ -1,0 +1,247 @@
+
+    <!-- PRODUCTS -->
+<section class="resource">
+    <h3 class="section-title"  id="products">Products</h3>
+    
+
+    <!-- products.create -->
+    <section class="action">
+      <a class="anchor" id="products.create"></a>
+      <div class="method-title">Create a product</div>
+      <h5>Arguments</h5>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>name <span class="label label-success">Required</span></td>
+              <td>String</td>
+              <td>The product name</td>
+            </tr>
+            <tr>
+              <td>sku</td>
+              <td>String</td>
+              <td>The product sku identifier</td>
+            </tr>
+            <tr>
+              <td>category_id</td>
+              <td>Number</td>
+              <td>The category identifier</td>
+            </tr>
+            <tr>
+              <td>brand_id</td>
+              <td>Number</td>
+              <td>The brand identifier</td>
+            </tr>
+            <tr>
+              <td>store_id</td>
+              <td>Number</td>
+              <td>The store identifier</td>
+            </tr>
+            <tr>
+              <td>description</td>
+              <td>String</td>
+              <td>A description for the product</td>
+            </tr>
+            <tr>
+              <td>price <span class="label label-success">Required</span></td>
+              <td>Number</td>
+              <td>The product price</td>
+            </tr>
+            <tr>
+              <td>stock_type <span class="label label-success">Required</span></td>
+              <td>Number</td>
+              <td>The stock type for the product</td>
+            </tr>
+            <tr>
+              <td>stock_level</td>
+              <td>Number</td>
+              <td>The stock level for the product</td>
+            </tr>
+            <tr>
+              <td>stock_status</td>
+              <td>String</td>
+              <td>The stock_status indicates whether the</td>
+            </tr>
+            <tr>
+              <td>published</td>
+              <td>Boolean</td>
+              <td>The status of the product</td>
+            </tr>
+            <tr>
+              <td><code>&lt;attribute_name&gt;</code></td>
+              <td>Mixed</td>
+              <td>This resource accepts custom attributes.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h5>Example request</h5>
+      <pre><code class="javascript">marketcloud.products.create(new_product)
+.then(function(product){
+  // Your code here
+})
+      </code></pre>
+    </section>
+    <!-- /products.create -->
+
+
+    <!-- products.getById -->
+    <a class="anchor" id="products.getById"></a>
+    <div class="method-title">Retrieve a product</div>
+    <p>Retrieves a product by its id</p>
+    <h5>Example request</h5>
+    <pre><code class="javascript">marketcloud.products.getById(888)
+.then(function(product){    
+  // Your code here          
+});
+    </code></code></pre>
+    <h5>Example response</h5>
+    <pre><code class="json">
+{
+    "id": 13687,
+    "name": "A song of fire and ice: A feast for crows",
+    "sku": "ASOFAI_AFFC",
+    "price": 7.79,
+    "description": "A brief description of this book.",
+    "published": true,
+    "stock_level": 30,
+    "stock_type": "track",
+    "stock_status": null,
+    "author": "George R. R. Martin",
+    "isbn-10": "055358202X",
+    "isbn-13": "978-0553582024",
+    "pages": 1060,
+    "editor": "Bantam Books",
+    "genre": "Fantasy",
+    "cover": "Paperback",
+    "publication_year": "2001"
+  }
+    </code></pre>
+    <p>Note that starting from author, the remaining fields are custom attributes defined when the product was created.</p>
+    <a class="anchor" id="products.list"></a>
+<div class="method-title">List all products</div>
+    <p>Retrieves a list of products filtered and sorted by the query object.</p>
+    <h5>Arguments</h5>
+    <div class="table-responsive">
+    <table class="table table-striped documentation">
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="code">q</td>
+          <td>String</td>
+          <td>Filter results performing a text research on your products.</td>
+        </tr>
+        <tr>
+          <td class="code">price_gt</td>
+          <td>Number</td>
+          <td>Display only products that cost more than the specified value.</td>
+        </tr>
+        <tr>
+          <td class="code">price_lt</td>
+          <td>Number</td>
+          <td>Display only products that cost less than the specified value.</td>
+        </tr>
+        <tr>
+          <td>category_id</td>
+          <td>Number</td>
+          <td>Display products that belongs to a particular category.</td>
+        </tr>
+        <tr>
+          <td>brand_id</td>
+          <td>Number</td>
+          <td>Display products that belongs to a particular brand.</td>
+        </tr>
+         <tr>
+          <td class="code">category</td>
+          <td>String</td>
+          <td>Display only products that belongs to the specified category path or to a sub category. For example, <code>?category=/shoes</code> matches all producs in categories /shoes, /shoes/running /shoes/classic and other subcategories of "shoes" </td>
+        </tr>
+        <tr>
+          <td><code>&lt;attribute_name&gt;</code></td>
+          <td>Mixed</td>
+          <td>Filter products by any custom field.</td>
+        </tr>
+        <tr>
+          <td class="code">fields</td>
+          <td>String</td>
+          <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+        </tr>
+        <tr>
+          <td  class="code">per_page</td>
+          <td>Number</td>
+          <td>The number of products to retrieve per page</td>
+        </tr>
+        <tr>
+          <td class="code">page</td>
+          <td>Number</td>
+          <td>The page number of products to display</td>
+        </tr>
+         <tr>
+          <td class="code">currency</td>
+          <td>String</td>
+          <td>The currency code of the currency you want to use to show product prices.</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <h5>Example request</h5>
+      <pre><code class="javascript">
+var query = {category_id : 5,price_lt:50}
+marketcloud.products.list(query)
+.then(function(products){
+          // Your code here
+})
+    </code></pre>
+    <p>The previous example queries the api for products that belongs to the category with id equal to 5 and that cost less than 50</p>
+    <a class="anchor" id="products.update"></a>
+<div class="method-title">Update a product</div>
+    <p >Updates a product by id.</p>
+    <h5>Arguments</h5>
+    <div class="table-responsive"><table class="table table-striped documentation">
+      <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>product_id <span class="label label-success">Required</span></td>
+          <td>Number</td>
+          <td>The univocal product identifier</td>
+        </tr>
+        <tr>
+          <td>update_data <span class="label label-success">Required</span></td>
+          <td>Object</td>
+          <td>An object containing the updates. See <a href="#products.create" class="link">products.create()</a> for more informations.</td>
+        </tr>
+      </tbody>
+    </table></div>
+    <h5>Example request</h5>
+      <pre><code class="javascript">
+marketcloud.products.update(product_id,update_data)
+.then(function(product){
+  // Your code here
+})
+    </code></pre>
+    <a class="anchor" id="products.delete"></a>
+<div class="method-title">Delete a product</div>
+    <p >Delete a product by id.</p>
+    <h5>Example request</h5>
+    <pre><code class="javascript">
+marketcloud.products.delete(product_id)
+.then(function(){
+  // Your code here
+})
+    </code></pre>
+
+</section>
+  <!-- /Products -->

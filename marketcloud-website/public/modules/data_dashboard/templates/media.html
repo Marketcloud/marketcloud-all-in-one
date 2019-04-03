@@ -1,0 +1,184 @@
+<style type="text/css">
+  td:not(.actions) {
+    max-width: 200px;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    word-wrap: pre;
+  }
+</style>
+<div class="dashboard-section-header">
+  <span class="root">Files</span>
+  <back-button></back-button>
+</div>
+
+<div class="container-fluid">
+  <div class="row" >
+    <div class="col-xs-12">
+      <!-- -->
+      <div class="card card-table">
+        <div class="card-toolbar" ng-hide="getSelectedItems().length > 0">
+          <div class="row">
+            <div class="col-lg-6 col-xs-8 has-feedback" >
+              <input type="text"
+              class="form-control no-border"
+              placeholder="Search files by name"
+              style="padding-left:30px;"
+              ng-model="query.name.$regex"
+              ng-model-options='{ debounce: 500 }'
+              focus-on-show
+              ng-change="prepareRegex();loadData()">
+              <i class="fa fa-search form-control-feedback text-muted" style="left:10px;right:0px;"></i>
+            </div>
+            <div class="col-lg-6 col-xs-4">
+              <media-manager
+              button-class="btn btn-sm btn-info"
+              button-text="Upload"
+              button-icon="ion-plus-round"
+              tabs="from_disk,from_url"
+              on-close-dialog="loadData()"
+              close-on-upload-complete="true"
+              images-container="product.images"></media-manager>
+            </div>
+          </div>
+        </div>
+        <div class="card-toolbar" ng-show="getSelectedItems().length > 0">
+          <strong style="margin-right:50px;">{{getSelectedItems().length}} selected</strong>
+          <button class="btn btn-sm btn-default" ng-click="bulkDelete()"><span class="fa fa-trash"></span> Delete</button>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th  class="col-xs-1">
+                  <div class="form-group m0">
+                    <div class="checkbox m0">
+                      <input type="checkbox" ng-change="toggleAll()" ng-model="selectAll" />
+                      <label></label>
+                    </div>
+                  </div></th>
+                  <th class="col-xs-3">Name</th>
+                  <th  class="col-xs-3">URL</th>
+                  <th class="col-xs-2">Size</th>
+                  <th class="col-xs-2">Type</th>
+                  <th  class="col-xs-1"></th>
+                </tr>
+              </thead>
+              <tbody ng-show="null !== media && media.length > 0">
+                <tr ng-repeat="p in media  track by $index">
+                  <td >
+                    <div class="form-group">
+                      <div class="checkbox">
+                        <input type="checkbox" ng-model="p.selected"/>
+                        <label></label>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="col-xs-3"><a class="link" ng-click="inspectFile(p)">
+                  {{p.name}}</a></td>
+                  <td class="col-xs-3"><a class="link" target="blank" ng-href="{{p.url}}">{{p.url}}</a></td>
+                  <td class="col-xs-2">{{formatFileSize(p)}}</td>
+                  <td class="col-xs-2">{{p.mime_type}}</td>
+                  <td class="actions">
+                    
+                   <!--  <button class="btn btn-default btn-sm" ng-click="deleteMedia(p.id,$index)"><span class="fa fa-trash-o"></span></button>
+
+                    <button class="btn btn-default btn-sm" ng-click="inspectFile(p)"><span class="fa fa-search"></span></button> -->
+
+                    <div class="actions" ng-class="{'dropup' : true === $last && media.length !== 1, 'dropdown' : false === $last || media.length === 1 }" >
+                          <a class="btn btn-transparent" data-toggle="dropdown" role="button" >
+                            <i class="fa fa-ellipsis-v f18"></i>
+                          </a>
+                          <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                              <a ng-click="inspectFile(p)" alt="edit">View/Edit</a>
+                            </li>
+                            <li><a ng-click="deleteMedia(p.id,$index)" alt="delete">Delete</a></li>
+                          </ul>
+                        </div>
+                   
+                    
+                  </td>
+                  
+                </tr>
+              </tbody>
+            </table>
+            <div class="p10"  ng-show="media.length <= 0">
+              <div class="center text-muted"><span class="fa fa-picture-o f48"></span></div>
+              <p class="lead text-muted text-center">Your files will be displayed here</p>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="row">
+              <div class="col-xs-12 text-right">
+                <pagination-selector
+                  pagination="pagination"
+                  per-page="query.per_page"
+                  page="query.page"
+                  on-change-page-size="loadData({per_page : per_page })"
+                  on-change-page-number="loadPage(page)"
+                ></pagination-selector>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+
+<!-- Inspect media MODAL -->
+<div class="modal fade" tabindex="-1" role="dialog" id="inspectFileModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">File details</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <img ng-src="{{inspectedFile.url}}" style="max-height: 100px;max-width: 100px;" ng-if="inspectedFile.mime_type.indexOf('image/') > -1">
+            <div class="text-muted small" ng-if="inspectedFile.mime_type.indexOf('image/') === -1">Preview not available</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+
+            <div class="small text-muted">Name</div>
+            <div class="mb10">
+                <div class="form-group">
+                  <input type="text" name="name" ng-model="inspectedFile.name" class="form-control input-sm" />
+                </div>
+            </div>
+
+            <div class="small text-muted">Original filename</div>
+            <div class="mb10">{{inspectedFile.original_filename}}</div>
+
+            <div class="small text-muted">MIME Type</div>
+            <div class="mb10">{{inspectedFile.mime_type}}</div>
+
+            <div class="small text-muted">Size</div>
+            <div class="mb10">{{formatFileSize(inspectedFile)}}</div>
+
+            
+
+            <div class="small text-muted">URL</div>
+            <div class="mb10" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"><a class="link" target="_blank" ng-href="{{inspectedFile.url}}">{{inspectedFile.url}}</a></div>
+          </div>
+          
+        </div>
+        <div class="row">
+        </div>
+        
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-empty-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="updateInspectedFile()">Save changes</button>
+
+      </div>
+      </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>

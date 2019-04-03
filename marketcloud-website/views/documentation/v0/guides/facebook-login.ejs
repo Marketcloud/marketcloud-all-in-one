@@ -1,0 +1,165 @@
+<% include ../../../header/ %>
+
+<% include ../../../navbar/ %>
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" href="/modules/documentation/css/documentation.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github.min.css">
+<section class="inverse sub-navbar">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12">
+        <ul class="horizontal-menu nav navbar-nav">
+          <li><a href="/documentation">Documentation</a></li>
+          <li><a><i class="fa fa-angle-right"></i></a></li>
+          <li><a href="/documentation">Guides</a></li>
+          <li><a><i class="fa fa-angle-right"></i></a></li>
+          <li><a href="#">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="documentation-page mt50">
+
+  <div class="container-fluid">
+    
+    <a name="introduction"></a>
+    <div class="row">
+      <div class="col-lg-2 col-lg-offset-2 col-md-4">
+        <div class="text-center">
+        <img src="/img/3rdparty/facebook.png" style="width:100%;"/>
+        </div>
+      
+        <div class="list-group mt20">
+        <a href="https://developers.facebook.com" class="list-group-item">Visit website <span class="fa fa-chevron-right pull-right"></span></a>
+      </div>
+    </div>
+      <div class="col-lg-6 col-lg-offset-0 col-md-9 col-md-offset-0 col-sm-9 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+        
+        
+        
+        <span class="f32 mb20">Authenticate users with Facebook</span>
+      
+      <p class="lead">In this guide, we are going to implement the Facebook login service which allows you to let your customers sign in with their facebook account and still be registered with Marketcloud.</p>
+
+      <p>We will not cover every aspect of the Facebook JS SDK, but you can find every information you need at the <a href="https://developers.facebook.com/docs/javascript" class="link">documentation page</a>.</p>
+
+    <p>First of all, let's create a Facebook APP, you can do it at the <a href="https://developers.facebook.com/apps/" class="link">facebook's developer site </a>.</p>
+    <p>When asked for the application's platform select "website".
+After you selected a name for your app, facebook will provide you the right code to include in your project, which should look like this:</p>
+<pre><code class="html">&lt;script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : 'YOUR-APP-ID',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+&lt;/script>
+</code></pre>
+
+<p>Now, to implement a login function, we will refer to the example login provided by the <a href="https://developers.facebook.com/docs/javascript/examples#login" class="link">official facebook documentation</a>.</p>
+
+<pre><code class="javascript">
+FB.getLoginStatus(function(response) {
+  if (response.status === 'connected') {
+    console.log('Logged in.');
+  }
+  else {
+    FB.login();
+  }
+});
+</code></pre>
+<p>The login() method accepts two parameters, the first is the callback, the second is an object that can contain some configuration parameters. The most important for our task is the <i>scope</i> parameter which we will configure to ask facebook for the user's email:</i></p>
+<pre><code class="javascript">
+FB.login(function(response){
+
+  //Handle response
+
+},{
+  scope : 'email'
+});
+
+});
+</code></pre>
+<p>If the user has not given access to your application yet, a dialog will appear, asking the user for permission to access his or her account.</p>
+
+<p>Both the getLoginStatus() and login() methods, returns information we can use to access the user's data:</p>
+
+<pre><code class="javascript">
+FB.getLoginStatus(function(response) {
+  if (response.status === 'connected') {
+    console.log('Already Logged in.', response);
+    var access_token = response.authResponse.accessToken;
+    var user_id = response.authResponse.userID;
+
+    marketcloud.users.authenticateWithFacebook(user_id,access_token,function(err,data){
+      if (err)
+        //Handle error
+      else
+        //Handle success, data.user contains user data
+    }
+  } else {
+    // The user must connect with facebook
+  }
+})
+</code></pre>
+
+<p>In order to connect with facebook, we must use the FB.login() function:</p>
+
+<pre><code class="javascript">
+FB.login(function(response) {
+
+  var access_token = response.authResponse.accessToken;
+  var user_id = response.authResponse.userID;
+
+  marketcloud.users.authenticateWithFacebook(user_id,access_token, 
+  function(err,data){
+	  if (err)
+	        //Handle error
+	  else
+	        //Handle success, data.user contains user data
+	  })
+
+});
+</code></pre>
+<p>
+As you can see there's very little extra work to do in order to integrate marketcloud with facebook. From the official facebook documentation you can find more parameters for the login function, such as how to ask facebook for more information about the user who wants to log in.
+</p>
+
+        
+</div>
+
+</div>
+
+</div>
+</section>
+<script type="text/javascript">
+$(document).ready(function(){
+
+  $("nav>ul#api-reference-index>li>a").click(function(e){
+    e.preventDefault();
+    $(e.target).parent().toggleClass('active');
+  })
+
+  $("nav>ul#api-reference-index>li> ul > li > a").click(function(e){
+
+  $("nav>ul#api-reference-index>li> ul > li.active").toggleClass('active')
+  $(e.target).parent().toggleClass('active');
+
+  })
+})
+
+</script>
+<% include ../../../footer/ %>

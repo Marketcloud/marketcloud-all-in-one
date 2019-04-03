@@ -1,0 +1,207 @@
+<section class="resource">
+<!-- Shippings -->
+      <h3 class="section-title"  id="shippings">Shippings</h3>
+     <a class="anchor" id="shippings.getById"></a>
+ <div class="method-title">Retrieve a shipping</div>
+      <h5>Example request</h5>
+        <pre><code class="php">//Retrieves a shipping by its id
+Marketcloud\Shippings::getById($id);
+      </code></pre>
+     <a class="anchor" id="shippings.list"></a>
+ <div class="method-title">List all shippings</div>
+      <p>Retrieves a list of Shippings filtered and sorted by the query object.</p>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">fields</td>
+            <td>String</td>
+            <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+          </tr>
+          <tr>
+            <td  class="code">per_page</td>
+            <td>Integer</td>
+            <td>The number of shippings to retrieve per page</td>
+          </tr>
+          <tr>
+            <td class="code">page</td>
+            <td>Integer</td>
+            <td>The page number of shippings to display</td>
+          </tr>
+          <tr>
+            <td class="code">value</td>
+            <td>Integer</td>
+            <td>Return only those shipping methods that allow the wanted total value </td>
+          </tr>
+          <tr>
+            <td class="code">weight</td>
+            <td>Integer</td>
+            <td>Return only those shipping methods that allow the wanted total weight </td>
+          </tr>
+          <tr>
+            <td class="code">height</td>
+            <td>Integer</td>
+            <td>Return only those shipping methods that allow the wanted total height </td>
+          </tr>
+          <tr>
+            <td class="code">depth</td>
+            <td>Integer</td>
+            <td>Return only those shipping methods that allow the wanted total depth </td>
+          </tr>
+          <tr>
+            <td class="code">width</td>
+            <td>Integer</td>
+            <td>Return only those shipping methods that allow the wanted total width </td>
+          </tr>
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+      <pre><code class="php">
+// Get eligible shippings methods for orders
+// with a total value of $cart_value
+// and a total weight of 40
+Marketcloud\Shippings::get(array(
+    "value" => $cart_value,
+    "weight" => 40
+));</code></pre>
+     <a class="anchor" id="shippings.create"></a>
+ <div class="method-title">Create a new shipping</div>
+      <h5>Arguments</h5>
+      <div class="table-responsive">
+      <table class="table table-striped documentation">
+                  <thead>
+                    <tr>
+                      <th>Attribute</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="code">name <span  class="label label-success">Required</span></td>
+                      <td>String</td>
+                      <td>The shipping name</td>
+                    </tr>
+                    <tr>
+                      <td class="code">base_cost <span  class="label label-success">Required</span></td>
+                      <td>Number</td>
+                      <td>The base price for this shipping method.</td>
+                    </tr>
+                    <tr>
+                      <td class="code">per_item_cost</td>
+                      <td>Number</td>
+                      <td>The additional price for each item in the shipment.</td>
+                    </tr>
+                    <tr>
+                      <td class="code">min_value</td>
+                      <td>Number</td>
+                      <td>Orders with a total price greater than <span class="code">min_value</span> are eligible for this shipping rule.</td>
+                    </tr>
+                    <tr>
+                      <td class="code">max_value</td>
+                      <td>Number</td>
+                      <td>Orders with a total price smaller than <span class="code">max_value</span> are eligible for this shipping rule.</td>
+                    </tr>
+                    <tr>
+                      <td class="code">min_weight</td>
+                      <td>Number</td>
+                      <td>Orders with a total weight greater than <span class="code">min_weight</span> are eligible for this shipping rule.</td>
+                    </tr>
+                    <tr>
+                      <td class="code">max_weight</td>
+                      <td>Number</td>
+                      <td>Orders with a total weight smaller than <span class="code">max_weight</span> are eligible for this shipping rule.</td>
+                    </tr>
+
+                    <tr>
+                      <td class="code">min_width</td>
+                      <td>Number</td>
+                      <td>Orders with a total width greater than <span class="code">min_weight</span> are eligible for this shipping rule.</td>
+                    </tr>
+                    <tr>
+                      <td class="code">max_width</td>
+                      <td>Number</td>
+                      <td>Orders with a total width smaller than <span class="code">max_width</span> are eligible for this shipping rule.</td>
+                    </tr>
+                    <tr>
+                      <td class="code">min_height</td>
+                      <td>Number</td>
+                      <td>Orders with a total height greater than <span class="code">min_height</span> are eligible for this shipping rule.</td>
+                    </tr>
+                    <tr>
+                      <td class="code">max_height</td>
+                      <td>Number</td>
+                      <td>Orders with a total height smaller than <span class="code">max_height</span> are eligible for this shipping rule.</td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="code">min_depth</td>
+                      <td>Number</td>
+                      <td>Orders with a total depth greater than <span class="code">min_depth</span> are eligible for this shipping rule.</td>
+                    </tr>
+                    <tr>
+                      <td class="code">max_depth</td>
+                      <td>Number</td>
+                      <td>Orders with a total depth smaller than <span class="code">max_depth</span> are eligible for this shipping rule.</td>
+                    </tr>
+                    
+                    
+                  </tbody>
+                </table></div>
+      <h5>Example request</h5>
+        <pre><code class="php">
+// This shipping is eligible for orders with total value greater than 20
+$new_shipping = array(
+  "name" => "Free shipping",
+  "base_cost" => 0,
+  "per_item_cost" => 0,
+  "min_value" => 20
+);
+Marketcloud\Shippings::create($new_shipping);
+      </code></pre>
+     <a class="anchor" id="shippings.update"></a>
+ <div class="method-title">Update a shipping</div>
+      <p class="method-description">Updates a shipping by id.</p>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>shipping_id <span class="label label-success">Required</span></td>
+            <td>Integer</td>
+            <td>The univocal shipping identifier</td>
+          </tr>
+          <tr>
+            <td>update_data <span class="label label-success">Required</span></td>
+            <td>Object</td>
+            <td>An object containing the updates. See <a href="#shippings.create" class="link">Shippings::create()</a> for more informations.</td>
+          </tr>
+          
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+        <pre><code class="php">
+
+$update = array("name" => "Fruit");
+Marketcloud\Shippings::update($shipping_id,$update);
+
+      </code></pre>
+     <a class="anchor" id="shippings.delete"></a>
+ <div class="method-title">Delete a shipping</div>
+      <p class="method-description">Deletes a shipping by id.</p>
+      <h5>Example request</h5>
+      <pre><code class="php">
+Marketcloud\Shippings::delete($shipping_id);
+
+      </code></pre>
+<!-- end of shippings -->
+
+</section>

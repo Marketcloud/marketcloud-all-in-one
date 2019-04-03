@@ -1,0 +1,234 @@
+<div class="dashboard-section-header"><a class="root link" href="#/promotions">Promotions</a> / {{promotion.name}} /edit
+<button class="btn btn-sm btn-info pull-right" ng-click="save()">Save</button>
+<back-button></back-button>	
+</div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-8 col-xs-12 mb20">
+			
+			<div class="card">
+				<div class="card-header"><h4>Basic information</h4></div>
+				<div class="form">
+					
+					<div class="form-group" ng-class="{'has-error':$promotionValidation.valid === false && $promotionValidation.invalidPropertyName==='name'}">
+						<label>Name</label>
+						<input type="text"
+						class="form-control solid"
+						placeholder="e.g. Black friday"
+						ng-model="promotion.name" />
+						<error-messages
+							validation="$promotionValidation"
+							property-name="name"
+							model-name="Promotion"></error-messages>
+					</div>
+			
+				</div>
+			</div>
+
+
+
+			<div class="card card-table mt20">
+				<div class="card-header"><h4>Conditions</h4></div>
+				<div class="card-content">
+				<p class="text-muted small">Conditions are the rules deciding when a promotion can be applied or not. For example, you might want to apply a discount to all carts with a net value greater than 50$, or to carts with more than 5 items. A promotion without conditions, will be always appliable.</p>
+				</div>
+				
+
+					<div class="table-responsive">
+						
+						<table class="table" >
+							<thead>
+								<tr>
+									<th>Type</th>
+									<th>Value</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody ng-if="promotion.conditions.length > 0">
+							<tr ng-repeat="condition in promotion.conditions track by $index">
+								<td>
+									<span ng-show="'MIN_CART_VALUE' === condition.type">Cart value greater than</span>
+									<span ng-show="'MIN_NUMBER_OF_PRODUCTS' === condition.type">Number of items in cart greater than</span>
+								</td>
+								<td>{{condition.value}}</td>
+								<td>
+									<button class="btn btn-sm btn-default" ng-click="removeCondition($index)">
+									<span class="fa fa-trash-o"></span></button></td>
+							</tr>
+							</tbody>
+						</table>
+						<div ng-show="promotion.conditions.length === 0">
+							<p class="text-muted text-center">Promotion's conditions you add will be showed here.</p>
+						</div>
+					</div>
+				
+				<div class="card-content">
+					<div class="row">
+					<div class="form-group col-md-5 col-xs-12" ng-class="{'has-error':$newConditionValidation.valid === false && $newConditionValidation.invalidPropertyName==='type'}">
+									<label>Type</label>
+									<select class="form-control" ng-model="newCondition.type">
+										<option value="MIN_CART_VALUE">Cart value greater than</option>
+										<option value="MIN_NUMBER_OF_PRODUCTS">Number of items in cart greater than</option>
+									</select>
+									<error-messages 
+									validation="$newConditionValidation"
+									model-name="PromotionCondition"
+									property-name="type"></error-messages>
+					</div>
+					<div class="form-group col-md-5 col-xs-12" ng-class="{'has-error':$newConditionValidation.valid === false && $newConditionValidation.invalidPropertyName==='value'}">
+								<label>Value</label>
+								<div class="input-group" ng-if="'MIN_CART_VALUE' === newCondition.type">
+									<input type="number"
+									class="form-control "
+									placeholder="0.00"
+									ng-model="newCondition.value" />
+									<span class="input-group-addon">{{application.currency_code}}</span>
+								</div>
+									<input type="number" class="form-control" ng-model="newCondition.value" ng-if="'MIN_NUMBER_OF_PRODUCTS' === newCondition.type">
+
+
+									<error-messages 
+									validation="$newConditionValidation"
+									property-name="value"
+									model-name="PromotionCondition"></error-messages>
+									</div>
+
+					<div class="form-group col-md-2 col-xs-12">
+						<label class="hidden">.</label><br>
+						<button class="btn btn-default" ng-click="addCondition()">Add</button>
+					</div>
+				</div>
+				</div>
+			</div>
+
+
+
+			<div class="card card-table mt20">
+				<div class="card-header"><h4>Effects</h4></div>
+				<div class="card-content">
+				<p class="text-muted small">Effects are the price reduction for your promotion. It is the discount applied to the total when the conditions are met.</p>
+				</div>
+				
+					<div class="table-responsive">
+						
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Type</th>
+									<th>Value</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody ng-show="promotion.effects.length > 0">
+							<tr ng-repeat="effect in promotion.effects track by $index">
+								<td>
+									<span ng-show="'CART_VALUE_NET_REDUCTION' === effect.type">Apply discount to order's total</span>
+									<span ng-show="'CART_VALUE_PERCENTAGE_REDUCTION' === effect.type">Apply percentage discount to order's total</span>
+									<span ng-show="'CART_ITEMS_NET_REDUCTION' === effect.type">Apply discount to each item's price</span>
+									<span ng-show="'CART_ITEMS_PERCENTAGE_REDUCTION' === effect.type">Apply percentage discount to each item's price</span>
+									<span ng-show="'FREE_SHIPPING' === effect.type">Discount the shipping price</span>
+								</td>
+								<td>{{effect.value}}</td>
+								<td><button class="btn btn-sm btn-default" ng-click="removeEffect($index)"><span class="fa fa-trash-o"></span></button></td>
+							</tr>
+							</tbody>
+						</table>
+						<div ng-show="promotion.effects.length === 0">
+							<p class="text-muted text-center">Promotion's effects you add will be showed here.</p>
+						</div>
+					
+				</div>
+				<div class="card-content">
+					<div class="row">
+					<div class="form-group col-md-5 col-xs-12"
+					ng-class="{'has-error':$newEffectValidation.valid === false && $newEffectValidation.invalidPropertyName==='type'}">
+						<label>Type</label>
+						<select class="form-control" ng-model="newEffect.type" ng-init="newEffect.type = 'CART_VALUE_NET_REDUCTION'">
+							<option value="CART_VALUE_NET_REDUCTION">Apply discount to order's total</option>
+							<option value="CART_VALUE_PERCENTAGE_REDUCTION">Apply percentage discount to order's total</option>
+							<option value="CART_ITEMS_NET_REDUCTION">Apply discount to each item's price</option>
+							<option value="CART_ITEMS_PERCENTAGE_REDUCTION">Apply percentage discount to each item's price</option>
+							<option value="FREE_SHIPPING">Discount the cost of shipping</option>
+						</select>
+						<error-messages
+						validation="$newEffectValidation" 
+						property-name="type"
+						model-name="PromotionEffect"></error-messages>
+					</div>
+					<div class="form-group col-md-5 col-xs-12" ng-class="{'has-error':$newEffectValidation.valid === false && $newEffectValidation.invalidPropertyName==='value'}">
+						<label>Value</label>
+						<!-- <input type="number" class="form-control" ng-model="newEffect.value"> -->
+						<div class="input-group" ng-if="newEffect.type.indexOf('_NET_') >= 0">
+							<input type="number"
+							class="form-control "
+							placeholder="0.00"
+							ng-model="newEffect.value" />
+							<span class="input-group-addon">{{application.currency_code}}</span>
+						</div>
+						<div class="input-group" ng-if="newEffect.type.indexOf('_PERCENTAGE_') >=0">
+							<input type="number"
+							class="form-control"
+							placeholder="0.00"
+							ng-model="newEffect.value" />
+							<span class="input-group-addon">%</span>
+						</div>
+						<div class="input-group" ng-if="newEffect.type === 'FREE_SHIPPING'">
+							<input type="text"
+							disabled="disabled"
+							class="form-control"
+							placeholder="0.00"
+							ng-init="newEffect.value = 'FREE SHIPPING'"
+							ng-model="newEffect.value" />
+							<span class="input-group-addon">{{application.currency_code}}</span>
+						</div>
+						<error-messages
+						validation="$newEffectValidation"
+						property-name="value" model-name="PromotionEffect"></error-messages>
+					</div>
+					<div class="form-group col-md-2 col-xs-12">
+						<label class="hidden">.</label><br>
+						<button class="btn btn-default" ng-click="addEffect()">Add</button>
+					</div>
+				</div>
+				</div>
+				<error-messages 
+									validation="$promotionValidation"
+									model-name="Promotion"
+									message-min="<i class='fa fa-warning'></i> Please add at least one effect"
+									property-name="effects"></error-messages>
+			
+			</div>
+
+
+		</div>
+		<div class="col-md-4 col-xs-12">
+			<div class="card mb20">
+				<div class="card-header"><b>Publishing</b></div>
+				<div class="card-content">
+					<div class="form-group">
+						
+						<label>Active</label>
+						<div>
+							<switch value="promotion.active"></switch>
+						</div>
+					</div>
+					<div class="form-group">
+						
+						<label>Priority</label>
+						<p class="text-muted small">Set a level to priority to decide which promotion should be applied whenever more than one is appliable (the one with the higher priority number is applied). </p>
+						<input type="number" name="priority" min="0" ng-model="promotion.priority" class="form-control">
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-8 col-xs-12">
+			
+			
+		</div>
+	</div>
+
+	
+</div>

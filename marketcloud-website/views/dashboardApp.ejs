@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en" ng-app="RDash">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Marketcloud Dashboard</title>
+  <!-- STYLES -->
+  <link rel="stylesheet" type="text/css" href="/libs/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/libs/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/rdash_style.css">
+
+  <style>
+    .btn-file {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-file input[type=file] {
+      position: absolute;
+      top: 0;
+      right: 0;
+      min-width: 100%;
+      min-height: 100%;
+      font-size: 999px;
+      text-align: right;
+      filter: alpha(opacity=0);
+      opacity: 0;
+      outline: none;
+      background: white;
+      cursor: inherit;
+      display: block;
+    }
+  </style>
+</head>
+<body ng-controller="MasterCtrl">
+  <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
+  <div id="token" style="display:none"><%= token %></div>
+  <div id="public" style="display:none"><%= public %></div>
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+      <ul class="sidebar">
+        <li class="sidebar-main">
+          <a ng-click="toggleSidebar()">
+            Dashboard
+            <span class="menu-icon glyphicon glyphicon-transfer"></span>
+          </a>
+        </li>
+        <li class="sidebar-title"><span>NAVIGATION</span></li>
+        <li class="sidebar-list">
+          <a href="#/">Info <span class="menu-icon fa fa-info"></span></a>
+        </li>
+        <li class="sidebar-list">
+          <a href="#/home">Home <span class="menu-icon fa fa-home"></span></a>
+        </li>
+        <li class="sidebar-list">
+          <a href="#/products">Products <span class="menu-icon fa fa-tags"></span></a>
+        </li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="col-xs-4">
+          <a href="https://github.com/rdash/rdash-angular" target="_blank">
+            Github
+          </a>
+        </div>
+        <div class="col-xs-4">
+          <a href="https://github.com/rdash/rdash-angular/README.md" target="_blank">
+            About
+          </a>
+        </div>
+        <div class="col-xs-4">
+          <a href="#">
+            Support
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- End Sidebar -->
+
+    <div id="content-wrapper">
+      <div class="page-content">
+
+        <!-- Header Bar -->
+        <div class="row header" style="position:fixed; width:100%; z-index:1">
+          <div class="col-xs-12">
+            <div class="user pull-right" style="position:fixed; right:0px">
+              <div class="item " dropdown style="position:relative">
+                <a href="#" class="user" dropdown-toggle>
+                  <!--<img src="/img/avatar.jpg">-->
+                  <%= user.email %> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li class="dropdown-header">
+                    <%= user.email %>
+                  </li>
+                  <li class="divider"></li>
+                  <li class="link">
+                    <a href="/account">
+                      Account
+                    </a>
+                  </li>
+                  <li class="link">
+                    <a href="/applications">
+                      Applications
+                    </a>
+                  </li>
+                  <li class="/">
+                    <a href="#">
+                      Home
+                    </a>
+                  </li>
+                  <li class="divider"></li>
+                  <li class="link">
+                    <a href="/account/logout">
+                      Logout
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <!--<div class="item" dropdown style="position:relative">
+                <a href="#" class=""dropdown-toggle>
+                  <i class="fa fa-bell-o"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li class="dropdown-header">
+                    Notifications
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#">Server Down!</a>
+                  </li>
+                </ul>
+              </div>-->
+            </div>
+            <div class="meta">
+              <div class="page">
+                Dashboard
+              </div>
+              <div class="breadcrumb-links">
+                Home / Dashboard
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Header Bar -->
+
+
+        <!-- Main Content -->
+        <div style="padding-top:70px" ui-view></div>
+
+      </div><!-- End Page Content -->
+    </div><!-- End Content Wrapper -->
+  </div><!-- End Page Wrapper -->
+  <!-- SCRIPTS -->
+  <script type="text/javascript" src="/libs/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/libs/angular/angular.min.js"></script>
+  <script type="text/javascript" src="/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <script type="text/javascript" src="/libs/angular-cookies/angular-cookies.min.js"></script>
+  <script type="text/javascript" src="/libs/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <!--<script type="text/javascript" src="components/angular-file-upload/angular-file-upload-shim.min.js"></script>-->
+  <!--<script type="text/javascript" src="/js/angular-file-upload.js"></script>-->
+  <!--<script type="text/javascript" src="/libs/ng-tags-input/ng-tags-input.min.js"></script>-->
+
+  <!--<script type="text/javascript" src="/js/allmighty-autocomplete/script/autocomplete.js"></script>-->
+  <!-- Custom Scripts -->
+  <script type="text/javascript" src="/modules/dashboardApp/dashboardApp.js"></script>
+  <script type="text/javascript" src="/modules/dashboardApp/factory/utils.js"></script>
+  <script type="text/javascript" src="/modules/dashboardApp/directive/rdWidgetHeader.js"></script>
+  <script type="text/javascript" src="/modules/dashboardApp/directive/rdWidgetFooter.js"></script>
+  <script type="text/javascript" src="/modules/dashboardApp/directive/rdWidgetBody.js"></script>
+  <script type="text/javascript" src="/modules/dashboardApp/directive/rdWidget.js"></script>
+  <script type="text/javascript" src="/modules/dashboardApp/directive/rdLoading.js"></script>
+  <script type="text/javascript" src="/modules/dashboardApp/router/router.js"></script>
+  
+  <script type="text/javascript" src="/modules/dashboardApp/test/test.js"></script>
+  <script type="text/javascript" src="/modules/dashboardApp/products/products.js"></script>
+  <script type="text/javascript" src="/modules/dashboardApp/products/new/new.js"></script>
+  <script type="text/javascript" src="/modules/dashboardApp/products/edit/edit.js"></script>
+</body>
+</html>

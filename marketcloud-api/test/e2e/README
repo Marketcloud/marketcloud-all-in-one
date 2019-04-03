@@ -1,0 +1,15 @@
+# e2e tests
+
+This directory contains specs for testing user stories
+
+### Running tests
+
+jasmine-node test/e2e/<testname> --config url http://URL
+
+### new_user_to_checkout.spec.js
+* Creates a new user
+* Authenticates as a new user and subsequent calls are madue using the Token obtained at this step
+* Creates an address for this user
+* Creates an empty cart
+* Adds a product to the empty cart
+* Creates an order using the cart_id and the address_id

@@ -1,0 +1,39 @@
+<div class="dashboard-section-header" style="box-shadow: none">
+  <span class="root">Application settings</span> / Integrations
+  <back-button></back-button>
+  
+  
+</div>
+
+<div ng-include="'/modules/data_dashboard/templates/application_settings_navigation.partial.html'" class="navigation-container"></div>
+
+
+<div class="container-fluid mt20" >
+					<div class="row" ng-show="integrations.length > 0" ng-cloak>
+					<div class="col-lg-8 col-lg-offset-2">
+					<div  ng-repeat="integration in integrations track by $index">
+						<div class="clearfix visible-sm-block" ng-if="$index % 2 == 0"></div>
+						<div class="clearfix visible-md-block" ng-if="$index % 3 == 0"></div>
+						<div class="clearfix visible-lg-block" ng-if="$index % 3 == 0"></div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+							<a class="card integration raisable mb20" target="_blank" href="/applications/{{application.id}}/dashboard#/integrations/{{integration.name}}">
+								<div class="row">
+									<div class="col-xs-4"><img ng-src="{{integration.image}} " style="max-width:100%"></div>
+									<div class="col-xs-8">
+										<b>{{integration.name}}</b><br/>
+
+										<span class="label label-empty-info" ng-repeat="tag in integration.tags" style="margin-right:10px;">#{{tag}}</span>
+									</div>
+								</div>
+							</a>
+							
+						</div>
+					</div>
+					</div>
+				</div>
+
+	
+</div>
+
+
+				

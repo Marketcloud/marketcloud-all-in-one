@@ -1,0 +1,50 @@
+
+					<h2>Authentication</h2>
+					
+					
+					<p >Every API request must provide a valid Authorization header. Depending on the content of this header, the api request has different permissions, for example, if you only provide the public key, the client will be allowed to do only some  operations.</p>
+					
+					<blockquote class="blockquote-warning">
+						<b>Warning:</b>
+						<p>If the authorization header is missing, any request will result in a <b>401</b> error.</p>
+					</blockquote>
+					<p >Each api endpoint has its own authorization requirements listed in the relative documentation page. There are three different levels of Authorization:
+						<ul>
+							<li>Public</li>
+							<li>User (with different roles)</li>
+							<li>Admin</li>
+						</ul>
+					</p>
+					<blockquote class="blockquote-info">
+						<b>Note:</b>
+						<p>If you are using <a class="link" target="_blank" href="/documentation/libraries">one of the supported SDKs</a>, you don't need to manually handle Authorization headers, you just need to initialize the SDK with your application's keys.</p>
+					</blockquote>
+					<h3>Public key authentication</h3>
+					<p >This authentication method consist in sending the following header with each api request:</p>
+					<pre><code class="HTTP">Authorization: your-public-key</code></pre>
+					<p >This allows access <b>only to some endpoints</b>, mostly read-only on public data, except for user login/signup. This is the authorization level you should use most of the times, as long as the user is not logged in. You can find the public key for your application in the admin dashboard, by opening the application's dropdown menu and clicking on "informations".</p>
+					<br/>
+					<div class="documentation-section">
+					<h3>Token based authentication (admin)</h3>
+					<p >This method authorizes the client to create read update and delete any resource within its application scope (If you have created two applications named app1 and app2, you can't use the app1 credentials to manipulate resources created for app2).</p>
+					<pre><code class="HTTP">Authorization: your-public-key:generated-token</code></pre>
+					</div>
+					<div class="documentation-section">
+					<h4>Generate a token</h4>
+					<p >To create a token, you must send the public key, a timestamp and an hash of the secret key:</p>
+					<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/tokens/create.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="250px" seamless></iframe>
+					</div>
+					<div class="documentation-section">
+					<h4>Hashing the secret key</h4>
+					<p >The secret key must be hashed (sha256) with a unix timestamp before being sent. You can generate the token and use the api with your favourite programming language, here's an example using Bash scripting. Paste your public and secret key into the following code and execute it.</p>
+					<script src="https://gist.github.com/fatmatto/4d50ee51c73c7883a4f9.js"></script>
+					<p >A more complete example using <b>node.js</b> would be:</p>
+					<script src="https://gist.github.com/fatmatto/748bebdf6da3f39d9da0.js"></script>
+					
+					<p >At this point, you can use the generated token to authenticate your subsequent requests by setting the "Authorization" http header in every request.</p>
+				<pre><code class="HTTP">Authorization: your-public-key:generated-token</code></pre>
+				</div>
+				<div class="documentation-section">
+				<h3>User authentication</h3>
+				<p >You can read more about user authentication from the User endpoint <a href="/documentation/rest-api/users" class="link">documentation page</a> .</p>
+				</div>

@@ -1,0 +1,82 @@
+<% include ../../../header/ %>
+<% include ../../../navbar/ %>
+
+<link rel="stylesheet" href="/modules/documentation/css/documentation.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github.min.css">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<% include ../documentation-fixed-navbar.partial.ejs %>
+<section class="documentation-page">
+  <div class="container-fluid">
+    
+    
+    <div class="row">
+      
+        <% include partials/index.partial.ejs %>
+      
+      <div class="col-lg-6 col-lg-offset-3 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-xs-12">
+        <div>
+          <a href="#" class="documentation-index-handle"><i class="fa fa-bars"></i> Index</a>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-9 col-xs-12">
+            <h1>NodeJS SDK documentation</h1>
+          </div>
+        </div>
+        
+        
+        <% include ./partials/introduction.partial.ejs %>
+
+
+
+    <% include ./partials/addresses.partial.ejs %>
+
+    <% include ./partials/brands.partial.ejs %>
+
+    <% include ./partials/carts.partial.ejs %>
+
+    <% include ./partials/categories.partial.ejs %>
+
+    <% include ./partials/collections.partial.ejs %>
+
+    <% include ./partials/coupons.partial.ejs %>
+
+    <% include ./partials/orders.partial.ejs %>
+
+    <% include ./partials/payments.partial.ejs %>
+
+    <% include ./partials/paymentMethods.partial.ejs %>
+
+    <% include ./partials/products.partial.ejs %>
+
+    <% include ./partials/promotions.partial.ejs %>
+
+    <% include ./partials/shippings.partial.ejs %>
+    
+    <% include ./partials/users.partial.ejs %>
+
+    <% include ./partials/variables.partial.ejs %>
+
+    <!-- Comments and questions -->
+    <% include ../questionbox.ejs %>
+
+    <% include ../reference_footer.ejs %>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- Scripts -->
+<script type="text/javascript" src="/modules/documentation/js/index.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  // Binding events to the index to hide show index and scroll to paragraph
+  Documentation.bindReferenceIndexEvents();
+})
+</script>
+
+</body>
+</html>

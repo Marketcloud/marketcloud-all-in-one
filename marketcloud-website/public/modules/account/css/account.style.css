@@ -1,0 +1,88 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+ }
+
+
+
+
+.application-container {
+  position: relative;
+  border-color:#DDD;
+  background-color: white;
+  padding:5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  border-radius: 3px;
+}
+a.launcher {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  top: 0px;
+  right:40px;
+}
+
+.application-container > a:hover {
+  text-decoration: none;
+}
+
+
+.application-container .title {
+  display:block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space:nowrap;
+  font-size:14px;
+  text-transform: uppercase;
+  font-family:"Helvetica Neue", "Helvetica", Arial;
+  margin-bottom:5px;
+  font-weight: bold;
+}
+
+.application-container .plan {
+  margin-bottom:5px;
+  margin-top:5px;
+  text-transform: uppercase;
+}
+
+.application-container .actions {
+  margin-bottom:20px;
+  margin-top:20px;
+}
+
+
+.application-container .panel:hover {
+  border:1px solid #CCC;
+}
+#new-application-container:hover {
+  border-color: #34495e;
+}
+#new-application-container:hover i {
+  color:#34495e;
+}
+#new-application-container:hover .title {
+  color:#34495e !important;
+}
+
+.userAccountPanel {
+  display: inline-block;
+  height:50px;
+  line-height:50px;
+  padding-right:10px;
+  padding-left:10px;
+}
+.userAccountPanel:hover {
+  background-color: #34495e;
+}
+
+.userAccountPanel .email {
+  color:#FFF;
+  text-transform:uppercase;
+  font-family:"Helvetica Neue","Helvetica",Arial;
+  font-size:13px;
+}
+
+.userAccountPanel i {
+  color: #FFF;
+  margin-left: 10px;
+}

@@ -1,0 +1,131 @@
+<div class="dashboard-section-header">
+  <a href="#/system" class="link root">Settings</a> / <span>Shipping methods</span>
+  
+  <back-button></back-button>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-xs-12">
+      <div class="card card-table mb50">
+        <div class="card-toolbar" ng-show="getSelectedItems().length === 0">
+          <div class="row">
+          <div class="col-xs-6">
+            <toolbar-search on-update="loadData(query)"></toolbar-search>
+          </div>
+          <div class="col-xs-6 text-right">
+            <a class="btn btn-info btn-sm raised" href="#/shippings/create">Add a shipping</a>
+            <div class="actions dropdown pull-right">
+                <a class="toolbar-action-icon" data-toggle="dropdown" role="button" >
+                  <i class="fa fa-ellipsis-v"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li><a data-toggle="modal" ng-click="loadData()">Reload</a></li>
+                  <li><a ng-click="bulkJSONExport()">Export to JSON</a></li>
+                </ul>
+              </div>
+          </div>
+        </div>
+
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Zones</th>
+                <th>Rules</th>
+                <th>Base cost</th>
+                <th></th>
+              </tr></thead>
+              <tbody ng-show="resources.length > 0">
+                <tr ng-repeat="shipping in resources">
+                  <td>
+                    <a href="#/system/shippings/{{shipping.id}}/edit" class="link">{{shipping.name}}</a>
+                  </td>
+                  
+                  <td class="small text-muted">
+                    <span ng-if="shipping.zones.length === 0">No zones</span>
+                    <span ng-repeat="zone in shipping.zones | limitTo : 4" style="margin-right:5px;white-space:pre" > <flag-icon country="{{zone.name}}" ng-if="zone.name !== 'All countries'"></flag-icon> {{zone.name}}</span>
+                    
+                    <div ng-if="shipping.zones.length > 4"> and {{shipping.zones.length - 4}} more...</div>
+                  </td>
+                  <td class="text-muted small">
+                    <div ng-if="!shipping.hasOwnProperty('min_value') && ! shipping.hasOwnProperty('max_value') && !shipping.hasOwnProperty('min_weight') && !shipping.hasOwnProperty('max_weight') && !shipping.hasOwnProperty('min_weight') && !shipping.hasOwnProperty('max_weight')">No rules</div>
+
+                    <div  ng-if="shipping.hasOwnProperty('min_value') || shipping.hasOwnProperty('max_value')">
+                      <span>{{shipping.min_value || 0}}</span>
+                      -
+                      <span>{{shipping.max_value || "any"}}</span>
+                       <span>{{application.currency_code}}</span>
+                    </div>
+                    <div ng-if="shipping.hasOwnProperty('min_weight') || shipping.hasOwnProperty('max_weight')">
+                      <span>{{shipping.min_weight || 0}}</span>
+                      -
+                      <span>{{shipping.max_weight || "any"}}</span>
+                       <span>Kg</span>
+                    </div>
+
+                    <div ng-if="shipping.hasOwnProperty('min_width') || shipping.hasOwnProperty('max_width')">
+                      <span>{{shipping.min_width || 0}}</span>
+                      -
+                      <span>{{shipping.max_width || "any"}}</span>
+                       <span>Cm</span>
+                    </div>
+
+                    <div ng-if="shipping.hasOwnProperty('min_height') || shipping.hasOwnProperty('max_height')">
+                      <span>{{shipping.min_height || 0}}</span>
+                      -
+                      <span>{{shipping.max_height || "any"}}</span>
+                       <span>Cm</span>
+                    </div>
+
+                    <div ng-if="shipping.hasOwnProperty('min_depth') || shipping.hasOwnProperty('max_depth')">
+                      <span>{{shipping.min_depth || 0}}</span>
+                      -
+                      <span>{{shipping.max_depth || "any"}}</span>
+                       <span>Cm</span>
+                    </div>
+                  </td>
+                  <td>{{shipping.base_cost}}  {{application.currency_code}}</td>
+                  <td>
+                    <div class="actions" ng-class="{'dropup' : true === $last && shippings.length !== 1, 'dropdown' : false === $last || shippings.length === 1 }" >
+                      <a class="dropdown-toggle text-muted btn btn-transparent btn-sm" data-toggle="dropdown" role="button" >
+                        <i class="fa fa-ellipsis-v f18"></i>
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                          <a ng-href="#/system/shippings/{{shipping.id}}/edit" alt="edit">Edit</a>
+                          
+                        </li>
+                        <li><a ng-click="delete(shipping.id,$index)" alt="delete">Delete</a></li>
+                        <li><a ng-click="clone(shipping)" alt="clone">Clone</a></li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="p10 center text-muted" ng-show="resources.length <= 0">
+            <span class="fa fa-truck f48"></span>
+            <p class="lead">Your shipping methods will be displayed here</p>
+            <a href="#/shippings/create" class="btn btn-info">Add a shipping method</a>
+          </div>
+          <div class="card-footer">
+            <div class="row">
+              <div class="col-xs-12 text-right">
+                <pagination-selector
+                  pagination="pagination"
+                  per-page="query.per_page"
+                  page="query.page"
+                  on-change-page-size="loadData({per_page : per_page })"
+                  on-change-page-number="loadPage(page)"
+                ></pagination-selector>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

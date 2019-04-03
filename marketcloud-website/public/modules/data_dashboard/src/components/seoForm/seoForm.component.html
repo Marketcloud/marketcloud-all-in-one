@@ -1,0 +1,84 @@
+<style type="text/css">
+	.card-table .nav-pills > li > a {
+		text-transform: uppercase;
+		font-size: small;
+	}
+</style>
+
+<div  ng-class="{'card card-table mt20 mb20' : 'true' !== ctrl.removeCardFrame}">
+			<div class="card-header" ng-if="'true' !== ctrl.removeCardFrame"><h4>Search engine optimization</h4></div>
+			<div class="container-fluid">
+				
+				<div class="row">
+					
+					<div class="p0" style="padding:0px">
+						<ul class="nav nav-pills" style="border-bottom:1px solid #DDD;">
+							<li role="presentation" ng-class="{'active' : 'meta' === activeSeoTab}">
+								<a ng-click="showSeoTab('meta')">Meta</a>
+							</li>
+							<li role="presentation" ng-class="{'active' : 'twitter' === activeSeoTab}">
+								<a ng-click="showSeoTab('twitter')">Twitter</a>
+							</li>
+							<li role="presentation" ng-class="{'active' : 'facebook' === activeSeoTab}">
+								<a  ng-click="showSeoTab('facebook')">Facebook</a>
+							</li>
+						</ul>
+
+					
+					<div class="tab-content">
+						<div role="tabpanel" ng-show="'meta' === activeSeoTab">
+							
+							<div class="form p10">
+								<div class="form-group">
+									<label>Meta Title</label>
+									<input type="text" class="form-control" ng-model="ctrl.seo.meta.title" placeholder="Meta Title">
+								</div>
+								<div class="form-group">
+									<label>Meta Description</label>
+									<input type="text" class="form-control" ng-model="ctrl.seo.meta.description" placeholder="Meta Description">
+								</div>
+								<div class="form-group">
+									<label>Meta Keywords</label>
+									<input type="text" class="form-control" ng-model="ctrl.seo.meta.keywords" placeholder="Jedi, Padawan, Star Wars, Lightsaber">
+								</div>
+							</div>
+						</div>
+					    <div role="tabpanel" ng-show="'facebook' === activeSeoTab">
+					    	<div class="form p10">
+								<div class="form-group">
+									<label>og:title</label>
+									<input type="text" class="form-control" ng-model="ctrl.seo.facebook.title" placeholder="og:title">
+								</div>
+								<div class="form-group">
+									<label>og:description</label>
+									<input type="text" class="form-control" ng-model="ctrl.seo.facebook.description" placeholder="Meta Description">
+								</div>
+								<div class="form-group">
+									<label>og:image</label>
+									<input type="url" class="form-control" ng-model="ctrl.seo.facebook.image" placeholder="http://mysite.com/image.jpg">
+								</div>
+							</div>
+					    </div>
+					    <div role="tabpanel" ng-show="'twitter' === activeSeoTab">
+			    	
+							<div class="form p10">
+								<div class="form-group">
+									<label>twitter:title</label>
+									<input type="text" class="form-control" ng-model="ctrl.seo.twitter.title" placeholder="twitter:title">
+								</div>
+								<div class="form-group">
+									<label>twitter:description</label>
+									<input type="text" class="form-control" ng-model="ctrl.seo.twitter.description" placeholder="twitter:description">
+								</div>
+								<div class="form-group">
+									<label>twitter:image</label>
+									<input type="url" class="form-control" ng-model="ctrl.seo.twitter.image" placeholder="http://mysite.com/image.jpg">
+								</div>
+							</div>
+					    </div>
+    	
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>

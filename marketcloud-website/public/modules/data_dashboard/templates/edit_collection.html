@@ -1,0 +1,87 @@
+<div class="dashboard-section-header"><a class="root link" href="#/collections">Collections</a> / {{collection.id}} / edit
+
+<!-- Split button -->
+<div class="btn-group pull-right">
+	<button type="button" class="btn btn-info btn-sm" ng-click="saveCollection()">Save</button>
+	<button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	<span class="caret"></span>
+	<span class="sr-only">Toggle Dropdown</span>
+	</button>
+	<ul class="dropdown-menu">
+		<li><a ng-click="saveCollection()">Save</a></li>
+		<li><a href="#/collections/{{collection.id}}/translations">Edit translations</a></li>
+	</ul>
+</div>
+<!-- <button class="btn btn-sm btn-info pull-right" ng-click="saveCollection()">Save</button> -->
+<back-button></back-button>
+</div>
+<div class="container-fluid">
+<div class="row">
+	<div class="col-lg-8 col-xs-12">
+		
+		<div class="card mb50">
+			<div class="card-header"><h4>Basic information</h4></div>
+			<div class="form">
+				
+				<div class="form-group">
+					<label>Name</label>
+					<input type="text"
+					class="form-control"
+					placeholder="My collection"
+					ng-change="updateSlug()"
+					ng-model="collection.name" />
+				</div>
+				<div class="checkbox">
+					<input type="checkbox" ng-model="unsafeSlug" id="unsafeSlug" />
+					<label for="unsafeSlug">
+						Editable slug
+					</label>
+				</div>
+				<div class="form-group">
+					<label>Slug</label>
+					<input type="text"
+					class="form-control  solid"
+					ng-disabled="false === unsafeSlug"
+					ng-model="collection.slug" />
+				</div>
+				<div class="form-group">
+					<label>Description</label>
+					<div trumbowyg-ng
+						ng-model="collection.description"
+						editor-config="{btns:[['viewHTML'],['formatting'],'btnGrp-semantic',['superscript','subscript'],['link'],['insertImage'],'btnGrp-justify','btnGrp-lists',['horizontalRule'],['removeformat'],['fullscreen']]}">
+					</div>
+				</div>
+				
+				
+				
+			</div>
+		</div>
+	</div>
+	
+</div>
+<div class="row">
+	<div class="col-lg-8 col-xs-12">
+		<images-card items="collection.images"></images-card>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-8 col-xs-12">
+	<add-products-card items="itemsToAdd" config="addProductsCardConfig" title="Products in collection"></add-products-card>
+</div>
+</div>
+
+<div class="row">
+		<div class="col-xs-12 col-lg-8">
+			<custom-attributes-form
+				resource="collection"
+				properties="customPropertiesData"
+			></custom-attributes-form>
+		</div>
+	</div>
+
+<div class="row">
+<div class="col-xs-12 col-lg-8">
+	<seo-form seo="collection.seo"></seo-form>
+</div>
+</div>
+</div>

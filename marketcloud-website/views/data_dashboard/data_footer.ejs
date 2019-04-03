@@ -1,0 +1,40 @@
+</div>
+
+
+
+<!-- Cache busting -->
+<script type="text/javascript">
+  /*
+    This is automatically updated by the gulpfile
+    This global is used to cache bust angularjs templates
+  */
+  window.CACHE_BUST_VERSION = "1554190231771";
+</script>
+
+
+
+<!-- Dependencies code -->
+<script type="text/javascript" src="/modules/data_dashboard/dist/vendor-v1502296086480.bundle.js"></script>
+
+
+<!-- Trumbowyg -->
+<!-- <link rel="stylesheet" href="/libs/trumbowyg/dist/ui/trumbowyg.min.css"> -->
+<script type="text/javascript">
+  // We need to rewrite the svg path
+  $.trumbowyg.svgPath = '/libs/trumbowyg/dist/ui/icons.svg';
+</script>
+
+
+<!-- Application code -->
+<script type="text/javascript" src="/modules/data_dashboard/dist/app-v1554190231771.bundle.js"></script>
+
+<% if ('production' === env) {%>
+<!-- Template Cache -->
+<script type="text/javascript" src="/modules/data_dashboard/dist/templates-v1554190184946.bundle.js"></script>
+<%}%>
+
+
+
+
+</body>
+</html>

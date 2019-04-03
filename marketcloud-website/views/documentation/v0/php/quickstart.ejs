@@ -1,0 +1,29 @@
+<% include ../../../header/ %>
+<% include ../../../navbar %>
+<link rel="stylesheet" type="text/css" href="/libs/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" href="/modules/documentation/css/documentation.css" />
+<section class="inverse sub-navbar">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12">
+        <ul class="horizontal-menu nav navbar-nav">
+          <li><a href="/documentation">Documentation</a></li>
+          <li><a><i class="fa fa-angle-right"></i></a></li>
+          <li><a href="/documentation/quickstart">Quickstart</a></li>
+          <li><a><i class="fa fa-angle-right"></i></a></li>
+          <li><a href="/documentation/quickstart/php">PHP</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="documentation-page">
+  <div class="container-fluid" style="padding-top: 50px;">
+    <% include quickstart_php.partial.ejs %>
+   
+  </div>
+</section>
+<% include ../../../footer %>

@@ -1,0 +1,109 @@
+<!-- BRANDS -->
+<section class="resource">
+      <h3 class="section-title"  id="brands">Brands</h3>
+      <a class="anchor" id="brands.getById"></a>
+<div class="method-title">Retrieve a brand</div>
+      <h5>Example request</h5>
+        <pre><code class="php">
+Marketcloud\Brands::getById($id);
+      </code></pre>
+      <a class="anchor" id="brands.list"></a>
+<div class="method-title">List all brands</div>
+      <p>Retrieves a list of Brands filtered and sorted by the query object.</p>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="code">fields</td>
+            <td>String</td>
+            <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+          </tr>
+          <tr>
+            <td  class="code">per_page</td>
+            <td>Number</td>
+            <td>The number of brands to retrieve per page</td>
+          </tr>
+          <tr>
+            <td class="code">page</td>
+            <td>Number</td>
+            <td>The page number of brands to display</td>
+          </tr>
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+      <pre><code class="php">
+Marketcloud\Brands::get();</code></pre>
+      <a class="anchor" id="brands.create"></a>
+<div class="method-title">Create a new brand</div>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="code">name <span class="label label-success">Required</span></td>
+            <td>String</td>
+            <td>String</td>
+          </tr>
+          <tr>
+            <td class="code">image_url</td>
+            <td>String</td>
+            <td>The URL for the brand image/logo.</td>
+          </tr>
+          <tr>
+            <td class="code">description</td>
+            <td>String</td>
+            <td>A description of the brand.</td>
+          </tr>
+          <tr>
+            <td class="code">url</td>
+            <td>String</td>
+            <td>A label to be used in urls.</td>
+          </tr>
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+        <pre><code class="php">
+$new_brand = array("name" => "Evil Inc.");
+Marketcloud\Brands::create($new_brand);
+      </code></pre>
+      <a class="anchor" id="brands.update"></a>
+<div class="method-title">Update a brand</div>
+      <p >Updates a brand by id.</p>
+      <h5>Arguments</h5>
+      <div class="table-responsive"><table class="table table-striped documentation">
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>brand_id <span class="label label-success">Required</span></td>
+            <td>Number</td>
+            <td>The univocal brand identifier</td>
+          </tr>
+          <tr>
+            <td>update_data <span class="label label-success">Required</span></td>
+            <td>Object</td>
+            <td>An object containing the updates. See <a href="#brands.create" class="link">brands.create()</a> for more informations.</td>
+          </tr>
+          
+        </tbody>
+      </table></div>
+      <h5>Example request</h5>
+        <pre><code class="php">
+$update = array("name" => "Good Inc.");
+Marketcloud\Brands::update($brand_id,$update);
+      </code></pre>
+      <a class="anchor" id="brands.delete"></a>
+<div class="method-title">Delete a brand</div>
+      <p >Deletes a brand by id.</p>
+      <h5>Example request</h5>
+      <pre><code class="php">
+Marketcloud\Brands::delete($brand_id);
+      </code></pre>
+<!-- BRAND -->
+</section>

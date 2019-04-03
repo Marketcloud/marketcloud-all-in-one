@@ -1,0 +1,31 @@
+<div class="dashboard-section-header">
+<span class="fa fa-cog"></span> <span class="root">Settings</span></div>
+<div class="container-fluid" style="padding-bottom: 50px;">
+	<div class="row">
+		<div class="col-xs-12 col-lg-8">
+			<h4>Basic information</h4>
+			<div class="card mb50">
+				<div class="form">
+					
+					
+					
+						<div class="form-group">
+							<label>Taxing method</label>
+							<select ng-model="application.tax_type"
+							ng-options="tax.value as tax.label for tax in tax_options" class="form-control input-lg"></select>
+						</div>
+
+						<div class="form-group">
+							<label>Tax rate</label>
+							<input class="form-control input-lg" type="number" step="0.1" ng-model="application.tax_rate" />
+						</div>
+						
+					
+					
+					
+				</div>
+			</div>
+			<div><button class="btn btn-xl btn-success">Save settings</button></div>
+		</div>
+	</div>
+</div>

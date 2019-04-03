@@ -1,0 +1,245 @@
+<div class="dashboard-section-header"><a class="root link" href="#/coupons">Coupons</a> / create
+<button class="btn btn-sm btn-info pull-right" ng-click="save()">Save</button>
+<back-button></back-button>
+</div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			<div class="card mb50 mt20">
+			<div class="card-header"><h4>Basic information</h4></div>
+			<div class="card-content">
+			<p class="text-muted small">Name the coupon with something you will remember! And don't forget the secret code! The secret code is the word your customers will need to enter in order to receive a discount.</p>
+				<div class="form">
+					<div class="row">
+					<div class="form-group col-md-6">
+						<label>Name</label>
+						<input type="text"
+						class="form-control "
+						placeholder="e.g. Welcome coupon"
+						ng-model="coupon.name" />
+					</div>
+
+					<div class="form-group col-md-6">
+						<label>Code</label>
+						<input type="text"
+						class="form-control "
+						placeholder="SECRET-COUPON-CODE"
+						ng-model="coupon.code" />
+						<div><a ng-click="randomizeCode()" class="link small">Randomize</a></div>
+					</div>
+				</div>
+				</div>
+				<div class="row">
+				
+					<div class="form-group col-md-6">
+						<div class="checkbox">
+                <input type="checkbox" ng-model="limitedUsage" ng-change="updateCouponUsage()"/>
+                <label>Limit coupon usage</label>
+              </div>
+            <p class="small text-muted">Use this option if you want this coupon to be used only a 
+					limited number of times.</p>
+					</div>
+					<div class="form-group col-md-6" ng-if="true === limitedUsage">
+						<label>Usages left</label>
+						<input type="number"
+						min="0"
+						step="1"
+						class="form-control"
+						placeholder="10" 
+						ng-model="coupon.usages_left" />
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="form-group col-md-6">
+						<div class="checkbox">
+                <input type="checkbox" ng-model="hasExpirationDate"  ng-change="updateCouponExpiration()"/>
+                <label>This coupon has an expiration date</label>
+              </div>
+             <p class="small text-muted">Use this option if you want this coupon to be used only until a certain date.</p>
+					</div>
+					<div class="form-group col-md-6" ng-if="true === hasExpirationDate">
+						<label>Expiration date</label>
+						<input
+						 type="text"
+						 class="form-control"
+             placeholder="Select a date..."
+             moment-picker="coupon.expiration_date"
+             locale="en"
+             ng-model="coupon.expiration_date"
+             format="YYYY-MM-DD"
+             today="true"
+             min-view="month"
+             max-view="month"
+             ng-model-options="{ updateOn: 'blur' }">
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			<div class="card mb50 mt20">
+				<div class="card-header"><h4>Target</h4></div>
+				<p class="text-muted small">Coupons can be applied to different things. For example, you might want to apply a coupon only to certain products or to a single category or to the whole cart.</p>
+				<div class="row" ng-show="coupon.conditions.length > 0">
+
+					<div class="table-responsive">
+						
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Type</th>
+									<th>Value</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+							<tr ng-repeat="condition in coupon.conditions track by $index">
+								<td>
+									<span ng-show="'MIN_CART_VALUE' === condition.type">Cart value greater than</span>
+									<span ng-show="'MIN_NUMBER_OF_PRODUCTS' === condition.type">Number of items in cart greater than</span>
+								</td>
+								<td>{{condition.value}}</td>
+								<td>
+									<button class="btn btn-sm btn-default" ng-click="removeCondition($index)">
+									<span class="fa fa-trash-o"></span></button></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					
+					<div class="form-group col-md-6 col-xs-12">
+						<label>Type</label>
+						<select class="form-control" ng-model="coupon.target_type"  ng-change="clearTargetId()">
+							<option value="PRODUCT_COUPON">Apply coupon to a single product</option>
+							<!-- <option value="PRODUCTS_COUPON">Apply coupon to multiple products</option> -->
+							<option value="CATEGORY_COUPON">Apply coupon to a single category</option>
+							<option value="CART_COUPON">Apply coupon to the whole cart</option>
+						</select>
+					</div>
+
+				<div class="form-group col-md-6 col-xs-12"
+					ng-show="coupon.target_type === 'PRODUCT_COUPON' && null === targetProduct">
+						<label>Target product</label>
+						<span class="text-muted small">Search a product by name</span>
+							
+						<input type="text"
+							validate-for="target_id"
+							class="form-control"
+							placeholder="Search for products.."
+							ng-model="query.name.$regex"
+							focus-on-show
+							ng-model-options='{ debounce: 600 }'
+							ng-change="prepareRegex();loadProducts()"
+							ng-focus="showList()"
+							ng-blur="hideList()"
+							>
+							<div style="position: absolute;left:0px;right:0px;z-index: 999;padding:15px;">
+								<div class="list-group"
+									style="border-top-left-radius: 0px;border-top-right-radius: 0px;"
+									ng-show="!!query.name.$regex == true && showTheList === true">
+										<a 	class="list-group-item"
+											style="cursor: pointer;"
+											ng-repeat="product in products track by $index"
+											ng-click="selectProductAsTarget(product)">
+												<img ng-src="{{product.images[0]}}" style="max-width:32px;max-height: 32px; margin-right: 10px;">
+										 		<span >{{product.name}}</span>
+										</a>
+									<a class="list-group-item"
+										style="font-weight:bold"
+										href="#/products/create"
+									target="_blank">Add {{query.name.$regex}}..</a>
+								</div>
+							</div>
+
+					</div>
+					<div class="form-group col-md-6 col-xs-12"
+					ng-show="coupon.target_type === 'PRODUCT_COUPON' && null !== targetProduct">
+						<label>Target product</label>
+						<div></div>
+						<div ng-if="coupon.target_id" validate-for="target_id">
+								
+									<div class="thumbnail" style="max-width: 32px;max-height:32px;padding:0px; float:left">
+                      <img ng-src="{{targetProduct.images[0] || 'marketcloud.azureedge.net/storm-images/placeholder.png'}}" class="fluid" fallback-src="https://marketcloud.azureedge.net/storm-images/placeholder.png"/>
+                    </div>
+								
+									<div class="pull-left" style="margin-left: 20px">
+											<span class="text-muted">{{targetProduct.name}}</span>
+											<a ng-click="resetTargetProduct()" class="link small ml20">change</a></div>
+								
+							</div>
+					</div>
+				<!-- category picker -->
+				<div class="form-group col-md-6 col-xs-12"
+					ng-if="coupon.target_type === 'CATEGORY_COUPON'">
+						<label validate-for="target_id">Target category</label>
+					<categories-selector
+						category="coupon.target_id"
+						on-change="handleCategoryChange()"></categories-selector>
+					</div>
+
+					
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+	<div class="row" ng-if="coupon.target_type === 'PRODUCTS_COUPON'">
+		<div class="col-lg-8 col-xs-12" ng-init="target_products = []">
+				<add-products-card items="target_products" config="addProductsCardConfig" title="Eligible products"></add-products-card>
+			</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			
+			<div class="card mb50 mt20">
+			<div class="card-header"><h4>Discount</h4></div>
+			<p class="text-muted small">Insert the entity of the discount.</p>
+				
+				<div class="row">
+					
+					<div class="form-group col-md-6 col-xs-12">
+						<label>Type</label>
+						<select class="form-control"
+								ng-model="coupon.discount_type">
+							
+							<option value="NET_REDUCTION">Apply net discount to the target</option>
+							<option value="PERCENTAGE_REDUCTION">Apply percentage discount the target</option>
+						</select>
+					</div>
+					<div class="form-group col-md-6 col-xs-12">
+						<label>Value</label>
+						<!-- <input type="number" class="form-control" ng-model="newEffect.value"> -->
+						<div class="input-group" ng-show="coupon.discount_type === 'NET_REDUCTION'">
+							<input type="number"
+							class="form-control "
+							placeholder="0.00"
+							ng-model="coupon.discount_value" />
+							<span class="input-group-addon">{{application.currency_code}}</span>
+						</div>
+						<div class="input-group"
+
+						ng-show="coupon.discount_type === 'PERCENTAGE_REDUCTION'">
+							<input type="number"
+							class="form-control"
+							placeholder="0.00"
+							ng-model="coupon.discount_value" />
+							<span class="input-group-addon">%</span>
+						</div>
+					</div>
+					
+			
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div>

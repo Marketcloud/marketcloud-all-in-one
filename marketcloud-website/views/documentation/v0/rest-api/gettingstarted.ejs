@@ -1,0 +1,59 @@
+<% include ../../../header/ %>
+<% include ../../../navbar %>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github.min.css">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" href="/modules/documentation/css/documentation.css" />
+<section class="mt100" style="padding-top:100px;padding-bottom:200px">
+  <div class="container-fluid">
+    
+    <a name="introduction"></a>
+    <div class="row">
+      <div class="col-lg-3 col-md-3">
+      <% include ./index.partial.ejs %>
+      </div>
+      <div class="col-lg-6 col-lg-offset-0 col-md-9 col-md-offset-0 col-sm-9 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+        
+
+            <div class="row">
+				<ol class="breadcrumb mt20">
+				  <li><a href="/documentation">Index</a></li>
+				  <li><a href="/documentation/rest-api">REST api</a></li>
+				  <li class="active">Getting Started</li>
+				</ol>
+				<h2>Getting started</h2>
+				
+						<h4>1. Create an account and log in</h4>
+						<p class="lead">The first thing to do is to <a href="/" class="link">obtain a Marketcloud account</a> and <a href="/account/login" class="link">log</a> into the web application.
+						<h4>2. Create an application</h4>
+						<p class="lead">Now create a new application, providing the desired name, url (optional) and the subscription plan.</p>
+						
+						<img src="http://www.marketcloud.it/img/blog/001/009_.png" style="max-width:100%"/>
+						<h4>3. Add resources to your application</h4>
+						<p class="lead">Head over the application's dashboard by clicking "dashboard" in the dropdown menu. Here you can add entities for your app such as Products, Categories, Brands and more (remember to publish them if you want to be able to query the data using public key authentication).</p>
+						<h4>4. Query the api</h4>
+						<p class="lead">Every application has a public/secret keys pair. You can use it to query your application. Each api call must contain the <i>Authorization</i> header, as the following example:</p>
+						<pre><code class="http">curl --request GET \
+  --url http://api.marketcloud.it/v0/products \
+  --header 'Content-Type: application/json' \
+  --header 'Authorization: PUBLIC_KEY'</code></pre>
+						<p class="lead">You can learn more about it in the <a href="/documentation/rest-api/authentication" class="link">authentication section</a> of the documentation.</p>
+
+
+						
+					</div>
+					
+					
+				</div>
+			</div>
+
+        </div>
+      </div>
+</div>
+</div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,366 @@
+<% include ../../../header/ %>
+<% include ../../../navbar %>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github.min.css">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" href="/modules/documentation/css/documentation.css" />
+<section class="mt100" style="padding-top:100px;padding-bottom:200px">
+  <div class="container-fluid">
+    
+    <a name="introduction"></a>
+    <div class="row">
+      <div class="col-lg-3 col-md-3">
+      <% include ./index.partial.ejs %>
+      </div>
+      <div class="col-lg-6 col-lg-offset-0 col-md-9 col-md-offset-0 col-sm-9 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+        
+
+            <div class="row">
+
+          
+						<ol class="breadcrumb mt20">
+						  <li><a href="/documentation">Index</a></li>
+						  <li><a href="/documentation/rest-api">REST api</a></li>
+						  <li class="active">Promotions</li>
+						</ol>
+						<h2>Promotions</h2>
+						<p>Promotions are discounts that you can apply to carts and orders. You can attach and combine different kinds of discounts to a promotion, for example you might apply a free shipping promotion or discount the cart value by a percentage. You can also set different conditions that have to be met in order to apply the promotion, such as a minimum cart value or a minimum number of items.</p>
+
+
+<div class="row">
+
+							<div class="col-xs-12">
+								<h4>Model description</h4>
+								<div class="table-responsive">
+  <table class="table table-striped documentation">
+    <thead>
+      <tr>
+        <th>Attribute</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="code">name <span  class="label label-success">Required</span></td>
+        <td>String</td>
+        <td>The name of the promotion</td>
+      </tr>
+      <tr>
+        <td class="code">conditions <span  class="label label-success">Required</span></td>
+        <td>Mixed</td>
+        <td>An array of conditions, a condition is an object describing the rules under which a promotion can be applied to an order. See the table below for further information</td>
+      </tr>
+       <tr>
+        <td class="code">effects <span  class="label label-success">Required</span></td>
+        <td>Mixed</td>
+        <td>An array of effects, an effect is an object describing the impact of the promotion on the final order. See the table below for further information</td>
+      </tr>
+
+      <tr>
+        <td class="code">active</td>
+        <td>Boolean</td>
+        <td>If false, the promotion can not be used by any order.</td>
+      </tr>
+    
+     
+      
+    </tbody>
+  </table>
+</div>
+
+
+<h5>Promotion condition model</h5>
+<div class="table-responsive">
+  <table class="table table-striped documentation">
+    <thead>
+      <tr>
+        <th>Attribute</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="code">type <span  class="label label-success">Required</span></td>
+        <td>String</td>
+        <td>The type of the condition, possible values are <code>'MIN_NUMBER_OF_PRODUCTS'</code> triggered when the cart has at least a certain number of products, <code>'MIN_CART_VALUE'</code> triggered when the total value of the products in cart is greater than or equal to a certain value, <code>'CART_HAS_ITEM'</code> when the cart contain a certain item.</td>
+      </tr>
+      <tr>
+        <td class="code">value <span  class="label label-success">Required</span></td>
+        <td>Number</td>
+        <td>The value of the</td>
+      </tr>
+       
+      
+    </tbody>
+  </table>
+</div>
+
+
+
+<h5>Promotion effect model</h5>
+<div class="table-responsive">
+  <table class="table table-striped documentation">
+    <thead>
+      <tr>
+        <th>Attribute</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="code">type <span  class="label label-success">Required</span></td>
+        <td>String</td>
+        <td>The type of the effect, possible values are <code>'CART_VALUE_PERCENTAGE_REDUCTION'</code> will reduce the total cart value by a percentage value, <code>'CART_VALUE_NET_REDUCTION'</code> will redduce the total cart value by a fixed value, <code>'CART_ITEMS_NET_REDUCTION'</code> will reduce only the value of items by a fixed value, <code>'CART_ITEMS_PERCENTAGE_REDUCTION'</code> will reduce only the value of items by a percentage value, <code>FREE_SHIPPING</code> will discount the value of shipping.</td>
+      </tr>
+      <tr>
+        <td class="code">value <span  class="label label-success">Required</span></td>
+        <td>Number</td>
+        <td>The value of the effect.</td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+							</div>
+						</div>
+
+
+<!-- PRODUCT CREATE -->
+					<div class="documentation"  id="promotions.create">
+						<h3>POST /promotions</h3>
+						<p class="lead">Creates a new Promotion. </p>
+						<pre><code class="http">POST http://api.marketcloud.it/v0/promotions</code></pre>
+						<h5>Parameters</h5>
+						<p>See the model description above.</p>
+						<h5>Example Request</h5>
+						<pre><code class="curl">
+curl --request POST \
+  --url http://api.marketcloud.it/v0/promotions \
+  --header 'accept: application/json' \
+  --header 'Authorization:<PUBLIC_KEY>:<TOKEN>' \
+  --header 'content-type: application/json' \
+  -d @- << EOF
+
+  {
+  "name" : "Green Friday",
+  "conditions" : [],
+  "effects" : [
+        {
+            "type" : "CART_VALUE_PERCENTAGE_REDUCTION",\
+            "value" : 2
+        }
+    ]
+  }
+EOF
+						</code></pre>
+						<h5>Example JSON response (200)</h5>
+						<pre><code class="javascript">
+{
+  "status": true,
+  "data": {
+    "name": "Black Friday",
+    "conditions": [],
+    "effects": [{
+      "type": "CART_VALUE_PERCENTAGE_REDUCTION",
+      "value": 5
+    }],
+    "active": false,
+    "id": 11121
+  }
+}</code></pre>								
+							</div>
+<!-- / PRODUCT CREATE -->						
+
+<!-- PRODUCT LIST -->
+						<div class="documentation" id="promotions.list">
+						<h3>GET /promotions</h3>
+						<p class="lead">Retrieves a paginated response of a list of promotions from your application.</p>
+						<pre><code class="http">GET http://api.marketcloud.it/v0/promotions</code></pre>
+						<h5>Request parameters</h5>
+						<div class="table-responsive"><table class="table table-striped documentation">
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        
+        <tr>
+          <td><code>&lt;attribute_name&gt;</code></td>
+          <td>Mixed</td>
+          <td>Filter promotions by any custom field.</td>
+        </tr>
+        <tr>
+          <td class="code">fields</td>
+          <td>String</td>
+          <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+        </tr>
+        <tr>
+          <td  class="code">per_page</td>
+          <td>Number</td>
+          <td>The number of promotions to retrieve per page</td>
+        </tr>
+        <tr>
+          <td class="code">page</td>
+          <td>Number</td>
+          <td>The page number of promotions to display</td>
+        </tr>
+      </tbody>
+    </table></div>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/promotions/list.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+						<pre><code class="javascript">
+{
+    "_links": {
+        "curr": "http://api.marketcloud.it/v0/promotions?"
+    }, 
+    "count": 1, 
+    "data": [
+        {
+            "active": false, 
+            "conditions": [
+                {
+                    "type": "MIN_CART_VALUE", 
+                    "value": 20
+                }
+            ], 
+            "effects": [
+                {
+                    "type": "CART_VALUE_NET_REDUCTION", 
+                    "value": 4
+                }
+            ], 
+            "id": 82524, 
+            "name": "Free sticker above 20 euros", 
+            "priority": 0
+        }
+    ], 
+    "page": 1, 
+    "pages": 1, 
+    "status": true
+}
+
+</code></pre>								
+
+						</div>
+<!-- / PRODUCT LIST -->						
+<!-- PRODUCT GET BY ID -->
+						<div class="documentation"  id="promotions.getById">
+						<h3>GET /promotions/:id</h3>
+						<p class="lead">Retrieve a specific promotion given its id.</p>
+						<pre><code class="http">GET http://api.marketcloud.it/v0/promotions/:id;</code></pre>
+						<h5>Parameters</h5>
+						<table class="table table-striped documentation">
+									<thead>
+										<tr>
+										<th>Field</th>
+										<th>Type</th>
+										<th>Description</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="code">fields</td>
+											<td>String</td>
+											<td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+										</tr>
+									</tbody>
+								</table>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/promotions/getbyid.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<div>
+						<h5>Example JSON response (200)</h5>
+						<pre><code class="javascript">
+{
+	"status": true,
+    "data": 
+        {
+            "active": false, 
+            "conditions": [
+                {
+                    "type": "MIN_CART_VALUE", 
+                    "value": 20
+                }
+            ], 
+            "effects": [
+                {
+                    "type": "CART_VALUE_NET_REDUCTION", 
+                    "value": 4
+                }
+            ], 
+            "id": 82524, 
+            "name": "Free sticker above 20 euros", 
+            "priority": 0
+     }
+}
+</code></pre>								
+							</div>
+						</div>
+<!-- / PRODUCT GET BY ID -->
+<!-- PRODUCT UPDATE BY ID -->
+				<div class="documentation"  id="promotions.update">
+						<h3>PUT /promotions/:id</h3>
+						<p class="lead">Updates a promotion given an id. Returns the updated promotion.</p>
+						<pre><code class="http">PUT http://api.marketcloud.it/v0/promotions/:id;</code></pre>
+						
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/promotions/update.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+						<pre><code class="javascript">
+{
+	status:true,
+	data: {
+            "active": false, 
+            "conditions": [
+                {
+                    "type": "MIN_CART_VALUE", 
+                    "value": 20
+                }
+            ], 
+            "effects": [
+                {
+                    "type": "CART_VALUE_NET_REDUCTION", 
+                    "value": 4
+                }
+            ], 
+            "id": 82524, 
+            "name": "Black saturday", 
+            "priority": 0
+        }
+
+}</code></pre>							
+						</div>	
+<!-- / PRODUCT UPDATE BY ID -->
+<!-- PRODUCT DELETE BY ID -->
+				<div class="documentation"  id="promotions.delete">
+						<h3>DELETE /promotions/:id</h3>
+						<p class="lead">Deletes a specific promotion given its id.</p>
+						<pre><code class="http">DELETE https://api.marketcloud.it/v0/promotions/:id;</code></pre>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/promotions/delete.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+<pre><code class="javascript">
+{
+	status:true
+}</code></pre>			
+</div>							
+<!-- / PRODUCT DELETE BY ID -->
+
+
+        </div>
+      </div>
+</div>
+</div>
+</section>
+
+</body>
+</html>

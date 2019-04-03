@@ -1,0 +1,78 @@
+
+  <!-- PAYMENTS -->
+  <!-- Payments -->
+  <h2>Payments</h2>
+  <p>Marketcloud supports a certain number of payment methods. Most of them requires client side and server side configuration, we try to abstract the server side part, so you just have to configure client side scripts.</p>
+  <p>You can find the list of payment methods supported by Marketcloud in your application's dashboard under the <b>settings</b> > <b>payments</b> page. There you will also find a link to the documentation related to each payment method.</p>
+  <blockquote class="blockquote-info">
+    <b>Info</b><br/>
+    In order to create payments using a payment method, you must enable and configure that method in your dashboard.
+  </blockquote>
+  <div class="documentation mb50 mt50">
+  <h4>Table of contents</h4>
+  <ol>
+    <li><a href="#payments.create">Create a payment</a></li>
+  </ol>
+</div>
+  <a class="anchor" id="payments.create"></a>
+  <div class="method-title">POST /payments</div>
+  <p>Creates a payment for an order.</p>
+  <h5>Arguments</h5>
+  <div class="table-responsive"><table class="table table-striped documentation">
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>method</td>
+        <td>String</td>
+        <td>A valid name of one of the supported payment methods. You can see a list of supported payment methods in Dashboard > settings > payments. If using Stripe, set it to "Stripe", set it to "Braintree" if using Braintree. If you want to use a custom payment method, set it to "Custom" and provide the <code>payment_method_id</code> parameter.</td>
+      </tr>
+      <tr>
+        <td>payment_method_id</td>
+        <td>Number</td>
+        <td>If you are using a custom payment method, privide that payment method's id here.</td>
+      </tr>
+      <tr>
+        <td  class="code">order_id <span class="label label-success">Required</span></td>
+        <td>Integer</td>
+        <td>The id of the order related to this payment.</td>
+      </tr>
+      <tr>
+        <td class="code">&lt;attribute&gt;</td>
+        <td>Mixed</td>
+        <td>Every payment method requires different additional parameters. Refer to the payment method documentation for more informations.</td>
+      </tr>
+    </tbody>
+  </table></div>
+<h5>Example request with custom payment method</h5>
+<pre><code class="bash">
+curl --request POST
+  --url http://api.marketcloud.it/v0/payments \
+  --header 'content-type: application/json' \
+  --header 'authorization: YourPublicKey:YourToken' \
+  --data '{ payment_method_id" : 1234 ,   "order_id" : 123}'
+</code></pre>
+<h5>Example request with Stripe</h5>
+<p>For further information see the <a class="link" href="/documentation/guides/integrations/stripe">integration page</a>.</p>
+<pre><code class="bash">
+curl --request POST
+  --url http://api.marketcloud.it/v0/payments \
+  --header 'content-type: application/json' \
+  --header 'authorization: YourPublicKey:YourToken' \
+  --data '{ "method" : "Stripe" ,   "order_id" : 123, "source" : "token-from-stripe.js"}'
+</code></pre>
+<h5>Example request with Braintree</h5>
+<p>For further information see the <a class="link" href="/documentation/guides/integrations/braintree">integration page</a>.</p>
+<pre><code class="bash">
+curl --request POST
+  --url http://api.marketcloud.it/v0/payments \
+  --header 'content-type: application/json' \
+  --header 'authorization: YourPublicKey:YourToken' \
+  --data '{ "method" : "Braintree" ,   "order_id" : 123, "nonce" : "token-from-braintree.js"}'
+</code></pre>
+  <!-- /Payments -->

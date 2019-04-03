@@ -1,0 +1,125 @@
+
+<h3 id="orders">Orders</h3>
+<a class="anchor" id="orders.list"></a>
+<div class="method-title">List all orders</div>
+<div class="text-muted">Authentication required</div>
+        <pre><code class="javascript">
+//Returns orders made by the currently authenticated user
+marketcloud.orders.list(query,function(err,response){
+
+})      
+</code></pre>
+<a class="anchor" id="orders.getById"></a>
+<div class="method-title">Retrieve an order</div>
+<div class="text-muted">Authentication required</div>
+        <pre><code class="javascript">
+  //Returns informations about an order made by the currently authenticated user
+  marketcloud.orders.getById(id,function(err,response){
+  });     
+</code></pre>
+
+
+
+
+
+<a class="anchor" id="orders.create"></a>
+<div class="method-title">Create an order</div>
+
+<h5>Arguments</h5>
+      <div class="table-responsive mb20">
+      <table class="table table-striped documentation">
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>items</td>
+            <td>Array</td>
+            <td>An array of line items.This is required if the <span class="code">cart_id</span> is missing.</td>
+          </tr>
+          <tr>
+            <td>cart_id <span class="label label-success">Required</span></td>
+            <td>Integer</td>
+            <td>The id of the cart that is going to be turned into an order. This is required if <span class="code">items</span> is missing</td>
+          </tr>
+          <tr>
+            <td>state</td>
+            <td>String</td>
+            <td>The state of the order. Defaults to <i>created</i></td>
+          </tr>
+          <tr>
+            <td>shipping_address_id <span class="label label-success">Required</span></td>
+            <td>Integer</td>
+            <td>The id of the shipping address</td>
+          </tr>
+          <tr>
+            <td>shipping_address</td>
+            <td>Object</td>
+            <td>A shipping address object. See Address for more informations. This is required if the <span class="code">shipping_address_id</span> is missing.</td>
+          </tr>
+          <tr>
+            <td>billing_address_id <span class="label label-success">Required</span></td>
+            <td>Integer</td>
+            <td>The id of the billing address</td>
+          </tr>
+          <tr>
+            <td>billing_address</td>
+            <td>Object</td>
+            <td>A sbilling address object. See Address for more informations. This is required if the <span class="code">billing_address_id</span> is missing.</td>
+          </tr>
+          <tr>
+            <td>user_id</td>
+            <td>Integer</td>
+            <td>The id of the user making the order</td>
+          </tr>
+          <tr>
+            <td>shipping_id</td>
+            <td>Integer</td>
+            <td>The id of the <b>shipping method</b> chosen for the order. Be careful, this is not the shipping address.</td>
+          </tr>
+          <tr>
+            <td>store_id</td>
+            <td>Integer</td>
+            <td>The id of the store receiving in the order</td>
+          </tr>
+          <tr>
+              <td>promotion_id</td>
+              <td>Number</td>
+              <td>The id of the promotion to apply.</td>
+          </tr>
+          <tr>
+              <td>coupon_code</td>
+              <td>String</td>
+              <td>The code of the coupon to apply.</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+<pre><code class="javascript">
+  //Returns informations about an order made by the currently authenticated user
+  var the_order = {
+    shipping_address : {
+      // See address for more informations
+    },
+    billing_address : {
+      // See address for more informations
+    },
+    cart_id : 0,
+    payment_method_id : 123 //Optional payment method id
+  }
+  </code>
+  </pre>
+  <p>Alternatively, instead of passing a cart_id you can pass a 'items' array containing line items. See cart for more informations.</p>
+  <pre><code class="javascript">
+  
+  var the_order = {
+    shipping_address : {
+      // See address for more informations
+    },
+    billing_address : {
+      // See address for more informations
+    },
+    items : [{product_id : 1, quantiyt: 1}]
+  }
+  marketcloud.orders.create(the_order,function(err,response){
+  });     
+</code></pre>

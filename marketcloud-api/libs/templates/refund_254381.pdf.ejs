@@ -1,0 +1,354 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Credit note <%= order.id %></title>
+    
+    <style>
+    .invoice-box {
+        max-width: 800px;
+        margin: auto;
+        padding: 30px;
+        border: 1px solid #eee;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+        font-size: 16px;
+        line-height: 24px;
+        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+        color: #555;
+    }
+    
+    .invoice-box table {
+        width: 100%;
+        line-height: inherit;
+        text-align: left;
+    }
+    
+    .invoice-box table td {
+        padding: 5px;
+        vertical-align: top;
+    }
+    
+    .invoice-box table tr td:last-child {
+        text-align: right;
+    }
+    
+    .invoice-box table tr.top table td {
+        padding-bottom: 20px;
+    }
+    
+    .invoice-box table tr.top table td.title {
+        font-size: 45px;
+        line-height: 45px;
+        color: #333;
+    }
+    
+    .invoice-box table tr.information table td {
+        padding-bottom: 40px;
+    }
+    
+    .invoice-box table tr.heading td, div.heading {
+        color: #FFF;
+        background: #555;
+        border-bottom: 1px solid #555;
+        /*border-bottom: 1px solid #ddd;*/
+        font-weight: bold;
+    }
+    
+    .invoice-box table tr.details td {
+        padding-bottom: 20px;
+    }
+    
+    .invoice-box table tr.item td{
+        border-bottom: 1px solid #eee;
+    }
+    
+    .invoice-box table tr.item.last td {
+        border-bottom: none;
+    }
+    
+    .invoice-box table tr.total td:nth-child(2) {
+        border-top: 2px solid #eee;
+        font-weight: bold;
+    }
+    
+    @media only screen and (max-width: 600px) {
+        .invoice-box table tr.top table td {
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+        
+        .invoice-box table tr.information table td {
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+    }
+    
+    /** RTL **/
+    .rtl {
+        direction: rtl;
+        font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+    }
+    
+    .rtl table {
+        text-align: right;
+    }
+    
+    .rtl table tr td:nth-child(2) {
+        text-align: left;
+    }
+</style>
+</head>
+
+<body>
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title" style="width:50%;">
+                                <img src="<%= application.logo %>" style="max-width:100%; max-height: 120px;">
+                            </td>
+                            
+                            <td  style="width:50%;">
+
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td style="width:50%;">
+                                
+                                <b>ELLENNE S.n.c di Natale Bellotti & C.</b><br>
+                                Via dei Pizzi 4 - 22063 Cantù (CO) Italy<br>
+                                CF/PI 03270550134<br>
+                                tel +39 031 2253093 - fax +39 031 2253095
+                                info@laclassica.com - www.laclassica.com
+                                
+                            </td>
+                            
+                            <td style="width:50%;">
+                                <div class="heading" style="padding-left: 10px;">Nota credito vendita WEB</div> 
+                                Document n.: <%= order.id %><br>
+                                Date: <%= new Date().toDateString() %><br>
+                                
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td style="width:50%;">
+                                
+                               <div class="heading" style="padding-right: 10px;">Destination</div>
+                                <%= order.billing_address.full_name %><br>
+                                <%= order.billing_address.address1 %><br>
+                                <%= order.billing_address.postal_code %> <%= order.billing_address.city %>, <%= order.billing_address.state %> <br>
+                                <%= order.billing_address.country %><br/>
+                                <%= order.billing_address.vat %><br>
+                                
+                            </td>
+                            
+                            <td style="width:50%;">
+                               
+                                <div class="heading" style="padding-right: 10px;">Consignee</div>
+                                <%= order.billing_address.full_name %><br>
+                                <%= order.billing_address.address1 %><br>
+                                <%= order.billing_address.postal_code %> <%= order.billing_address.city %>, <%= order.billing_address.state %> <br>
+                                <%= order.billing_address.country %><br/>
+                                <%= order.billing_address.vat %><br>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            
+           
+            
+        </table>
+        <table cellpadding="0" cellspacing="0" style="margin-top: 20px;">
+            <tr class="heading">
+                <td>Row</td>
+                <td>Item no.</td>
+                <td> Description </td>
+                <td>Quantity</td>
+                <td>Price</td>
+                <td>Total</td>
+                <td>Tax</td>
+            </tr>
+            <% for(var i=0; i< refund.line_items.length; i++) { %>
+
+            <%
+            var itemPrice = 0; 
+            var theItem = refund.line_items[i]
+            if (refund.line_items[i].hasOwnProperty("variant")){
+                theItem = refund.line_items[i].variant
+                if (refund.line_items[i].variant.hasOwnProperty("price_discount")) {
+                    itemPrice = refund.line_items[i].variant.price_discount
+                } else {
+                    itemPrice = refund.line_items[i].variant.price
+                }
+            } else {
+                if (refund.line_items[i].hasOwnProperty("price_discount")) {
+                    itemPrice = refund.line_items[i].price_discount
+                } else {
+                    itemPrice = refund.line_items[i].price
+                }
+            }
+            %>
+
+
+            <tr class="item">
+                <%if (!order.hasOwnProperty("currency")) {
+                    order.currency = {symbol : ""}
+                }%>
+                <td><!-- Row column --> <%= (i+1) * 10 %></td>
+                <td><%= theItem.sku %></td>
+                <td>
+                    <%= refund.line_items[i].name %>
+
+                    <% if (refund.line_items[i].hasOwnProperty("variant") ) {%>
+                    <div class="variantsInfo">
+                        <% for (var variantName in refund.line_items[i].variantsDefinition ){%>
+                        <% if (refund.line_items[i].variant.hasOwnProperty(variantName) ) {%>
+                        <span><%= variantName%> : <%=refund.line_items[i].variant[variantName]%></span>
+                        <%}%>
+                        <%}%>
+                    </div>
+
+                    <%}%>
+                     <% if (refund.line_items[i].hasOwnProperty("taric") ) {%>
+                        <div class="taricCode">
+                            <span>TARIC : <%=refund.line_items[i].taric%></span>
+                        </div>
+                    <%}%>
+                    
+                </td>
+
+                <td><%= refund.line_items[i].quantity %></td>
+                <td><%= Number(itemPrice).toFixed(2) %> <%= order.currency.symbol%></td>
+                
+                <td><%= Number(itemPrice * refund.line_items[i].quantity).toFixed(2) %> <%= order.currency.symbol%></td>
+                
+                <td><%= refund.line_items[i].applied_tax_rate + "%" %></td>
+                
+            </tr>
+            <% } %>
+
+
+
+
+
+
+        <tr>
+            <td colspan="5">
+                Taxes
+            </td>
+
+            <td>
+             <%= Number(refund.taxes_total).toFixed(2) %> <%= order.currency.symbol%>
+         </td>
+     </tr>
+     <tr>
+        <td colspan="5">
+            Total
+        </td>
+
+        <td>
+         <%= Number(refund.total).toFixed(2) %> <%= order.currency.symbol%>
+     </td>
+ </tr>
+</table>
+
+
+<table cellpadding="0" cellspacing="0" style="margin-top: 50px;">
+    <tr>
+        <td style="width: 50%;">
+
+            <div>Expiring payment</div>
+            <table cellpadding="0" cellspacing="0" style="margin-top: 2px;border:1px solid #333;">
+                <tr>
+                    <td style="border:1px solid #333;min-height: 64px;display: block;"></td>
+                </tr>
+
+            </table>
+
+            <table cellpadding="0" cellspacing="0" style="margin-top: 2px;">
+                <tr>
+                    <td style="border-bottom: 1px solid #333">Payment</td>
+                    <td style="border-bottom: 1px solid #333">Credit card immediate</td>
+                </tr>
+
+                <tr>
+                    <td style="border-bottom: 1px solid #333">Bank</td>
+                    <td style="border-bottom: 1px solid #333">PAYPAL</td>
+                </tr>
+
+            </table>
+        </td>
+        <td style="width: 50%;">
+            Vat Summary
+            <table cellpadding="0" cellspacing="0" style="margin-top: 2px;border:1px solid #333">
+                <tr>
+                    <td  style="border-bottom: 1px solid #333"><b>Tax Name</b></td>
+                    <td  style="border-bottom: 1px solid #333"><b>Net Amount</b></td>
+                    <td  style="border-bottom: 1px solid #333"><b>Tax Amount</b></td>
+                </tr>
+                <tr>
+                    <td  style="border-bottom: 1px solid #333"><%= order.taxes[0].name %></td>
+                    <td  style="border-bottom: 1px solid #333"><%= Number(refund.items_total).toFixed(2) %></td>
+                    <td  style="border-bottom: 1px solid #333"><%= Number(refund.taxes_total).toFixed(2) %></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+
+            <table cellpadding="0" cellspacing="0" style="margin-top: 10px;">
+                <tr style="margin-bottom: 10px;">
+                    <td style="border:1px solid #333; border-top: 0px;width:50%">Total value (EUR)</td>
+                    <td style="background-color: #ddd"><%= Number(refund.items_total).toFixed(2) %></td>
+                </tr>
+            </table>
+            <table cellpadding="0" cellspacing="0" style="margin-top: 10px;">
+                <tr>
+                    <td style="border:1px solid #333; border-top: 0px;width:50%">Total VAT (EUR)</td>
+                    <td style="background-color: #ddd"><%= Number(refund.taxes_total).toFixed(2) %></td>
+                </tr>
+            </table>
+            <table cellpadding="0" cellspacing="0" style="margin-top: 10px;">
+                <tr>
+                    <td style="border:1px solid #333; border-top: 0px;width:50%">Total Order (EUR)</td>
+                    <td style="background-color: #ddd"><%= Number(refund.total).toFixed(2) %></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+
+<div>Notes</div>
+<table cellpadding="0" cellspacing="0" style="margin-top: 2px;border:1px solid #333;">
+    <tr>
+        <td style="border:1px solid #333;min-height: 32px;display: block;"></td>
+    </tr>
+
+</table>
+
+
+</div>
+</body>
+</html>

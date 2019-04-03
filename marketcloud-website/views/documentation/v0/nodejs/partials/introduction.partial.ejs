@@ -1,0 +1,69 @@
+<p>This is the documentation for the official Marketcloud NodeJS SDK. It is a wrapper for our REST api and it makes it easier to use. You can find the list of our official SDKs in the <a class="link" href="/documentation/libraries">libraries section</a>.</p>
+        <a class="anchor" id="addresses.create"></a>
+        <h3 class="section-title"  id="introduction">Introduction</h3>
+        <p >If you haven't set up an application yet, please refer to this <a href="/documentation/rest-api/gettingstarted" class="link">Getting Started</a> guide.</p>
+        <p >Your account on Marketcloud can handle multiple marketcloud-apps, each one has its own public key / secret key pair that you insert into your NodeJS code.</p>
+        <p>The Marketcloud NodeJS SDK is open source and publicly available at <a href="https://github.com/Marketcloud/marketcloud-node" class="link">Github</a></p>
+        <h3 class="section-title"  id="installation">Installation</h3>
+        <p>The easiest way to get started with the NodeJS sdk, is to install it via NPM:</p>
+      <pre><code class="javascript">npm install marketcloud-node</code></pre>
+      <p>At this point you can include the sdk in your application</p>
+    <pre><code class="javascript">var Marketcloud = require('marketcloud-node');</code></pre>
+    <h3 class="section-title"  id="authentication">Authentication and security</h3>
+    <p >Every application identifies itself to Marketcloud using a unique public key. Since you must ship the public key with your client application code, this key is <b>public</b>. The application security is guaranteed by the secret key, which you should never share with anyone, since it grants higher authorization levels to clients using it. The only place where it should be safe to store and use the secret key is (in case you need it) your server side code or, even better, <a target="_blank" class="link" href="https://12factor.net/config">some safer place</a>.</p>
+
+    <p>Your app's credentials are stored by the <code>Marketcloud.Client</code> instance</p>
+    
+    <pre><code class="javascript">var marketcloud = new Marketcloud.Client({
+        public_key : 'your_public_key',
+        secret_key : 'your_secret_key'
+    })</code></pre>
+    <p>The token is transparently handled by the client and it lasts 4 hours, after that ,the SDK automatically detects the need to re-authenticate so you don't need to check for this.</p>
+
+
+
+
+
+    <a class="anchor"  id="making-requests"></a>
+    <h3 class="section-title">Making requests</h3>
+    <p>The SDK uses Promises to handle concurrency and to interact with the Marketcloud REST api. Promises provide a way to write asynchronous code that is readable and easily composable. The SDK internally uses the well known library <a href="http://bluebirdjs.com/docs/why-promises.html" class="link">Bluebird.js</a></p>
+    <pre><code class="javascript">
+marketcloud.products.list({})
+.then(function(data){
+  // Handle success
+})
+.catch(function(error){
+  //Handle error
+})
+    </code></pre>
+    <div class="method-title">Handling errors</div>
+    <p>Errors returned by the SDK have the following structure</p>
+    <pre><code class="javascript">
+{
+  code : 404,
+  type : "NotFound",
+  message : "Resource not found"
+}
+    </code></pre>
+    <p>Validation error have further attributes:</p>
+    <pre><code class="javascript">
+{ code: 400,
+  type: "BadRequest",
+  message: "Bad request",
+  valid: false,
+  failedValidator: "missingRequiredProperty",
+  invalidPropertyName: "price"
+}
+    </code></pre>
+
+
+    <a class="anchor"  id="currencies"></a>
+    <h3 class="section-title">Handling currencies</h3>
+    <p>Handling currencies in a multi-currencies set up can become tiresome because each request must specify which is the currency that should be used to show product prices, cart values and so on.</p>
+    <p>To solve this problem, the SDK checks for a "currency" attribute in the options object</p>
+    <pre><code class="javascript">
+client.products.list({category : '/some/category'}, {currency : 'USD'})
+.then( function(response) {
+  // Product prices are retrived in USD
+})
+    </code></pre>

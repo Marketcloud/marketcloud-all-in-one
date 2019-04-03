@@ -1,0 +1,136 @@
+ <style type="text/css">
+   @media(max-width: 918px) {
+    .navbar.subnavbar {
+      display: none;
+    }
+    nav#index {
+      top:55px;
+    }
+   }
+ </style>
+
+ <nav class="navbar navbar-inverse subnavbar fixed-subnavbar">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle sidebar-toggle">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+
+        
+      <li role="presentation" class="<%= (pageTitle.toLowerCase().indexOf('documentation home') > -1) ?  "active" : "" %>">
+            <a href="/documentation">Overview</a>
+          </li>
+          <li role="presentation" class="<%= (pageTitle.toLowerCase().indexOf('quickstart') > -1) ?  "active" : "" %>">
+            <a href="/documentation/quickstart" >Quickstart</a>
+          </li>
+          <li role="presentation" class="<%= (path.indexOf('/guides') > -1) ?  "active" : "" %>">
+            <a href="/documentation/guides" >Guides</a>
+          </li>
+          <li role="presentation" class="<%= (pageTitle.toLowerCase().indexOf('reference') > -1) ?  "active" : "" %>">
+            <a href="/documentation/reference" >API Reference</a>
+          </li>
+          <li role="presentation" class="<%= (pageTitle.toLowerCase().indexOf('code') > -1) ?  "active" : "" %>">
+            <a href="/documentation/examples" >Examples</a>
+          </li>
+      </ul>
+      
+      <ul class="navbar-nav nav navbar-right">
+          <li>
+            <a href="#" class="link bold" data-toggle="modal" data-target="#feedback-modal">FEEDBACK</a>
+          </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<style type="text/css">
+  .fixed-subnavbar {
+    position: fixed;
+    top: 52px;
+    left:0px;
+    right: 0px;
+    z-index: 10;
+  }
+</style>
+ <script type="text/javascript">
+
+        $(document).ready(function(){
+          var btn = $("#feedback-modal").find('.submit-feedback').click(function(){
+          var feedback = {
+            url : window.location.href,
+            message : $("#feedback_text").val()
+          }
+          $("#feedback_text").parent().hide();
+          $("#feedback_loading").show();
+
+
+          function saveFeedback(){
+            $.ajax({
+              type: "POST",
+              url: '/feedback',
+              data: feedback,
+              success: function(){
+                $("#feedback_loading").hide();
+                $("#feedback_success").show();
+                $(".submit-feedback").hide();
+              },
+              dataType: 'json'
+            });
+          }
+          
+          window.setTimeout(saveFeedback,2000);
+
+      })
+      })
+      </script>
+
+
+<!-- Feedback modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="feedback-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Send feedback</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12">
+              <div id="feedback_success" class="text-center" style="display: none">
+                      <p class="lead">Thank you for your feedback!</p>
+              </div>
+              <div class="spinner" id="feedback_loading" style="display: none"></div>
+              <div class="form form-horizontal">
+                <div class="form-group">
+                  <label>Message</label>
+                  <textarea class="form-control"
+                            id="feedback_text"
+                            rows="6" 
+                            placeholder="Describe your feedback :) Did you encounter a bug? Do you have ideas for improvements? We are all ears :)"></textarea>
+                  
+                </div>
+                  
+              </div>
+
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary submit-feedback" >Submit</button>
+      </div>
+      </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->

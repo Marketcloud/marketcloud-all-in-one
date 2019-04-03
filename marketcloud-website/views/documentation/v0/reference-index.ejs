@@ -1,0 +1,165 @@
+<% include ../../header %>
+<script type="text/javascript">
+</script>
+<script type="text/javascript" src="/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+<link rel="stylesheet" href="/libs/technology-icons/dist/styles/technology-icons.css">
+<link rel="stylesheet" type="text/css" href="/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css" />
+<link rel="stylesheet" type="text/css" href="/libs/font-awesome/css/font-awesome.min.css">
+<style type="text/css">
+.tab-content>.active {
+border:0px;
+}
+.tab-pane {
+margin-top:20px;
+}
+.hljs {
+font-size: 14px;
+border: 1px solid #DDD;
+}
+.pricing-tier {
+border: 2px solid #3498db;
+border-radius: 4px;
+}
+.language {
+color: #777;
+}
+</style>
+<style type="text/css">
+.documentation-platform-block{
+padding-left: 10px;
+}
+.documentation-platform-block .title {
+height: 48px;
+vertical-align: middle;
+line-height: 48px;
+}
+
+section.grey.fixed-top {
+  position: fixed;
+  top: 50px;
+  left:0px;
+  right: 0px;
+}
+</style>
+
+<% include ../../navbar %>
+
+<% include documentation-navbar.partial.ejs %>
+<section class="mb50 mt20">
+  <div class="container">
+    
+    <div class="row">
+      <div class="col-xs-12 col-md-8 col-md-offset-2">
+        
+        <h3 class="text-muted text-center">
+        API Reference
+        </h3>
+        <p class="lead">API References provide detailed information about our API and SDKs. Choose your preferred platform to review its documentation.</p>
+      </div>
+    </div>
+    
+    <div class="row mt20">
+      
+      <div class="col-md-4 col-md-offset-2 col-xs-12 col-sm-6 mb20">
+        <div class="documentation-platform-block">
+          <div class="row grey">
+            <div class="col-xs-2">
+              <em class="icon-js f48"></em>
+            </div>
+            <div class="col-xs-10">
+               <a href="/documentation/reference/javascript">
+                <h4 class="title">Javascript API Reference</h4>
+              </a>
+            </div>
+          </div>
+         
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12 col-sm-6  mb20">
+        <div class="documentation-platform-block">
+          <div class="row grey">
+            <div class="col-xs-2">
+              <em class="icon-nodejs f48"></em>
+            </div>
+            <div class="col-xs-10">
+              <a href="/documentation/reference/nodejs">
+                <h4 class="title">NodeJS API Reference</h4>
+              </a>
+            </div>
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+    <div class="row mt20">
+      <div class="col-md-4 col-md-offset-2 col-xs-12 col-sm-6  mb20">
+        <div class="documentation-platform-block">
+          <div class="row grey">
+            <div class="col-xs-2">
+              <em class="icon-php f48"></em>
+            </div>
+            <div class="col-xs-10">
+              <a href="/documentation/reference/php">
+              <h4 class="title">PHP API Reference</h4>
+              </a>
+            </div>
+          </div>
+          
+          
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12 col-sm-6  mb20">
+        <div class="documentation-platform-block">
+          <div class="row grey">
+            <div class="col-xs-2">
+              <em class="fa fa-android fa-3x"  style="margin-top: 10px;"></em>
+            </div>
+            <div class="col-xs-10">
+              <a href="/documentation/reference/android">
+              <h4 class="title">Android API Reference</h4>
+              </a>
+            </div>
+          </div>
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="row mt20">
+       <div class="col-md-4 col-md-offset-2 col-xs-12 col-sm-6  mb20">
+        <div class="documentation-platform-block">
+          <div class="row grey">
+            <div class="col-xs-2">
+              <img src="/img/3rdparty/swift-gray.png" style="height: 48px;margin-top: 10px;">
+            </div>
+            <div class="col-xs-10">
+              <a href="/documentation/reference/swift">
+              <h4 class="title">Swift API Reference</h4>
+              </a>
+            </div>
+          </div>
+          
+          
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12 col-sm-6  mb20">
+        <div class="documentation-platform-block">
+          <div class="row grey">
+            <div class="col-xs-2">
+              <em class="icon-shell-alt f48"></em>
+            </div>
+            <div class="col-xs-10">
+              <a href="/documentation/rest-api">
+              <h4 class="title">cURL API Reference</h4>
+              </a>
+            </div>
+          </div>
+          
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<% include ../../footer/ %>

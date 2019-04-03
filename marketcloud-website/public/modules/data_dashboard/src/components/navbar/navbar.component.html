@@ -1,0 +1,50 @@
+<!-- Start navbar -->
+<nav class="navbar navbar-default navbar-fixed-top has-shadow" ng-cloak="true">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#/"><img src="https://marketcloud.azureedge.net/website-v2/logo-text-right-small.png"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+           <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding-top: 12px; padding-bottom: 8px; display:flex;">
+            <div><img ng-src="{{application.logo}}" style="width:32px;height: 32px; border-radius: 50%;"></div>
+            <div style="line-height: 32px;margin-left: 5px;">{{application.name}} <i class="fa fa-angle-down"></i></div>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="#/application/overview">Development settings</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#/applications/list">Switch application</a></li>
+            <li><a href="#/applications/new">Create new application</a></li>
+          </ul>
+        </li>
+        <li ng-if="application.role === 'guest'" style="line-height: 48px;">
+          <span class="label label-default label-rounded"><i class="fa fa-eye"></i> View only</span>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding-top: 12px; padding-bottom: 8px; display:flex;">
+            <div><img ng-src="{{user.image_url}}" style="width:32px;height: 32px; border-radius: 50%;"></div>
+            <div style="line-height: 32px;margin-left: 5px;">{{user.email}} <i class="fa fa-angle-down"></i></div>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/account">Account settings</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/account/logout">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<!-- END navbar -->

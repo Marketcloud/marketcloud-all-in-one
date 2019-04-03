@@ -1,0 +1,166 @@
+<div  ng-class="{'card mb50' : 'true' !== ctrl.removeCardFrame}">
+	
+	<div class="card-header" ng-if="'true' !== ctrl.removeCardFrame"><h4>{{ctrl.title || "Custom properties"}}</h4></div>
+	<div ng-if="ctrl.disableAdd !== true">
+		<p class="text-muted mt10">Here you can add custom properties selecting name and value. When you're done with a new property, click "add"</p>
+		
+		<div class="row">
+			<div class="form-group col-md-6"  ng-class="{'has-error' : errorField === 'newAttribute.value'}">
+				<label>Type</label>
+				<select ng-model="newAttribute.type"
+					class="form-control  solid"
+					ng-options="item.value as item.name for item in availableTypes"
+					ng-change="newAttribute.value = null">
+				</select>
+			</div>
+			<div class="form-group col-md-6"  ng-class="{'has-error' : errorField === 'newAttribute.name'}">
+				<label>Name</label>
+				<input type="text"
+				class="form-control  solid"
+				placeholder="e.g. Author"
+				ng-model="newAttribute.name" />
+			</div>
+			
+			<div class="form-group col-md-12"  ng-class="{'has-error' : errorField === 'newAttribute.value'}">
+				<label>Value</label>
+				<input type="text"
+				class="form-control  solid"
+				placeholder="any text value"
+				ng-model="newAttribute.value"
+				ng-if="newAttribute.type === 'string'"/>
+				<input type="number"
+				class="form-control  solid"
+				placeholder="any numeric value"
+				ng-model="newAttribute.value"
+				ng-if="newAttribute.type === 'number'"/>
+				<select ng-model="newAttribute.value"
+					class="form-control  solid"
+					ng-if="newAttribute.type === 'boolean'"
+					ng-options="(item?'True':'False') for item in [true, false]"
+					>
+				</select>
+				<div ng-if="newAttribute.type === 'richtext'" ng-show="newAttribute.type === 'richtext'">
+					<div trumbowyg-ng ng-model="newAttribute.value" ng-if="newAttribute.type === 'richtext'" ng-show="newAttribute.type === 'richtext'"
+					 editor-config="{btns:[['viewHTML'],['formatting'],'btnGrp-semantic',['superscript','subscript'],['link'],['insertImage'],'btnGrp-justify','btnGrp-lists',['horizontalRule'],['removeformat'],['fullscreen']]}">
+					</div>
+				</div>
+				
+				<div ng-if="newAttribute.type === 'URL'">
+				<div class="input-group">
+					<input class="form-control solid" placeholder="http(s)://www.example.com/myfile" ng-model="newAttribute.value">
+					<span class="input-group-btn">
+						<media-manager button-class="btn btn-info" button-text="Media manager" button-icon="ion-images" images="containerForNewMediaAttribute">
+						</media-manager>
+					</span>
+				</div>
+				<!-- /input-group -->
+				</div>
+			</div>
+			<div class="col-xs-12" ng-if="errorMessage">
+				<div class="alert alert-danger">{{errorMessage}}</div>
+			</div>
+			<div class="form-group col-lg-2">
+				<label class="invisible">.</label><br>
+				<button class="btn btn-sm btn-default" ng-click="addCustomProperty()">Add</button>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="card-toolbar" ng-if="propertiesStack.length > 0" style="border-top:1px solid #DDD">
+			<span>Root object > </span>
+			<span ng-repeat="item in propertiesStack track by $index">
+				<a class="link" ng-click="goToNestedStep($index)">{{item}}</a> <span ng-if="$index < propertiesStack.length -1"> </span>
+			</span>
+		</div>
+		<table class="table table-striped">
+			<thead >
+				<tr>
+					<th>Name</th>
+					<th>Value</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody ng-if="hasCustomProperties()">
+				<tr ng-repeat="(k,v) in properties" ng-if="null !== properties[k]">
+					<td>{{k}}</td>
+					<td>
+						
+						<input type="text"
+						class="form-control  solid"
+						placeholder="any text value"
+						ng-model="properties[k]"
+						ng-if="'string' === propertiesTypes[k]"/>
+						<input type="number"
+						class="form-control solid"
+						placeholder="any numeric value"
+						ng-model="properties[k]"
+						ng-if="'number' === propertiesTypes[k]"/>
+						<select ng-model="properties[k]"
+							class="form-control  solid"
+							ng-if="'boolean' === propertiesTypes[k]"
+							ng-options="(item?'True':'False') for item in [true, false]"
+							>
+							
+						</select>
+						<a class="link" ng-click="showRecursiveObjectEditor(k)" ng-if="null !== properties[k] && 'object' === propertiesTypes[k]">View and edit</a>
+						<div  ng-if="propertiesTypes[k] === 'richtext'">
+						<div trumbowyg-ng
+							ng-model="properties[k]"
+							ng-if="propertiesTypes[k] === 'richtext'"
+							editor-config="{btns:[['viewHTML'],['formatting'],'btnGrp-semantic',['superscript','subscript'],['link'],['insertImage'],'btnGrp-justify','btnGrp-lists',['horizontalRule'],['removeformat'],['fullscreen']]}">
+						</div>
+					</div>
+						<div ng-if="propertiesTypes[k] === 'URL'">
+							<div class="input-group">
+								<input class="form-control solid" placeholder="http(s)://www.example.com/myfile" ng-model="properties[k]">
+								<span class="input-group-btn">
+									<image-selector button-class="btn btn-info" button-text="Image" image="properties[k]">
+									</image-selector>
+								</span>
+							</div>
+							<!-- /input-group -->
+						</div>
+						
+					</td>
+					<td ng-if="ctrl.disableAdd !== true">
+						<button class="btn btn-default" ng-click="deleteCustomProperty(k)"><span class="fa fa-trash-o"></span></button>
+					</td>
+				</tr>
+			</tbody>
+			
+		</table>
+		<p ng-if="false === hasCustomProperties()" class="text-muted text-center lead">There are no custom properties yet.</p>
+	</div>
+	
+	
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="newAttributeModal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">New attribute</h4>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-4 text-center">
+							<i class="fa fa-font fa-2x">
+							<h4>Text</h4>
+							<p class="small text-muted">Any string</p>
+						</div>
+						<div class="col-md-4 text-center">
+							<i class="fa fa-font fa-2x">
+							<h4>Number</h4>
+							<p class="small text-muted">Any number</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+			</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->

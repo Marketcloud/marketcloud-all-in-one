@@ -1,0 +1,31 @@
+{
+  "name": "marketcloud-webhook-service",
+  "version": "1.0.0",
+  "description": "This service listens to events from the Message Queue and looks for webhooks to invoke",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/marketcloud/marketcloud-webhook-service.git"
+  },
+  "author": "Mattia Alfieri",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/marketcloud/marketcloud-webhook-service#readme",
+  "dependencies": {
+    "amqp-connection-manager": "^1.3.1",
+    "amqplib": "^0.4.2",
+    "dotenv": "^7.0.0",
+    "mongodb": "^2.2.4",
+    "mongoskin": "^2.1.0",
+    "superagent": "^2.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.12.2",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^2.0.1"
+  }
+}

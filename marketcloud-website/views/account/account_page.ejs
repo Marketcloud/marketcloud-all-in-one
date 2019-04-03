@@ -1,0 +1,136 @@
+<% include ../header %>
+<% include ../navbar/ %>
+<link rel="stylesheet" href="modules/account/css/account.style.css" />
+<link rel="stylesheet" type="text/css" href="/libs/notie/dist/notie.css">
+<div ng-app="Marketcloud.Account"  ng-controller="EditAccountController" style="background-color: #ecf0f1">
+	<% var parsedUser = JSON.parse(userData) %>
+	<section class="heading">
+		
+		
+		<div class="container-fluid">
+			<div class="row mb20 ct">
+				<h1>Manage account</h1>
+			</div>
+			
+		</div>
+		
+	</section>
+	<section style="padding-bottom:0px;background-color: white;box-shadow: 2px 2px 2px 2px rgba(0,0,0,.18);">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12">
+					
+					<ul class="horizonal-menu navbar-nav nav">
+						<li role="presentation" class="active">
+							<a href="/account">Account</a>
+						</li>
+						
+					</ul>
+					
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<div id="userData" style="display:none;">
+		<%- userData %>
+	</div>
+	<div class="container-fluid" >
+		
+		<div class="row">
+			<div class="col-xs-12 col-lg-4 col-lg-offset-4" style="padding-top: 50px;">
+				<div class="card mb50">
+					<div class="card-header">
+					<h4>Basic information</h4>
+				</div>
+					<div class="form">
+						<div class="text-center">
+							<a href="https://gravatar.com/" target="_blank">
+							<img src="<%- JSON.parse(userData).image_url %>" style="border-radius: 50%;"></a>
+						</div>
+						<div class="form-group" style="text-align:left" ng-class="{'has-error' : false === validation.email, 'has-success' : true === validation.email}">
+							<label>Email address</label>
+							<input required ng-model="account.email"
+							type="email"
+							class="form-control input-lg "
+							placeholder="email@example.com"
+							id="email"
+							name="email"/>
+						</div>
+						<div class="form-group" style="text-align:left" ng-class="{'has-error' : false === validation.full_name, 'has-success' : true === validation.full_name}">
+							<label>Full name</label>
+							<input required ng-model="account.full_name"
+							type="text"
+							class="form-control input-lg "
+							placeholder="John Doe"
+							id="full_name"
+							name="full_name"/>
+						</div>
+						<div class="form-group" style="text-align:left" ng-class="{'has-error' : false === validation.country, 'has-success' : true === validation.country}">
+							<label>Country</label>
+							<select required ng-model="account.country"
+								class="form-control input-lg "
+								ng-options="o.name as o.name for o in countries"
+								id="country"
+							name="country"></select>
+						</div>
+						<div class="form-group" style="text-align:left" ng-class="{'has-error' : false === validation.company_name, 'has-success' : true === validation.full_name}">
+							<label>Company</label>
+							<input required ng-model="account.company_name"
+							type="text"
+							class="form-control input-lg "
+							placeholder="Facebook inc"
+							id="company_name"
+							name="company_name"/>
+						</div>
+					</div>
+					<div class="card-footer text-right">
+						<button class="btn btn-info" ng-click="updateAccount()" ng-disabled="waitingForResponse"><i class="fa fa-refresh fa-spin" ng-show="waitingForResponse"></i> Update account</button>
+					</div>
+				</div>
+				<div class="card mb50">
+					<div class="card-header">
+						<h4>Password</h4>
+					</div>
+					<div class="form">
+						<p class="small">Enter the new password and confirm it.</p>
+						<div class="form-group" style="text-align:left;" ng-class="{'has-error' : false === validation.password, 'has-success' : true === validation.password}" >
+							<label for="password">Password</label>
+							<input required ng-model="account.password"
+							type="password"
+							class="form-control input-lg "
+							id="password"
+							name="password"
+							/>
+						</div>
+						
+						<div class="form-group" style="text-align:left;" ng-class="{'has-error' : false === validation.confirm_password, 'has-success' : true === validation.confirm_password}">
+							<label for="password">Confirm password</label>
+							<input ng-model="account.confirm_password" type="password" class="form-control input-lg " id="confirm_password" name="confirm_password"/>
+						</div>
+						
+					</div>
+					<div class="card-footer text-right">
+						<button class="btn btn-info" ng-click="updatePassword()" ng-disabled="waitingForResponse"><i class="fa fa-refresh fa-spin" ng-show="waitingForResponse"></i> Update password</button>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+
+		</div>
+		<script type="text/javascript" src="/libs/angular/angular.min.js"></script>
+		<script type="text/javascript" src="/libs/notie/dist/notie.min.js"></script>
+		<script type="text/javascript" src="/js/schematic.js"></script>
+		<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+		<script type="text/javascript">
+			Stripe.setPublishableKey('<%= configuration.stripe.publishable %>');
+		</script>
+		<script type="text/javascript" src="/modules/shared/js/marketcloud.shared.module.js"></script>
+		<script type="text/javascript" src="/modules/shared/js/directives/ng-enter.directive.js"></script>
+		<script type="text/javascript" src="/modules/shared/js/factories/countries.factory.js"></script>
+		<script type="text/javascript" src="/modules/account/js/marketcloud.account.module.js"></script>
+		<script type="text/javascript" src="/modules/account/js/edit_account.controller.js"></script>
+		<% include ../footer %>

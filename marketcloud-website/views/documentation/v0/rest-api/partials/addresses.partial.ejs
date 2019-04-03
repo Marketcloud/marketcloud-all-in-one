@@ -1,0 +1,363 @@
+
+<h2 >Addresses</h2>
+<div class="documentation mb50 mt50">
+      <h4>Table of contents</h4>
+      <ol>
+        <li><a href="#addresses.model">Resource model description</a></li>
+        <li><a href="#addresses.create">Create a address</a></li>
+        <li><a href="#addresses.list">List addresses</a></li>
+        <li><a href="#addresses.getbyid">Get address by id</a></li>
+        <li><a href="#addresses.update">Update an address</a></li>
+        <li><a href="#addresses.delete">Delete an address</a></li>
+      </ol>
+</div>
+<a class="anchor" id="addresses.model"></a>
+<div class="documentation">
+<h4>Model description</h4>
+<div class="table-responsive">
+  <table class="table table-striped documentation">
+    <thead>
+      <tr>
+      <th>Attribute</th>
+      <th>Type</th>
+      <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>id</td>
+        <td>Number</td>
+        <td>The univocal resource identifier</td>
+      </tr>
+      <tr>
+        <td>full_name</td>
+        <td>String</td>
+        <td>The full name of the resident</td>
+      </tr>
+      <tr>
+        <td>country</td>
+        <td>String</td>
+        <td>The country of the address</td>
+      </tr>
+      <tr>
+        <td>state</td>
+        <td>String</td>
+        <td>The state of the address</td>
+      </tr>
+      <tr>
+        <td>city</td>
+        <td>String</td>
+        <td>The city of the address</td>
+      </tr>
+      <tr>
+        <td>address1</td>
+        <td>String</td>
+        <td>The first address</td>
+      </tr>
+      <tr>
+        <td>address2</td>
+        <td>String</td>
+        <td>Additional address space</td>
+      </tr>
+      <tr>
+        <td>postal_code</td>
+        <td>String</td>
+        <td>The postal code of the address</td>
+      </tr>
+      <tr>
+        <td>phone_number</td>
+        <td>String</td>
+        <td>The phone number for the address</td>
+      </tr>
+      <tr>
+        <td>alternate_phone_number</td>
+        <td>String</td>
+        <td>An alternate phone number for the address</td>
+      </tr>
+      <tr>
+              <td>vat</td>
+              <td>String</td>
+              <td>The customer's VAT number for taxation.</td>
+            </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+
+
+<!-- ADDRESS CREATE -->
+          <a class="anchor" id="addresses.create"></a>
+          <div class="documentation">
+            <h3>POST /addresses</h3>
+            <p >Creates a new Address</p>
+            <pre><code class="http">POST https://api.marketcloud.it/v0/addresses</code></pre>
+            <h5>Parameters</h5>
+            <div class="table-responsive"><table class="table table-striped documentation">
+              <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody>
+                    <tr>
+                      <td>full_name <span class="label label-success">Required</span></td>
+                      <td>String</td>
+                      <td>The full name of the resident</td>
+                    </tr>
+                    <tr>
+                      <td>email <span class="label label-success">Required</span></td>
+                      <td>String</td>
+                      <td>A valid email address</td>
+                    </tr>
+                    <tr>
+                      <td>country <span class="label label-success">Required</span></td>
+                      <td>String</td>
+                      <td>The country of the address</td>
+                    </tr>
+                    <tr>
+                      <td>state</td>
+                      <td>String</td>
+                      <td>The state of the address</td>
+                    </tr>
+                    <tr>
+                      <td>city  <span class="label label-success">Required</span></td>
+                      <td>String</td>
+                      <td>The city of the address</td>
+                    </tr>
+                    <tr>
+                      <td>address1  <span class="label label-success">Required</span></td>
+                      <td>String</td>
+                      <td>The first address</td>
+                    </tr>
+                    <tr>
+                      <td>address2</td>
+                      <td>String</td>
+                      <td>Additional address space</td>
+                    </tr>
+                    <tr>
+                      <td>postal_code  <span class="label label-success">Required</span></td>
+                      <td>String</td>
+                      <td>The postal code of the address</td>
+                    </tr>
+                    <tr>
+                      <td>phone_number</td>
+                      <td>String</td>
+                      <td>The phone number for the address</td>
+                    </tr>
+                    <tr>
+                      <td>alternate_phone_number</td>
+                      <td>String</td>
+                      <td>An alternate phone number for the address</td>
+                    </tr>
+                    <tr>
+                            <td>vat</td>
+                            <td>String</td>
+                            <td>The customer's VAT number for taxation.</td>
+                          </tr>
+                  </tbody>
+            </table></div>
+            <h5>Example Request</h5>
+            <iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/addresses/create.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+            <h5>Example JSON response (200)</h5>
+            <pre><code class="javascript">
+{
+  status:true,
+  data: {
+    id:9,
+    full_name: "Jon Snow",
+    country : "Westeros",
+    state: "The North",
+    city: "Winterfell",
+    address1: "Winterfell Castle, 1",
+    postal_code: "12345"
+    }
+  links : {
+    self : "https://api.marketcloud.it/v0/addresses/9"
+  }
+}</code></pre>
+              </div>
+<!-- / ADDRESS CREATE -->
+
+<!-- ADDRESS LIST -->
+            <a class="anchor" id="addresses.list"></a>
+            <div class="documentation">
+            <h3>GET /addresses</h3>
+            <p>Retrieves a list of addresses from your application. The response includes <a href="/documentation/rest-api/introduction#pagination" target="_blank" class="link">Paging information</a>.</p>
+            <pre><code class="http">GET https://api.marketcloud.it/v0/addresses</code></pre>
+            <h5>Request parameters</h5>
+            <div class="table-responsive"><table class="table table-striped documentation">
+              <thead>
+                <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="code">fields</td>
+                  <td>String</td>
+                  <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+                </tr>
+                <tr>
+                  <td  class="code">{Attribute}</td>
+                  <td>Mixed</td>
+                  <td>Any resource attribute that you want to use to filter the result list.</td>
+                </tr>
+                <tr>
+                <td  class="code">per_page</td>
+                <td>Number</td>
+                <td>The number of resources to retrieve per page</td>
+              </tr>
+              <tr>
+                <td class="code">page</td>
+                <td>Number</td>
+                <td>The number of the page of results to display</td>
+              </tr>
+              </tbody>
+            </table></div>
+            <h5>Example Request</h5>
+            <iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/addresses/list.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+            <h5>Example JSON response (200)</h5>
+            <pre><code class="javascript">
+{
+  status:true,
+  data: [ {
+    data : {
+      id:1,
+      full_name: "Eddard Stark",
+      country : "Westeros",
+      state: "The North",
+      city: "Winterfell",
+      address1: "Winterfell Castle, 1",
+      postal_code: "12345"
+    },
+    links : {
+        first : 'https://api.marketcloud.it/v0/addresses/1',
+        last : 'https://api.marketcloud.it/v0/addresses/9',
+        self : 'https://api.marketcloud.it/v0/addresses/1',
+        prev : null,
+        next : 'https://api.marketcloud.it/v0/addresses/9'
+    }
+
+  },
+    {
+      data : {
+        id:9,
+        full_name: "Jon Snow",
+        country : "Westeros",
+        state: "The North",
+        city: "Winterfell",
+        address1: "Winterfell Castle, 1",
+        postal_code: "12345"
+      },
+      links : {
+        first : 'https://api.marketcloud.it/v0/addresses/1',
+        last : 'https://api.marketcloud.it/v0/addresses/9',
+        self : 'https://api.marketcloud.it/v0/addresses/9',
+        prev : 'https://api.marketcloud.it/v0/addresses/1',
+        next : null
+
+      }
+    }
+  ]
+}</code></pre>
+
+            </div>
+<!-- / ADDRESS LIST -->
+<!-- ADDRESS GET BY ID -->
+            <a class="anchor" id="addresses.getbyid"></a>
+            <div class="documentation">
+            <h3>GET /addresses/:id</h3>
+            <p >Retrieve a specific address given its id.</p>
+            <pre><code class="http">GET https://api.marketcloud.it/v0/addresses/:id</code></pre>
+            <h5>Parameters</h5>
+            <div class="table-responsive"><table class="table table-striped documentation">
+                  <thead>
+                    <tr>
+                    <th>Field</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="code">fields</td>
+                      <td>String</td>
+                      <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+                    </tr>
+                  </tbody>
+                </table></div>
+            <h5>Example Request</h5>
+            <iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/addresses/getbyid.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+            <div>
+            <h5>Example JSON response (200)</h5>
+            <pre><code class="javascript">
+{
+  status:true,
+  data: {
+    id:9,
+    full_name: "Jon Snow",
+    country : "Westeros",
+    state: "The North",
+    city: "Winterfell",
+    address1: "Winterfell Castle, 1",
+    postal_code: "12345"
+  },
+  links : {
+    self : "https://api.marketcloud.it/v0/addresses/1"
+  }
+}</code></pre>
+              </div>
+            </div>
+<!-- / ADDRESS GET BY ID -->
+<!-- ADDRESS UPDATE BY ID -->
+        <a class="anchor" id="addresses.update"></a>
+        <div class="documentation">
+            <h3>PUT /addresses/:id</h3>
+            <p >Updates a <a href="#" class="link">address</a> given an id. Returns the updated <a href="#" class="link">address</a>.</p>
+            <pre><code class="http">PUT https://api.marketcloud.it/v0/addresses/:id</code></pre>
+            <h5>Parameters</h5>
+            <p>See <a href="#addresses.create" class="link">POST /addresses</a></p>
+            <h5>Example Request</h5>
+            <iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/addresses/update.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+            <h5>Example JSON response (200)</h5>
+            <pre><code class="javascript">
+{
+  status:true,
+  data: {
+    id:3,
+    full_name: "Jon Snow",
+    country : "Westeros",
+    state: "The North",
+    city: "the Wall",
+    address1: "the Wall, 1",
+    postal_code: "12345"
+  },
+  links : {
+    self : "https://api.marketcloud.it/v0/addresses/3"
+  }
+}</code></pre>
+            </div>
+<!-- / ADDRESS UPDATE BY ID -->
+<!-- ADDRESS DELETE BY ID -->
+        <a class="anchor" id="addresses.delete"></a>
+        <div class="documentation">
+            <h3>DELETE /addresses/:id</h3>
+            <p >Deletes a specific address given its id.</p>
+            <pre><code class="http">DELETE https://api.marketcloud.it/v0/addresses/:id</code></pre>
+            <h5>Example Request</h5>
+            <iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/addresses/delete.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+            <h5>Example JSON response (200)</h5>
+<pre><code class="javascript">
+{
+  status:true
+}</code></pre>
+</div>
+<!-- / ADDRESS DELETE BY ID -->
+       
+        </div>
+      </div>
+</div>
+</div>
+</section>
+
+</body>
+</html>
+

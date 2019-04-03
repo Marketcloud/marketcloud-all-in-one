@@ -1,0 +1,99 @@
+<div class="dashboard-section-header"><span class="root">Localization</span>
+<button class="btn btn-info pull-right" ng-click="updateSettings()">Save</button>
+<back-button></back-button>
+
+</div>
+<div class="container-fluid" style="padding-bottom: 50px;">
+	<div class="row">
+		<div class="col-xs-12 col-lg-8">
+			
+			<div class="card card-table mb50">
+				<div class="card-header"><h4>Languages</h4></div>
+				
+				<div class="card-content">
+					<p class="text-muted">Here you can add the languages you want to support in your store. Remember to click on "save" after you are done editing your supported languages.</p>
+					<div class="row">
+						<div class="form-group col-xs-8">
+							<label>Add a language</label>
+							<select ng-model="languageToAdd" class="form-control" ng-options="o as o.name for o in locales"></select>
+						</div>
+						<div class="form-group col-xs-4">
+							<br/>
+							<button class="btn btn-default" ng-click="addLocale(languageToAdd)">Add</button>
+						</div>
+					</div>
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Language</th>
+							<th>Code</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+					<tr ng-repeat="l in activeLocales track by $index">
+					<td><span class="flag-icon" ng-class="getFlagClassName(l)"></span></td>
+					<td>{{l.name}}</td>
+					<td>{{l.code}}</td>
+					<td><button class="btn btn-sm btn-default" ng-click="removeLocale($index)"><i class="fa fa-trash"></i> Remove</button></td>
+					</tr>
+					</tbody>
+				</table>
+				
+			</div>
+		</div>
+
+		<div class="col-xs-12 col-lg-8">
+			
+			<div class="card card-table mb50">
+				<div class="card-header"><h4>Currencies</h4></div>
+				
+				<div class="card-content">
+					<p class="text-muted">Here you can add the currencies you want to support in your store. Remember to click on "save" after you are done editing your supported currencies.</p>
+					<div class="row">
+						<div class="form-group col-xs-8">
+							<label>Add a currency</label>
+							<select ng-model="currencyToAdd" class="form-control" ng-options="o as o.name_plus_code for o in currencies"></select>
+						</div>
+						<div class="form-group col-xs-4">
+							<br/>
+							<button class="btn btn-default" ng-click="addCurrency(currencyToAdd)">Add</button>
+						</div>
+						
+					</div>
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Code</th>
+							<th>Symbol</th>
+							<th>Currency</th>
+							<th>Rate</th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody ng-if="activeCurrencies.length > 0">
+					<tr ng-repeat="c in activeCurrencies track by $index">
+					<td><b>{{c.code}}</b></td>
+					<td><b>{{c.symbol}}</b></td>
+					<td>{{c.name}}</td>
+					<td><input type="number" ng-model="c.rate" class="form-control input-sm"></td>
+					<td>
+						<button class="btn btn-sm btn-default" ng-click="applyExchangeRate(c)"><i class="fa fa-exchange"></i> Fetch rate</button>
+					</td>
+					<td>
+						<button class="btn btn-sm btn-default" ng-click="removeCurrency($index)"><i class="fa fa-trash"></i> Remove</button>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+				<div ng-if="activeCurrencies.length === 0" class="text-center text-muted">
+					You don't have any active currrency yet.
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

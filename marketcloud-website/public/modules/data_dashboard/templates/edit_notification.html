@@ -1,0 +1,91 @@
+<div class="dashboard-section-header"><a class="root link" href="#/notifications">Notifications</a> / edit / {{::notification.name}}
+<div class="btn-group pull-right">
+	<button type="button" class="btn btn-info btn-sm" ng-click="save()">Save</button>
+	<button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	<span class="caret"></span>
+	<span class="sr-only">Toggle Dropdown</span>
+	</button>
+	<ul class="dropdown-menu">
+		<li><a ng-click="save()">Save</a></li>
+		<li><a href="#/notifications/{{notification.id}}/translations">Edit translations</a></li>
+	</ul>
+</div>
+<back-button></back-button>
+</div>
+<div class="container-fluid" style="padding-bottom: 50px;">
+<div class="row">
+	<div class="col-xs-12 col-lg-8">
+		
+		<div class="card mb20">
+			<div class="card-header"><h4>Basic information</h4></div>
+			<div class="card-content" >
+				<div class="form-group">
+					<label>Event</label>
+					<div class="small text-muted">Emit this notification when...</div>
+					<select name="notification event"
+						class="form-control"
+						ng-model="notification.event"
+						ng-options="k as v for (k, v) in events"
+						ng-change="updateNotificationPreset()">
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Name</label>
+					<input type="text" name="notification name"
+					class="form-control"
+					ng-model="notification.name"/>
+				</div>
+				<div class="form-group">
+					<label>Description</label>
+					<input type="text" name="notification description"
+					class="form-control"
+					ng-model="notification.description"/>
+				</div>
+				
+				
+				
+				
+				<div class="form-group">
+					<label>Subject</label>
+					<div class="small text-muted">The subject to display in the email</div>
+					<input type="text" name="notification subject"
+					class="form-control"
+					ng-model="notification.subject"/>
+				</div>
+				<div class="form-group">
+					<label>BCCs</label>
+					<div class="small text-muted">Comma separated list of hidden recipients for the email</div>
+					<input type="text" name="bcc" class="form-control" ng-model="notification.bcc">
+				</div>
+				<div class="form-group">
+					<div class="checkbox">
+						<input type="checkbox" ng-model="notification.sendCopyToOwner"/>
+						<label>Send a copy to {{application.email_address || application.owner}}</label> <link-help-text label="Change" text="You can set an email address for your app's notifications in System > Settings > Notifications"></link-help-text>
+					</div>
+				</div>
+				
+			</div>
+			
+		</div>
+		<div class="card mb20" ng-if="notification.template">
+			<div class="card-header"><h4>Template values</h4></div>
+			<div class="card-content">
+				<p class="text-muted">In this section you can customize the content of the notification. Below you can see a preview of the notification.</p>
+				<div class="form-group" ng-repeat="(k,v) in notification.template">
+					<div ng-if="templateVariablesLabels.hasOwnProperty(k)">
+						<label>{{templateVariablesLabels[k]}}</label>
+						<input type="text" ng-model="notification.template[k]" class="form-control">
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<div class="col-xs-12" ng-if="notification.template">
+		<div class="card">
+			<div class="card-header"><h4>Notification Preview</h4></div>
+			<ng-include src="'/modules/data_dashboard/templates/email/'+notification.event+'.html'"></ng-include>
+		</div>
+	</div>
+</div>
+</div>

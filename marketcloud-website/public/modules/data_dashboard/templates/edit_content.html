@@ -1,0 +1,159 @@
+<div class="dashboard-section-header">
+	<a href="#/contents" class="link root">Contents</a> / edit / {{content.id}}
+	<div class="btn-group pull-right">
+		<button type="button" class="btn btn-info btn-sm" ng-click="updateContent()">Save</button>
+		<button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<span class="caret"></span>
+		<span class="sr-only">Toggle Dropdown</span>
+		</button>
+		<ul class="dropdown-menu">
+			<li><a ng-click="updateContent()">Save</a></li>
+			<li><a href="#/contents/{{content.id}}/translations">Edit translations</a></li>
+		</ul>
+	</div>
+	<back-button></back-button>
+</div>
+<div class="container-fluid">
+	<div class="row">
+		
+		<div class="col-lg-8 col-xs-12">
+			<div class="card mb50">
+				<div class="card-header"><h4>Basic information</h4></div>
+				<div class="form-group">
+					<label>Type</label>
+					<span class="fa fa-question-circle ml20 text-muted" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"></span>
+					<select class="form-control" ng-model="content.type">
+						<option value="" selected="true" disabled="true" ng-if="!content.type">Select a content type</option>
+						<option value="post">Blog post</option>
+						<option value="page">Page</option>
+						<option value="element">Visual element</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Title</label>
+					<input type="text"
+					class="form-control"
+					placeholder="e.g. Latest news"
+					ng-change="updateSlug()"
+					ng-model="content.title" />
+				</div>
+				<div class="checkbox">
+					<input type="checkbox" ng-model="unsafeSlug" id="unsafeSlug" />
+					<label for="unsafeSlug">
+						Editable slug
+					</label>
+				</div>
+				<div class="form-group">
+					<label>Slug</label>
+					<input type="text"
+					class="form-control  "
+					ng-disabled="false === unsafeSlug"
+					ng-model="content.slug" />
+				</div>
+				<div class="form-group">
+					<label>Category</label>
+					<input type="text"
+					class="form-control  "
+					placeholder="e.g. Sales"
+					ng-model="content.category" />
+				</div>
+				<div class="form-group">
+					<label>Date</label>
+					<div class="input-group">
+						<input
+						type="text"
+						class="form-control"
+						placeholder="Select a date..."
+						moment-picker="content.date"
+						locale="en"
+						ng-model="content.date"
+						format="MMMM Do YYYY"
+						today="true"
+						min-view="month"
+						max-view="month"
+						ng-model-options="{ updateOn: 'blur' }">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			<images-card items="content.images"></images-card>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			<div class="card card-table mb50">
+				<div class="card-header"><h4>Editor</h4></div>
+				<div class="form-group">
+					<div trumbowyg-ng
+						ng-model="content.text"
+						editor-config="{btns:[['viewHTML'],['formatting'],'btnGrp-semantic',['superscript','subscript'],['link'],['insertImage'],'btnGrp-justify','btnGrp-lists',['horizontalRule'],['removeformat'],['fullscreen']]}">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			
+			<div class="card mb50">
+				<div class="card-header"><h4>Author</h4></div>
+				<div class="row">
+					<div class="col-xs-4">
+						<image-thumbnail
+						image-src="content.author.images[0]"
+						image="content.author.images[0]"
+						on-delete="removeImage($index)"
+						on-edit=""></image-thumbnail>
+					</div>
+					<div class="col-xs-8"></div>
+				</div>
+				<div class="form-group">
+					<label>Name</label>
+					<input type="text"
+					class="form-control  "
+					placeholder="e.g. Luke Skywalker"
+					ng-model="content.author.name" />
+				</div>
+				<div class="form-group">
+					<label>Description</label>
+					<textarea
+					class="form-control "
+					placeholder="e.g. former Jedi apprentice, Jedi master. Tempted by dark side, once."
+					ng-model="content.author.description"></textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			<seo-form seo="content.seo"></seo-form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-md-8">
+			
+			<custom-attributes-form
+			resource="content"
+			properties="customPropertiesData"
+			title="Custom properties"
+			></custom-attributes-form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			
+			<div class="card mb50">
+				<div class="row">
+					<div class="text-right col-xs-12">
+						<button class="btn btn-lg btn-success" ng-click="updateContent()">Update Content</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>

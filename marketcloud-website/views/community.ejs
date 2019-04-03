@@ -1,0 +1,39 @@
+<% include header %>
+
+<link rel="stylesheet" type="text/css" href="/libs/font-awesome/css/font-awesome.min.css">
+
+<% include navbar %>
+
+
+<section>
+<div class="container-fluid">
+			<div class="row" style="padding-top: 100px;padding-bottom: 100px;">
+				
+				<div class="col-sm-4 col-sm-offset-4 text-center">
+					<% if('undefined' !== typeof success && success === true) {%>
+					<div class="alert alert-success"><%- message %></div>
+					<% } %>
+					<% if('undefined' !== typeof success && success === false) {%>
+					<div class="alert alert-warning"><%- message %></div>
+					<% } %>
+					<img src="/img/3rdparty/slack.png" style="height: 100px;" />
+					<h3>Join our community</h3>
+					<div class="text-center">marketcloudninjas.slack.com</div>
+					<br/>
+					<form class="form" method="POST" action="/community">
+						<div class="form-group">
+							<input type="email" name="email" id="email" class="form-control input-lg" placeholder="you@example.com" />
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-lg btn-primary btn-block"><i class="fa fa-slack"></i> Join the community</button>
+						</div>
+					</form>
+				</div>
+				
+			</div>
+				
+			
+		</div>
+	</section>
+
+<% include footer %>

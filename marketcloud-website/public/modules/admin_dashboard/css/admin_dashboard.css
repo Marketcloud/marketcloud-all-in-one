@@ -1,0 +1,110 @@
+
+
+.application-container {
+  position: relative;
+  border-color:#DDD;
+  background-color: white;
+  cursor: pointer;
+  margin-bottom: 20px;
+  border-radius: 3px;
+}
+.application-container:hover {
+  background-color: #F6F6F6;
+box-shadow:   0 1px 3px 0 rgba(0,0,0,0.2),0 2px 2px 0 rgba(0,0,0,0.18),0 4px 4px -1px rgba(0,0,0,0.18);
+}
+
+.application-container .progress {
+  height: 6px;
+  background-color: #D0D0D0;
+  box-shadow: inset 0px 1px 3px rgba(0,0,0,.18);
+}
+
+a.launcher {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  top: 0px;
+  right:0px;
+}
+
+.application-container > a:hover {
+  text-decoration: none;
+}
+
+
+.application-container .title {
+  display:block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space:nowrap;
+  font-size:16px;
+  margin-bottom:5px;
+  font-weight: bold;
+}
+
+.application-container .plan {
+  margin-bottom:5px;
+  margin-top:5px;
+  text-transform: uppercase;
+}
+
+.application-container .actions {
+  margin-bottom:20px;
+  margin-top:20px;
+}
+
+
+.application-container .panel:hover {
+  border:1px solid #CCC;
+}
+
+  .settings-icon i {
+    color : #999;
+    font-size: 24px;
+  }
+  .settings-icon:hover i{
+    color: #333;
+    z-index: 9999;
+  }
+
+  
+#new-application-container:hover {
+  border-color: #34495e;
+}
+#new-application-container:hover i {
+  color:#34495e;
+}
+#new-application-container:hover .title {
+  color:#34495e !important;
+}
+
+
+.dashboard-navbar {
+  margin:0px;
+  margin-bottom: 20px;
+  background-color: white;
+  padding: 6px 15px;
+  height: 48px;
+  line-height: 36px;
+ }
+
+ .dashboard-navbar {
+  box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+ }
+
+ .dashboard-navbar .nav-pills>li>a {
+  padding: 2px 15px;
+ }
+
+ .applications-breadcrumb {
+  font-weight: 500;
+  display: inline;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+    
+ }
+ .applications-breadcrumb .fa {
+  margin-left: 10px;
+  margin-right: 10px;
+ }

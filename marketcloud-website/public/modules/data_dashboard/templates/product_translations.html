@@ -1,0 +1,174 @@
+<div class="dashboard-section-header">
+	<span class="fa fa-flag"></span> <a class="root link" href="#/products">Products</a> / <a href="#/simple_product/{{product.id}}/edit" class="link">{{product.name}}</a> / translations
+	<button class="btn btn-info pull-right" style="margin-left: 20px;" ng-click="updateTranslations()">Save</button>
+	<back-button></back-button>
+</div>
+<div class="container-fluid" style="padding-bottom: 50px;">
+	<div class="row">
+		
+		<div class="col-xs-12 col-lg-4 col-lg-push-8">
+			<div class="card mb20">
+				<div class="form-group">
+					<span class="flag-icon" ng-class="getFlagClassName()"></span>
+					<label>Current translation</label>
+					<select class="form-control"
+						ng-model="currentLocale"
+						ng-options="o as o.name for o in availableLocales"
+						ng-change="switchLocale()"
+						>
+					</select>
+				</div>
+				<a class="link" target="_blank" href="#/system/localization">Add languages..</a>
+			</div>
+		</div>
+		<div class="col-xs-12 col-lg-8 col-lg-pull-4">
+			
+			<div class="card card-form mb20">
+				<div class="card-header"><h4>Basic information</h4></div>
+				<div class="card-content">
+					<div class="form-group" ng-class="{'has-error' : errorField === 'name'}">
+						<label>Name*</label>
+						<input type="text"
+						class="form-control input-lg "
+						placeholder="{{product.name}}"
+						ng-change="updateSlug()"
+						ng-model="product.locales[currentLocale.code].name" />
+						<error-messages
+						validation="validation"
+						schema="schema"
+						property-name="name">
+						</error-messages>
+					</div>
+					<div class="checkbox">
+						<input type="checkbox" ng-model="unsafeSlug" id="unsafeSlug" />
+						<label for="unsafeSlug">
+							Editable slug
+						</label>
+					</div>
+					<div class="form-group">
+						<label>Slug</label>
+						<input type="text"
+						class="form-control input-lg solid"
+						ng-disabled="false === unsafeSlug"
+						ng-model="product.locales[currentLocale.code].slug" />
+					</div>
+					<div class="row">
+						<div class="form-group col-xs-12">
+							
+							<label>Description</label>
+							<div trumbowyg-ng
+							placeholder="{{product.description}}"
+					     ng-model="product.locales[currentLocale.code].description"
+					     editor-config="{btns:[['viewHTML'],['formatting'],'btnGrp-semantic',['superscript','subscript'],['link'],['insertImage'],'btnGrp-justify','btnGrp-lists',['horizontalRule'],['removeformat'],['fullscreen']]}">
+					</div>
+						</div>
+					</div>
+					
+					
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12">
+			
+			<div class="card card-table">
+				<div class="card-header"><h4>Custom properties</h4></div>
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>label</th>
+								<th>Value</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="(k,v) in customPropertiesDataLocales[currentLocale.code]">
+								<td>
+									{{k}}
+								</td>
+								<td>
+									<input type="text" ng-model="customPropertiesDataLocales[currentLocale.code][k].label" class="form-control" >
+								</td>
+								<td>
+									<input type="text" ng-model="customPropertiesDataLocales[currentLocale.code][k].value" class="form-control" ng-if="'string' == typeof(customPropertiesDataLocales[currentLocale.code][k].value) && !isRichText(customPropertiesDataLocales[currentLocale.code][k].value)">
+
+									<input type="number" ng-model="customPropertiesDataLocales[currentLocale.code][k].value" class="form-control" ng-if="'number' === typeof(customPropertiesDataLocales[currentLocale.code][k].value)">
+
+									<select class="form-control" ng-model="customPropertiesDataLocales[currentLocale.code][k].value" ng-if="'boolean' === typeof(customPropertiesDataLocales[currentLocale.code][k].value)" ng-options="o as o for o in [true,false]">
+										
+									</select>
+
+									<div style="border:1px solid #ccc">
+									<div trumbowyg-ng
+										ng-model="customPropertiesDataLocales[currentLocale.code][k].value"
+										ng-if="isRichText(customPropertiesDataLocales[currentLocale.code][k].value)"
+										editor-config="{btns:[['viewHTML'],['formatting'],'btnGrp-semantic',['superscript','subscript'],['link'],['insertImage'],'btnGrp-justify','btnGrp-lists',['horizontalRule'],['removeformat'],['fullscreen']]}">
+									</div>
+								</div>
+
+								</td>
+							</tr>
+						</tbody>
+
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-lg-8">
+			<seo-form seo="product.locales[currentLocale.code].seo"></seo-form>
+			
+			<div ng-if="product.type === 'product_with_variants'">
+
+				<div class="card">
+					<div class="card-header"><h4>Variants</h4></div>
+				
+				<div class="card-content" ng-repeat="(v_name,v_values) in product.variantsDefinition" style="border-bottom: 1px solid #DDD">
+					<h4>{{v_name}}</h4>
+					<div class="row">
+						<div class="form-group col-xs-6">
+							<label>Variant name</label>
+							<p class="small text-muted">The default variant name</p>
+							<input type="text" class="form-control" ng-model="v_name" ng-disabled="true">
+						</div>
+						<div class="form-group col-xs-6">
+							<label>Variant name</label>
+							<p class="small text-muted">The variant name translation</p>
+							<input type="text" class="form-control" ng-model="product.locales[currentLocale.code].variants[v_name].label">
+						</div>
+
+					</div>
+					<div class="row" ng-repeat="value in v_values">
+						<div class="form-group col-xs-6">
+							<label>Default value</label>
+							<p class="small text-muted">The default variant value</p>
+							<input type="text" class="form-control" ng-model="value" ng-disabled="true">
+						</div>
+						<div class="form-group col-xs-6">
+							<label>Translated value</label>
+							<p class="small text-muted">The variant value translation</p>
+							<input type="text" class="form-control" ng-model="product.locales[currentLocale.code].variants[v_name].values[value]">
+						</div>
+
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+	
+	
+	
+</div>

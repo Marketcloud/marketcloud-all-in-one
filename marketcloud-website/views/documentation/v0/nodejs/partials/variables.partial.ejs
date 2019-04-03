@@ -1,0 +1,92 @@
+<section class="resource">
+<!-- Variables -->
+<h3 class="section-title"  id="variables">Variables</h3>
+
+
+
+     <a class="anchor" id="variables.list"></a>
+ <div class="method-title">List variables</div>
+      <h5>Example request</h5>
+        <pre><code class="javascript">//Retrieves a paginated list of variables
+marketcloud.variables.list();
+      </code></pre>
+
+
+<a class="anchor" id="variables.create"></a>
+ <div class="method-title">Create a variable</div>
+      <h5>Model</h5>
+      <div class="table-responsive">
+  <table class="table table-striped documentation">
+    <thead>
+      <tr>
+        <th>Attribute</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="code">name <span  class="label label-success">Required</span></td>
+        <td>String</td>
+        <td>The variable name</td>
+      </tr>
+      <tr>
+        <td class="code">value <span  class="label label-success">Required</span></td>
+        <td>Mixed</td>
+        <td>The value of your variable</td>
+      </tr>
+      <tr>
+        <td class="code">type <span  class="label label-success">Required</span></td>
+        <td>String</td>
+        <td>This parameter tells the API the type of this variable, the possible values are <code>string</code>, <code>number</code> and <code>boolean</code></td>
+      </tr>
+     
+      
+    </tbody>
+  </table>
+</div>
+      <h5>Example request</h5>
+        <pre><code class="javascript">//Creates a new variable
+new_variable = {
+  "name" : "google_analytics_code",
+  "code" : "UA-127168162196",
+  "type" : "string"
+}
+
+marketcloud.variables.create(new_variable);
+      </code></pre>
+
+
+
+<a class="anchor" id="variables.update"></a>
+ <div class="method-title">Update a variable</div>
+      
+      <h5>Example request</h5>
+        <pre><code class="javascript">//Updates a variable
+marketcloud.variables.update({value : "newValue"});
+      </code></pre>
+
+
+
+     <a class="anchor" id="variables.delete"></a>
+ <div class="method-title">Delete a variable</div>
+      <h5>Example request</h5>
+        <pre><code class="javascript">//Delete a variable by its id
+marketcloud.variables.delete(id);
+      </code></pre>
+
+
+
+
+
+
+     <a class="anchor" id="variables.getById"></a>
+ <div class="method-title">Retrieve a variable</div>
+      <h5>Example request</h5>
+        <pre><code class="javascript">//Retrieves a variable by its id
+marketcloud.variables.getById(123);
+      </code></pre>
+      
+<!-- End of variables -->
+
+</section>

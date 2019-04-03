@@ -1,0 +1,115 @@
+      <h1 class="page-title">Stripe</h1>
+      <div class="mb20"><span class="label label-info">Payments</span></div>
+      <p class="lead">Stripe is a full online payment infrastructure that makes it easy to start accepting payments online.</p>
+
+      <p>This integration will allow you to charge credit cards directly on Marketcloud, so you don't need to spin up a server side application just to process card data.</p>
+      <p>In this guide we will setup a basic example that shows a Braintree checkout form (with PayPal option) and uses Marketcloud's backend to process</p>
+      
+      <h3>Create a Marketcloud application</h3>
+      <p>This is an obvious step, but you really need to create an application first.</p>
+
+      <h3>Activate the integration</h3>
+      <p>Log into the Marketcloud dashboard, click on integrations section on the left bar </p>
+      <div class="text-center mt20 mb20">
+      	<img src="/img/activate_stripe_optimized.gif" style="max-width: 100%;" />
+      </div>
+      <p>After you clicked on the "install integration" button, you will be taken to the Stripe website, where you can authorize Marketcloud to interact with your Stripe account. Please note that  you will be able to revoke the authorization anytime from the stripe dashboard.</p>	
+      <h3>Interact with the API</h3>
+    <p>Once the integration is installed, you can fire a http request to the dedicated endpoint to make charges. You will have to include a Stripe SDK in your application and use it to generate a card Token.</p>
+    <p>Our integration exposes an endpoint that allows your application to create  payment for a given order created with Marketcloud.</p>
+    
+    <p>Stripe has a lot of documentation about how to create a token and then send it to a server for card processing</p>	
+
+    <div class="table-responsive">
+    	<table class="table">
+    		<thead>
+    			<tr>
+    				<th>Method</th>
+    				<th>Endpoint</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			<tr>
+    				<td><span class="label label-info">POST</span></td>
+    				<td><code>https://api.marketcloud.it/v0/integrations/stripe/charges</code></td>
+    			</tr>
+    		</tbody>
+    	</table>
+    </div>
+    <p>Alternatively, you can use our unified payment endpoint:</p>
+    <div class="table-responsive">
+    	<table class="table">
+    		<thead>
+    			<tr>
+    				<th>Method</th>
+    				<th>Endpoint</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			<tr>
+    				<td><span class="label label-info">POST</span></td>
+    				<td><code>https://api.marketcloud.it/v0/payments</code></td>
+    			</tr>
+    		</tbody>
+    	</table>
+    </div>
+    <p>Here's an example with JQuery, marketcloud.js and Stripe.js. The concept is very simple, after you created an order using the marketcloud.js library, we use that order's id to create a payment.</p> <br>
+    <p>The first thing is to obtain the card data from the user</p>	
+<pre><code class="javascript">
+var stripe_data = {
+  number: $('.card-number').val(),
+  cvc: $('.card-cvc').val(),
+  exp_month: $('.card-expiry-month').val(),
+  exp_year: $('.card-expiry-year').val(),
+  address_zip: $('.address_zip').val()
+}
+</code></pre>
+<p class="mt20">Then we use stripe.js to obtain a Token from Stripe</p>
+<pre><code class="javascript">
+var ChargeToken = null;
+Stripe.card.createToken(stripe_data, function(status, response) {
+	ChargeToken = response.id;
+});
+</code></pre>
+<p>At this point we have a valid card token we can use to charge the customer. Now let's create the order</p>
+<pre><code class="javascript">
+marketcloud.orders.create(order_data,function(error,created_order){
+
+	// The order is now created in "pending" state
+	// Remember to do a proper error handling :)
+
+	marketcloud.payments.create({
+		method : "Stripe",
+		order_id : created_order,
+		source : ChargeToken
+	},function(err,result){
+
+		// The payment was successful and the order was flagged as paid
+		// You can log into your Stripe's Dashboard for further details
+		// about the payment.
+
+	})
+});
+</code></pre>
+<p>Now we can call the integration's endpoint, don't forget to add the correct order_id or the API will refuse the request.</p>
+<pre><code class="javascript">
+// 
+$.ajax({
+  method: "POST",
+  url: "https://api.marketcloud.it/v0/payments",
+  data : {
+  	  method : 'Stripe',
+	  order_id : created_order.id, //Don't forget the order id
+	  source : ChargeToken // This parameter is required when using Stripe
+  },
+  headers : {
+	  "Authorization" : marketcloud.public
+  }
+})
+.done(function( data ) {
+	// Charge successful	
+})
+.error(function(data){
+	// Charge unsuccessful
+})
+    </code></pre>

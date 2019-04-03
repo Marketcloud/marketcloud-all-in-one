@@ -1,0 +1,75 @@
+<div class="dashboard-section-header" style="box-shadow: none">
+  
+  <span class="root">Application settings / Roles</span>
+  <back-button></back-button>
+  
+  
+</div>
+
+<div ng-include="'/modules/data_dashboard/templates/application_settings_navigation.partial.html'" class="navigation-container"></div>
+
+
+
+	<div class="container-fluid mt20">
+		
+		<div class="row">
+			<div class="col-lg-8 col-lg-offset-2 col-xs-12">
+
+				<div class="card mb20  banner banner-info">
+						
+							<div style="display: flex">
+								<div class="pull-left" style="margin-right: 20px;">
+									<i class="fa fa-bullhorn banner-icon"></i>
+								</div>
+								<div class="pull-left">
+									<div class="banner-title">Note</div>
+								<div class="banner-message">In this section you can add Roles meant for your store's customers. If you are trying to add collaborators that can help you manage the store, please use the <a class="link" href="#/application/collaborators">collborators section</a>.</div>
+							</div>
+						</div>
+					
+					
+					
+				</div>
+
+
+				<div class="card card-table">
+					<div class="card-toolbar text-right">
+						<a class="btn btn-info btn-sm raised" href="#/application/acl/new">Add a role</a>
+					</div>
+					
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Description</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody  ng-show="roles.length > 0 ">
+								<tr ng-repeat="role in roles">
+									<td>{{role.name}}</td>
+									<td>
+										<div ng-if="role.description">{{role.description}}</div>
+										<div ng-if="!role.description"><em>No description</em></div>
+									</td>
+								</td>
+									<td class="text-right">
+										<a class="btn btn-default btn-sm" href="#/application/acl/{{role.id}}/edit"><span class="fa fa-edit"></span></a>
+										<button class="btn btn-default btn-sm" ng-click="delete(role)"><span class="fa fa-trash-o"></span></button>
+										
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div ng-show="roles.length <= 0">
+						<div class="center text-muted mb20">
+							<span class="fa fa-lock f48"></span>
+						</div>
+						<p class="lead text-muted text-center">You haven't added any role yet</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

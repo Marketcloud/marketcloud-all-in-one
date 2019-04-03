@@ -1,0 +1,39 @@
+<div class="paginationSelector">
+<style type="text/css">
+  .paginationSelector__perPageSelector {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .paginationSelector {
+    padding-bottom: 5px;
+  }
+</style>
+ 
+  <div style="display: inline; margin-right: 20px;" class="dropup">
+    <a data-toggle="dropdown" class="dropdown-toggle small">Page: {{ctrl.page}} <i class="fa fa-caret-down"></i></a>
+    <ul class="dropdown-menu scrollable-menu">
+      <li ng-repeat="_page in pages" ng-click="setPageNumber(_page)">
+        <a>{{_page}}</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- <span class="text-muted small">Rows per page</span> -->
+  <div style="display: inline; margin-right: 20px;" class="dropup">
+    <a data-toggle="dropdown" class="dropdown-toggle small">Rows per page: {{ctrl.perPage}} <i class="fa fa-caret-down"></i></a>
+    <ul class="dropdown-menu">
+      <li ng-repeat="size in ctrl.config.availablePageSizes" ng-click="setPageSize(size)">
+        <a>{{size}}</a>
+      </li>
+    </ul>
+  </div>
+
+  <span class="text-muted small" style="margin-right: 20px;">{{first}} - {{last}} of {{ctrl.pagination.count}}</span>
+
+  <span class="text-muted" style="margin-right: 10px;">
+    <a ng-click="setPageNumber(ctrl.page - 1)" ng-class="{'disabled text-muted' : ctrl.page <= 1}"><i class="fa fa-angle-left f24"></i></a>
+  </span>
+  <span class="text-muted" style="margin-right: 10px;">
+    <a ng-click="setPageNumber(ctrl.page + 1)" ng-class="{'disabled text-muted' : ctrl.page >= ctrl.pagination.numberOfPages}"><i class="fa fa-angle-right f24"></i></a>
+  </span>
+</div>

@@ -1,0 +1,111 @@
+<div class="dashboard-section-header">
+  <span class="root">Categories</span>
+   
+  <back-button></back-button>
+</div>
+<div class="row" >
+  <div class="col-lg-8 col-lg-offset-2 col-xs-12">
+    <div class=" card card-table mb20">
+      <div class="card-toolbar text-right" ng-show="getSelectedItems().length === 0">
+        <div class="row">
+          <div class="col-xs-6">
+            <toolbar-search on-update="loadData(query)"></toolbar-search>
+          </div>
+          <div class="col-xs-6 text-right">
+            <a class="btn btn-info btn-sm raised" href="#/categories/create">Add a category</a>
+             <div class="dropdown actions pull-right">
+                <a class="toolbar-action-icon" data-toggle="dropdown" role="button" >
+                  <i class="fa fa-ellipsis-v"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li><a data-toggle="modal" ng-click="loadData()">Reload</a></li>
+                  <li><a ng-click="bulkJSONExport()">Export to JSON</a></li>
+                </ul>
+              </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="card-toolbar" ng-show="getSelectedItems().length > 0">
+        <strong style="margin-right:50px;">{{getSelectedItems().length}} selected</strong>
+        <button class="btn btn-sm btn-default" ng-click="bulkDelete()">Delete</button>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>
+                <div class="form-group m0">
+                  <div class="checkbox m0">
+                    <input type="checkbox" ng-change="toggleAll()" ng-model="selectAll"/>
+                    <label></label>
+                  </div>
+                </div>
+              </th>
+              <th></th>
+              <th>Path</th>
+              <th>Name</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody ng-show="resources.length > 0">
+            <tr ng-repeat="p in resources  track by $index" ng-class="{'selected-row':true === p.selected}">
+              <td>
+                <div class="form-group">
+                  <div class="checkbox">
+                    <input type="checkbox" ng-model="p.selected"/>
+                    <label></label>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="thumbnail" style="width:48px;height:48px;padding:0px">
+                  <img ng-src="{{p.image_url || 'marketcloud.azureedge.net/storm-images/placeholder.png'}}" fallback-src="https://marketcloud.azureedge.net/storm-images/placeholder.png" class="fluid"/>
+                </div>
+              </td>
+              <td><a href="#/categories/{{p.id}}/edit" class="link">{{p.path}}</a></td>
+              <td><a href="#/categories/{{p.id}}/edit" class="link">{{p.name}}</a></td>
+              <td>
+
+                <div class="actions" ng-class="{'dropup' : true === $last && resources.length !== 1, 'dropdown' : false === $last || resources.length === 1 }" >
+                  <a class="btn btn-transparent" data-toggle="dropdown" role="button" >
+                    <i class="fa fa-ellipsis-v f18"></i>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                      <a ng-href="#/categories/{{p.id}}/edit" alt="edit">Edit</a>
+                    </li>
+                    <li><a ng-click="delete(p.id,$index)" alt="delete">Delete</a></li>
+                    <li><a ng-click="clone(p)" alt="clone">Clone</a></li>
+                  </ul>
+                </div>
+
+              
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div ng-show="resources.length <= 0" class="text-center p10">
+        <div class="text-muted">
+          <span class="fa fa-tags f48"></span>
+        </div>
+        <p class="lead text-muted">Your categories will be displayed here</p>
+        <a href="#/categories/create" class="btn btn-info">Add a category</a>
+      </div>
+      
+      <div class="card-footer">
+        <div class="row">
+          <div class="col-xs-12 text-right">
+            <pagination-selector
+              pagination="pagination"
+              per-page="query.per_page"
+              page="query.page"
+              on-change-page-size="loadData({per_page : per_page })"
+              on-change-page-number="loadPage(page)"
+            ></pagination-selector>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

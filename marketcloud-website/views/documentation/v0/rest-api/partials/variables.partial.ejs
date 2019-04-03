@@ -1,0 +1,269 @@
+<h2>Variables</h2>
+<p>Variables are a way to store global values needed in your app. It could be a value changing often like a counter or some kind or values you want to inject in several templates.</p>
+<div class="documentation mb50 mt50">
+  <h4>Table of contents</h4>
+  <ol>
+    <li><a href="#variables.model">Resource model description</a></li>
+    <li><a href="#variables.create">Create a variable</a></li>
+    <li><a href="#variables.list">List variables</a></li>
+    <li><a href="#variables.getbyid">Get variable by id</a></li>
+    <li><a href="#variables.update">Update a variable</a></li>
+    <li><a href="#variables.delete">Delete a variable</a></li>
+  </ol>
+</div>
+<a class="anchor" id="variables.model"></a>
+<div class="documentation">
+  <h4>Model description</h4>
+  <div class="table-responsive"><table class="table table-striped documentation">
+    <thead>
+      <tr>
+        <th>Attribute</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>id</td>
+        <td>Number</td>
+        <td>The univocal resource identifier</td>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>String</td>
+        <td>The variable name</td>
+      </tr>
+      <tr>
+        <td>type</td>
+        <td>String</td>
+        <td>The data type used to represent this variable, the value can be any of <code>string</code>,<code>number</code>,<code>boolean</code>,<code>object</code>,<code>array</code></td>
+      </tr>
+      <tr>
+        <td>value</td>
+        <td>String</td>
+        <td>The value of the variable</td>
+      </tr>
+    </tbody>
+  </table></div>
+</div>
+<!-- VARIABLE CREATE -->
+<a class="anchor" id="variables.create"></a>
+<div class="documentation">
+  <h3>POST /variables</h3>
+  <p >Creates a new Variable. </p>
+<pre><code class="http">POST https://api.marketcloud.it/v0/variables</code></pre>
+<h5>Parameters</h5>
+<div class="table-responsive">
+  <table class="table table-striped documentation">
+    <thead>
+      <tr>
+        <th>Attribute</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>name <span class="label label-success">Required</span></td>
+        <td>String</td>
+        <td>The variable name</td>
+      </tr>
+      <tr>
+        <td>type</td>
+        <td>String</td>
+        <td>The data type used to represent this variable, the value can be any of <code>string</code>,<code>number</code>,<code>boolean</code>,<code>object</code>,<code>array</code></td>
+      </tr>
+      <tr>
+        <td>value <span class="label label-success">Required</span></td>
+        <td>String</td>
+        <td>The value of the variable</td>
+      </tr>
+    </tbody>
+  </table></div>
+  <h5>Example Request</h5>
+  <pre><code class="bash">curl --request POST
+  --url http://api.marketcloud.it/v0/variables \
+  --header 'content-type: application/json' \
+  --header 'authorization: YourPublicKey:YourToken' \
+  --data '{ "name" : "google_analytics_code",   "value" : "UA-12345678",   "type" : "string" }'
+  </code></pre>
+  <h5>Example JSON response (200)</h5>
+  <pre><code class="javascript">{
+  "status": true,
+  "data": {
+    "name": "google_analytics_code",
+    "value": "UA-12345678",
+    "application_id": 1234,
+    "id": 123,
+    "updated_at": "2017-08-30T07:07:32.420Z",
+    "created_at": "2017-08-30T07:07:32.420Z"
+  }
+}</code></pre>
+</div>
+<!-- / VARIABLE CREATE -->
+<!-- VARIABLE LIST -->
+<a class="anchor" id="variables.list"></a>
+<div class="documentation">
+  <h3>GET /variables</h3>
+  <p >Retrieves a list of variables from your application. The response includes <a href="/documentation/rest-api/introduction#pagination" target="_blank" class="link">Paging information</a>.</p>
+<pre><code class="http">GET https://api.marketcloud.it/v0/variables</code></pre>
+<h5>Request parameters</h5>
+<div class="table-responsive"><table class="table table-striped documentation">
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="code">fields</td>
+      <td>String</td>
+      <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+    </tr>
+    <tr>
+      <td  class="code">{Attribute}</td>
+      <td>Mixed</td>
+      <td>Any resource attribute that you want to use to filter the result list.</td>
+    </tr>
+    <tr>
+      <td  class="code">per_page</td>
+      <td>Number</td>
+      <td>The number of resources to retrieve per page</td>
+    </tr>
+    <tr>
+      <td class="code">page</td>
+      <td>Number</td>
+      <td>The number of the page of results to display</td>
+    </tr>
+  </tbody>
+</table></div>
+<h5>Example Request</h5>
+<pre><code>curl --request GET
+  --url http://api.marketcloud.it/v0/variables \
+  --header 'accept: application/json' \
+  --header 'authorization: YourPublicKey:YourToken' \</code></pre>
+<h5>Example JSON response (200)</h5>
+            <pre><code class="javascript">
+  {
+    "status": true,
+    "data": [
+      {
+        "name": "google_analytics_code",
+        "value": "UA-12345678",
+        "application_id": 1234
+  ,
+        "id": 122,
+        "updated_at": "2017-08-30T07:07:32.420Z",
+        "created_at": "2017-08-30T07:07:32.420Z"
+      },
+      {
+        "type": "boolean",
+        "value": true,
+        "name": "something",
+        "id": 123,
+        "application_id": 1234
+      }
+    ],
+    "_links": {
+      "curr": "http://api.marketcloud.it/v0/variables"
+    },
+    "count": 2,
+    "page": 1,
+    "pages": 1
+}</code></pre>
+</div>
+<!-- / VARIABLE LIST -->
+<!-- VARIABLE GET BY ID -->
+<a class="anchor" id="variables.getbyid"></a>
+<div class="documentation">
+<h3>GET /variables/:id</h3>
+<p >Retrieve a specific variable given its id.</p>
+<pre><code class="http">GET https://api.marketcloud.it/v0/variables/:id;</code></pre>
+<h5>Parameters</h5>
+<div class="table-responsive"><table class="table table-striped documentation">
+<thead>
+  <tr>
+    <th>Field</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="code">fields</td>
+    <td>String</td>
+    <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+  </tr>
+</tbody>
+</table></div>
+<h5>Example Request</h5>
+           <pre><code>curl --request GET
+  --url http://api.marketcloud.it/v0/variables/123 \
+  --header 'accept: application/json' \
+  --header 'authorization: YourPublicKey:YourToken' \</code></pre>
+<div>
+<h5>Example JSON response (200)</h5>
+            <pre><code class="javascript">
+  {
+    "status": true,
+    "data": {
+        "type": "boolean",
+        "value": true,
+        "name": "something",
+        "id": 123,
+        "application_id": 1234
+    }
+}</code></pre>
+</div>
+</div>
+<!-- / VARIABLE GET BY ID -->
+<!-- VARIABLE UPDATE BY ID -->
+<a class="anchor" id="variables.update"></a>
+<div class="documentation">
+<h3>PUT /variables/:id</h3>
+<p >Updates a variable given an id. Returns the updated variable.</p>
+<pre><code class="http">PUT https://api.marketcloud.it/v0/variables/:id;</code></pre>
+<h5>Parameters</h5>
+<p>See <a href="#variables.create" class="link">POST /variables</a></p>
+<h5>Example Request</h5>
+<pre><code class="bash">curl --request PUT
+  --url http://api.marketcloud.it/v0/variables/123 \
+  --header 'content-type: application/json' \
+  --header 'authorization: YourPublicKey:YourToken' \
+  --data '{ "name" : "new_variable_name",   "value" : "new variable value"}'
+</code></pre>
+<h5>Example JSON response (200)</h5>
+<pre><code class="javascript">
+  {
+  "status": true,
+  "data": {
+    "name": "new_variable_name",
+    "value": "new variable value",
+    "application_id": 1234,
+    "id": 123,
+    "updated_at": "2017-08-30T07:10:32.420Z",
+    "created_at": "2017-08-30T07:07:32.420Z"
+  }
+}</code></pre>
+</div>
+<!-- / VARIABLE UPDATE BY ID -->
+<!-- VARIABLE DELETE BY ID -->
+<a class="anchor" id="variables.delete"></a>
+<div class="documentation">
+<h3>DELETE /variables/:id</h3>
+<p >Deletes a specific variable given its id.</p>
+<pre><code class="http">DELETE https://api.marketcloud.it/v0/variables/:id</code></pre>
+<h5>Example Request</h5>
+           <pre><code>curl --request DELETE
+  --url http://api.marketcloud.it/v0/variables/123 \
+  --header 'accept: application/json' \
+  --header 'authorization: YourPublicKey:YourToken' \</code></pre>
+<h5>Example JSON response (200)</h5>
+<pre><code class="javascript">
+{
+  status:true
+}</code></pre>
+</div>
+<!-- / VARIABLE DELETE BY ID -->

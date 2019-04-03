@@ -1,0 +1,96 @@
+<h3 id="users">Users</h3>
+
+<div class="method-title">Checking if a user is authenticated</div>
+<p>Whenever you create a new instance of the client (at pageloads for example), it immediatly looks for a user token in the current environment (the browser). If the client find user information, it populates the value <code>client.token</code>.</p>
+<p>If you want to check if the current user already has an auth token:</p>
+<pre><code class="javascript">
+var client = new Marketcloud.Client({publicKey : '...'});
+if (client.token) {
+  // Then the user is authenticated and its data is in
+  console.log(client.currentUser);
+} else {
+  // User not authenticated, prompt the user for username and password
+}
+</code></pre>
+<a class="anchor" id="users.authenticate"></a>
+<div class="method-title">Authenticate a user</div>
+
+<h4>Authenticate with username and password</h4>
+<p>Authenticates a user with email and password. Under the hood, the marketcloud api tests the user credentials and if they are valid, a token is received from the API and stored in the user's browser.</p>
+<pre><code class="javascript">
+marketcloud.users.authenticate('john.snow@wall.com','IKnowNothing',
+  function(err,response){
+    //data.user contains user data
+})      
+</code></pre>
+<p>If the authentication is successful, <code>data</code> is an object:</p>
+<pre><code class="javascript">{
+  user : {
+    email : "john.doe@example.com",
+    full_name : "John Doe",
+    custom_attribute : "Some Value"
+  },
+  token : "SECRET_TOKEN"
+}
+</code> </pre>
+<h4>Authenticate with Facebook</h4>
+<p>Authenticates a user using Facebook login. Please, note that using this authentication strategy requires a couple more setup steps on the Facebook side. We have a <a href="/documentation/guides/facebook-login" class="link">dedicated guide</a> to help you get started with Facebook and Marketcloud.</p>
+<pre><code class="javascript">
+marketcloud.users.authenticateWithFacebook(user_id,access_token,
+  function(err,response){
+    //data.user contains user data
+})      
+</code></pre>
+<p>The data object is the same as in the authenticate() method.</p>
+<a class="anchor" id="users.logout"></a>
+<div class="method-title">Logout</div>
+<p>This method will log the user out, forgetting the auth token and the current cart's id</p>
+<pre><code class="javascript">
+marketcloud.users.logout();     
+</code></pre>
+<a class="anchor" id="users.isAuthenticated"></a>
+<div class="method-title">Check login status</div>
+
+<p>This method will return true if there is a local auth token. False otherwise.</p>
+<pre><code class="javascript">var isLogged = marketcloud.users.isAuthenticated();
+</code></pre>
+<a class="anchor" id="users.create"></a>
+<div class="method-title">Create a user</div>
+<p>Use this method to register users to you eCommerce app.</p>
+<pre><code class="javascript">
+  //Authenticates a user given email and password
+  marketcloud.users.create({
+                    name: "John Snow",
+                    email: "john.snow@thewall.com",
+                    password : "IknowKnothing"
+              },function(err,response){
+  })      
+</code></pre>
+
+<a class="anchor" id="users.getCurrent"></a>
+<div class="method-title">Retrieve the currently authenticated user</div>
+<div class="text-muted">Authentication required</div>
+        <pre><code class="javascript">
+//Returns complete informations about the currently authenticated user
+marketcloud.users.getCurrent(function(err,response){
+
+})      
+</code></pre>
+
+<a class="anchor" id="users.updateCurrent"></a>
+<div class="method-title">Updates the user</div>
+<div class="text-muted">Authentication required</div>
+        <pre><code class="javascript">
+//Update the information about the currently authenticated user
+marketcloud.users.updateCurrent({email : 'newaddress@example.com'},function(err,response){
+
+})      
+</code></pre>
+<a class="anchor" id="users.delete"></a>
+<div class="method-title">Delete a user</div>
+<div class="text-muted">Authentication required</div>
+<pre><code class="javascript">
+//Delete the currently authenticated user
+marketcloud.users.delete(function(err){
+})      
+</code></pre>

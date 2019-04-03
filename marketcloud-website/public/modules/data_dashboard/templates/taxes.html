@@ -1,0 +1,87 @@
+<div class="dashboard-section-header">
+   <span class="root">Tax bands</span>
+  
+  <back-button></back-button>
+</div>
+<div class="container-fluid">
+    <div class="row mb20">
+      <div class="col-xs-12 text-right">
+        <a class="btn btn-transparent" href="#/system/settings"><i class="fa fa-cog"></i> General taxation options</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+      <div class="card card-table mb50">
+      <div class="card-toolbar" ng-show="getSelectedItems().length === 0">
+          <div class="text-right">
+          <a class="btn btn-info btn-sm raised" href="#/system/taxes/create">Add a tax band</a>
+          <div class="actions dropdown pull-right">
+                <a class="toolbar-action-icon" data-toggle="dropdown" role="button" >
+                  <i class="fa fa-ellipsis-v"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li><a data-toggle="modal" ng-click="loadData()">Reload</a></li>
+                  <li><a ng-click="bulkJSONExport()">Export to JSON</a></li>
+                </ul>
+              </div>
+          </div>
+        </div>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Rates</th>
+              <th></th>
+            </tr></thead>
+            <tbody ng-show="resources.length > 0">
+              <tr ng-repeat="tax in resources">
+                <td>{{tax.id}}</td>
+                <td>
+                  <a href="#/system/taxes/{{tax.id}}/edit" class="link">{{tax.name}}</a></td>
+                <td>{{tax.rates.length}}</td>
+                <td>
+                 <!--  <a href="#/system/taxes/{{tax.id}}/edit" class="btn btn-default btn-sm" alt="edit"><span class="fa fa-pencil"></span></a> <button class="btn btn-default btn-sm" ng-click="delete(tax.id,$index)" alt="delete"><span class="fa fa-trash-o"></span></button> -->
+                 <div class="actions" ng-class="{'dropup' : true === $last && resources.length !== 1, 'dropdown' : false === $last || resources.length === 1 }" >
+                      <a class="dropdown-toggle text-muted btn btn-transparent btn-sm" data-toggle="dropdown" role="button" >
+                        <i class="fa fa-ellipsis-v f18"></i>
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                          <a ng-href="#/system/taxes/{{tax.id}}/edit" alt="edit">Edit</a>
+                          
+                        </li>
+                        <li><a ng-click="delete(tax.id,$index)" alt="delete">Delete</a></li>
+                        <li><a ng-click="clone(tax)" alt="clone">Clone</a></li>
+                      </ul>
+                    </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+          
+          <div class="p10 center text-muted" ng-show="resources.length <= 0">
+              <span class="fa fa-percent f48"></span>
+              <p class="lead">Your tax methods will be displayed here</p>
+              <a href="#/system/taxes/create" class="btn btn-info">Add a tax band</a>
+            </div>
+            <div class="card-footer">
+              <div class="row">
+                <div class="col-xs-12 text-right">
+                 <pagination-selector
+                  pagination="pagination"
+                  per-page="query.per_page"
+                  page="query.page"
+                  on-change-page-size="loadData({per_page : per_page })"
+                  on-change-page-number="loadData({page : page})"
+                ></pagination-selector>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+      </div>
+      </div>
+    </div>

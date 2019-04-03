@@ -1,0 +1,41 @@
+<header>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-menu-mobile" style="color:white;">
+				
+				<i class="fa fa-bars fa-2x"></i>
+				</button>
+				<a class="navbar-brand" href="/">Marketcloud</a>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="navbar-menu-mobile">
+				<ul class="nav navbar-nav">
+					<li><a href="/features" title="Features page" class="navbar-link">Features</a></li>
+					<li><a href="/pricing" title="Pricing page" class="navbar-link">Pricing</a></li>
+					<li><a href="/documentation/" title="Documentation page" class="navbar-link">Documentation</a></li>
+					<li><a href="/blog" title="Blog page" class="navbar-link">Blog</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<% if ('undefined' !== typeof user && user.isAuthenticated===true) { %>
+					<li class="dropdown">
+						<a href="#" class="userAccountPanel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="navbar-link">
+							
+							<span class="email"><%= user.email %> <i class="fa fa-caret-down"></i></span>
+						</a>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+							<li><a href="/account">Account</a></li>
+							<li><a href="/applications">Applications</a></li>
+							<li class="divider"></li>
+							<li><a href="/account/logout">Logout</a></li>
+						</ul>
+					</li>
+					<% } else { %>
+					<li><a href="/account/login" title="Log in page">Log in</a></li>
+					<% } %>
+				</ul>
+				
+				</div><!-- /.navbar-collapse -->
+				</div><!-- /.container-fluid -->
+			</nav>
+		</header>

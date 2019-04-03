@@ -1,0 +1,55 @@
+	.article-title {
+		font-size: 24px;
+		color: #34495e;
+		font-weight: bold;
+	}
+	.article-meta ul{
+		list-style-type: none;
+		margin-top: 20px;
+		padding-left: 0px;
+	}
+	.article-meta ul > li {
+		display: inline;
+		margin-right: 20px;
+	}
+	.article-meta ul > li.date {
+		text-transform: uppercase;
+		font-weight: bold;
+		color: #777;
+		font-size: 13px;
+	}
+	.heading ul > li.date {
+		
+		color: #FFF;
+		
+	}
+	.article-meta ul > li > a.author {
+		font-weight: bold;
+		font-size: 14px;
+	}
+	.article-meta ul > li > img.author-image {
+		max-width: 48px;
+		border-radius: 48px;
+	}
+	.article-body {
+		font-size: 18px;
+	}
+	.article-body  img {
+		max-width: 100%;
+	}
+
+	.article-body h1, .article-body h2, .article-body h3, .article-body h4, .article-body h5 {
+		color: #7f8c8d;
+		font-weight: normal;
+		margin-bottom: 10px;
+
+	}
+
+	pre {
+		margin-top:10px;
+		padding: 0px !important;
+	}
+	pre code {
+		padding: 10px !important;
+		font-size:14px;
+	}

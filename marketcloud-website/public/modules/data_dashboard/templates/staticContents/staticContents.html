@@ -1,0 +1,104 @@
+<div class="dashboard-section-header">
+  <span class="root">Contents</span>
+     
+  <back-button></back-button>
+</div>
+
+
+
+<div class="container-fluid">
+ 
+   
+  <div class="row" >
+    <div class="col-lg-8 col-lg-offset-2 col-xs-12">
+      <div class="card card-table mb50">
+      <div class="card-toolbar" ng-show="getSelectedItems().length === 0">
+        <div class="row">
+          <div class="col-xs-6">
+            <toolbar-search on-update="loadData(query)"
+            property-name="title"></toolbar-search>
+          </div>
+          <div class="col-xs-6 text-right">
+            <a class="btn btn-info btn-sm raised" href="#/contents/static/create">Add a content</a>
+            <div class="actions dropdown pull-right">
+                <a class="toolbar-action-icon" data-toggle="dropdown" role="button" >
+                  <i class="fa fa-ellipsis-v"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li><a data-toggle="modal" ng-click="loadData()">Reload</a></li>
+                  <li><a ng-click="bulkJSONExport()">Export to JSON</a></li>
+                </ul>
+              </div>
+          </div>
+        </div>
+        </div>
+      <div class="card-toolbar" ng-show="getSelectedItems().length > 0">
+        <strong style="margin-right:50px;">{{getSelectedItems().length}} selected</strong>
+        <button class="btn btn-sm btn-default" ng-click="bulkDelete()">Delete</button>
+      </div>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>
+                    <div class="form-group m0">
+                      <div class="checkbox m0">
+                        <input type="checkbox" ng-change="toggleAll()" ng-model="selectAll"/>
+                        <label></label>
+                      </div>
+                    </div>
+                  </th>
+                <th>Name</th>
+                <th>Published</th>
+                <th></th>
+              </tr></thead>
+              <tbody ng-show="resources.length > 0">
+                <tr ng-repeat="c in resources  track by $index">
+                <td>
+                <div class="form-group">
+                    <div class="checkbox">
+                      <input type="checkbox" ng-model="c.selected"/>
+                      <label></label>
+                    </div>
+                  </div></td>
+                  
+                  <td><a href="#/contents/static/{{c.id}}/edit">{{c.name}}</a></td>
+                  <td>
+                    <select ng-model="c.published"
+                      class="form-control input-sm solid"
+                      ng-change="toggle(c)"
+                      ng-options="pub for pub in [true,false]"
+                      >
+                    </select>
+                  </td>
+                  <td><a href="#/contents/static/{{c.id}}/edit" class="btn btn-default btn-sm"><span class="fa fa-edit"></span></a> <button class="btn btn-default btn-sm" ng-click="delete(c.id,$index)"><span class="fa fa-trash"></span></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="text-center text-muted p10" ng-show="resources.length === 0">
+              
+              <span class="fa fa-object-group f48"></span>
+              <p class="lead">Your contents will be displayed here.</p>
+              <a href="#/contents/static/create" class="btn btn-info">Add a content</a>
+          </div>
+
+          
+          <div class="card-footer">
+            <div class="row">
+              <div class="col-xs-12 text-right">
+                <pagination-selector
+                  pagination="pagination"
+                  per-page="query.per_page"
+                  page="query.page"
+                  on-change-page-size="loadData({per_page : per_page })"
+                  on-change-page-number="loadPage(page)"
+                ></pagination-selector>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>

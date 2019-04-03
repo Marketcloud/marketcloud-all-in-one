@@ -1,0 +1,429 @@
+<div class="dashboard-section-header"><span class="root">Users / {{user.id}}</span>
+<button class="btn btn-info pull-right" ng-click="update()">Save</button>
+<back-button></back-button>
+</div>
+<div class="container-fluid">
+<div class="row">
+	<div class="col-xs-12 col-md-8 mb20">
+		<div class="card mb20">
+			<div class="card-header"><h4>Basic information</h4></div>
+			<div class="card-content flex">
+					
+					<div>
+						<avatar 
+						ng-if="!user.image_url"
+						initials="{{user.name.substr(0,2).toUpperCase()}}"
+						round-shape="true" 
+						width="80" 
+						height="80"></avatar>
+						<img 
+						ng-if="user.image_url"
+						style="height:80px; border-radius: 50%;"
+						ng-src="{{user.image_url || '/img/user.png'}}"
+						fallback-src="/img/user.png"/>
+
+					</div>
+					
+						<div style="margin-left: 30px;">
+							<div class="fw500">{{user.name || "Name unknown"}}</div>
+							<div class="text-muted">{{user.email|| "Email unknown"}}</div>
+							<div class="text-muted">Member since: {{user.created_at | date : "MMM d, yyyy 'at' hh:mm"}}</div>
+						</div>
+						<div class="text-right" style="flex-grow: 1">
+						<a class="btn btn-empty-info btn-sm" data-toggle="modal" data-target="#basicInfoModal">Edit</a>
+					</div>
+					
+				</div>
+			</div>
+
+      <div class="card card-table mb20">
+      <div class="card-header"><h4>Orders</h4></div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Order</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th># of items</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody ng-if="orders.length > 0">
+            <tr ng-repeat="order in orders">
+              <td><a class="link" ng-href="#/orders/{{order.id}}/view">{{order.id}}</a></td>
+              <td>{{order.created_at  | date : "MMM d, yyyy 'at' hh:mm"}}</td>
+              <td>
+                 <span>
+                        <span class="label label-rounded label-info" ng-if="'pending' === order.status">Pending payment</span>
+                        <span class="label label-rounded label-primary" ng-if="'processing' === order.status">Processing</span>
+                        <span class="label label-rounded label-success" ng-if="'completed' === order.status">Completed</span>
+                        <span class="label label-rounded label-danger" ng-if="'failed' === order.status">Failed</span>
+                        <span class="label label-rounded label-default" ng-if="'on_hold' === order.status">On hold</span>
+                        <span class="label label-rounded label-default" ng-if="'refunded' === order.status">Refunded</span>
+                        <span class="label label-rounded label-default" ng-if="'canceled' === order.status">Canceled</span>
+                      </span>
+              </td>
+              <td>{{order.items.length || 0}}</td>
+              <td>{{order.display_total}}</td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
+      <div ng-if="orders.length === 0" class="center text-muted">
+          <span class="fa fa-inbox f48"></span>
+          <p class="lead">This user has not placed any orders yet.</p>
+        </div>
+      <div class="card-footer text-right" ng-if="orders.length > 0">
+        <a class="link small" href='#/orders?query={"user.id":{{user.id}}}'>VIEW MORE <i class="fa fa-angle-right f16 ml10"></i> </a>
+      </div>
+    </div>
+	</div>
+		<div class="col-md-4 col-xs-12 mb20">
+			<div class="card">
+				<div class="card-header"><h4>Default Shipping address</h4></div>
+				<div class="card-content">
+					<div class="pull-right">
+						<a class="btn btn-empty-info btn-sm" data-toggle="modal" data-target="#defaultShippingAddressModal">Edit</a>
+					</div>
+					<div class="text-muted small">{{user.shipping_address.name}}</div>
+					<div class="text-muted small">{{user.shipping_address.address1 || '&ltaddress1&gt'}}</div>
+					<div class="text-muted small">{{user.shipping_address.address2}}</div>
+					<div class="text-muted small">{{user.shipping_address.postal_code || '&ltpostal code&gt'}}, {{user.shipping_address.city || '&ltcity&gt'}}, {{user.shipping_address.state || '&ltstate&gt'}}</div>
+					<div class="text-muted small">{{user.shipping_address.country || '&ltcountry&gt'}}</div>
+				</div>
+			</div>
+      <div class="card mt20">
+        <div class="card-header"><h4>Default Billing address</h4></div>
+        <div class="card-content">
+          <div class="pull-right">
+            <a class="btn btn-empty-info btn-sm" data-toggle="modal" data-target="#defaultBillingAddressModal">Edit</a>
+          </div>
+          <div class="text-muted small">{{user.billing_address.name}}</div>
+          <div class="text-muted small">{{user.billing_address.address1 || '&ltaddress1&gt'}}</div>
+          <div class="text-muted small">{{user.billing_address.address2}}</div>
+          <div class="text-muted small">{{user.billing_address.postal_code || '&ltpostal code&gt'}}, {{user.billing_address.city || '&ltcity&gt'}}, {{user.billing_address.state || '&ltstate&gt'}}</div>
+          <div class="text-muted small">{{user.billing_address.country || '&ltcountry&gt'}}</div>
+        </div>
+      </div>
+		</div>
+		
+		
+		</div>
+    <div class="row">
+		<div class="col-md-8 col-xs-12">
+		
+		
+		
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-8 col-xs-12">
+		
+		<div class="card card-table mb50">
+			<div class="card-header"><h4>User's shopping carts</h4></div>
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Status</th>
+							<th># of items</th>
+							<th>Value</th>
+							<th>Created</th>
+						</tr>
+					</thead>
+					<tbody ng-if="carts.length > 0">
+						<tr ng-repeat="cart in carts">
+							<td>{{cart.id}}</td>
+							<td><span class="label" ng-class="{'label-warning' : cart.status === 'open', 'label-success' : cart.status === 'closed'}">{{cart.status}}</span></td>
+							<td>{{cart.items.length || 0}}</td>
+							<td>{{cart.total}}</td>
+							<td>{{cart.created_at  | date : "MMM d, yyyy 'at' hh:mm"}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="center text-muted" ng-if="carts.length === 0">
+					<span class="fa fa-shopping-cart f48"></span>
+					<p class="lead" >This user has no shopping carts yet.</p>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-8 col-xs-12">
+		<custom-attributes-form
+		resource="user"
+		properties="customPropertiesData"
+		></custom-attributes-form>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-8 col-xs-12">
+		
+		<div class="card card-table mb50" >
+			<div class="card-header"><h4>User's addresses</h4></div>
+			<div class="card-toolbar text-right">
+				<button class="btn btn-info btn-sm raised" data-toggle="modal" data-target="#addAddressModal"> Add address</button>
+			</div>
+			<div class="card-content" ng-if="addresses.length === 0">
+				<div class="row">
+					<div class="col-xs-12" >
+						<div class="center text-muted">
+							<span class="fa fa-address-card-o f48"></span>
+						</div>
+						<p class="lead text-muted text-center">This user has no addresses yet</p>
+					</div>
+				</div>
+			</div>
+			<div class="card-content" ng-repeat="address in addresses track by $index" style="border-bottom: 1px solid #CCC;">
+				<div class="row">
+					<div class="col-xs-12 text-right">
+						<a class="link pull-right" ng-if="false === address.expanded" ng-click="toggleAddressVisbility(address)">Expand</a>
+						<a class="link pull-right" ng-if="true === address.expanded"  ng-click="toggleAddressVisbility(address)">Collapse</a>
+					</div>
+					<div class="col-sm-6 mb10">
+						<div class="text-muted small">Full name</div>
+						<div>{{address.full_name || "Empty"}}</div>
+					</div>
+					<div class="col-sm-6 mb10">
+						<div class="text-muted small">Email</div>
+						<div>{{address.email || "Empty"}}</div>
+					</div>
+				</div>
+				<div class="row" ng-if="address.expanded === true">
+					<div class="col-sm-6 mb10">
+						<div class="text-muted small">Address line 1</div>
+						<div>{{address.address1 || "Empty"}}</div>
+					</div>
+					<div class="col-sm-6 mb10">
+						<div class="text-muted small">Address line 2</div>
+						<div>{{address.address2 || "Empty"}}</div>
+					</div>
+				</div>
+				<div class="row" ng-if="address.expanded === true">
+					<div class="col-sm-6 mb10">
+						<div class="text-muted small">Postal/Zip code</div>
+						<div>{{address.postal_code || "Empty"}}</div>
+					</div>
+					<div class="col-sm-6 mb10">
+						<div class="text-muted small">City</div>
+						<div>{{address.city || "Empty"}}</div>
+					</div>
+				</div>
+				<div class="row" ng-if="address.expanded === true">
+					<div class="col-sm-6 mb10">
+						<div class="text-muted small">Country</div>
+						<div>{{address.country || "Empty"}}</div>
+					</div>
+					<div class="col-sm-6 mb10">
+						<div class="text-muted small">VAT</div>
+						<div>{{address.vat || "Empty"}}</div>
+					</div>
+				</div>
+				<div class="row" ng-if="address.expanded === true">
+					<div class="col-sm-6 mb10">
+						<div class="text-muted small">Phone number</div>
+						<div>{{address.phone_number || "Empty"}}</div>
+					</div>
+					<div class="col-sm-6 mb10">
+						<div class="text-muted small">Alternate phone number</div>
+						<div>{{address.alternate_phone_number || "Empty"}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="addAddressModal">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">Edit address</h4>
+		</div>
+		<div class="modal-body">
+			<div class="form">
+				<div class="form-group">
+					<label>Email</label>
+					<input type="email" ng-model="newAddress.email" class="form-control">
+				</div>
+				
+				<div class="form-group">
+					<label>Full name</label>
+					<input type="text" ng-model="newAddress.full_name" class="form-control">
+				</div>
+				<div class="form-group">
+					<label>Country</label>
+					<autocomplete
+						items="countries"
+						label="name"
+						value="name"
+						my-model="newAddress.country"
+						on-selected=""/>
+					</div>
+					<div class="form-group">
+						<label>State</label>
+						<input type="text" ng-model="newAddress.state" class="form-control">
+					</div>
+					<div class="form-group">
+						<label>City</label>
+						<input type="text" ng-model="newAddress.city" class="form-control">
+					</div>
+					<div class="form-group">
+						<label>Postal code</label>
+						<input type="text" ng-model="newAddress.postal_code" class="form-control">
+					</div>
+					<div class="form-group">
+						<label>Address line 1</label>
+						<input type="text" ng-model="newAddress.address1" class="form-control">
+					</div>
+					<div class="form-group">
+						<label>Address line 2</label>
+						<input type="text" ng-model="newAddress.address2" class="form-control">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" ng-click="saveAddress()">Save</button>
+			</div>
+			</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="basicInfoModal">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">Edit basic information</h4>
+		</div>
+		<div class="modal-body">
+			<div class="form">
+				<div class="form-group">
+					<label>Email</label>
+					<input type="email" ng-model="user.email" class="form-control">
+				</div>
+				
+				<div class="form-group">
+					<label>Name</label>
+					<input type="text" ng-model="user.name" class="form-control">
+				</div>
+				
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" ng-click="update()">Save</button>
+			</div>
+			</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="defaultBillingAddressModal">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">Edit default billing address</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form">
+        
+        <div class="form-group">
+          <label>Country</label>
+          <autocomplete
+            items="countries"
+            label="name"
+            value="name"
+            my-model="user.billing_address.country"
+            on-selected=""/>
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            <input type="text" ng-model="user.billing_address.state" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" ng-model="user.billing_address.city" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Postal code</label>
+            <input type="text" ng-model="user.billing_address.postal_code" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Address line 1</label>
+            <input type="text" ng-model="user.billing_address.address1" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Address line 2</label>
+            <input type="text" ng-model="user.billing_address.address2" class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="update()">Save</button>
+      </div>
+      </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+</div>
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="defaultShippingAddressModal">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">Edit default shipping address</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form">
+        
+        <div class="form-group">
+          <label>Country</label>
+          <autocomplete
+            items="countries"
+            label="name"
+            value="name"
+            my-model="user.shipping_address.country"
+            on-selected=""/>
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            <input type="text" ng-model="user.shipping_address.state" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" ng-model="user.shipping_address.city" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Postal code</label>
+            <input type="text" ng-model="user.shipping_address.postal_code" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Address line 1</label>
+            <input type="text" ng-model="user.shipping_address.address1" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Address line 2</label>
+            <input type="text" ng-model="user.shipping_address.address2" class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="update()">Save</button>
+      </div>
+      </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+</div>

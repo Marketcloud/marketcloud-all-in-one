@@ -1,0 +1,110 @@
+<h2>Application</h2>
+
+<div class="documentation mb50 mt50">
+  <h4>Table of contents</h4>
+  <ol>
+    <li><a href="#application.get">Get application's data</a></li>
+    <li><a href="#application.update">Update application's data</a></li>
+  </ol>
+</div>
+
+<!-- application.get -->
+<a class="anchor" id="application.get"></a>
+<div class="documentation">
+  <h3>GET /application</h3>
+  <p>Returns the current application's information. The amount of information retrieved depends on the current authentication scope. A client with admin auth scope will return all the information about the app, any lower level auth scope will just return public information:</p>
+  <pre><code class="http">GET https://api.marketcloud.it/v0/application</code></pre>
+    
+  <div class="spacer"></div>  
+    
+  <h5>Example JSON response (200) with admin scope</h5>
+  <pre><code class="javascript">{
+"status": true,
+"data": [
+    {
+        "api_calls_quota_left": 440311, 
+        "api_calls_quota_max": 450000, 
+        "created_at": "2015-12-05T10:16:58.000Z", 
+        "currency_code": "EUR", 
+        "email_address": "info@superstore.com", 
+        "id": 1, 
+        "logo": "https://www.marketcloud.it/img/logo/normal.png", 
+        "name": "Nerd Store", 
+        "owner": "john@superstore.com", 
+        "renew_date": "2016-01-05T10:16:59.000Z", 
+        "storage_left": 524288, 
+        "storage_max": 524288, 
+        "tax_rate": 0, 
+        "tax_type": "all", 
+        "timezone": "GMT Standard Time", 
+        "url": null
+    }
+]
+
+
+    
+}
+</code></pre>   
+<div class="spacer"></div>                  
+<h5>Example JSON response (200) with public scope</h5>
+                        <pre><code class="javascript">{
+"status": true,
+"data": [
+        {
+            "currency_code": "EUR", 
+            "logo": "https://www.marketcloud.it/img/logo/normal.png", 
+            "name": "Nerd Store", 
+            "tax_rate": 0, 
+            "tax_type": "all", 
+            "timezone": "GMT Standard Time"
+        }
+    ], 
+
+
+
+    
+}
+</code></pre>                           
+</div>
+<!-- /application get -->                      
+
+
+
+<!-- application.update -->
+<a class="anchor" id="application.update"></a>
+<div class="documentation">
+  <h3>PUT /application</h3>
+  <p>Updates the current application's information.</p>
+  <pre><code class="shell">curl \
+  -X PUT \
+  -H "Content-Type: application/json" \
+  -H "Authorization: publicKey:authToken" \
+  -d '{"url":"http://www.newaddress.com", "name" : "New Store Name"}' \
+  https://api.marketcloud.it/v0/application</code></pre>
+    
+  <div class="spacer"></div>  
+    
+  <h5>Example JSON response (200)</h5>
+  <pre><code class="javascript">{ status: true,
+  data: 
+   [ { api_calls_quota_left: 9999,
+       api_calls_quota_max: 9999,
+       created_at: '2015-12-05T10:16:58.000Z',
+       currency_code: 'EUR',
+       email_address: 'address@example.com',
+       id: 1,
+       logo: 'http://cdn.marketcloud.it/files/someimage.png',
+       name: 'New Store Name',
+       owner: 'john.doe@example.com',
+       renew_date: '2020-01-01T00:00:00.000Z',
+       storage_left: 524288,
+       storage_max: 524288,
+       tax_rate: 10,
+       tax_type: 'products_only',
+       timezone: 'W. Europe Standard Time',
+       url: 'http://www.newaddress.com' } ] 
+}
+</code></pre>   
+              
+</div>
+<!-- /application.update -->                      

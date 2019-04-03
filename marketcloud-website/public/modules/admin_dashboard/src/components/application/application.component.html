@@ -1,0 +1,52 @@
+<div class="application-container card" data-application-id="{{application.id}}">
+    <div class="card-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <div class="title">{{application.name}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-content">
+        <div class="container-fluid">
+            <div class="plan">
+                <span class="label label-rounded label-default-light">
+                    <i class="fa fa-eye"    ng-if="application.role === 'guest'"></i>
+                    <i class="fa fa-pencil" ng-if="application.role === 'editor'"></i>
+                    <i class="fa fa-unlock" ng-if="application.role === 'admin'"></i>
+                    <i class="fa fa-unlock" ng-if="application.role === 'owner'"></i>
+
+                    {{application.role}}
+                </span>
+            </div>
+            <div class="row mt20">
+                <div class="col-xs-6 text-center text-muted">
+                    <div style="font-size: 24px;font-weight: 500;" class="__application-container__requestsIndicator">{{application.api_calls_quota_max - application.api_calls_quota_left}}</div>
+                    <div>Requests</div>
+                </div>
+                <div class="col-xs-6 text-center text-muted">
+                    <div style="font-size: 24px;font-weight: 500;" class="__application-container__storageIndicator">0.5GB</div>
+                    <div>Storage</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="container-fluid">
+            <div class="row" ng-if="application.role !== 'editor'">
+                <div class="col-xs-6 text-center">
+                    <a class="btn btn-sm btn-default __application-container__settingsButton" href="#/applications/{{application.id}}">Settings</a>
+                </div>
+                <div class="col-xs-6 text-center">
+                    <a class="btn btn-sm btn-default __application-container__backofficeButton" href="/applications/{{application.id}}/dashboard">Backoffice</a>
+                </div>
+            </div>
+            <div class="row" ng-if="application.role === 'editor'">
+                <div class="col-xs-12 text-center">
+                    <a class="btn btn-sm btn-default __application-container__backofficeButton" href="/applications/{{application.id}}/dashboard">Backoffice</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

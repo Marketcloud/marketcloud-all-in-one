@@ -1,0 +1,63 @@
+								
+				<ol class="breadcrumb mb50">
+          <li><a href="/documentation" class="link">Home</a></li>
+          <li><a href="/documentation/quickstarts" class="link">Quickstarts</a></li>
+          <li class="active">Android</li>
+        </ol>
+
+				<h1 class="page-title">Android Quickstart</h1>
+
+				<strong class="f24 bold">Create a Marketcloud application</strong>
+				
+				<p class="bold mt20">A Marketcloud account is required</p>
+				<p >In order to create an application, you need to create a Marketcloud account first.</p>
+				<a href="/account/signup" class="btn btn-empty-success" target="_blank">Create an account</a>
+				<p class="bold mt20">Create an application</p>
+				<p >An application is where your store's data will live. Simply create one choosing an application name and a plan. We’ve got several plans including our favorite, Free!</p>
+		
+				<strong class="f24 bold">Create your first product</strong>
+				<p class="bold mt20">Add data using the dashboard</p>
+				<p >Once you created your application you can log into its dashboard just by clicking on it. Here you can open the "products" section and create your first product You can also add images and variants!</p>
+				<strong class="f24 bold">Bootstrap your frontend</strong>
+
+				
+
+
+				<p class="bold mt20">Install the SDK</p>
+				<p >The easiest way to install the Android SDK is using Carthage. Create your cartfile with</p>
+				<pre><code class="bash">touch Cartfile</code></pre>
+				<p >And then add the following line to it.</p>
+				<pre><code class="bash">github "Marketcloud/marketcloud-Android-sdk"</code></pre>
+				<p >Now run</p>
+				<pre><code class="bash">carthage update</code></pre>
+				<p >This command will generate the <code>.framework</code> file you can add to your XCode project.</p>
+				<p>On your application targets’ “Build Phases” settings tab, click the “+” icon and choose “New Run Script Phase”. Create a Run Script in which you specify your shell (ex: bin/sh), add the following contents to the script area below the shell:</p>
+				<pre><code class="bash">$(SRCROOT)/Carthage/Build/iOS/Marketcloud.framework</code></pre>
+				<p>If you need a more detailed step by step guide, please refer to our <a href="https://github.com/Marketcloud/marketcloud-Android-sdk" class="link">GitHub repository</a>.</p>
+
+				<p class="bold mt20">Configure the client</p>
+				<p >In order to query the API, you must set your application's public key into the client, You can find the public key under the <a href="/applications" target="_blank">information section</a>.</p>
+				<pre><code class="Android">import Marketcloud
+var marketcloud = Marketcloud(key: "insert_your_public_key_here");</code></pre>
+
+			
+				<strong class="f24 bold">Query the API</strong>
+				<p class="bold mt20">Use the Android client</p>
+				<p >Congratulations you are ready to query the API! Use the client to retrieve the product you created earlier:</p>
+				<pre><code class="Android">
+marketcloud.getProducts()
+				</code></pre>
+				<p >The code above will retrieve a paginated list of products, you can also use the first parameter to filter them by any key.</p>
+				<pre><code class="Android">
+marketcloud.getProducts(filter:[String: Any])
+				</code></pre>
+			
+				<strong class="f24 bold">Well done!</strong>
+				<p class="mt20">You have a Marketcloud powered application!</p>
+				<p>In these 5 little steps you obtained:</p>
+				<ul>
+					<li><p >Full featured dashboard to manage your store</p></li>
+					<li><p >Infinite frontend flexibility</p></li>
+					<li><p >A fast and scalable backend for your eCommerce applications</p></li>
+				</ul>
+				<p class="mt20">Now you can add more features to your app by checking the <a href="/documentation" class="link">documentation</a>, or you can spend more time on the dashboard adding more stuff!</p>

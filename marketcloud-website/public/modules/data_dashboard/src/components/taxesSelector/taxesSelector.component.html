@@ -1,0 +1,6 @@
+<select class="form-control"
+	ng-model="ctrl.tax"
+	ng-options="t.id as t.name for t in ctrl.taxes"
+	ng-change="handleChange()">
+</select>
+

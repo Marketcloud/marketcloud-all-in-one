@@ -1,0 +1,95 @@
+<div class="dashboard-section-header">
+  <span class="root">Variables</span>
+  
+  <back-button></back-button>
+</div>
+<div class="container-fluid">
+ 
+
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-xs-12">
+      <!-- -->
+      <div class="card card-table">
+        <div class="card-toolbar" ng-show="getSelectedItems().length === 0">
+          <div class="row">
+          <div class="col-xs-6">
+            <toolbar-search on-update="loadData(query)"></toolbar-search>
+          </div>
+          <div class="col-xs-6 text-right">
+            <a class="btn btn-info btn-sm raised" href="#/variables/create">Add a variable</a>
+            <div class="actions dropdown pull-right">
+                <a class="toolbar-action-icon" data-toggle="dropdown" role="button" >
+                  <i class="fa fa-ellipsis-v"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li><a data-toggle="modal" ng-click="loadData()">Reload</a></li>
+                  <li><a ng-click="bulkJSONExport()">Export to JSON</a></li>
+                </ul>
+              </div>
+          </div>
+        </div>
+        </div>
+      <div class="card-toolbar" ng-show="getSelectedItems().length > 0">
+        <strong style="margin-right:50px;">{{getSelectedItems().length}} selected</strong>
+        <button class="btn btn-sm btn-default" ng-click="bulkDelete()">Delete</button>
+      </div>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>
+                    <div class="form-group m0">
+                      <div class="checkbox m0">
+                        <input type="checkbox" ng-change="toggleAll()" ng-model="selectAll"/>
+                        <label></label>
+                      </div>
+                    </div>
+                  </th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Value</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody ng-show="resources.length > 0">
+              <tr ng-repeat="p in resources  track by $index" ng-class="{'selected-row':true === p.selected}">
+                <td><div class="form-group">
+                    <div class="checkbox">
+                      <input type="checkbox" ng-model="p.selected"/>
+                      <label></label>
+                    </div>
+                  </div></td>
+                <td><a href="#/variables/{{p.id}}/edit" class="link">{{p.name}}</a></td>
+                <td><code>{{p.type}}</code></td>
+                <td>{{p.value}}</td>
+                <td>
+                  <a href="#/variables/{{p.id}}/edit" class="btn btn-default btn-sm"><span class="fa fa-pencil"></span></a>
+                  <button class="btn btn-default btn-sm" ng-click="delete(p.id,$index)"><span class="fa fa-trash-o"></span></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div ng-show="resources.length === 0"  class="center text-muted p10">
+              <span class="fa fa-table f48"></span>
+            <p class="lead">Your variables will be displayed here</p>
+            <a href="#/variables/create" class="btn btn-info">Add a variable</a>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+              <div class="col-xs-12 text-right">
+                <pagination-selector
+                  pagination="pagination"
+                  per-page="query.per_page"
+                  page="query.page"
+                  on-change-page-size="loadData({per_page : per_page })"
+                  on-change-page-number="loadPage(page)"
+                ></pagination-selector>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  
+</div>

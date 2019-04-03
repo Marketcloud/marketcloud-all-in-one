@@ -1,0 +1,205 @@
+
+          <h2>Introduction</h2>
+          <p>The Marketcloud API follows the <a href="https://en.wikipedia.org/wiki/Representational_state_transfer" class="link">REST</a> architectural guidelines and uses standard HTTP response codes to indicate the result of each operation.</p>
+          <p>If you want to dive into the api, visit the <a href="/documentation/rest-api/gettingstarted" class="link">Getting started section</a>, this document will present some conventions used in our api.</p>
+
+
+          <h3>Table of contents</h3>
+          <ol>
+            <li><a href="#api-version">Api version</a></li>
+            <li><a href="#root-endpoint">Root endpoint</a></li>
+            <li><a href="#secure-connections">Secure connections</a></li>
+            <li><a href="#sending-and-receiving-data">Sending and receiving data</a></li>
+            <li><a href="#authentication">Authentication and authorization</a></li>
+            <li><a href="#allowed-http-methods">Allowed HTTP methods</a></li>
+            <li><a href="#server-responses">Server responses</a></li>
+            <li><a href="#pagination">Pagination</a></li>
+            <li><a href="#sorting">Sorting</a></li>
+          </ol>
+          
+          <div class="documentation-section">
+            <a class="anchor" id="api-version"></a>
+            <h4>API version</h4>
+            <p>The current version of the API is the v0 but this will change in the future since new versions will be released. To ensure the stability of your application built on Marketcloud, we prepend the api version to each endpoint of the API, so you can always decide which version of the api to use.</p>
+          </div>
+
+          <div class="documentation-section">
+          <a class="anchor" id="root-endpoint"></a>
+            <h4>Root endpoint</h4>
+            <p>You can send a <code>GET</code> request to the root endpoint of the api <code>https://api.marketcloud.it/v0</code> to get the available resources for that api version. You will also find links to the documentation. .</p>
+          </div>
+
+
+          <div class="documentation-section">
+          <a class="anchor" id="secure-connections"></a>
+            <h4>Secure connections</h4>
+            <p>HTTPS is required. We provide a valid, signed certificate for all API endpoints. API wrappers are required to use HTTPS too.</p>
+          </div>
+
+
+
+          <div class="documentation-section" >
+            <a class="anchor" id="sending-and-receiving-data"></a>
+            <h4>Sending and receiving data</h4>
+            <p>All api endpoints are accessed through HTTPS and the base url is <code>https://api.marketcloud.it/{version}</code>. All data is received and sent as JSON. It is a common, simple and well known format for data exchange. There are good parsers and it is very usable in web applications.</p>
+            <p>We wrap JSON responses in a common format. At the root of the response object we always have the status flag, which is a boolean representing the result of the operation. It reflects the HTTP status code returned, HTTP codes >= 400 turn this flag to false. The data object is always present, except for DELETE requests, and it contains a list of resources or a single resource.</p>
+            <pre><code class="javascript">
+// curl https://api.marketcloud.it/v0/products          
+{
+  status : true,
+  data : [...]
+}                 
+// curl https://api.marketcloud.it/v0/products/1234            
+{
+  status : true,
+  data : {...}
+}              
+            </code></pre>
+            </div>
+          
+          <div class="documentation-section">
+            <a class="anchor" id="authentication"></a>
+            <h4>Authentication and Authorization</h4>
+            <p>All API requests must provide credentials in the <code>Authorization</code> header, otherwise will be rejected with a <code>401</code> response code. Depending on the provided credentials, the client will have different authorizations, for example, providing just the public key will only allow "public" actions. Learn more about authentication <a class="link" href="/documentation/rest-api/authentication">here</a>.</p>
+          </div>
+
+
+          <div class="documentation-section">
+          <a class="anchor" id="errors"></a>
+            <h4>Errors</h4>
+            <p>HTTPS is required. We provide a valid, signed certificate for all API endpoints. API wrappers are required to use HTTPS too.</p>
+          </div>
+              <div class="documentation-section">
+                <a class="anchor" id="allowed-http-methods"></a>
+                <h4>Allowed HTTP methods</h4>
+                <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Method</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>
+                        <code>GET</code>
+                      </th>
+                      <td>Gets a resource or list of resources</td>
+                    </tr>
+                    <tr>
+                      <th>
+                        <code>POST</code>
+                      </th>
+                      <td>Creates a resource</td>
+                    </tr>
+                    <tr>
+                      <th>
+                        <code>PUT</code>
+                      </th>
+                      <td>Updates a resource</td>
+                    </tr>
+                    <tr>
+                      <th>
+                        <code>DELETE</code>
+                      </th>
+                      <td>Deletes a resource</td>
+                    </tr>
+                  </tbody>
+                </table>
+                </div>
+              </div>
+
+              <div class="documentation-section">
+                <a class="anchor" id="server-responses"></a>
+                <h4>Server responses</h4>
+                <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Code</th>
+                      <th>Name</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <code>200</code>
+                      </td>
+                      <td>
+                        <span>OK</span>
+                      </td>
+                      <td>The request was successful.</td>
+                    </tr>
+                    
+                    
+                    <tr>
+                      <td>
+                        <code>400</code>
+                      </td>
+                      <td>
+                        <span>Bad Request</span>
+                      </td>
+                      <td>The request could not be understood or was missing required parameters.</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>401</code>
+                      </td>
+                      <td>
+                        <span>Unauthorized</span>
+                      </td>
+                      <td>Authentication failed or user doesn’t have permissions for requested operation.</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>404</code>
+                      </td>
+                      <td>
+                        <span>Not Found</span>
+                      </td>
+                      <td>Resource not found.</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>405</code>
+                      </td>
+                      <td>
+                        <span>Method Not Allowed</span>
+                      </td>
+                      <td>Requested method is not supported for resource.</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>500</code>
+                      </td>
+                      <td>
+                        <span>Internal Server Error</span>
+                      </td>
+                      <td>Something went wrong during your request</td>
+                    </tr>
+                  </tbody>
+                </table>
+                </div>
+              </div>
+              
+
+           <div class="documentation-section">
+            <a class="anchor" id="pagination"></a>
+            <h4>Pagination</h4>
+            <p>Requests returning a list of items will be paginated to 20 items by default. You can require a different number of item per page using the GET parameter <code>per_page</code> and you can get a specific range of items combining it with the GET parameter <code>page</code>.</p>
+            <p>The following request will ask for 30 products, skipping the first 60 items.</p>
+            <pre><code class="http">curl 'https://api.marketcloud.it/v0/products?per_page=30&page=3</code></pre>
+          </div>
+
+
+          <div class="documentation-section">
+            <a class="anchor" id="sorting"></a>
+            <h4>Sorting</h4>
+            <p>Requests returning a list of items will be sorted by id in descending order by default. You can change the sorting behaviour with GET parameters <code>sort_by</code> and <code>sort_order</code>.</p>
+            <p>The following request will products by name in a descending order.</p>
+            <pre><code class="http">curl 'https://api.marketcloud.it/v0/products?sort_by=name</code></pre>
+            <p>The following request will products by price in a ascending order.</p>
+            <pre><code class="http">curl 'https://api.marketcloud.it/v0/products?sort_by=price&sort_order=ASC</code></pre>
+          </div>

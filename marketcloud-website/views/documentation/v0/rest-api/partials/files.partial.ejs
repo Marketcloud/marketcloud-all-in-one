@@ -1,0 +1,304 @@
+
+						<h2>Files</h2>
+<div class="documentation mb50 mt50">
+  <h4>Table of contents</h4>
+  <ol>
+    <li><a href="#files.model">Resource model description</a></li>
+    <li><a href="#files.create">Create a file</a></li>
+    <li><a href="#files.list">List files</a></li>
+    <li><a href="#files.getbyid">Get file by id</a></li>
+    <li><a href="#files.update">Update file by id</a></li>
+    <li><a href="#files.delete">Delete file by id</a></li>
+  </ol>
+</div>
+								<a class="anchor" id="files.model"></a>
+								<div class="documentation">
+								<h4>Model description</h4>
+								<div class="table-responsive">
+								<table class="table table-striped documentation">
+									<thead>
+										<tr>
+											<th>Attribute</th>
+											<th>Type</th>
+											<th>Description</th>
+										</tr>
+									</thead>
+									<tbody>
+										
+										<tr>
+											<td class="code">id</td>
+											<td>Number</td>
+											<td>The univocal resource identifier</td>
+										</tr>
+										<tr>
+											<td class="code">filename</td>
+											<td>String</td>
+											<td>The file name</td>
+										</tr>
+										<tr>
+											<td class="code">name</td>
+											<td>String</td>
+											<td>A friendly name for the file</td>
+										</tr>
+										<tr>
+											<td class="code">description</td>
+											<td>String</td>
+											<td>A friendly description for the file</td>
+										</tr>
+										<tr>
+											<td class="code">mime_type</td>
+											<td>String</td>
+											<td>The MIME type for this file</td>
+										</tr>
+										<tr>
+											<td class="code">url</td>
+											<td>String</td>
+											<td>The URL for the file</td>
+										</tr>
+										<tr>
+											<td class="code">size</td>
+											<td>Number</td>
+											<td>The file size in bytes</td>
+										</tr>
+									</tbody>
+								</table>
+								</div>
+								</div>
+
+
+
+<!-- files CREATE -->
+					<a class="anchor" id="files.create"></a>
+					<div class="documentation">
+						<h3>POST /files</h3>
+						<p >Uploads a Base64 encoded file.</p>
+						<pre><code class="http">POST https://api.marketcloud.it/v0/files</code></pre>
+						<h5>Parameters</h5>
+						<div class="table-responsive"><table class="table table-striped documentation">
+							<thead>
+								<tr>
+									<th>Attribute</th>
+									<th>Type</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="code">name <br/><span class="label label-success">Required</span></td>
+									<td>String</td>
+									<td>Assign a name to the file to make it recognizable. Can be used as alternate name in hypermedia.</td>
+								</tr>
+								<tr>
+									<td class="code">filename <br/><span class="label label-success">Required</span></td>
+									<td>String</td>
+									<td>The name to give to the file</td>
+								</tr>
+								<tr>
+									<td class="code">file <br/><span class="label label-success">Required</span></td>
+									<td>String</td>
+									<td>Base64 encoded string representing the file.</td>
+								</tr>
+								<tr>
+									<td class="code">description</td>
+									<td>String</td>
+									<td>A description of the file</td>
+								</tr>
+								<tr>
+									<td class="code">mime_type</td>
+									<td>String</td>
+									<td>A string representing a valid mime type for the file. If not provided an attempt to understand the mime type from the filename extension will be done. Falls back to text/plain</td>
+								</tr>
+								<tr>
+									<td class="code">slug</td>
+									<td>String</td>
+									<td>A URL friendly string</td>
+								</tr>
+							</tbody>
+						</table></div>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/files/create.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+						<pre><code class="javascript">{
+  "status": true,
+  "data": {
+	"filename": "slayer_tshirt.jpg",
+	"description": "Classic Slayer tshirt",
+	"name": "Slayer Tshirt",
+	"mime_type": "image/jpeg",
+	"url": "https://marketclouduploads.s3-eu-west-1...",
+	"size": 227544,
+	"created_at": "2016-09-12T09:07:58.751Z",
+	"id": 81576
+  }
+}</code></pre>							
+							</div>
+<!-- / file CREATE -->						
+
+<!-- file LIST -->
+						<a class="anchor" id="files.list"></a>
+						<div class="documentation">
+						<h3>GET /files</h3>
+						<p >Retrieves a list of files from your application. The response includes <a href="/documentation/rest-api/introduction#pagination" target="_blank" class="link">Paging information</a>.</p>
+						<pre><code class="http">GET https://api.marketcloud.it/v0/files</code></pre>
+						<h5>Request parameters</h5>
+						<div class="table-responsive"><table class="table table-striped documentation">
+									<thead>
+										<tr>
+										<th>Field</th>
+										<th>Type</th>
+										<th>Description</th>
+										</tr>
+									</thead>
+									<tbody>
+								<tr>
+									<td class="code">fields</td>
+									<td>String</td>
+									<td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+								</tr>
+								<tr>
+									<td  class="code">{Attribute}</td>
+									<td>Mixed</td>
+									<td>Any resource attribute that you want to use to filter the result list.</td>
+								</tr>
+										<tr>
+                      <td  class="code">per_page</td>
+                      <td>Number</td>
+                      <td>The number of resources to retrieve per page</td>
+                    </tr>
+                    <tr>
+                      <td class="code">page</td>
+                      <td>Number</td>
+                      <td>The number of the page of results to display</td>
+                    </tr>
+							</tbody>
+								</table></div>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/files/list.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+						<pre><code class="javascript">
+{
+	status:true,
+	data: [ {
+		data : {
+			  "mime_type": "image/png",
+			  "name": "my_picture",
+			  "url": "https://marketclouduploads.s3-eu-west-1.amazonaws.com/my_picture",
+			  "size": 93124,
+			  "created_at": "2016-08-22T08:39:41.865Z",
+			  "id": 74575
+			},
+		links : {
+			first : 'https://api.marketcloud.it/v0/files/9',
+			last : 'https://api.marketcloud.it/v0/files/10',
+			self : 'https://api.marketcloud.it/v0/files/9',
+			prev : null,
+			next : 'https://api.marketcloud.it/v0/files/10'
+		}
+
+	},{
+		data : {
+			id:10,
+			name: "Brewery",
+			description: "Find the best breweries in the world and taste their amazing beers.",
+			image_url: "http://media.marketcloud.it/v0/",
+			url: "Brewery"
+		}
+		links : {
+			first : 'https://api.marketcloud.it/v0/files/9',
+			last : 'https://api.marketcloud.it/v0/files/10',
+			self : 'https://api.marketcloud.it/v0/files/10',
+			prev : 'https://api.marketcloud.it/v0/files/9'
+			next : null
+		}
+	}
+	]
+}</code></pre>							
+
+						</div>
+<!-- / file LIST -->						
+<!-- file GET BY ID -->
+						<a class="anchor" id="files.getbyid"></a>
+						<div class="documentation">
+						<h3>GET /files/:id</h3>
+						<p >Retrieve a specific file given its id.</p>
+						<pre><code class="http">GET https://api.marketcloud.it/v0/files/:id</code></pre>
+						<h5>Parameters</h5>
+						<div class="table-responsive"><table class="table table-striped documentation">
+									<thead>
+										<tr>
+										<th>Field</th>
+										<th>Type</th>
+										<th>Description</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="code">fields</td>
+											<td>String</td>
+											<td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+										</tr>
+									</tbody>
+								</table></div>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/files/getbyid.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<div>
+						<h5>Example JSON response (200)</h5>
+						<pre><code class="javascript">
+{
+	status:true,
+	data:  {
+      "filename": "slayer_tshirt.jpg",
+      "description": "Classic slayer tshirt",
+      "name": "Slayer Tshirt",
+      "mime_type": "image/jpeg",
+      "url": "https://marketclouduploads.....",
+      "size": 227544,
+      "created_at": "2016-09-12T09:07:58.751Z",
+      "id": 81576
+    }
+}</code></pre>							
+							</div>
+						</div>
+<!-- / file GET BY ID -->
+<!-- file UPDATE BY ID -->
+				<a class="anchor" id="files.update"></a>
+				<div class="documentation">
+						<h3>PUT /files/:id</h3>
+						<p >Updates a file given an id. Returns the updated file.</p>
+						<pre><code class="http">PUT https://api.marketcloud.it/v0/files/:id</code></pre>
+						<h5>Parameters</h5>
+						<p>See <a href="#files.create" class="link">POST /files</a></p>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/files/update.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+						<pre><code class="javascript">
+{
+	status:true,
+	data: {
+      "filename": "slayer_tshirt.jpg",
+      "description": "Classic slayer tshirt",
+      "name": "Slayer Tshirt",
+      "mime_type": "image/jpeg",
+      "url": "https://marketclouduploads.....",
+      "size": 227544,
+      "created_at": "2016-09-12T09:07:58.751Z",
+      "id": 81576
+    }
+}</code></pre>						
+						</div>	
+<!-- / file UPDATE BY ID -->
+<!-- file DELETE BY ID -->
+				<a class="anchor" id="files.delete"></a>
+				<div class="documentation">
+						<h3>DELETE /files/:id</h3>
+						<p >Deletes a specific file given its id.</p>
+						<pre><code class="http">DELETE https://api.marketcloud.it/v0/files/:id;</code></pre>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/files/delete.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+<pre><code class="javascript">
+{
+	status:true
+}</code></pre>		
+</div>							
+<!-- / file DELETE BY ID -->

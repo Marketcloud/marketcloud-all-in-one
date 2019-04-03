@@ -1,0 +1,149 @@
+
+
+<div class="dashboard-section-header">
+	<a href="#/system" class="link root">Settings</a> / <span>Shipping methods</span> / <span>Create</span>
+	<button class="btn btn-info pull-right" ng-click="saveShipping()">Save</button>
+	<back-button></back-button>
+
+</div>
+
+<div class="container-fluid" style="padding-bottom: 50px;">
+	<div class="row">
+		<div class="col-xs-12 col-lg-8">
+			
+			<div class="card mb50">
+				<div class="card-header"><h4>Basic information</h4></div>
+				<div class="form">
+					<div class="form-group">
+						<label>Name</label>
+						<input type="text" ng-model="shipping.name" class="form-control " placeholder="e.g. UPS International">
+					</div>
+					<div class="form-group">
+						<label>Description</label>
+						<textarea class="form-control" ng-model="shipping.description" placeholder="e.g. A very fast and reliable method"></textarea>
+					</div>
+					
+				</div>
+			</div>
+			<div class="card card-table mb50">
+				<div class="card-header"><h4>Availability zones</h4></div>
+				<div class="card-content">
+					<p class="text-muted small">Add the zones where you want this shipping method to be effective</p>
+					<div class="row">
+						<div class="form-group col-xs-8">
+							<label>Availability</label>
+							<select ng-model="newZone"
+								ng-init="newZone = countries[0]"
+							ng-options="country as country.name for country in countries" class="form-control "></select>
+						</div>
+						<div class="form-group col-xs-4">
+							<label class="invisible">.</label><br>
+							<button class="btn btn-default" ng-click="addZone()">Add</button>
+						</div>
+					</div>
+				</div>
+				<table class="table table-striped" >
+					<thead>
+						<tr><th>Country</th><th></th></tr>
+					</thead>
+					<tbody ng-show="shipping.zones.length > 0">
+						<tr ng-repeat="zone in shipping.zones track by $index">
+							<td>{{zone.name}}</td>
+							<td><button class="btn btn-sm btn-default" ng-click="removeZone($index)"><span class="fa fa-trash-o"></span> Remove</button></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="p10 text-muted text-center" ng-if=" shipping.zones.length === 0">
+				<span class="fa fa-globe f48"></span>
+				<p class="lead">This shipping method has no zones yet.</p>
+				</div>
+			</div>
+			
+			<div class="card mb50">
+				<div class="card-header"><h4>Cost calculation</h4></div>
+
+				<div class="row mt20">
+					<div class="form-group col-md-6">
+						<label>Base cost</label>
+						<div class="input-group">
+							<input type="number"
+							class="form-control  solid"
+							placeholder="0.00"
+							ng-model="shipping.base_cost" />
+							<span class="input-group-addon">{{application.currency_code}}</span>
+						</div>
+					</div>
+					<div class="form-group  col-md-6">
+						<label>Additional cost per item</label>
+						<div class="input-group">
+							<input type="number"
+							class="form-control  solid"
+							placeholder="0.00"
+							ng-model="shipping.per_item_cost" />
+							<span class="input-group-addon">{{application.currency_code}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="card card-table mb50">
+				<div class="card-header"><h4>Rules</h4></div>
+				<div class="card-content">
+					<div class="row">
+						<div class="col-xs-12">
+							<p class="small text-muted">Apply constraint to this shipping method. Only orders that satisfy these rules will be eligible to be shipped with this method. For example, you can restrict this shipping method only to orders worth more than $50 and charge $0 for the shipping.</p>
+						</div>
+						<div class="form-group col-md-5">
+							<label>Rule</label>
+							<select class="form-control " ng-model="newRule.name">
+								<option  value="min_value">Minimum value</option>
+								<option  value="max_value">Maximum value</option>
+								<option  value="min_weight">Minimum weight</option>
+								<option  value="max_weight">Maximum weight</option>
+								<option  value="min_width">Minimum width</option>
+								<option  value="max_width">Maximum width</option>
+								<option  value="min_height">Minimum height</option>
+								<option  value="max_height">Maximum height</option>
+								<option  value="min_depth">Minimum depth</option>
+								<option  value="max_depth">Maximum depth</option>
+							</select>
+						</div>
+						<div class="form-group col-md-5">
+							<label>Value</label>
+							<input type="number" class=" form-control" ng-model="newRule.value">
+						</div>
+						<div class="form-group col-md-2">
+							<label class="invisible">.</label><br>
+							<button class="btn btn-default" ng-click="addRule()">Add</button>
+						</div>
+					</div>
+				</div>
+				
+				
+				<table class="table table-striped">
+					<thead>
+						<tr><th>Rule</th>
+						<th>Value</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody ng-if="howManyRules() > 0">
+					<tr ng-repeat="(rule_name,rule_value) in getShippingRules()" ng-if="null !== rule_value">
+						<td>{{ruleNameToDescription(rule_name)}}</td>
+						<td>
+							<span>{{rule_value}}</span>
+							<span ng-if="rule_name === 'min_value' || rule_name === 'max_value'">{{application.currency_code}}</span>
+						</td>
+						<td><button class="btn btn-sm btn-default" ng-click="removeRule(rule_name)"><span class="fa fa-trash-o"></span> Remove</button></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="p10 text-muted text-center" ng-if=" howManyRules() === 0">
+				<span class="fa fa-wrench f48"></span>
+				<p class="lead">This shipping method has no rules yet.</p>
+				</div>
+			
+		</div>
+	</div>
+</div>
+</div>

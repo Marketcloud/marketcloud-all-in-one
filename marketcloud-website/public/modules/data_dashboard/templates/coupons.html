@@ -1,0 +1,127 @@
+<div class="dashboard-section-header">
+  <span class="root">Coupons</span>
+  
+  <back-button></back-button>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <!-- -->
+      <div class="card card-table">
+        <div class="card-toolbar" ng-show="getSelectedItems().length === 0">
+          <div class="row">
+          <div class="col-xs-6">
+            <toolbar-search on-update="loadData(query)"></toolbar-search>
+          </div>
+          <div class="col-xs-6 text-right">
+            <a class="btn btn-info btn-sm raised" href="#/coupons/create">Add a coupon</a>
+            <div class="actions dropdown pull-right">
+                <a class="toolbar-action-icon" data-toggle="dropdown" role="button" >
+                  <i class="fa fa-ellipsis-v"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li><a data-toggle="modal" ng-click="loadData()">Reload</a></li>
+                  <li><a ng-click="bulkJSONExport()">Export to JSON</a></li>
+                </ul>
+              </div>
+          </div>
+        </div>
+        </div>
+        <div class="card-toolbar" ng-show="getSelectedItems().length > 0">
+          <strong style="margin-right:50px;">{{getSelectedItems().length}} selected</strong>
+          <div class="form form-inline" style="display: inline">
+          <div class="form-group dropdown">
+            <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" >Bulk actions <i class="fa fa-caret-down"></i></button>
+            <ul class="dropdown-menu">
+              <li><a ng-click="bulkUpdate({active : true})">Make active</a></li>
+              <li><a ng-click="bulkUpdate({active : false})">Make inactive</a></li>
+              <li class="divider"></li>
+              <li><a ng-click="bulkDelete()">Delete selected</a></li>
+              <li class="divider"></li>
+              <li><a ng-click="bulkJSONExport()">Export to JSON</a></li>
+            </ul>
+          </div>
+        </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>
+                  <div class="form-group m0">
+                    <div class="checkbox m0">
+                      <input type="checkbox" ng-change="toggleAll()" ng-model="selectAll"/>
+                      <label></label>
+                    </div>
+                  </div>
+                </th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Active</th>
+                <th>Usage left</th>
+                <th>Expires</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody ng-show="resources.length > 0">
+              <tr ng-repeat="p in resources  track by $index" ng-class="{'selected-row':true === p.selected}">
+                <td><div class="form-group">
+                  <div class="checkbox">
+                    <input type="checkbox" ng-model="p.selected"/>
+                    <label></label>
+                  </div>
+                </div></td>
+                <td><a href="#/coupons/{{p.id}}/edit" class="link">{{p.name}}</a></td>
+                <td><code>{{p.code}}</code></td>
+                <td>
+                  <switch value="p.active" on-update="toggle(p)"></switch>
+                </td>
+                <td class="text-muted small">
+                  <span ng-if="p.usages_left">{{p.usages_left}}</span>
+                  <span ng-if="!p.usages_left">Infinite</span>
+                </td>
+                <td class="text-muted small">
+                  <span ng-if="p.expiration_date">{{p.expiration_date | date : "MMM d, yyyy"}}</span>
+                  <span ng-if="!p.expiration_date">Never</span>
+                </td>
+                <td>
+                 <div class="actions" ng-class="{'dropup' : true === $last && resources.length !== 1, 'dropdown' : false === $last || resources.length === 1 }" >
+                          <a class="dropdown-toggle text-muted btn btn-transparent btn-sm" data-toggle="dropdown" role="button" >
+                    <a class="dropdown-toggle text-muted btn btn-transparent btn-sm" data-toggle="dropdown" role="button" >
+                      <i class="fa fa-ellipsis-v f18"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                     
+                      <li><a href="#/coupons/{{p.id}}/edit" >Edit</a></li>
+                      <li><a ng-click="delete(p.id,$index)">Delete</a></li>
+                      <li><a ng-click="clone(p)">Clone</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div ng-show="resources.length === 0" class="text-center text-muted p10">
+          <span class="fa fa-ticket f48"></span>
+          <p class="lead">Your Coupons will be displayed here</p>
+          <a href="#/coupons/create" class="btn btn-info">Add a coupon</a>
+        </div>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-xs-12 text-right">
+              <pagination-selector
+                pagination="pagination"
+                per-page="query.per_page"
+                page="query.page"
+                on-change-page-size="loadData({per_page : per_page })"
+                on-change-page-number="loadPage(page)"
+              ></pagination-selector>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>

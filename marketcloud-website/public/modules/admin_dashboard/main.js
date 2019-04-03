@@ -1,0 +1,1 @@
+var AdminApp = require("./src/app.js");

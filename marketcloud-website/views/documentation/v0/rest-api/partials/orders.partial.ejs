@@ -1,0 +1,601 @@
+<h2>Orders</h2>
+<div class="documentation mb50 mt50">
+      <h4>Table of contents</h4>
+      <ol>
+        <li><a href="#orders.model">Resource model description</a></li>
+        <li><a href="#orders.create">Create a order</a></li>
+        <li><a href="#orders.list">List orders</a></li>
+        <li><a href="#orders.getbyid">Get order by id</a></li>
+        <li><a href="#orders.update">Update an order</a></li>
+        <li><a href="#orders.delete">Delete an order</a></li>
+      </ol>
+</div>
+
+
+<a class="anchor" id="orders.model"></a>
+<div class="documentation">
+<h4>Model description</h4>
+<div class="table-responsive">
+    <table class="table table-striped documentation">
+        <thead>
+            <tr>
+                <th>Attribute</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>id</td>
+                <td>Number</td>
+                <td>The univocal resource identifier</td>
+            </tr>
+            <tr>
+                <td>state</td>
+                <td>String</td>
+                <td>The state of the order ('Suspended','Cancelled','Processing','Shipped','Received'...)</td>
+            </tr>
+            <tr>
+                <td>total</td>
+                <td>Number</td>
+                <td>The numerical value of the total amount of the order</td>
+            </tr>
+            <tr>
+                <td>display_total</td>
+                <td>String</td>
+                <td>The value of the total amount of the order with the selected currency</td>
+            </tr>
+            <tr>
+                <td>items_total</td>
+                <td>Number</td>
+                <td>The numeric value of the total amount of the order without shipment and VAT costs</td>
+            </tr>
+            <tr>
+                <td>display_items_total</td>
+                <td>String</td>
+                <td>The value of the total amount of the order without shipment and VAT costs with the selected currency</td>
+            </tr>
+            <tr>
+                <td>shipping_address_id</td>
+                <td>Number</td>
+                <td>The id of the shipping address</td>
+            </tr>
+            <tr>
+                <td>billing_address_id</td>
+                <td>Number</td>
+                <td>The id of the billing address</td>
+            </tr>
+            <tr>
+                <td>user_id</td>
+                <td>Number</td>
+                <td>The id of the user making the order</td>
+            </tr>
+            <tr>
+                <td>currency_id</td>
+                <td>Number</td>
+                <td>The id of the currency selected in the order</td>
+            </tr>
+            <tr>
+                <td>store_id</td>
+                <td>Number</td>
+                <td>The id of the store receiving in the order</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+<!-- ORDER CREATE -->
+<a class="anchor" id="orders.create"></a>
+<div class="documentation">
+<h3>POST /orders</h3>
+<p >Creates a new ORDER.</p>
+<pre><code class="http">POST https://api.marketcloud.it/v0/orders</code></pre>
+<h5>Parameters</h5>
+<div class="table-responsive">
+    <table class="table table-striped documentation">
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+            <tr>
+                <td>items</td>
+                <td>Array</td>
+                <td>An array of line items.This is required if the <span class="code">cart_id</span> is missing.</td>
+            </tr>
+            <tr>
+                <td>cart_id <span class="label label-success">Required</span></td>
+                <td>Number</td>
+                <td>The id of the cart that is going to be turned into an order. This is required if <span class="code">items</span> is missing</td>
+            </tr>
+            <tr>
+                <td>state</td>
+                <td>String</td>
+                <td>The state of the order. Defaults to <i>created</i></td>
+            </tr>
+            <tr>
+                <td>shipping_address_id <span class="label label-success">Required</span></td>
+                <td>Number</td>
+                <td>The id of the shipping address</td>
+            </tr>
+            <tr>
+                <td>shipping_address</td>
+                <td>Object</td>
+                <td>A shipping address object. See Address for more informations. This is required if the <span class="code">shipping_address_id</span> is missing.</td>
+            </tr>
+            <tr>
+                <td>billing_address_id <span class="label label-success">Required</span></td>
+                <td>Number</td>
+                <td>The id of the billing address</td>
+            </tr>
+            <tr>
+                <td>billing_address</td>
+                <td>Object</td>
+                <td>A sbilling address object. See Address for more informations. This is required if the <span class="code">billing_address_id</span> is missing.</td>
+            </tr>
+            <tr>
+                <td>user_id</td>
+                <td>Number</td>
+                <td>The id of the user making the order</td>
+            </tr>
+            <tr>
+                <td>store_id</td>
+                <td>Number</td>
+                <td>The id of the store receiving in the order</td>
+            </tr>
+            <tr>
+                <td>promotion_id</td>
+                <td>Number</td>
+                <td>The id of the promotion to apply.</td>
+            </tr>
+            <tr>
+                <td>coupon_code</td>
+                <td>String</td>
+                <td>The code of the coupon to apply.</td>
+            </tr>
+            <tr>
+                <td>payment_method_id</td>
+                <td>Number</td>
+                <td>The id of the custom payment method selected for the order.</td>
+            </tr>
+            <tr>
+                <td>shipping_id</td>
+                <td>Number</td>
+                <td>The id of the shipping method selected for the order.</td>
+            </tr>
+            <tr>
+                <td>shipping_fee</td>
+                <td>Number</td>
+                <td>This parameter allow you to charge the customer for a shipping fee without using the shipping system. If a shipping_id is provided, this parameter gets ignored.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<h5>Example Request</h5>
+<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/orders/create.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+<h5>Example JSON response (200)</h5>
+<pre><code class="javascript">
+{
+    "status": true,
+    "data": {
+        "items": [
+            {
+                "product_id": 13687,
+                "quantity": 2,
+                "variant_id": 0
+            }
+        ],
+        "shipping_address": {
+            "full_name": "John Doe",
+            "user_id": 13362,
+            "address1": "Fake Street 123",
+            "address2": "Apt. 6",
+            "city": "Springfield",
+            "country": "USA",
+            "postal_code": "1234",
+            "email": "john.doe@example.com"
+        },
+        "billing_address": {
+            "full_name": "John Doe",
+            "user_id": 13362,
+            "address1": "Fake Street 123",
+            "address2": "Apt. 6",
+            "city": "Springfield",
+            "country": "USA",
+            "postal_code": "1234",
+            "email": "john.doe@example.com"
+        },
+        "application_id": 12015,
+        "products": [
+            {
+                "name": "A song of fire and ice: A feast for crows",
+                "sku": "300AAnc",
+                "price": 7.79,
+                "description": "A Feast for Crows is ..",
+                "published": true,
+                "tags": [
+                    "fantasy",
+                    "GoT"
+                ],
+                "isbn-10": "055358202X",
+                "isbn-13": "978-0553582024",
+                "pages": 1060,
+                "editor": "Bantam Books",
+                "author": "George R. R. Martin",
+                "genre": "Fantasy",
+                "cover": "Paperback",
+                "publication_year": "2001",
+                "id": 13687,
+                "quantity": 2
+            }
+        ],
+        "items_total" : 7.79,
+        "shipping_total" : 0,
+        "taxes_total" : 0,
+        "total": 7.79,
+        "display_total": "{{currency.name}} 7.79",
+        "id": 1234
+    }
+}</code></pre>                              
+</div>
+<!-- / ORDER CREATE -->                     
+
+<!-- ORDER LIST -->
+<a class="anchor" id="orders.list"></a>
+<div class="documentation">
+    <h3>GET /orders</h3>
+    <p >Retrieves a list of orders from your application. The response includes <a href="/documentation/rest-api/introduction#pagination" target="_blank" class="link">Paging information</a>.</p>
+<pre><code class="http">GET https://api.marketcloud.it/v0/orders</code></pre>
+<h5>Request parameters</h5>
+<div class="table-responsive">
+    <table class="table table-striped documentation">
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="code">fields</td>
+                <td>String</td>
+                <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+            </tr>
+            <tr>
+                <td  class="code">{Attribute}</td>
+                <td>Mixed</td>
+                <td>Any resource attribute that you want to use to filter the result list.</td>
+            </tr>
+            
+            <tr>
+                <td  class="code">per_page</td>
+                <td>Number</td>
+                <td>The number of resources to retrieve per page</td>
+            </tr>
+            <tr>
+                <td class="code">page</td>
+                <td>Number</td>
+                <td>The number of the page of results to display</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<h5>Example Request</h5>
+<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/orders/list.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+<h5>Example JSON response (200)</h5>
+<pre><code class="javascript">
+{
+    "status": true,
+    "data": [{
+        "items": [
+            {
+                "product_id": 13687,
+                "quantity": 2,
+                "variant_id": 0
+            }
+        ],
+        "shipping_address": {
+            "full_name": "John Doe",
+            "user_id": 13362,
+            "address1": "Fake Street 123",
+            "address2": "Apt. 6",
+            "city": "Springfield",
+            "country": "USA",
+            "postal_code": "1234",
+            "email": "john.doe@example.com"
+        },
+        "billing_address": {
+            "full_name": "John Doe",
+            "user_id": 13362,
+            "address1": "Fake Street 123",
+            "address2": "Apt. 6",
+            "city": "Springfield",
+            "country": "USA",
+            "postal_code": "1234",
+            "email": "john.doe@example.com"
+        },
+        "application_id": 12015,
+        "products": [
+            {
+                "name": "A song of fire and ice: A feast for crows",
+                "sku": "300AAnc",
+                "price": 7.79,
+                "description": "A Feast for Crows is ..",
+                "published": true,
+                "tags": [
+                    "fantasy",
+                    "GoT"
+                ],
+                "isbn-10": "055358202X",
+                "isbn-13": "978-0553582024",
+                "pages": 1060,
+                "editor": "Bantam Books",
+                "author": "George R. R. Martin",
+                "genre": "Fantasy",
+                "cover": "Paperback",
+                "publication_year": "2001",
+                "id": 13687,
+                "quantity": 2
+            }
+        ],
+        "total": 15.58,
+        "display_total": "{{currency.name}} 15.58",
+        "id": 13864
+    },
+    {
+        "items": [
+            {
+                "product_id": 13687,
+                "quantity": 1,
+                "variant_id": 0
+            }
+        ],
+        "shipping_address": {
+            "full_name": "John Doe",
+            "user_id": 13362,
+            "address1": "Fake Street 123",
+            "address2": "Apt. 6",
+            "city": "Springfield",
+            "country": "USA",
+            "postal_code": "1234",
+            "email": "john.doe@example.com"
+        },
+        "billing_address": {
+            "full_name": "John Doe",
+            "user_id": 13362,
+            "address1": "Fake Street 123",
+            "address2": "Apt. 6",
+            "city": "Springfield",
+            "country": "USA",
+            "postal_code": "1234",
+            "email": "john.doe@example.com"
+        },
+        "application_id": 12015,
+        "products": [
+            {
+                "name": "A song of fire and ice: A feast for crows",
+                "sku": "300AAnc",
+                "price": 7.79,
+                "description": "A Feast for Crows is ..",
+                "published": true,
+                "tags": [
+                    "fantasy",
+                    "GoT"
+                ],
+                "isbn-10": "055358202X",
+                "isbn-13": "978-0553582024",
+                "pages": 1060,
+                "editor": "Bantam Books",
+                "author": "George R. R. Martin",
+                "genre": "Fantasy",
+                "cover": "Paperback",
+                "publication_year": "2001",
+                "id": 13687,
+                "quantity": 2
+            }
+        ],
+        "total": 7.79,
+        "display_total": "{{currency.name}} 7.79",
+        "id": 13865
+    }
+    ]
+}</code></pre>                              
+</div>
+
+
+
+<!-- / ORDER LIST -->                       
+<!-- ORDER GET BY ID -->
+<a class="anchor" id="orders.getbyid"></a>
+<div class="documentation">
+  <h3>GET /orders/:id</h3>
+  <p >Retrieve a specific order given its id.</p>
+<pre><code class="http">GET https://api.marketcloud.it/v0/orders/:id;</code></pre>
+<h5>Parameters</h5>
+<div class="table-responsive">
+  <table class="table table-striped documentation">
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="code">fields</td>
+        <td>String</td>
+        <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h5>Example Request</h5>
+<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/orders/getbyid.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+<div>
+  <h5>Example JSON response (200)</h5>
+                          <pre><code class="javascript">
+{
+  "status": true,
+  "data": {
+    "_id": "56c594b006b30303abc4a535",
+    "items": [
+      {
+        "product_id": 13687,
+        "quantity": 2,
+        "variant_id": 0
+      }
+    ],
+    "shipping_address": {
+      "full_name": "John Doe",
+      "user_id": 13362,
+      "address1": "Fake Street 123",
+      "address2": "Apt. 6",
+      "city": "Springfield",
+      "country": "USA",
+      "postal_code": "1234",
+      "phone_number": "12345678",
+      "email": "john.doe@example.com"
+    },
+    "billing_address": {
+      "full_name": "John Doe",
+      "user_id": 13362,
+      "address1": "Fake Street 123",
+      "address2": "Apt. 6",
+      "city": "Springfield",
+      "country": "USA",
+      "postal_code": "1234",
+      "phone_number": "12345678",
+      "email": "john.doe@example.com"
+    },
+    "user": null,
+    "application_id": 12015,
+    "products": [
+      {
+        "name": "A song of fire and ice: A feast for crows",
+        "sku": "300AAnc",
+        "price": 7.79,
+        "description": "A Feast for Crows is ..",
+        "published": true,
+        "tags": [
+          "fantasy",
+          "GoT"
+        ],
+        "isbn-10": "055358202X",
+        "isbn-13": "978-0553582024",
+        "pages": 1060,
+        "editor": "Bantam Books",
+        "author": "George R. R. Martin",
+        "genre": "Fantasy",
+        "cover": "Paperback",
+        "publication_year": "2001",
+        "id": 13687,
+        "quantity": 2
+      }
+    ],
+    "total": 15.58,
+    "display_total": "{{currency.name}} 15.58",
+    "id": 13866
+  }
+}</code></pre>                              
+                            </div>
+                        </div>
+<!-- / ORDER GET BY ID -->
+
+
+<!-- ORDER UPDATE -->
+<a class="anchor" id="orders.update"></a>
+<div class="documentation">
+<h3>PUT /orders/:id</h3>
+<p >Updates an order.</p>
+<pre><code class="http">PUT https://api.marketcloud.it/v0/orders/:id</code></pre>
+<h5>Parameters</h5>
+<p>See <a class="link" href="#orders.create">POST /orders</a></p>
+
+<h5>Example Request</h5>
+<pre><code class="bash">curl --request PUT \
+  --url http://api.marketcloud.it/v0/orders/:id \
+  --header 'accept: application/json' \
+  --header 'authorization: YourPublicKey:YourToken' \
+  --data '{"some_attribute" : "some_value"}'
+</code></pre>
+<h5>Example JSON response (200)</h5>
+<pre><code class="javascript">
+{
+    "status": true,
+    "data": {
+        "items": [
+            {
+                "product_id": 13687,
+                "quantity": 2,
+                "variant_id": 0
+            }
+        ],
+        "shipping_address": {
+            "full_name": "John Doe",
+            "user_id": 13362,
+            "address1": "Fake Street 123",
+            "address2": "Apt. 6",
+            "city": "Springfield",
+            "country": "USA",
+            "postal_code": "1234",
+            "email": "john.doe@example.com"
+        },
+        "billing_address": {
+            "full_name": "John Doe",
+            "user_id": 13362,
+            "address1": "Fake Street 123",
+            "address2": "Apt. 6",
+            "city": "Springfield",
+            "country": "USA",
+            "postal_code": "1234",
+            "email": "john.doe@example.com"
+        },
+        "application_id": 12015,
+        "products": [
+            {
+                "name": "A song of fire and ice: A feast for crows",
+                "sku": "300AAnc",
+                "price": 7.79,
+                "description": "A Feast for Crows is ..",
+                "published": true,
+                "tags": [
+                    "fantasy",
+                    "GoT"
+                ],
+                "isbn-10": "055358202X",
+                "isbn-13": "978-0553582024",
+                "pages": 1060,
+                "editor": "Bantam Books",
+                "author": "George R. R. Martin",
+                "genre": "Fantasy",
+                "cover": "Paperback",
+                "publication_year": "2001",
+                "id": 13687,
+                "quantity": 2
+            }
+        ],
+        "items_total" : 7.79,
+        "shipping_total" : 0,
+        "taxes_total" : 0,
+        "total": 7.79,
+        "display_total": "{{currency.name}} 7.79",
+        "id": 1234
+    }
+}</code></pre>                              
+</div>
+<!-- / ORDER UPDATE --> 
+
+<!-- ORDER DELETE BY ID -->
+<a class="anchor" id="orders.delete"></a>
+<div class="documentation">
+  <h3>DELETE /orders/:id</h3>
+  <p >Deletes a specific order given its id.</p>
+<pre><code class="http">DELETE https://api.marketcloud.it/v0/orders/:id;</code></pre>
+<h5>Example Request</h5>
+<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/orders/delete.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+<h5>Example JSON response (200)</h5>
+<pre><code class="javascript">
+{
+    status:true
+}</code></pre>          
+</div>                          
+<!-- / ORDER DELETE BY ID -->

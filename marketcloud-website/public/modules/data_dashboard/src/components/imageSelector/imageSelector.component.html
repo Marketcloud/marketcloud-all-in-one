@@ -1,0 +1,80 @@
+<style type="text/css">
+  .__mediaManager__media {
+    border-radius: 0px;
+    border: 3px solid #eee;
+  }
+
+  .__mediaManager__media:hover {
+    cursor: pointer;
+  }
+
+  .__mediaManager__media.__mediaManager__selectedMedia {
+    border: 3px solid #333;
+  }
+</style>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="ImageSelectorModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="closeDialog()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">
+          <span class="fa fa-picture-o"></span> Choose a file</h4>
+      </div>
+      <div class="modal-body">
+        <div>
+          
+          <div class="tab-content mt20">
+            
+            
+            <div>
+              
+             
+              <div class="row">
+                <div class="col-xs-12 mb20">
+                  <p>Select an image by clicking on it.</p>
+                </div>
+
+
+                <!-- Repeated thumbnails -->
+                <div ng-repeat="image in media_files track by $index">
+                  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 mb20">
+
+                    <div class="thumbnail __mediaManager__media" ng-click="selectImage(image)">
+                      <div class="media-manager-thumbnail" style="background-image:url({{image.url}})">
+                      </div>
+
+                      <div class="caption nowrap">{{image.name}}</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /Repeated thumbnail -->
+
+              </div>
+              <div class="row">
+                <div class="text-center">
+                  <button class="btn btn-info" ng-click="loadMore()">Load more</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" ng-click="closeDialog()" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="media-manager-button-container">
+  <button class="{{buttonClass}}" ng-click="showImageSelectorModal()">
+    <span ng-if="buttonIcon !== null" class="{{buttonIcon}}"></span> {{buttonText}}</button>
+</div>

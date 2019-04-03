@@ -1,0 +1,121 @@
+
+<h3 id="products">Products</h3>
+<p ></p>
+<a class="anchor" id="products.getById"></a>
+<div class="method-title">Retrieve a product</div>
+<pre><code class="javascript">//Retrieves a product by its id
+  marketcloud.products.getById(product_id, function(err,response){
+              
+});</code></code></pre>
+
+
+<p><b>product</b> is in the following form:</p>
+<pre><code class="json">
+  {
+      "id": 1111,
+      "name": "The lord of the rings",
+      "sku": "TLOTR",
+      "price": 15.50,
+      "description": "A brief description of this fantastic book.",
+      "published": true,
+      "stock_level": 30,
+      "stock_type": "track",
+      "stock_status": null
+  }
+</code></pre>
+<p>Products can also have custom attributes! :</p>
+<pre><code class="json">
+  {
+      "id": 13687,
+      "name": "A song of fire and ice: A feast for crows",
+      "sku": "ASOFAI_AFFC",
+      "price": 7.79,
+      "description": "A brief description of this fantastic book.",
+      "published": true,
+      "stock_level": 30,
+      "stock_type": "track",
+      "stock_status": null,
+      "author": "George R. R. Martin",
+      "isbn-10": "055358202X",
+      "isbn-13": "978-0553582024",
+      "pages": 1060,
+      "editor": "Bantam Books",
+      "genre": "Fantasy",
+      "cover": "Paperback",
+      "publication_year": "2001"
+    }
+</code></pre>
+<p>Note that starting from author, the remaining fields are custom attributes defined when the product was created.</p>
+
+<a class="anchor" id="products.list"></a>
+<div class="method-title">List all products</div>
+<p>Retrieves a list of products filtered and sorted by the query object.</p>
+    <h5>Arguments</h5>
+    <div class="table-responsive"><table class="table table-striped documentation">
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="code">q</td>
+          <td>String</td>
+          <td>Filter results performing a text research on your products.</td>
+        </tr>
+        <tr>
+          <td class="code">price_gt</td>
+          <td>Number</td>
+          <td>Display only products that cost more than the specified value.</td>
+        </tr>
+        <tr>
+          <td class="code">price_lt</td>
+          <td>Number</td>
+          <td>Display only products that cost less than the specified value.</td>
+        </tr>
+         <tr>
+          <td class="code">category</td>
+          <td>String</td>
+          <td>Display only products that belongs to the specified category path or to a sub category. For example, <code>?category=/shoes</code> matches all producs in categories /shoes, /shoes/running /shoes/classic and other subcategories of "shoes" </td>
+        </tr>
+        <tr>
+          <td><code>&lt;attribute_name&gt;</code></td>
+          <td>Mixed</td>
+          <td>Filter products by any custom field.</td>
+        </tr>
+        <tr>
+          <td class="code">fields</td>
+          <td>String</td>
+          <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+        </tr>
+        <tr>
+          <td  class="code">per_page</td>
+          <td>Number</td>
+          <td>The number of products to retrieve per page</td>
+        </tr>
+        <tr>
+          <td class="code">page</td>
+          <td>Number</td>
+          <td>The page number of products to display</td>
+        </tr>
+        <tr>
+          <td class="code">currency</td>
+          <td>String</td>
+          <td>The currency code of the currency you want to use to show product prices.</td>
+        </tr>
+      </tbody>
+    </table></div>
+    <h5>Example request</h5>
+<pre><code class="javascript">//Retrieves a list of products filtered and sorted by the query object
+  marketcloud.products.list(query, function(err,response){
+})</code></pre>
+<p>The query parameter is an object and you can use it to filter your products.</p>
+<pre><code class="javascript">var query = {
+    category_id : 5,
+    price_lt:50
+  }
+</code></pre>
+<p>The previous example queries the api for products that belongs to the category with id equal to 5 and that cost less than 50</p>
+

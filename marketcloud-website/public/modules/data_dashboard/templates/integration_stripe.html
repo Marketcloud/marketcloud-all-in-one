@@ -1,0 +1,94 @@
+<div class="dashboard-section-header">
+  <span class="fa fa-credit-card"></span> <a class="root link" href="#/system/payments">Payments</a> / Stripe
+  <back-button></back-button>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="StripeIntegrationModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Stripe configuration</h4>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted">In order to process payments on your behalf, we need access to your Stripe account. Once selected the environment, you can click on the "install" button and you will be redirected to Stripe's website where you will be asked to provide authorization to Marketcloud.</p>
+        <div class="form">
+          <div class="form-group">
+            <label>Environment</label>
+            <p class="small text-muted">Select the correct environment for your Stripe integration. Choose "Development" if you are testing or "Production" if you are ready to start accepting real payments.</p>
+            <select class="form-control" ng-model="stripeEnvironment">
+              <option value="development">Development</option>
+              <option value="production">Production</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <!-- Production/Development connection -->
+            <a  href="/applications/{{currentApplication.id}}/oauth/stripe/authorize?environment={{stripeEnvironment}}"
+            target="_blank" class="btn btn-success" ng-if="stripeEnvironment === 'development' || stripeEnvironment === 'production'">Install integration</a>
+            <!-- Showing a disabled button if the environment is not selected -->
+            <button ng-if="stripeEnvironment !== 'development' && stripeEnvironment !== 'production'" ng-disabled="true" class="btn btn-success">Install integration</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+      <div class="container-fluid mt100">
+        <div class="row">
+          <div class="col-lg-3 col-lg-offset-1 col-md-4">
+            <div class="text-center">
+              <img src="https://marketcloud.azureedge.net/storm-images/stripe.png" style="max-width:100%;" fallback-src="/img/user.png"/>
+            </div>
+            <button
+            class="btn btn-success btn-block mt20"
+            data-toggle="modal"
+            data-target="#StripeIntegrationModal">
+            <span ng-if="true === isIntegrationInstalled">Configure</span>
+            <span ng-if="false === isIntegrationInstalled">Install</span>
+            </button>
+            <div class="list-group mt20">
+              <a href="https://www.stripe.com" class="list-group-item">Visit website <span class="fa fa-chevron-right pull-right"></span></a>
+              <a href="/documentation/integrations/stripe" class="list-group-item" target="_blank"> Documentation  <span class="fa fa-chevron-right pull-right"></span></a>
+            </div>
+            
+          </div>
+          <div class="col-lg-6 col-md-8">
+            <div class="card">
+              <div class="card-header"><h4>Stripe</h4></div>
+              <div class="card-content">
+                <div class="mb20"><span class="label label-info">Payments</span></div>
+                <p class="lead">Stripe is a full online payment infrastructure that makes it easy to start accepting payments online.</p>
+                <p>This integration will allow you to charge credit cards directly on Marketcloud, so you don't need to spin up a server side application just to process card data.</p>
+                <p>Before using this integration you have to configure it, clicking on the "configure" button. This will take you to your stripe account where you can authorize Marketcloud to accept payments on your behalf. </p>
+              </div>
+              <div class="card-footer">
+                <div ng-if="false === isIntegrationInstalled">This integration is not installed yet</div>
+                <div class="row" ng-cloak ng-if="true === isIntegrationInstalled">
+                  <div class="col-xs-3">
+                    <switch
+                    value="StripeIntegration.isActive"
+                    on-update="toggleIntegration()">
+                    </switch>
+                  </div>
+                  <div class="col-xs-9">
+                    <strong ng-if="true === StripeIntegration.isActive">Enabled ({{StripeIntegration.environment}})</strong>
+                    <strong ng-if="false === StripeIntegration.isActive">Disabled ({{StripeIntegration.environment}})</strong>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            
+            
+            
+            
+            
+            
+          </div>
+        </div>
+      </div>

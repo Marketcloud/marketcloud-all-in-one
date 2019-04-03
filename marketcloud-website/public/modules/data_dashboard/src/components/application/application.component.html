@@ -1,0 +1,42 @@
+<a class="application-container card" data-application-id="{{application.id}}" style="cursor: pointer" href="/applications/{{application.id}}/dashboard">
+    <div class="card-content">
+        <div class="container-fluid">
+
+
+            <div class="row text-center">
+                <div>
+                    <img ng-src="{{application.logo}}" style="width:48px;height: 48px; border-radius: 50%;">
+                </div>
+                <div class="mt10 fw500">{{application.name}}</div>
+            </div>
+            
+            
+            <div class="row mt20 mb20">
+                <div class="col-xs-6 text-center text-muted">
+                    <div style="font-size: 24px;font-weight: 500;" class="__application-container__requestsIndicator">{{application.api_calls_quota_max - application.api_calls_quota_left}}</div>
+                    <div>Requests</div>
+                </div>
+                <div class="col-xs-6 text-center text-muted">
+                    <div style="font-size: 24px;font-weight: 500;" class="__application-container__storageIndicator">0.5GB</div>
+                    <div>Storage</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="plan">
+                    <span class="label label-rounded label-default-light">
+                        <i class="fa fa-eye"    ng-if="application.role === 'guest'"></i>
+                        <i class="fa fa-pencil" ng-if="application.role === 'editor'"></i>
+                        <i class="fa fa-unlock" ng-if="application.role === 'admin'"></i>
+                        <i class="fa fa-unlock" ng-if="application.role === 'owner'"></i>
+
+                        {{application.role}}
+                    </span>
+                    <span class="label label-rounded label-default-light ml20">
+                        <i class="fa fa-cloud"></i> {{application.plan_name}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+</a>

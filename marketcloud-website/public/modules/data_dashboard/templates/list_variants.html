@@ -1,0 +1,75 @@
+<div class="dashboard-section-header"><span class="root">Products</span> / <a href="#/product_with_variants/{{product.id}}/edit" class="link">{{product.name}} / Variants</a>
+<back-button></back-button>
+</div>
+<style>
+.variant:hover{
+background-color: #F2F2F2;
+cursor: pointer;
+}
+.activeVariant {
+font-weight: bold;
+background-color: #F2F2F2;
+}
+.variants-table tr{
+cursor: pointer;
+}
+</style>
+<div class="container-fluid" style="margin-top: 70px;">
+<div class="row">
+  <div class="col-xs-12 col-lg-12">
+    
+    <div class="card card-table mb50">
+      <div class="card-header"><h4>Variants</h4></div>
+      
+      <div class="table-responsive">
+        <table class="table table-hover variants-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th ng-repeat="(name, values) in product.variantsDefinition">{{name}}</th>
+              <th>Price</th>
+              <th>Inventory</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tr
+            ng-repeat="v in product.variants"
+            ng-class="{'activeVariant': v.id === variant.id}"
+            ng-click="editVariant(v)">
+            <td><img ng-src="{{v.images[0] || 'marketcloud.azureedge.net/storm-images/placeholder.png'}}" style="max-width:32px;border:1px solid #CCC" fallback-src="https://marketcloud.azureedge.net/storm-images/placeholder.png"/></td>
+            <td ng-repeat="(name, values) in product.variantsDefinition">{{v[name]}}</td>
+            <td>{{v.price}} {{application.currency_code}}</td>
+            <td ng-switch on="v.stock_type">
+              <!-- Inventory Column -->
+              
+              <div ng-if="'infinite' === v.stock_type"><em>Not tracking</em></div>
+              <div ng-if="'track' === v.stock_type">{{v.stock_level}}</div>
+              <div ng-if="'status' === v.stock_type">
+                <span class="label label-danger label-rounded" ng-if="'out_of_stock' === v.stock_status">Out of stock</span>
+                <span class="label label-success label-rounded" ng-if="'in_stock' === v.stock_status">In stock</span>
+              </div>
+            </td>
+             <td>
+              <div class="actions" ng-class="{'dropup' : true === $last && product.variants.length !== 1, 'dropdown' : false === $last || product.variants.length === 1 }" >
+                <a class="btn btn-transparent" data-toggle="dropdown" role="button" >
+                  <i class="fa fa-ellipsis-v f18"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li>
+                    <a ng-href="#/products/{{product.id}}/variants/{{v.id}}" alt="edit">Edit</a>
+                  </li>
+                  <li><a ng-click="deleteVariant(v)" alt="delete">Delete</a></li>
+                  <li><a ng-click="cloneVariant(v)" alt="clone">Clone</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      
+    </div>
+  </div>
+  
+  
+</div>
+</div>

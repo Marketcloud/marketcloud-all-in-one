@@ -1,0 +1,125 @@
+<div class="container-fluid" id="home-container" style="padding-top: 50px;">
+	<div class="row mt20 mb20">
+		
+		<div class="col-lg-8 col-lg-offset-2 col-md-12 col-md-offset-0 col-xs-12">
+			<div class="row mb50">
+				<div class="col-xs-12">
+					<div class="f24">Welcome to your store {{user.full_name}} !</div>
+					<div class="f18 text-muted">Here you find a recap of incoming orders</div>
+				</div>
+			</div>
+			
+			<div class="row" ng-if="ordersToManage.length > 0">
+				<div class="col-xs-12">
+					<div class="card mb50 solid-left-info">
+						<div class="row">
+							<div class="col-xs-12">
+								<div class="inline v-align-to-btn">
+									
+									<span>You have <b>{{ordersToManage.length}}<span ng-if="ordersToManage.length>=10">+</span></b> orders to review</span>
+								</div>
+								<a class="btn btn-info btn-sm pull-right" href="#/orders">View orders</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb20">
+					<div class="card">
+						<div class="card-header"><h4>Today</h4></div>
+						<div class="card-content">
+							<span class="uc f24 block mb20 bold">{{::application.currency_code}} {{analytics.today.total}}</span>
+							<span class="text-muted block mb20">{{analytics.today.count}} orders in total</span>
+						</div>
+						<div class="card-footer">
+							<div class="text-right">
+								<a class="small link" href="#/analytics?range=today">VIEW MORE <i class="fa fa-angle-right f16 ml10"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb20">
+					<div class="card">
+						<div class="card-header"><h4>Yesterday</h4></div>
+						<div class="card-content">
+							<span class="uc f24 block mb20 bold">{{::application.currency_code}} {{analytics.yesterday.total}}</span>
+							<span class="text-muted block mb20">{{analytics.yesterday.count}} orders in total</span>
+						</div>
+						<div class="card-footer">
+							<div class="text-right">
+								<a class="link small" href="#/analytics?range=yesterday">VIEW MORE <i class="fa fa-angle-right f16 ml10"></i> </a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb20">
+					<div class="card">
+						<div class="card-header"><h4>This month</h4></div>
+						<div class="card-content">
+							<span class="uc f24 block mb20 bold">{{::application.currency_code}} {{analytics.this_month.total}}</span>
+							<span class="text-muted block mb20">{{analytics.this_month.count}} orders in total</span>
+						</div>
+						<div class="card-footer">
+							<div class="text-right">
+								<a class="link small" href="#/analytics?range=this month">VIEW MORE <i class="fa fa-angle-right f16 ml10"></i> </a>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+			</div>
+			<div class="row  mt20 mb20">
+				<div class="col-xs-12">
+					<div class="card card-table mb50">
+						<div class="card-header"><h4>Orders to review</h4></div>
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Order</th>
+										<th>Date</th>
+										<th>Status</th>
+										<th># of items</th>
+										<th>Value</th>
+									</tr>
+								</thead>
+								<tbody ng-if="ordersToManage.length > 0">
+									<tr ng-repeat="order in ordersToManage">
+										<td><a class="link" ng-href="#/orders/{{order.id}}/view">{{order.id}}</a></td>
+										<td>{{order.created_at  | date : "MMM d, yyyy 'at' hh:mm"}}</td>
+										<td>
+											<span>
+												<span class="label label-rounded label-info" ng-if="'pending' === order.status">Pending payment</span>
+												<span class="label label-rounded label-primary" ng-if="'processing' === order.status">Processing</span>
+												<span class="label label-rounded label-success" ng-if="'completed' === order.status">Completed</span>
+												<span class="label label-rounded label-danger" ng-if="'failed' === order.status">Failed</span>
+												<span class="label label-rounded label-default" ng-if="'on_hold' === order.status">On hold</span>
+												<span class="label label-rounded label-default" ng-if="'refunded' === order.status">Refunded</span>
+												<span class="label label-rounded label-default" ng-if="'canceled' === order.status">Canceled</span>
+											</span>
+										</td>
+										<td>{{order.items.length || 0}}</td>
+										<td>{{order.display_total}}</td>
+									</tr>
+								</tbody>
+							</table>
+							
+						</div>
+						<div ng-if="ordersToManage.length === 0" class="center text-muted">
+							<span class="fa fa-inbox f48"></span>
+							<p class="lead">You don't have orders to review! Good job!</p>
+						</div>
+						<div class="card-footer text-right" ng-if="orders.length > 0">
+							<a class="link small" href='#/orders?query={"user.id":{{user.id}}}'>VIEW MORE <i class="fa fa-angle-right f16 ml10"></i> </a>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+		</div>
+	</div>

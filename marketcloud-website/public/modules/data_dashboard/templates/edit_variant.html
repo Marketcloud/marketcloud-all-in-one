@@ -1,0 +1,237 @@
+<div class="dashboard-section-header"><span class="root">Products</span> / <a href="#/product_with_variants/{{product.id}}/edit" class="link">{{product.name}}</a> / <span ng-repeat="(k,v) in filterVariantProps(variant) track by $index" ng-style="getVariantStyle($index)">{{v}} &#8226; </span>
+<button class="btn btn-info pull-right" ng-click="updateVariant()">Save</button>
+<back-button>
+</div>
+<style>
+					.variant:hover{
+						background-color: #F2F2F2;
+						cursor: pointer;
+					}
+					.activeVariant {
+						font-weight: bold;
+						background-color: #F2F2F2;
+					}
+					.variants-table tr{
+						cursor: pointer;
+					}
+</style>
+<div class="container-fluid" style="margin-top: 70px;">
+<div class="row">
+	
+	
+	<div class="col-xs-12 col-lg-8" style="padding-bottom:50px;">
+		<div>
+			
+			<div class="card" ng-if="null === currentVariantId">
+				
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-xs-12 center text-muted">
+							<p><span class="fa fa-tags f32"></span></p>
+							<p>Choose a variant from the list to display and edit its properties</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div ng-if="null !== currentVariantId">
+			<div class="row">
+				<div class="col-xs-12">
+					
+					<div class="card mb50">
+						<div class="card-header"><h4>Basic information</h4></div>
+						
+						
+						<div class="row">
+							<div class="form-group col-lg-6"  ng-class="{'has-error' : errorField === 'price'}">
+								<label>Price*</label>
+								<input type="number"
+								class="form-control  "
+								placeholder="99.99"
+								ng-model="product_merge_variant.price" />
+							</div>
+							<div class="form-group col-lg-6"  ng-class="{'has-error' : errorField === 'price_discount'}">
+								<label>Discount price</label>
+								<input type="number"
+								class="form-control  "
+								placeholder="99.99"
+								ng-model="product_merge_variant.price_discount" />
+							</div>
+						</div>
+						<div class="form-group"
+							ng-class="{'has-error' : errorField === 'category_id'}">
+							<label>Category</label>
+							<categories-selector
+							category="product_merge_variant.category_id"></categories-selector>
+						</div>
+						<div class="row">
+							<div class="form-group col-xs-12">
+								<label>Description</label>
+								
+								<div trumbowyg-ng
+									ng-model="product_merge_variant.description"
+									editor-config="{btns:[['viewHTML'],['formatting'],'btnGrp-semantic',['superscript','subscript'],['link'],['insertImage'],'btnGrp-justify','btnGrp-lists',['horizontalRule'],['removeformat'],['fullscreen']]}">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					
+					<div class="card mb50">
+						<div class="card-header"><h4>Inventory</h4></div>
+						<div class="row">
+							<div class="col-lg-12">
+								<p class="text-muted">Variants must have the same inventory management type as the parent product_merge_variant.</p>
+							</div>
+							<div class="form-group col-lg-6"  ng-class="{'has-error' : errorField === 'stock_type'}">
+								<label>Inventory policy *</label>  <span class="fa fa-question-circle" data-placement="right" title="Choose how should Marketcloud track your inventory"></span>
+								<select class="form-control"
+									ng-model="product_merge_variant.stock_type"
+									disabled="true"
+									ng-change="updateStockManagementForVariants()">
+									<option value="track">Track quantities</option>
+									<option value="status">Status</option>
+									<option value="infinite">Infinite (Always available)</option>
+								</select>
+							</div>
+							<div class="form-group col-lg-6"
+								ng-show="product_merge_variant.stock_type === 'track'"
+								ng-class="{'has-error' : errorField === 'stock_level'}">
+								<label>Stock level</label>
+								<input type="number"
+								class="form-control  "
+								placeholder="99"
+								ng-model="product_merge_variant.stock_level" />
+							</div>
+							<div class="form-group col-lg-6"
+								ng-show="product_merge_variant.stock_type === 'status'"
+								ng-class="{'has-error' : errorField === 'stock_status'}">
+								<label>Stock status</label>
+								<select class="form-control  "
+									ng-model="product_merge_variant.stock_status">
+									<option value="in_stock">In stock</option>
+									<option value="out_of_stock">Out of stock</option>
+									
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-lg-6"
+								ng-class="{'has-error' : errorField === 'sku'}">
+								<label>SKU</label>
+								<input type="text"
+								class="form-control  "
+								placeholder="any SKU"
+								ng-model="product_merge_variant.sku" />
+							</div>
+							<div class="form-group col-lg-6"
+								ng-class="{'has-error' : errorField === 'barcode'}">
+								<label>Barcode</label>
+								<input type="text"
+								class="form-control  "
+								placeholder="any barcode"
+								ng-model="product_merge_variant.barcode" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-12">
+					
+					<div class="card mb50">
+						<div class="card-header"><h4>Shipping information</h4></div>
+						<div class="form-group">
+							<div class="checkbox">
+								<input type="checkbox"
+								ng-model="product_merge_variant.requires_shipping"
+								id="requires_shipping"
+								/>
+								<label for="requires_shipping">
+									This product requires shipping
+								</label>
+							</div>
+						</div>
+						<div ng-show="true === product_merge_variant.requires_shipping">
+							<div class="row">
+								<div class="form-group col-lg-8 col-xs-12">
+									<label>Weight (Kg)</label>
+									
+									<div class="input-group input-group-right">
+										<input type="number"
+										class="form-control  "
+										placeholder="0.1"
+										ng-model="product_merge_variant.weight" />
+										<span class="input-group-addon ">kg</span>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-xs-4">
+									<label>Depth</label>
+									
+									<div class="input-group input-group-right">
+										<input type="number"
+										class="form-control  "
+										placeholder="e.g. 22"
+										ng-model="product_merge_variant.depth" />
+										<span class="input-group-addon ">cm</span>
+									</div>
+								</div>
+								<div class="form-group col-xs-4">
+									<label>Width (cm)</label>
+									<div class="input-group input-group-right">
+										<input type="number"
+										class="form-control  "
+										placeholder="e.g. 22"
+										ng-model="product_merge_variant.width" />
+										<span class="input-group-addon ">cm</span>
+									</div>
+								</div>
+								<div class="form-group col-xs-4">
+									<label>Height (cm)</label>
+									<div class="input-group input-group-right">
+										<input type="number"
+										class="form-control  "
+										placeholder="e.g. 22"
+										ng-model="product_merge_variant.height" />
+										<span class="input-group-addon ">cm</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="row">
+				<div class="col-xs-12">
+					
+					<images-card items="product_merge_variant.images"></images-card>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			<div class="card mb50">
+				<div class="row">
+					<div class="text-right col-xs-12">
+						<button class="btn btn-lg btn-success" ng-click="updateVariant()"> Update variant</button>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			
+		</div>
+	</div>
+</div>
+</div>

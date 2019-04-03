@@ -1,0 +1,51 @@
+<% include ../../../header/ %>
+<% include ../../../navbar %>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" href="/modules/documentation/css/documentation.css" />
+
+  <div class="container-fluid" style="margin-top: 130px;">
+    <style type="text/css">
+    .documentation-section {
+    margin-top:50px;
+    margin-bottom: 50px;
+    }
+    
+    </style>
+    <div>
+      <a href="#" class="documentation-index-handle"><i class="fa fa-bars"></i> Index</a>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-3">
+        <% include ./index.partial.ejs %>
+      </div>
+      <div class="col-lg-6 col-lg-offset-0 col-md-9 col-md-offset-0 col-sm-9 col-sm-offset-3 col-xs-12 col-xs-offset-0">
+        
+          
+          <ol class="breadcrumb mt20">
+            <li><a href="/documentation">Index</a></li>
+            <li><a href="/documentation/rest-api">REST api</a></li>
+            <li class="active"><%= pageName %></li>
+          </ol>
+
+
+          <%- include(page+'.partial.ejs') %>
+          
+         <!-- Comments and questions -->
+        <% include ../questionbox.ejs %>
+
+        </div>
+      </div>
+    </div>
+
+<script type="text/javascript">
+  $(".documentation-index-handle").on('click touch', function(){
+    $("nav#mobile-index").show();
+  });
+  $("#close-mobile-index").on('click touch', function(){
+    $("nav#mobile-index").hide();
+  })
+</script>
+</body>
+</html>

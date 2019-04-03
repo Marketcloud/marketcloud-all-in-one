@@ -1,0 +1,456 @@
+<% include ../header/ %>
+<% include ../navbar_private/ %>
+<link rel="stylesheet" href="/modules/account/css/account.style.css" />
+<div id="JSONListOfApplications" style="display:none"><%= JSON.stringify(applications) %></div>
+<section class="grey" ng-app="ApplicationsPage" style="padding:0px;">
+  <style>
+  .application-container a:hover, .application-container a:visited {
+  text-decoration: none;
+  }
+  </style>
+  <div class="container-fluid" ng-controller="ApplicationsController" style="min-height:500px;">
+    
+    <div class="modal fade" id="createApplicationModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">Application informations</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row mt20">
+              <div class="col-lg-12">
+                <div class="alert alert-danger" ng-hide="null === errorMessage">{{errorMessage}}</div>
+              </div>
+              <div class="col-lg-12">
+                <p class="lead">Fields marked with * are required.</p>
+                <div class="form">
+                  <div class="form-group" ng-class="{'has-error': errorMessage !== null}">
+                    <label>Name*</label>
+                    <input class="form-control input-lg solid" ng-model="newApplication.name" placeholder="My website" type="text">
+                  </div>
+                  <div class="form-group">
+                    <label>Application URL</label>
+                    <input class="form-control input-lg solid" ng-model="newApplication.url" placeholder="http://www.example.com" type="text">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+            <button class="btn btn-success btn-embossed btn-lg" ng-click="createApplication()" type="button" ng-disabled="creatingAnApp === true"><i class="fa fa-refresh fa-spin" ng-show="creatingAnApp === true"></i> Create</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <div class="modal fade" id="updateApplicationModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">Application informations</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row mt20">
+              <div class="col-lg-12">
+                <div class="alert alert-danger" ng-hide="null === errorMessage">{{errorMessage}}</div>
+              </div>
+              <div class="col-lg-12">
+                <p class="lead">Fields marked with * are required.</p>
+                <div class="form">
+                  <div class="form-group" ng-class="{'has-error': errorMessage !== null}">
+                    <label>Name*</label>
+                    <input class="form-control input-lg solid" ng-model="applicationUpdate.name" placeholder="My website" type="text">
+                  </div>
+                  <div class="form-group">
+                    <label>Application URL</label>
+                    <input class="form-control input-lg solid" ng-model="applicationUpdate.url" placeholder="http://www.example.com" type="text">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+            <button class="btn btn-success btn-embossed btn-lg" ng-click="updateApplication()" type="button" ng-disabled="updatingAnApp === true"><i class="fa fa-refresh fa-spin" ng-show="updatingAnApp === true"></i> Update</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <div class="modal fade" id="manageCollaboratorsModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">Collaborators</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row mt20">
+              <div class="col-lg-12">
+                <div class="alert alert-danger" ng-hide="null === collaboratorsErrorMessage">{{collaboratorsErrorMessage}}</div>
+              </div>
+              <div class="col-lg-12">
+                
+                <div class="form">
+                  <div class="form-group" ng-class="{'has-error': newCollaboratorValidation.email === false, 'has-success': newCollaboratorValidation.role === true}">
+                    <label>Collaborator email*</label>
+                    <input class="form-control input-lg solid" ng-model="newCollaborator.email" placeholder="john.doe@example.com" type="email">
+                  </div>
+                  <div class="form-group" ng-class="{'has-error': newCollaboratorValidation.role === false, 'has-success': newCollaboratorValidation.role === true}">
+                    <label>Role*</label>
+                    <select class="form-control input-lg solid" ng-model="newCollaborator.role">
+                      <option value="editor">Editor</option>
+                      
+                    </select>
+                  </div>
+                  <div class="form-group">
+                  <button class="btn btn-success btn-embossed" ng-click="createCollaborator()" ng-disabled="true === creatingNewCollaborator"><i class="fa fa-user" ng-hide="true === creatingNewCollaborator"></i> <i class="fa fa-refresh fa-spin" ng-show="true === creatingNewCollaborator"></i> Add collaborator</button></div>
+                </div>
+              </div>
+              
+              <table class="table table-striped table-bordered" >
+                <thead>
+                  <tr><th>Email</th><th>Role</th><th></th></tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="collaborator in currentApplication.collaborators">
+                    <td>{{collaborator.email}}</td>
+                    <td>{{collaborator.role}}</td>
+                    <td><button class="btn btn-danger btn-sm" ng-click="deleteCollaborator(collaborator)" ng-disabled="collaborator.deleting === true"><i class="fa fa-refresh fa-spin" ng-show="collaborator.deleting === true"></i><i class="fa fa-trash" ng-hide="collaborator.deleting === true"></i></button></td></tr>
+                  </tbody>
+                </table>
+                
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+      <div class="modal fade" id="applicationDetailsModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+              <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title">Application informations</h4>
+            </div>
+            <div class="modal-body">
+              <p class="lead">Here you will find informations about the selected application.</p>
+              <table class="table table-bordered">
+                <thead>
+                  <tr><th>Property name</th><th>Value</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Name</td>
+                    <td><span  id="current_application_name" ng-enter="saveApplicationName()">{{currentApplication.name}}</span></td>
+                  </tr>
+                  <tr>
+                    <td>Owner</td>
+                    <td>{{currentApplication.owner}}</td>
+                  </tr>
+                  <tr>
+                    <td>Created at</td>
+                    <td>{{currentApplication.created_at}}</td>
+                  </tr>
+                  <!--<tr>
+                    <td>Last edit</td>
+                    <td>{{currentApplication.updated_at}}</td>
+                  </tr>-->
+                  <tr>
+                    <td>Monthly api call quota</td>
+                    <td>{{currentApplication.api_calls_quota_left}}
+                      /
+                      {{currentApplication.api_calls_quota_max}}
+                      <span class="label label-success" ng-show="currentApplication.api_calls_quota_left > 1000">OK</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Storage usage</td>
+                    <td>0.00 GB / 1.00 GB (0%)</td>
+                  </tr>
+                  <tr>
+                    <td>Subscription plan</td>
+                    <td><span class="label label-empty-success">{{currentApplication.plan_name}}</span> <a class="link pull-right" href="/pricing" target="_blank">More info <i class="fa fa-external-link"></i></a></td>
+                  </tr>
+                  <tr>
+                    <td>Renew date</td>
+                    <td>{{currentApplication.renew_date}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table table-bordered">
+                <tbody>
+                  <tr><td>Public</td><td>
+                  <div class="input-group">
+                    <input type="text"  readonly class="input-sm form-control" value="{{currentApplication.public_key}}" id="publicKeyInput" style="border:0px;">
+                    <span class="input-group-btn">
+                      <button class="btn btn-info btn-sm btn-clip" type="button"  data-clipboard-target="#publicKeyInput"><i class="fa fa-copy"></i></button>
+                    </span>
+                    
+                    </div><!-- /input-group -->
+                    
+                  </td></tr>
+                  <tr><td>Secret</td><td>
+                  <div class="input-group">
+                    <input type="text"  readonly class="input-sm form-control" value="{{currentApplication.secret_key}}" id="secretKeyInput"  style="border:0px;">
+                    <span class="input-group-btn">
+                      <button class="btn btn-info btn-sm btn-clip" type="button" data-clipboard-target="#secretKeyInput"><i class="fa fa-copy"></i></button>
+                    </span>
+                    
+                  </div></td></tr>
+                </tbody>
+              </table>
+              <button class="btn btn-danger" ng-click="regenerateKeys(currentApplication)">Regenerate keys</button>
+              <!--<a href="#" ng-click="jumpToApiKeys(currentApplication)" class="link">Api Keys <i class="fa fa-long-arrow-right"></i></a>-->
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-empty-turquoise" data-dismiss="modal" type="button">Close</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+      <div class="modal fade" id="deleteApplicationModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+              <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title">Delete application</h4>
+            </div>
+            <div class="modal-body">
+              <p class="lead">Please confirm that you want to delete the application "<b>{{appToBeDeleted.name}}</b>"</p>
+              <div class="alert alert-danger">Caution, this is a permanent action, once deleted you cannot get the application back. </div>
+              <div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-danger btn-embossed" ng-click="confirmDeleteApplication()" ng-disabled="deletingAnApp === true"><i class="fa fa-refresh fa-spin" ng-show="deletingAnApp === true"></i> DELETE APP</button>
+              <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+      
+      <div class="row" style="padding-top:30px;">
+        <div class="col-lg-8 col-lg-offset-2">
+          
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <div class="alert alert-empty-info" style="font-size:18px"><i class="fa fa-info-circle"></i> Click on an application's box to jump to the dashboard, or on the arrow to view other options.</div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" >
+            <a class="application-container" id="new-application-container" data-target="#createApplicationModal" data-toggle="modal" style="display:block;background-color:transparent;border-style:dashed;height:130px;border-width:2px;" >
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-xs-12" >
+                    <span class="title" style="color:#CCC;text-transform:uppercase;">Create a New application</span>
+                    <div class="ct" style="font-size:48px;color:#CCC"><i class="fa fa-plus"></i></div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <style type="text/css">
+            .application {
+              padding:0px;
+              margin-top: 10px;
+              margin-bottom: 10px;
+              border-radius: 2px;
+              cursor: pointer;
+              display: block;
+            }
+            .application:hover {
+              /*box-shadow: 1px 1px 3px rgba(0,0,0,.3);*/
+              box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+            transition: box-shadow 0.3s ease-in-out:
+            }
+            .application-header {
+              background-color: #34495e;
+              color: white;
+              text-align: center;
+            }
+            .application-header > .application-name {
+              color:white;
+              font-weight: bold;
+              display: block;
+              text-align: center;
+              padding:10px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+            .application-header .menu-icon {
+              position: absolute;
+              right:25px;
+              top:14px;
+              color: white;
+              cursor: pointer;
+            }
+            .application-header > .application-logo {
+              width: 64px;
+              height: 64px;
+              margin-bottom:-32px;
+            }
+            .application-body {
+              background-color: #FFF;
+              padding:10px;
+              padding-top: 32px;
+            }
+            .application-plan {
+              margin-top: 10px;
+              text-align: center;
+              margin-bottom: 10px;
+            }
+          </style>
+          <div class="col-lg-4  col-md-4 col-sm-4 col-xs-6" ng-repeat="app in applications" ng-cloak >
+            <div class="application">
+              <a class="overlay-link" style="display:block;position:absolute;top:0px;left:0px;right:0px;bottom:0px;" href="/applications/{{app.id}}/dashboard" target="_blank">
+                <div class="application-header">
+                  <div class="dropdown">
+                    <a data-toggle="dropdown">
+                      <span class="menu-icon">
+                        
+                        <span class="fa fa-chevron-down"></span>
+                      </span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" id="app-info-menu">
+                          <li>
+                            <a href="#" ng-click="showApplicationDetails(app)">Informations</a>
+                          </li>
+                          <li>
+                            <a href="#" ng-click="showUpdateApplicationModal(app)">Edit application</a>
+                          </li>
+                          <!-- <li>
+                            <a href="#" ng-click="showCollaboratorsModal(app)">Collaborators</a>
+                          </li> -->
+                          <li>
+                            <a href="/applications/{{app.id}}/dashboard" target="_blank">Dashboard</a>
+                          </li>
+                          <li>
+                            <a ng-click="showDeleteApplicationModal(app)">Delete app</a>
+                          </li>
+                    </ul>
+                  </div>
+                  <span class="application-name">{{app.name}}</span>
+
+                  <img class="application-logo" src="/img/logo_new.png">
+                </div>
+                <div class="application-body">
+                  <div class="application-plan">
+                    <span class="label label-empty-turquoise">{{app.plan_name}}</span>
+                  </div>
+                    <div class="actions" style="font-size:16px;font-weight:bold;">
+                    <span style="display:block;" >{{app.api_calls_quota_left}}/{{app.api_calls_quota_max}}</span>
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-striped"
+                        ng-class="{'progress-bar-success' : percentage(app) >= 50, 'progress-bar-warning' : percentage(app) >= 20 && percentage(app) < 50, 'progress-bar-danger' : percentage(app) < 20}"
+                        role="progressbar"
+                        aria-valuenow="{{percentage(app)}}"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        style="width: {{percentage(app)}}%;">
+                        <span class="sr-only">60% Complete</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+         <!--  <div class="col-lg-4  col-md-4 col-sm-4 col-xs-6" ng-repeat="app in applications" ng-cloak >
+            <div class="application-container">
+            <a class="launcher" href="/applications/{{app.id}}/dashboard" target="_blank"></a>
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-xs-10">
+                    <span class="title">{{app.name}}</span>
+                  </div>
+                  <div class="col-xs-2">
+                    <div class="dropdown">
+                      <a data-toggle="dropdown" href="#">
+                        <i class="fa fa-chevron-down"></i>
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                          <a href="#" ng-click="showApplicationDetails(app)">Informations</a>
+                        </li>
+                        <li>
+                          <a href="#" ng-click="showUpdateApplicationModal(app)">Edit application</a>
+                        </li>
+                        <li>
+                          <a href="#" ng-click="showCollaboratorsModal(app)">Collaborators</a>
+                        </li>
+                        <li>
+                          <a href="/applications/{{app.id}}/dashboard" target="_blank">Dashboard</a>
+                        </li>
+                        <li>
+                          <a ng-click="showDeleteApplicationModal(app)">Delete app</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="plan ct">
+                  <span class="label label-empty-turquoise">Beta plan</span>
+                </div>
+                <div class="metadata">
+                  <span></span>
+                </div>
+                <div class="actions" style="font-size:16px;font-weight:bold;">
+                  <span style="display:block;" >{{app.api_calls_quota_left}}/{{app.api_calls_quota_max}}</span>
+                  <div class="progress">
+                    <div class="progress-bar progress-bar-striped"
+                      ng-class="{'progress-bar-success' : percentage(app) >= 50, 'progress-bar-warning' : percentage(app) >= 20 && percentage(app) < 50, 'progress-bar-danger' : percentage(app) < 20}"
+                      role="progressbar"
+                      aria-valuenow="{{percentage(app)}}"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      style="width: {{percentage(app)}}%;">
+                      <span class="sr-only">60% Complete</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+<script src="/libs/angular/angular.min.js" type="text/javascript"></script>
+<script src="/libs/clipboard/dist/clipboard.min.js"></script>
+<script type="text/javascript">
+new Clipboard('.btn-clip')
+</script>
+<script src="/modules/account/js/applications_page.js" type="text/javascript"></script>
+<% include ../footer %>

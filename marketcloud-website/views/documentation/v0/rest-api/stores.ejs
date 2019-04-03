@@ -1,0 +1,302 @@
+<% include ../../../header/ %>
+<% include ../../../navbar %>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github.min.css">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" href="/modules/documentation/css/documentation.css" />
+<section class="mt100" style="padding-top:100px;padding-bottom:200px">
+  <div class="container-fluid">
+    
+    <a name="introduction"></a>
+    <div class="row">
+      <div class="col-lg-3 col-md-3">
+      <% include ./index.partial.ejs %>
+      </div>
+      <div class="col-lg-6 col-lg-offset-0 col-md-9 col-md-offset-0 col-sm-9 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+        
+
+            <div class="row">
+
+          
+						<ol class="breadcrumb mt20">
+						  <li><a href="/documentation">Index</a></li>
+						  <li><a href="/documentation/rest-api">REST api</a></li>
+						  <li class="active">Stores</li>
+						</ol>
+						<h2>Stores</h2>
+
+
+<div class="row">
+
+							<div class="col-xs-12">
+								<h4>Model description</h4>
+								<table class="table table-striped documentation">
+									<thead>
+										<tr>
+										<th>Attribute</th>
+										<th>Type</th>
+										<th>Description</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>id</td>
+											<td>Number</td>
+											<td>The univocal resource identifier</td>
+										</tr>
+										<tr>
+											<td>name</td>
+											<td>String</td>
+											<td>The store name</td>
+										</tr>
+										<tr>
+											<td>owner_email</td>
+											<td>String</td>
+											<td>The email of the store owner.</td>
+										</tr>
+										<tr>
+											<td>description</td>
+											<td>String</td>
+											<td>A description of the store.</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+
+<!-- STORE CREATE -->
+					<div class="documentation">
+						<h3>POST /stores</h3>
+						<p class="lead">Creates a new Store.</p>
+						<pre class="code http-call">POST http://api.marketcloud.it/v0/stores</pre>
+						<h5>Parameters</h5>
+						<table class="table table-striped documentation">
+							<thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+							<tbody>
+								<tr>
+									<td>name <span class="label label-success">Required</span></td>
+									<td>String</td>
+									<td>The store name</td>
+								</tr>
+								<tr>
+									<td>owner_email <span class="label label-success">Required</span></td>
+									<td>String</td>
+									<td>The email of the store owner.</td>
+								</tr>
+								<tr>
+									<td>description</td>
+									<td>String</td>
+									<td>A description of the store.</td>
+								</tr>
+							</tbody>
+						</table>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/carts/update.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+						<pre class="code prettyprint" >
+{
+	status:true,
+	data: {
+		id:3,
+		name: "The Beer Shop",
+		owner_email: "thebeer@shop.com",
+		description: "The Beer Shop is the coolest shop ever. Come every week to taste our always new beer!"
+		}
+	links : {
+		self : "http://api.marketcloud.it/v0/stores/3"
+	}
+}</pre>								
+							</div>
+<!-- / STORE CREATE -->						
+
+<!-- STORE LIST -->
+						<div class="documentation">
+						<h3>GET /stores</h3>
+						<p class="lead">Retrieves a paginated response of a list of stores from your application.</p>
+						<pre class="code http-call">GET http://api.marketcloud.it/v0/stores</pre>
+						<h5>Request parameters</h5>
+						<table class="table table-striped documentation">
+									<thead>
+										<tr>
+										<th>Field</th>
+										<th>Type</th>
+										<th>Description</th>
+										</tr>
+									</thead>
+									<tbody>
+								<tr>
+									<td class="code">fields</td>
+									<td>String</td>
+									<td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+								</tr>
+								<tr>
+									<td  class="code">skip</td>
+									<td>Number</td>
+									<td>How many resources to be skipped</td>
+								</tr>
+								<tr>
+									<td class="code">limit</td>
+									<td>Number</td>
+									<td>How many resource to be fetched</td>
+								</tr>
+							</tbody>
+								</table>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/carts/update.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+						<pre class="code prettyprint" >
+{
+	status:true,
+	data: [ {
+		data : {
+			id:1,
+			name: "The Rocknrolla",
+			owner_email: "rocknrolla@rock.com",
+			description: "Find the best rock shirt ever. Only @Rocknrolla!"
+		},
+		links : {
+				first : 'http://api.marketcloud.it/v0/stores/1',
+				last : 'http://api.marketcloud.it/v0/stores/3',
+				self : 'http://api.marketcloud.it/v0/stores/1',
+				prev : null,
+				next : 'http://api.marketcloud.it/v0/stores/3'
+		}
+
+	},{
+		data : {
+			id:3,
+			name: "The Beer Shop",
+			owner_email: "thebeer@shop.com",
+			description: "The Beer Shop is the coolest shop ever. Come every week to taste our always new beer!"
+		},
+		links : {
+			first : 'http://api.marketcloud.it/v0/stores/1',
+			last : 'http://api.marketcloud.it/v0/stores/3',
+			self : 'http://api.marketcloud.it/v0/stores/3',
+			prev : 'http://api.marketcloud.it/v0/stores/1',
+			next : null
+
+		}
+	}
+	
+}</pre>								
+
+						</div>
+<!-- / STORE LIST -->						
+<!-- STORE GET BY ID -->
+						<div class="documentation">
+						<h3>GET /stores/:id</h3>
+						<p class="lead">Retrieve a specific store given its id.</p>
+						<pre class="code http-call">GET http://api.marketcloud.it/v0/stores/:id;</pre>
+						<h5>Parameters</h5>
+						<table class="table table-striped documentation">
+									<thead>
+										<tr>
+										<th>Field</th>
+										<th>Type</th>
+										<th>Description</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="code">fields</td>
+											<td>String</td>
+											<td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+										</tr>
+									</tbody>
+								</table>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/carts/update.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<div>
+						<h5>Example JSON response (200)</h5>
+						<pre class="code prettyprint" >
+{
+	status:true,
+	data: {
+		id:1,
+		name: "The Rocknrolla",
+		owner_email: "rocknrolla@rock.com",
+		description: "Find the best rock shirt ever. Only @Rocknrolla!"
+		},
+	links : {
+		self : "http://api.marketcloud.it/v0/stores/1"
+	}
+}</pre>								
+							</div>
+						</div>
+<!-- / STORE GET BY ID -->
+<!-- STORE UPDATE BY ID -->
+				<div class="documentation">
+						<h3>PUT /stores/:id</h3>
+						<p class="lead">Updates a store given an id. Returns the updated store.</p>
+						<pre class="code http-call">PUT http://api.marketcloud.it/v0/stores/:id;</pre>
+						<h5>Parameters</h5>
+						<table class="table table-striped documentation">
+							<thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+							<tbody>
+								<tr>
+									<td>id</td>
+									<td>Number</td>
+									<td>The univocal resource identifier</td>
+								</tr>
+								<tr>
+									<td>name <span class="label label-success">Required</span></td>
+									<td>String</td>
+									<td>The store name</td>
+								</tr>
+								<tr>
+									<td>owner_email <span class="label label-success">Required</span></td>
+									<td>String</td>
+									<td>The email of the store owner.</td>
+								</tr>
+								<tr>
+									<td>description</td>
+									<td>String</td>
+									<td>A description of the store.</td>
+								</tr>
+							</tbody>
+						</table>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/carts/update.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+						<pre class="code prettyprint" >
+{
+	status:true,
+	data: {
+		id:1,
+		name: "Rocknrolla",
+		owner_email: "rocknrolla@rock.com",
+		description: "Find the best rock shirt ever. Only @Rocknrolla!"
+		},
+	links : {
+		self : "http://api.marketcloud.it/v0/stores/3"
+	}
+}</pre>							
+						</div>	
+<!-- / STORE UPDATE BY ID -->
+<!-- STORE DELETE BY ID -->
+				<div class="documentation">
+						<h3>DELETE /stores/:id</h3>
+						<p class="lead">Deletes a specific store given its id.</p>
+						<pre class="code http-call">DELETE https://api.marketcloud.it/v0/stores/:id;</pre>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/carts/update.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+<pre class="code prettyprint" >
+{
+	status:true
+}</pre>			
+</div>							
+<!-- / STORE DELETE BY ID -->
+       
+        </div>
+      </div>
+</div>
+</div>
+</section>
+
+</body>
+</html>

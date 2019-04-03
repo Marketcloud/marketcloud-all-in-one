@@ -1,0 +1,77 @@
+
+<style type="text/css">
+	.select-box-component{
+		display: block;
+		cursor: pointer;
+		padding: 5px;
+		border:1px solid #ddd;
+	}
+	.select-box-component:hover {
+		color: #777;
+	}
+</style>
+
+<div class="dropdown">
+  <a class="select-box-component" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    
+    <div class="row">
+    	<div class="col-xs-10">{{category.path || category.name || "Select a category"}} </div>
+    	<div class="col-xs-2 text-right"><span class="caret "></span></div>
+    </div>
+    
+  </a>
+  <ul class="dropdown-menu">
+    <li style="padding:5px 10px;">
+    	<input type="text" 
+    					class="form-control input-sm" 
+    					placeholder="Type a category name to filter.."
+    					ng-model="ctrl.query.name.$regex"
+    					ng-model-options='{ debounce: 600 }'
+							ng-change="filterCategories()">
+    </li>
+    <li role="separator" class="divider"></li>
+    <li ng-repeat="cat in ctrl.categories"><a ng-click="setSelectedCategory(cat)">{{cat.path || cat.name}}</a></li>
+  </ul>
+</div>
+<p ng-if="true === enableCreateCategory">
+	<a class="link" ng-click="showModal()">Add a new category</a>
+</p>
+<div class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button"
+				class="close"
+				data-dismiss="modal"
+				aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">New category</h4>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid">
+					<div class="form">
+						<div class="form-group">
+							<label>Name</label>
+							<input type="text"
+							class="form-control input-lg solid"
+							placeholder="e.g. Thriller"
+							ng-model="newCategory.name" />
+						</div>
+						<div class="form-group">
+							<label>Parent Category</label>  <span class="fa fa-question-circle" data-placement="right" title="Choose the parent category"></span>
+							<select class="form-control"
+							ng-model="newCategory.parent_id"
+							ng-options="c.id as c.name for c in ctrl.categories"">
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button class="btn btn-empty-success pull-right" ng-click="saveCategory()"><span class="ion-checkmark"></span> Save category</button>
+			</div>
+			</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->

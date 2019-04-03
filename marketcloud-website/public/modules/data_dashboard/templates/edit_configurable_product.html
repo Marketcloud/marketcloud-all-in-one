@@ -1,0 +1,338 @@
+<div class="dashboard-section-header"><span class="fa fa-tags"></span> <a class="root link">Products</a> / Edit <b>configurable</b> product / {{product.id}}
+<!-- <a href="#/products" class="link pull-right"><span class="fa fa-long-arrow-left"></span> Back</a> -->
+<back-button></back-button>
+</div>
+<div class="container-fluid" style="padding-bottom: 50px;">
+
+	<div class="row">
+		<div class="col-xs-12 col-lg-8">
+			
+			<h4>Basic information</h4>
+			<div class="card mb50">
+				
+				
+				<div class="form-group" ng-class="{'has-error' : errorField === 'name'}">
+					<label>Name*</label>
+					<input type="text"
+					class="form-control input-lg "
+					placeholder="e.g. Lightsaber"
+					ng-change="updateSlug()"
+					ng-model="product.name" />
+				</div>
+				<div class="checkbox">
+					<input type="checkbox" ng-model="unsafeSlug" id="unsafeSlug" />
+					<label for="unsafeSlug">
+						Editable slug
+					</label>
+				</div>
+				<div class="form-group">
+					<label>Slug</label>
+					<input type="text"
+					class="form-control input-lg solid"
+					ng-disabled="false === unsafeSlug"
+					ng-model="product.slug" />
+				</div>
+				<div class="row">
+					<div class="form-group col-lg-6"
+						ng-class="{'has-error' : errorField === 'category_id'}">
+						<label>Category</label>  <span class="fa fa-question-circle" data-placement="right" title="Choose your product's category"></span>
+						<select class="form-control input-lg " ng-model="product.category_id" ng-options="category.id as category.name for category in categories">
+						</select>
+						<p>
+							<a data-target="#newCategoryModal" class="link" data-toggle="modal">Add a new category</a>
+						</p>
+						<div ng-include="'/modules/data_dashboard/templates/modals/new_category_modal.html'"></div>
+					</div>
+					<div class="form-group col-lg-6"  ng-class="{'has-error' : errorField === 'brand_id'}">
+						<label>Brand</label>  <span class="fa fa-question-circle" data-placement="right" title="Choose your product's brand"></span>
+						<select class="form-control input-lg " ng-model="product.brand_id" ng-options="brand.id as brand.name for brand in brands">
+						</select>
+						<p>
+							<a data-target="#newBrandModal" class="link" data-toggle="modal">Add a new brand</a>
+						</p>
+						<div ng-include="'/modules/data_dashboard/templates/modals/new_brand_modal.html'"></div>
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-lg-8">
+			<h4>Images</h4>
+			<div class="card mb50">
+				
+				<div class="row">
+					
+					<div class="col-xs-12 mt20">
+						<div ng-show="product.images.length === 0">
+							<div class="text-center text-muted">
+								<span class="fa fa-picture-o f48"></span>
+								<p class="lead">Images will be displayed here</p>
+							</div>
+						</div>
+						<div ng-show="product.images.length > 0">
+						<p>Click on an image preview to remove it from this product.</p>
+						<div ng-repeat="image in product.images track by $index">
+
+							<div class="col-xs-4">
+								
+								<image-thumbnail image-src="image"
+								on-delete="removeImage($index)"
+								on-edit=""></image-thumbnail>
+							</div>
+							<div class="clearfix" ng-if="($index + 1)  % 3 == 0"></div>
+						</div>
+						</div>
+					</div>
+					<div class="form-group col-xs-12">
+						<media-manager
+				            button-class="btn btn-info"
+				            button-text="Add media"
+				            button-icon="ion-images"
+				            images="product.images">
+				        </media-manager>
+					</div>
+					
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12  col-lg-8">
+			<h4>Pricing</h4>
+			<div class="card mb50">
+				<div class="row">
+					<div class="form-group col-lg-6"  ng-class="{'has-error' : invalidPropertyName === 'price'}">
+						<label>Base price*</label>
+						<div class="input-group input-group-right">
+							<input type="number"
+							class="form-control input-lg "
+							placeholder="99.99"
+							ng-model="product.price" />
+							<span class="input-group-addon ">{{application.currency_code}}</span>
+						</div>
+					</div>
+					<div class="form-group col-lg-6"  ng-class="{'has-error' : invalidPropertyName === 'price_discount'}">
+						<label>Discount base price</label>
+						<div class="input-group input-group-right">
+							<input type="number"
+							class="form-control input-lg "
+							placeholder="99.99"
+							ng-model="product.price_discount" />
+							<span class="input-group-addon ">{{application.currency_code}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<div class="row">
+		<!-- Add products to option modal -->
+		<div class="modal fade" tabindex="-1" role="dialog" id="addProductsToOptionModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div> -->
+      <!-- <div class="modal-body"> -->
+        <add-products-card items="currentOption.items" config="addProductsCardConfig"></add-products-card>
+       
+      <!-- </div> -->
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+		<div class="col-lg-8 col-xs-12">
+			<h4>Options</h4>
+			<div class="mb20">
+				<button class="btn btn-default" ng-click="addNewOption()">Create an option</button>
+			</div>
+			
+			<div class="card card-table mb20" ng-repeat="option in product.options track by $index">
+				<div class="card-toolbar">
+					<div  style="display: table;width: 100%;">
+					<button class="btn btn-default btn-sm pull-right" ng-click="removeOption($index)"><i class="fa fa-trash"></i></button>
+					<button class="btn btn-default btn-sm pull-left" ng-click="showAddProductsToOptionModal(option)">Add products</button>
+					</div>
+				</div>
+				<div class="form form-inline p5">
+					<div class="form-group">
+						<label>Option name</label>
+						<input type="text" class="form-control" name="option_name" ng-model="option.name">
+					</div>
+					<div class="form-group">
+						<div class="checkbox m0">
+	                        <input type="checkbox" ng-model="option.required"/>
+	                        <label>Required</label>
+						</div>
+					</div>
+					
+				</div>
+				<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Image</th>
+					<th>Name</th>
+					<th>Price</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody ng-show="option.items.length > 0">
+				<tr ng-repeat="item in option.items track by $index">
+					<td><img src="{{item.images[0]}}" style="max-height: 32px;"></td>
+					<td>{{item.name}}</td>
+					<td>{{item.price}}</td>
+					<td><button class="btn btn-sm btn-default" ng-click="removeProductFromProduct($index)"><span class="fa fa-trash"></span></button></td>
+				</tr>
+			</tbody>
+			
+		</table>
+	</div>
+	<div class="">
+				<p class="text-center text-muted">Products added to this option will be displayed here.</p>
+			</div>
+				
+			</div>
+
+			
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-lg-8">
+			<h4>Inventory</h4>
+			<div class="card mb50">
+				
+				
+				<div class="row">
+					<div class="form-group col-lg-6"  ng-class="{'has-error' : errorField === 'stock_type'}">
+						<label>Inventory policy *</label>  <span class="fa fa-question-circle" data-placement="right" title="Choose how should Marketcloud track your inventory"></span>
+						<select class="form-control input-lg "
+							ng-model="product.stock_type"
+							ng-disabled="true"
+							ng-change="updateStockManagementForVariants()">
+							<option value="track">Track quantities</option>
+							<option value="status">Status</option>
+							<option value="infinite">Infinite (Always available)</option>
+						</select>
+					</div>
+					<div class="form-group col-lg-6"
+						ng-show="product.stock_type === 'track'"
+						ng-class="{'has-error' : errorField === 'stock_level'}">
+						<label>Stock level</label>
+						<input type="number"
+						class="form-control input-lg "
+						placeholder="99"
+						ng-model="product.stock_level" />
+					</div>
+					<div class="form-group col-lg-6"
+						ng-show="product.stock_type === 'status'"
+						ng-class="{'has-error' : errorField === 'stock_status'}">
+						<label>Stock status</label>
+						<select class="form-control input-lg "
+							ng-model="product.stock_status">
+							<option value="in_stock">In stock</option>
+							<option value="out_of_stock">Out of stock</option>
+							
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-lg-6"
+						ng-class="{'has-error' : errorField === 'sku'}">
+						<label>SKU</label>
+						<input type="text"
+						class="form-control input-lg "
+						placeholder="any SKU"
+						ng-model="product.sku" />
+					</div>
+					<div class="form-group col-lg-6"
+						ng-class="{'has-error' : errorField === 'barcode'}">
+						<label>Barcode</label>
+						<input type="text"
+						class="form-control input-lg "
+						placeholder="any barcode"
+						ng-model="product.barcode" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-xs-12 col-lg-8">
+			<h4>Description</h4>
+			<div class="card mb50">
+				<div class="row">
+					<div class="form-group col-xs-12">
+						
+						
+						<div trumbowyg-ng
+					     ng-model="product.description"
+					     editor-config="{btns:[['viewHTML'],['formatting'],'btnGrp-semantic',['superscript','subscript'],['link'],['insertImage'],'btnGrp-justify','btnGrp-lists',['horizontalRule'],['removeformat'],['fullscreen']]}">
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-xs-12 col-lg-8">
+			<h4>Custom properties</h4>
+			<custom-attributes-form
+				resource="product"
+				properties="customPropertiesData"
+			></custom-attributes-form>
+		</div>
+	</div>
+	
+	<div class="row">
+			<div class="col-lg-8 col-xs-12">
+				<h4>SEO</h4>
+				
+				<seo-form seo="content.seo"></seo-form>
+			</div>
+		</div>
+	
+	
+	
+	<div class="row">
+		<div class="col-xs-12">
+				<div class="alert alert-danger" ng-show="null !== error">
+					{{error}}
+				</div>
+		</div>
+	</div>
+	<div class="row">
+			<div class="col-lg-8 col-xs-12">
+				
+				<div class="card mb50">
+					<div class="row">
+						<div class="text-right col-xs-12">
+							<button class="btn btn-primary" ng-click="updateProduct()"> Save</button>
+							<button class="btn btn-success" ng-click="updateProduct()"> Save and publish</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+			
+	
+	
+</div>
+</div>
+</div>

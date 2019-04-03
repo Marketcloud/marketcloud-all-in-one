@@ -1,0 +1,10 @@
+<div>
+	<h3 class="margin-top">Preview</h3>
+	<div>{{notification.event}}</div>
+		{{'/modules/data_dashboard/templates/email/'+notification.event+'.html'}}
+	
+	<div class="card">
+		<ng-include src="'/modules/data_dashboard/templates/email/'+notification.event+'.html'"></ng-include>
+		
+	</div>
+</div>

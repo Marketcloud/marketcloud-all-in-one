@@ -1,0 +1,108 @@
+<div class="dashboard-section-header">
+  <span class="fa fa-credit-card"></span> <span class="root">Payments</span>
+  <back-button></back-button>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="alert alert-warning" ng-if="dependencies.events.length > 0">
+          <i class="fa fa-warning"></i> There are {{dependencies.events.length}} events that require your attention. <a class="link" href="#/payments/alerts">Show</a>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <!-- -->
+      <div class="card card-table">
+        <div class="card-toolbar" ng-show="getSelectedItems().length === 0">
+          
+        </div>
+      <div class="card-toolbar" ng-show="getSelectedItems().length > 0">
+        <strong style="margin-right:50px;">{{getSelectedItems().length}} selected</strong>
+        <button class="btn btn-sm btn-default" ng-click="bulkDelete()">Delete</button>
+      </div>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>
+                    <div class="form-group m0">
+                      <div class="checkbox m0">
+                        <input type="checkbox" ng-change="toggleAll()" ng-model="selectAll"/>
+                        <label></label>
+                      </div>
+                    </div>
+                  </th>
+                <th>Id</th>
+                <th>Method</th>
+                <th>Successful</th>
+                <th>Amount</th>
+                <th>Order</th>
+                <th>Date</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody ng-show="resources.length > 0">
+              <tr ng-repeat="p in resources  track by $index" ng-class="{'selected-row':true === p.selected}">
+                <td>
+                <div class="form-group">
+                    <div class="checkbox">
+                      <input type="checkbox" ng-model="p.selected"/>
+                      <label></label>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <a href="#/payments/{{p.id}}" class="link">{{p.id}}</a>
+                </td>
+                 
+                <td>
+                    {{p.method}}
+                </td>
+                <td>
+                    <span class="label label-danger" ng-if="p.successful === false">Failed</span>
+                    <span class="label label-success" ng-if="p.successful === true">Success</span>
+                </td>
+                <td>
+                  <span ng-if="'Braintree' === p.method">{{p.data.transaction.amount}} {{p.data.transaction.currencyIsoCode}}</span>
+                  <span ng-if="'Stripe' === p.method">{{p.data.transaction.amount}} {{p.data.transaction.currencyIsoCode}}</span>
+                </td>
+                <td>
+                  <a href="#/orders/{{p.order_id}}/view" class="link">{{p.order_id}}</a>
+                </td>
+                <td>
+                    {{p.created_at | date : "MMM d, yyyy 'at' hh:mm"}}
+                </td>
+                <td>
+                  <button class="btn btn-default btn-sm" ng-click="inspect(p)"><span class="fa fa-search"></span></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div ng-show="resources.length === 0" class="text-center text-muted p10">
+            <span class="fa fa-credit-card f48"></span>
+            <p class="lead">Your Payments will be displayed here</p>
+        </div>
+        <div class="card-footer">
+              <div class="row">
+                <div class="col-xs-6">
+                  <span class="text-muted">Showing <select
+                    ng-model="query.per_page"
+                    ng-options="o as o for o in [10,20,50,100]"
+                    ng-change="loadData()">
+                  </select> items of {{pagination.count}}.</span>
+                </div>
+                <div class="col-xs-6 text-right">
+                  <pagination-nav
+                    pagination="pagination"
+                    on-change-page="loadPage(page)"
+                  ></pagination-nav>
+                </div>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+  
+</div>

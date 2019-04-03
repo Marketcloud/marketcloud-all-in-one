@@ -1,0 +1,43 @@
+<div class="dashboard-section-header"><span class="fa fa-flag"></span> <span class="root">Translations</span></div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-12">
+			
+			<div class="card card-table mb50 mt20">
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Property Name</th>
+								<th>Default value</th>
+								<th ng-repeat="locale in availableLocales track by $index">{{locales[locale][1]}}</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="key in translatables">
+								<td>{{key}}</td>
+								<td>{{resource[key]}}</td>
+								<td ng-repeat="locale in availableLocales track by $index">		<input type="text" name=""  class="form-control" 
+										ng-model="resource.locales[locale][key]">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			
+			<div class="card mb50">
+				<div class="row">
+					<div class="text-right col-xs-12">
+						<button class="btn btn-lg btn-success" ng-click="saveBrand()"> Save translations</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

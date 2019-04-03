@@ -1,0 +1,70 @@
+
+				<ol class="breadcrumb mb50">
+          <li><a href="/documentation" class="link">Home</a></li>
+          <li><a href="/documentation/quickstarts" class="link">Quickstarts</a></li>
+          <li class="active">Javascript</li>
+        </ol>
+
+				<h1 class="page-title">Javascript Quickstart</h1>
+				<h3 class="mt50">Create a Marketcloud application</h3>
+				
+				<p>In order to create an application, you need to create a Marketcloud account first.</p>
+				<a href="/account/signup" class="btn btn-empty-success mb20" target="_blank">Create an account</a>
+				<p>An application is where your store's data will live. Simply create one choosing an application name and a plan. We’ve got several plans including our favorite, Free!</p>
+
+				<h3 class="mt50">Create your first product</h3>
+				<p class="bold mt20">Add data using the dashboard</p>
+				<p>Once you created your application you can log into its dashboard just by clicking on it. Here you can open the "products" section and create your first product You can also add images and variants!</p>
+			
+				<h3 class="mt50">Bootstrap your frontend</h3>
+
+				
+
+
+				<p class="bold mt20">Install the SDK</p>
+				<p>The easiest way to install the Javascript SDK is using Bower:</p>
+				<pre><code class="bash">bower install marketcloud-js</code></pre>
+				<p>But you can also clone from GitHub:</p>
+				<pre><code class="bash">git clone https://github.com/Marketcloud/marketcloud-js.git</code></pre>
+				<p>At this point you are ready to include it into your web application with a script tag:</p>
+				<pre><code class="html">&lt;script src="path/to/marketcloud-js/marketcloud.min.js"&gt;&lt;/script&gt;</code></pre>
+
+				<p class="bold mt20">Configure the client</p>
+				<p>In order to query the API, you must set your application's public key into the client, You can find the public key under the <a href="/applications" target="_blank">information section</a>.</p>
+				<pre><code class="javascript">var marketcloud = new Marketcloud.Client({
+	publicKey : 'your-public-key'
+})</code></pre>
+
+			
+				<h3 class="mt50">Query the API</h3>
+				<p class="bold mt20">Use the Javascript client</p>
+				<p>Congratulations you are ready to query the API! Use the client to retrieve the product you created earlier:</p>
+				<pre><code class="javascript">
+marketcloud.products.list({},function(err,products){
+	console.log(products);
+})
+				</code></pre>
+				<p>The code above will retrieve a paginated list of products, you can also use the first parameter to filter them by any key. For example, assuming that we added some books with a "author" property to the application, we could easily retrieve books writter by George Martin:</p>
+				<pre><code class="javascript">
+var query = { author : "George Martin"};
+marketcloud.products.list(query,function(err,products){
+	console.log(products);
+})
+				</code></pre>
+			
+				<h3 class="mt50">Well done!</h3>
+				<p class="mt20">You have a Marketcloud powered application!</p>
+				<p class="t">In these 5 little steps you obtained:</p>
+				<ul>
+					<li><p>Full featured dashboard to manage your store</p></li>
+					<li><p>Infinite frontend flexibility</p></li>
+					<li><p>A fast and scalable backend for your eCommerce applications</p></li>
+				</ul>
+				<p class="mt20">Now you can add more features to your app by checking the <a href="/documentation" class="link">documentation</a>, or you can spend more time on the dashboard adding more stuff!</p>
+
+				<h3  class="mt50">More information</h3>
+				<ul class="list">
+					<li><a href="/documentation/authentication" class="link  f18">Authentication</a></li>
+					<li><a href="/documentation/reference/javascript" class="link f18">Javascript API Reference</a></li>
+					<li><a href="/documentation/examples" class="link f18">Examples</a></li>
+				</ul>

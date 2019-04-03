@@ -1,0 +1,28 @@
+<div class="modal fade" tabindex="-1" role="dialog" id="newBrandModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">New brand</h4>
+      </div>
+      <div class="modal-body">
+      <div class="container-fluid">
+        <div class="form">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" 
+                 class="form-control input-lg solid"
+                 placeholder="e.g. Thriller"
+                 ng-model="$parent.newBrand.name" />
+          </div>
+          
+        </div>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button class="btn btn-empty-success pull-right" ng-click="$parent.saveBrand()"> Save brand</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

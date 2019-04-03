@@ -1,0 +1,460 @@
+<% include header %>
+
+<script src="/libs/typed.js/lib/typed.min.js"></script>
+<script>
+    $(function(){
+    	$('[data-toggle="tooltip"]').tooltip()
+
+    	var typed = new Typed(".terminal-code", {
+            strings: ["curl 'https://api.marketcloud.it/v0/products?per_page=1' -H Authorization:f84af487-a315-42e6-a57a-d79296bd9d99"],
+            typeSpeed: 0,
+            showCursor : false,
+            onComplete : function() {
+            	var tc = $(".terminal-code");
+            	$.ajax({
+            	  method : 'GET',
+				  url: 'https://api.marketcloud.it/v0/products/20075',
+				  dataType: 'json',
+				  headers : {
+				  	Authorization : 'f84af487-a315-42e6-a57a-d79296bd9d99'
+				  },
+				  success: function(data){
+				  	tc.text(tc.text()+"\n"+JSON.stringify(data, null, 4));
+
+				  }
+				});
+            	
+            }
+        })
+        $(".tech-logo").on('mouseover',function(){
+        	var src = $(this).attr('src');
+
+        	src = src.replace('gray','color');
+        	console.log(src)
+			$(this).attr('src',src)        	
+        })
+        $(".tech-logo").on('mouseout',function(){
+        	var src = $(this).attr('src');
+
+        	src = src.replace('color','gray');
+        	console.log(src)
+			$(this).attr('src',src)        	
+        });
+        $("#try-it-alert").click(function(){$(this).hide()})
+       
+    });
+</script>
+<script type="text/javascript">
+	mixpanel.track('homepage',{
+		referrer : document.referrer
+	})
+</script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/monokai.min.css">
+<link rel="stylesheet" href="/libs/technology-icons/dist/styles/technology-icons.css">
+<link rel="stylesheet" type="text/css" href="/libs/font-awesome/css/font-awesome.min.css">
+
+<% include navbar %>
+		
+			
+<style type="text/css">
+			.terminal-control {
+				    border-radius: 50%;
+				    border: 0px;
+				    float: left;
+				    height: 12px;
+				    margin-right: 5px;
+				    width: 12px;
+			}
+			.terminal-code {
+				display: block;
+				height: 300px;
+				overflow-y: scroll;
+				padding:20px;
+			}
+			@media(max-width: 918px) {
+				.terminal-code {height:250px;}
+			}
+
+			.terminal-tip {
+				    position: absolute;
+				    right: 40px;
+				    left: 25px;
+				    bottom: 15px;
+				    margin: 0px;
+				    display: none;
+
+			}
+			.tab-content>.active {
+				border:0px;
+			}
+			pre {
+				padding:0px;
+				border-radius: 0px;
+				border:0px;
+				
+			}
+			.hljs {
+				font-size: 16px;
+			}
+			code.hljs {
+				min-height: 240px;
+			}
+			section#header {
+			background-image: linear-gradient(180deg, rgb(52, 152, 219) 12%, rgb(4, 106, 157) 100%);
+			background-image: -moz-linear-gradient(bottom, rgb(52, 152, 219) 12%, rgb(4, 106, 157) 100%);
+			-image: -webkit-linear-gradient(bottom, rgb(52, 152, 219) 12%, rgb(4, 106, 157) 100%);
+			background-image: -o-linear-gradient(bottom, rgb(52, 152, 219) 12%, rgb(4, 106, 157) 100%);
+			background-image: -ms-linear-gradient(bottom, rgb(52, 152, 219) 12%, rgb(4, 106, 157) 100%);
+
+			}
+			.heading {
+				padding-bottom: 20px;
+			}
+
+</style>
+			<section id="header">
+			<div class="heading">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-8 col-lg-offset-2 text-center">
+						<h1 id="main-lead">
+						Build eCommerce apps on any platform.
+						</h1>
+						<p> All the eCommerce features packed in a simple and powerful API.</p>
+						
+						
+					</div>
+					<div class="col-md-6 col-md-offset-3 mt20">
+						
+						<div class="card card-table p0 raised" style="padding-bottom: 0px;">
+							<div class="card-toolbar">
+								<div style="padding-top:5px">
+								<div class="terminal-control red" style="background-color:#ff5c5c"></div>
+								<div class="terminal-control yellow" style="background-color: #ffbd4c"></div>
+								<div class="terminal-control green" style="background-color: #00ca56"></div>
+								</div>
+							</div>
+  						<div class="alert alert-warning p0 terminal-tip" id="try-it-alert">Try the code on your console! <i class=""></i></div>
+						<div class="terminal">
+							<pre><code class="bash terminal-code"></code></pre>
+
+						</div>
+					</div>
+				</div>
+					
+			</div>
+				
+			
+		</div>
+		<!-- <div class="f18 text-center">Try it on your console!</div> -->
+		<div class="f18 text-center">Quickstart with: </div>
+	</section>
+		<style type="text/css">
+		em {
+			line-height: 48px;
+		}
+		img.platform-icon {
+				height: 48px;
+			}
+		/* Extra Small Devices, Phones */
+		@media only screen and (max-width : 480px) {
+			em {
+				font-size: 32px !important;
+				line-height: 32px !important;
+			}
+			img.platform-icon {
+				height: 32px;
+			}
+		}
+		
+		.tech-logo {
+			max-height: 64px;
+			padding:8px;
+		}
+		</style>
+		<section class="grey p10">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-xs-2 text-center">
+						<a href="/documentation/quickstart/javascript">
+							<em class="platform-icon icon-js f48 text-muted"></em>
+						</a>
+						
+						
+					</div>
+					<div class="col-xs-2 text-center">
+					<a href="/documentation/quickstart/curl">
+						<em class="platform-icon icon-shell-alt f48 text-muted"></em>
+						</a>
+					</div>
+					<div class="col-xs-2 text-center">
+						<a href="/documentation/quickstart/nodejs"><em class="platform-icon icon-nodejs f48 text-muted"></em></a>
+					</div>
+					<div class="col-xs-2 text-center">
+						<a href="/documentation/quickstart/php">
+							<em class="platform-icon icon-php f48 text-muted"></em>
+						</a>
+					</div>
+					<div class="col-xs-2 text-center">
+						<a href="/documentation"><em class="platform-icon fa fa-android fa-3x text-muted"></em></a>
+					</div>
+					<div class="col-xs-2 text-center">
+						<a href="/documentation/quickstart/swift">
+							<!-- <em class="fa fa-apple fa-3x text-muted"></em> -->
+							<img src="/img/3rdparty/swift-gray.png" class="platform-icon" alt="Swift quickstart">
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			
+		</section>
+		
+
+		<section >
+							<div class="container-fluid">
+								<div class="row">
+									<div class="col-xs-12 col-lg-4  col-md-6 col-lg-offset-1 mb50 mt50">
+										
+										<div class="mb20">
+											<h3>Backoffice included</h3>
+											<div class="hidden-lg hidden-md ct"></div>
+											<p>Manage inventory, customers, orders and more with our easy to use administration dashboard.</p>
+											<h4>Analytics</h4>
+											<p>Full control on what's happening on your store</p>
+											<h4>Customize</h4>
+											<p>Use the API to build your own private dashboard. Storm is built using our APIs, you can recreate and extend any functionality.</p>
+											<a href="/account/signup" class="btn btn-info btn-lg raised">Try it now</a>
+											
+										</div>
+									</div>
+									<div class="col-xs-12 col-lg-6  col-md-6 mb50 mt50">
+										<img src="https://marketcloud.azureedge.net/images/dashboard-screenshot.png" style="max-width: 100%;border-radius: 4px;" class="raised" alt="Marketcloud Backoffice dashboard">
+										
+									</div>
+								</div>
+							</section>
+		<section class="grey">
+							<div class="container-fluid">
+								<div class="row mt20 mb20">
+									<div class="col-xs-6 col-lg-4 col-lg-offset-2">
+											<h4>API oriented</h4>
+											
+											<p>Data and functionalities are served as an API. Display your store anyway you like.</p>
+											
+									</div>
+
+									<div class="col-xs-6 col-lg-4 ">
+											<h4>Rock solid platform</h4>
+											
+											<p>Your ecommerce is in our servers, which are reliable, scalable and secure.</p>
+									</div>
+									<div class="clearfix"></div>
+									<div class="col-xs-6 col-lg-4 col-lg-offset-2">
+											<h4>Full featured</h4>
+											
+											<p>Data and functionalities are served as an API. Display your store anyway you like.</p>
+											
+									</div>
+
+
+									<div class="col-xs-6 col-lg-4 ">
+											<h4>Ready for the future</h4>
+											
+											<p>Forget web browsers! Use our APIs for chatbots, IoT apps, Virtual Reality apps or whatever you can imagine. </p>
+									</div>
+
+									</div>
+									
+								</div>
+							</section>
+
+		<section>
+				<div class="container-fluid">
+					
+					<div class="row">
+						<div class="col-xs-12 col-lg-4 col-lg-offset-2  col-md-6 mb50 mt50">
+							
+							<div class="mb20">
+								<h3>It works everywhere</h3>
+								
+								<p>All store's data and functions are accessible via API. Show and Sell products anywhere anyhow.</p>
+								<h4>Modern tools</h4>
+								<p>We have open source SDKs for several programming languages to speed up your work.</p>
+								
+							</div>
+							<!-- <a href="/account/signup" class="btn btn-success btn-lg">Get started</a> -->
+							<a href="/quickstart" class="btn btn-info btn-lg">Quickstart</a>
+							<a href="/documentation" class="btn btn-empty-info btn-lg">Read the docs</a>
+							
+							
+						</div>
+						<div class="col-xs-12 col-lg-4 col-md-6 mb50 mt50 hide">
+							
+						</div>
+						<div class="col-xs-12 col-lg-5  col-md-6 mb50 mt50">
+							<div class="card card-table">
+								<div class="grey">
+								<ul class="nav nav-pills nav-pills-light">
+								  <li role="presentation" class="active">
+								  	<a href="#javascript" data-toggle="tab" >Javascript</a></li>
+								  <li role="presentation"><a href="#swift" data-toggle="tab">Swift</a></li>
+								  <li role="presentation"><a href="#nodejs" data-toggle="tab">NodeJS</a></li>
+								  <li role="presentation"><a href="#php" data-toggle="tab">PHP</a></li>
+								</ul>
+								</div>
+								<!-- Tab panes -->
+								<div class="tab-content">
+									<div role="tabpanel" class="tab-pane active" id="javascript">
+										<pre><code class="javascript">
+marketcloud.public = 'your-public-key';
+var query = { author : "George Martin" };
+marketcloud.products.list(query,function(err,data){
+})
+										</code></pre>
+									</div>
+									<div role="tabpanel" class="tab-pane" id="php">
+										
+										<pre><code class="php">
+Marketcloud\Marketcloud::setCredentials( array(
+'secret_key' => 'your-secret-key',
+'public_key' => 'your-public-key'
+) );
+$query = array( "author" => "George Martin");
+$response = Marketcloud\Products::get();
+										</code></pre>
+									</div>
+									<div role="tabpanel" class="tab-pane" id="nodejs">
+										
+										<pre><code class="javascript">
+var marketcloud = new Marketcloud.Client({
+   public_key : 'your-public-key-here',
+   secret_key : 'your-secret-key-here'
+})
+marketcloud.products.list({author : "George Martin"})
+.then(function(products){
+  console.log("Yay! our products!",products)
+});
+										</code></pre>
+									</div>
+									<div role="tabpanel" class="tab-pane" id="swift">
+										
+										<pre><code class="swift">
+var marketcloud = Marketcloud(key: "your-key")
+var query: [String: Any] = ["Author" : "George Martin"]
+var products = marketcloud.getProducts(query)
+										</code></pre>
+									</div>
+								</div>
+								
+							</div>
+							
+						</div>
+					</div>
+				</section>
+				<section style="min-height:auto" class="blue">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-xs-12 col-lg-4  col-md-6 col-lg-offset-2 mb50 mt50 ct hidden-xs hidden-sm">
+									
+									<img alt="starter projects" src="https://marketcloud.azureedge.net/images/starter2.png" style="border-radius: 4px;max-width:100%" class="card-table" />
+								</div>
+								<div class="col-xs-12 col-lg-4  col-md-6 mb50  mt50">
+									<h3>Start from the starters!</h3>
+									<div class="mb20">
+										<p>We have a collection of starter projects for several platforms and programming languages.</p>
+										<h4>Community driven</h4>
+										<p>We are bulding our starters with the help of our amazing community of developers, if you want to share a project just email us!</p>
+									</div>
+									<a href="/documentation/examples" class="btn btn-info btn-lg">Get started</a>
+								</div>
+								<div class="col-xs-12 col-lg-4 col-lg-offset-2 mb50 mt50 ct hidden-md hidden-lg">
+									<img alt="starter projects" src="https://marketcloud.azureedge.net/images/starter2.png" style="border-radius: 4px;max-width:100%" class="card-table" />
+								</div>
+							</div>
+						</div>
+					</section>
+						<section>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-xs-12 col-lg-4  col-md-6 col-lg-offset-2 mb50 mt50 ct hidden-xs hidden-sm">
+									
+									<img alt="starter projects" src="https://marketcloud.azureedge.net/images/world-dots.png" style="max-width: 100%;" />
+								</div>
+								<div class="col-xs-12 col-lg-4  col-md-6 mb50  mt50">
+									<h3>Internationalization</h3>
+									<div class="mb20">
+										<h4>Multiple languages</h4>
+										<p>Add multiple languages to your store and translate your inventory, notifications and more.</p>
+										<h4>Multiple currencies</h4>
+										<p>Display prices and process orders using multiple currencies.</p>
+									</div>
+									<a href="/documentation/guides/backoffice/translations" class="btn btn-info btn-lg">Learn more</a>
+								</div>
+								<div class="col-xs-12 col-lg-4 col-lg-offset-2 mb50 mt50 ct hidden-md hidden-lg">
+									<img alt="starter projects" src="https://marketcloud.azureedge.net/images/world-dots.png" style="max-width: 100%;" />
+								</div>
+							</div>
+						</div>
+					</section>
+					<section style="min-height:auto" class="grey">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-xs-12 col-lg-4  col-md-6 col-lg-offset-2 mb50 mt50 ct hidden-xs hidden-sm">
+									
+									<img alt="Cross platform devices" src="https://marketcloud.azureedge.net/images/example-site.jpg" style="border-radius: 4px;max-width:100%" class="card-table raised" />
+								</div>
+								<div class="col-xs-12 col-lg-4  col-md-6 mb50  mt50">
+									<h3>Bring your own UI/UX</h3>
+									<div class="mb20">
+										<p>We separated the data from the presentation. You choose how to display the store.</p>
+										<h4>For every platform</h4>
+										<p>Build your application for mobile, desktop, smartwatch,  TV or anything else connected to the internet.</p>
+									</div>
+									<a href="/account/signup" class="btn btn-info btn-lg">Get started</a>
+									<!-- <a href="/features" class="btn btn-info">Learn more</a> -->
+								</div>
+								<div class="col-xs-12 col-lg-4 col-lg-offset-2 mb50 mt50 ct hidden-md hidden-lg">
+									<img alt="Cross platform devices" src="https://marketcloud.azureedge.net/images/example-site.jpg" style="max-width:100%" class="card raised" />
+								</div>
+							</div>
+						</div>
+					</section>
+					<section>
+							<div class="container-fluid">
+		<div class="row" style="display: flex;align-items: center;">
+							<div class="col-xs-6 col-md-3 text-center p20">
+								
+		<img src="https://marketcloud.azureedge.net/website-v2/microsoft_logo.png"
+								style="max-width: 60%;" alt="Microsoft logo">
+
+							</div>
+							<div class="col-xs-6 col-md-3 text-center p20">
+								<img src="https://marketcloud.azureedge.net/website-v2/abc-logo.png"
+									style="max-width: 60%;" alt="ABC Accelerator logo">
+							</div>
+							<div class="col-xs-6 col-md-3 text-center p20">
+								<img src="https://marketcloud.azureedge.net/website-v2/gan_logo.png"
+									style="max-width: 60%;" alt="Global Accelerator Network logo">
+							</div>
+							<div class="col-xs-6 col-md-3 text-center p20">
+								<img src="https://marketcloud.azureedge.net/images/TIMWCAP_logo-min.jpg"
+								style="max-width: 60%;" alt="TIM WCAP logo">
+							</div>
+						</div>
+	</div>
+					</section>
+					
+						
+
+
+					
+							
+							
+							
+							
+							
+							
+							<% include footer %>

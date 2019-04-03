@@ -1,0 +1,282 @@
+<% include ../../../header/ %>
+<% include ../../../navbar %>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github.min.css">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" href="/modules/documentation/css/documentation.css" />
+<section class="mt100" style="padding-top:100px;padding-bottom:200px">
+  <div class="container-fluid">
+    
+    <a name="introduction"></a>
+    <div class="row">
+      <div class="col-lg-3 col-md-3">
+      <% include ./index.partial.ejs %>
+      </div>
+      <div class="col-lg-6 col-lg-offset-0 col-md-9 col-md-offset-0 col-sm-9 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+        
+
+            <div class="row">
+
+          
+						<ol class="breadcrumb mt20">
+						  <li><a href="/documentation">Index</a></li>
+						  <li><a href="/documentation/rest-api">REST api</a></li>
+						  <li class="active">Currencies</li>
+						</ol>
+						<h2>Currencies</h2>
+
+
+<div class="row">
+
+							<div class="col-xs-12">
+								<h4>Model description</h4>
+								<table class="table table-striped documentation">
+									<thead>
+										<tr>
+											<th>Attribute</th>
+											<th>Type</th>
+											<th>Description</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="code">id</td>
+											<td>Number</td>
+											<td>The univocal resource identifier</td>
+										</tr>
+										<tr>
+											<td class="code">name</td>
+											<td>String</td>
+											<td>The currency name</td>
+										</tr>
+										<tr>
+											<td class="code">formatting</td>
+											<td>String</td>
+											<td>The currency formatting ($,€...)</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+
+<!-- CURRENCIES CREATE -->
+					<div class="documentation">
+						<h3>POST /currencies</h3>
+						<p class="lead">Creates a new Currency.</p>
+						<pre class="code http-call">POST http://api.marketcloud.it/v0/currencies</pre>
+						<h5>Parameters</h5>
+						<table class="table table-striped documentation">
+									<thead>
+										<tr>
+											<th>Attribute</th>
+											<th>Type</th>
+											<th>Description</th>
+										</tr>
+									</thead>
+									<tbody>	
+										<tr>
+											<td class="code">name <span class="label label-success">Required</span></td>
+											<td>String</td>
+											<td>The currency name</td>
+										</tr>
+										<tr>
+											<td class="code">formatting <span class="label label-success">Required</span></td>
+											<td>String</td>
+											<td>The currency formatting ($,€...)</td>
+										</tr>
+									</tbody>
+								</table>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/carts/update.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+						<pre class="code prettyprint" >
+{
+	status:true,
+	data: {
+		id:10,
+		name: "Euro",
+		formatting: "€"
+	},
+	links : {
+		self : "http://api.marketcloud.it/v0/currencies/10"
+	}
+}</pre>								
+							</div>
+<!-- / CURRENCY CREATE -->						
+
+<!-- CURRENCY LIST -->
+						<div class="documentation">
+						<h3>GET /currencies</h3>
+						<p class="lead">Retrieves a paginated response of a list of currencies from your application.</p>
+						<pre class="code http-call">GET http://api.marketcloud.it/v0/currencies</pre>
+						<h5>Request parameters</h5>
+						<table class="table table-striped documentation">
+									<thead>
+										<tr>
+										<th>Field</th>
+										<th>Type</th>
+										<th>Description</th>
+										</tr>
+									</thead>
+									<tbody>
+								<tr>
+									<td class="code">fields</td>
+									<td>String</td>
+									<td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+								</tr>
+								<tr>
+									<td  class="code">skip</td>
+									<td>Number</td>
+									<td>How many resources to be skipped</td>
+								</tr>
+								<tr>
+									<td class="code">limit</td>
+									<td>Number</td>
+									<td>How many resource to be fetched</td>
+								</tr>
+							</tbody>
+								</table>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/carts/update.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+						<pre class="code prettyprint" >
+{
+	status:true,
+	data: [ {
+		data : {
+			id:9,
+			name: "Dollar",
+			formatting: "$"
+		},
+		links : {
+			first : 'http://api.marketcloud.it/v0/currencies/9',
+			last : 'http://api.marketcloud.it/v0/currencies/10',
+			self : 'http://api.marketcloud.it/v0/currencies/9',
+			prev : null,
+			next : 'http://api.marketcloud.it/v0/currencies/10'
+		}
+
+		},{
+		data : {
+			id:10,
+			name: "Euro",
+			formatting: "€"
+		},
+		links : {
+			first : 'http://api.marketcloud.it/v0/currencies/9',
+			last : 'http://api.marketcloud.it/v0/currencies/10',
+			self : 'http://api.marketcloud.it/v0/currencies/10',
+			prev : 'http://api.marketcloud.it/v0/currencies/9'
+			next : null
+		}
+	}
+	]
+}</pre>								
+
+						</div>
+<!-- / CURRENCY LIST -->						
+<!-- CURRENCY GET BY ID -->
+						<div class="documentation">
+						<h3>GET /currencies/:id</h3>
+						<p class="lead">Retrieve a specific currency given its id.</p>
+						<pre class="code http-call">GET http://api.marketcloud.it/v0/currencies/:id;</pre>
+						<h5>Parameters</h5>
+						<table class="table table-striped documentation">
+									<thead>
+										<tr>
+										<th>Field</th>
+										<th>Type</th>
+										<th>Description</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="code">fields</td>
+											<td>String</td>
+											<td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+										</tr>
+									</tbody>
+								</table>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/carts/update.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<div>
+						<h5>Example JSON response (200)</h5>
+						<pre class="code prettyprint" >
+{
+	status:true,
+	data: {
+		id:9,
+		name: "Dollar",
+		formatting: "$"
+		},
+	links : {
+		self : "http://api.marketcloud.it/v0/currencies/9"
+	}
+}</pre>								
+							</div>
+						</div>
+<!-- / CURRENCY GET BY ID -->
+<!-- CURRENCY UPDATE BY ID -->
+				<div class="documentation">
+						<h3>PUT /currencies/:id</h3>
+						<p class="lead">Updates a currency given an id. Returns the updated currency.</p>
+						<pre class="code http-call">PUT http://api.marketcloud.it/v0/currencies/:id;</pre>
+						<h5>Parameters</h5>
+						<table class="table table-striped documentation">
+							<thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+							<tbody>	
+								<tr>
+									<td class="code">name <span class="label label-success">Required</span></td>
+									<td>String</td>
+									<td>The currency name</td>
+								</tr>
+								<tr>
+									<td class="code">formatting <span class="label label-success">Required</span></td>
+									<td>String</td>
+									<td>The currency formatting ($,€...)</td>
+								</tr>
+							</tbody>
+						</table>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/carts/update.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+						<pre class="code prettyprint" >
+{
+	status:true,
+	data: {
+		id:9,
+		name: "American Dollar",
+		formatting: "$"
+	},
+	links : {
+		self : "http://api.marketcloud.it/v0/currencies/3"
+	}
+}</pre>							
+						</div>	
+<!-- / CURRENCY UPDATE BY ID -->
+<!-- CURRENCY DELETE BY ID -->
+				<div class="documentation">
+						<h3>DELETE /currencies/:id</h3>
+						<p class="lead">Deletes a specific currency given its id.</p>
+						<pre class="code http-call">DELETE https://api.marketcloud.it/v0/currencies/:id;</pre>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/carts/update.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+<pre class="code prettyprint" >
+{
+	status:true
+}</pre>			
+</div>							
+<!-- / CURRENCY DELETE BY ID -->
+       
+        </div>
+      </div>
+</div>
+</div>
+</section>
+
+</body>
+</html>

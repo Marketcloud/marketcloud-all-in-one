@@ -1,0 +1,351 @@
+<div class="dashboard-section-header">
+	<a class="link" href="#/invoices">Invoices</a> / create
+	<button class="btn btn-info pull-right" ng-click="saveInvoice()">Save</button>
+	<back-button></back-button>
+</div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			
+			<div class="card mb50 mt20">
+				<div class="card-header"><h4>Basic information</h4></div>
+				<div class="form">
+					<div class="row">
+						<div class="form-group col-lg-6">
+							<label>Number</label>
+							<input type="text"
+							class="form-control  solid"
+							placeholder="000001"
+							ng-model="invoice.number" />
+						</div>
+						<div class="form-group col-lg-6">
+						<label>Order</label>
+						<input type="text"
+							class="form-control"
+							placeholder="Search for orders.."
+							ng-model="invoice.order_id"
+							focus-on-show
+							ng-model-options='{ debounce: 600 }'
+							ng-focus="showList()"
+							>
+							<div style="position: absolute;left:0px;right:0px;z-index: 999;padding:15px;">
+								<div class="list-group"
+									style="border-top-left-radius: 0px;border-top-right-radius: 0px;"
+									ng-show="showTheList === true">
+									<div class="list-group-item text-right">
+										<a class="link small" ng-click="hideList()">Hide</a>
+									</div>
+									<div class="list-group-item text-center" ng-if="0 === orders.length">
+										<a>There are no orders yet</a>
+									</div>
+									<a 	class="list-group-item"
+										style="cursor: pointer;"
+										ng-repeat="order in orders track by $index"
+										ng-click="selectOrder(order)">
+									<div class="row">
+										<div class="col-xs-12">
+											<div class="bold small">{{order.created_at  | date : "MMM d, yyyy 'at' hh:mm" }}</div>
+										</div>
+										<div class="col-xs-8">
+											<div>{{order.user.name || order.billing_address.full_name || order.shipping_address.full_name}}</div>
+											<div class="small text-muted">{{order.user.email || order.billing_address.email || order.shipping_address.email}}</div>
+										</div>
+										<div class="col-xs-4">
+											<div class="small">{{order.display_total}}</div>
+										</div>
+									</div>
+				          
+									</a>
+									<div class="list-group-item" ng-if="0 < orders.length">
+										<div class="row">
+											<div class="col-xs-6">
+												<a class="link small" ng-click="loadPreviousOrders()" ng-if="ordersQuery.page > 1">< Prev</a>
+											</div>
+											<div class="col-xs-6 text-right">
+												<a class="link small" ng-click="loadNextOrders()">Next ></a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+					</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-lg-6">
+							<label>Date created</label>
+							<input
+						 type="text"
+						 class="form-control"
+             placeholder="Select a date..."
+             moment-picker="invoice.date_created"
+             locale="en"
+             ng-model="invoice.date_created"
+						 format="YYYY-MM-DD"
+						 ng-init="invoice.date_created = new Date(invoice.date_created)"
+             today="true"
+             min-view="month"
+             max-view="month"
+             ng-model-options="{ updateOn: 'blur' }">
+						</div>
+						<div class="form-group col-lg-6">
+							<label>Date due</label>
+							<input
+						 type="text"
+						 class="form-control"
+             placeholder="Select a date..."
+             moment-picker="invoice.date_due"
+             locale="en"
+             ng-model="invoice.date_due"
+             format="YYYY-MM-DD"
+             today="true"
+             min-view="month"
+             max-view="month"
+             ng-model-options="{ updateOn: 'blur' }">
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			
+			<div class="card mb50 mt20">
+				<div class="card-header"><h4>Your company's information</h4></div>
+				<div class="form">
+					
+					<div class="row">
+						<div class="form-group col-lg-6">
+							<label>Company name</label>
+							<input type="text"
+							class="form-control  solid"
+							placeholder="My Company inc."
+							ng-model="invoice.company.name" />
+						</div>
+						<div class="form-group col-lg-6">
+							<label>Email address</label>
+							<input type="email"
+								name="company_email_address"
+								placeholder="mycompany@example.com" 
+								ng-model="invoice.company.email" 
+								class="form-control " />
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Address</label>
+						<input type="text" class="form-control " 
+						name="company_address" 
+						ng-model="invoice.company.address" 
+						placeholder="My Street 123">
+					</div>
+					<div class="row">
+						<div class="form-group col-lg-6">
+							<label>City</label>
+							<input type="text" class="form-control " name="company_city" ng-model="invoice.company.city" placeholder="e.g. New York">
+						</div>
+						<div class="form-group col-lg-6">
+							<label>Zip / Postal code</label>
+							<input type="email"
+							name="company_postal_code"
+							placeholder="4321"
+							ng-model="invoice.company.postal_code"
+							class="form-control " />
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-lg-6">
+							<label>Country</label>
+							<autocomplete 
+								items="countries" 
+								label="name" 
+								value="name"
+								input-classes=""
+								my-model="invoice.company.country"
+								on-selected="updateCompanyStates()"/>
+						</div>
+						<div class="form-group col-lg-6">
+							<label>State / Province</label>
+							<input type="text" ng.model="invoice.company.state" ng-if="companyStates.length === 0" class="form-control ">
+							<select name="company_state"
+								ng-model="invoice.company.state"
+								ng-if="companyStates.length>0"
+								ng-options="s.name as s.name for s in companyStates"
+							class="form-control "></select>
+							
+						</div>
+					</div>
+					<div class="form-group">
+						
+						<label>VAT number</label>
+						<input type="text"
+								name="company_vat"
+								class="form-control "
+								ng-model="invoice.company.vat" />
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			
+			<div class="card mb50 mt20">
+				<div class="card-header"><h4>Your customer's information</h4></div>
+				<div class="form">
+					<div class="row">
+						<div class="form-group col-lg-6">
+							<label>Customer name</label>
+							<input type="text"
+							class="form-control  solid"
+							placeholder="ACME Inc."
+							ng-model="invoice.customer.full_name" />
+						</div>
+						<div class="form-group col-lg-6">
+							<label>Email address</label>
+							<input type="email" name="customer_email_address" ng-model="invoice.customer.email" class="form-control " placeholder="acme@example.com" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Address</label>
+						<input type="text" class="form-control " name="customer_address" ng-model="invoice.customer.address1" placeholder="Fake Street 123">
+					</div>
+
+					<div class="row">
+						<div class="form-group col-lg-6">
+							<label>City</label>
+							<input type="text" class="form-control " name="customer_city" ng-model="invoice.customer.city" placeholder="New York">
+						</div>
+						<div class="form-group col-lg-6">
+							<label>Zip / Postal code</label>
+							<input type="email"
+									name="customer_postal_code"
+									placeholder="4321" 
+									ng-model="invoice.customer.postal_code"
+									class="form-control " />
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-lg-6">
+							<label>Country</label>
+							<autocomplete 
+								items="countries" 
+								label="name" 
+								value="name"
+								input-classes=""
+								my-model="invoice.customer.country"
+								on-selected="updateCustomerStates()"/>
+						</div>
+						<div class="form-group col-lg-6">
+							<label>State / Province</label>
+							<input type="text" ng.model="invoice.customer.state" ng-if="customerStates.length === 0" class="form-control ">
+							<select name="customer_state"
+							ng-model="invoice.customer.state"
+							ng-if="customerStates.length>0"
+							ng-options="s.name as s.name for s in customerStates" 
+							class="form-control "></select>
+							
+						</div>
+					</div>
+					<div class="form-group">
+						
+						<label>VAT number</label>
+						<input type="text"
+								name="company_vat"
+								class="form-control "
+								ng-model="invoice.customer.vat" />
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-8">
+			
+			<div class="card card-table mb50 mt20">
+				<div class="card-header">
+				<button class="btn btn-sm btn-info pull-right" ng-click="addLineItem()">Add item</button>
+				<h4>Items</h4>
+				</div>
+				
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Description</th>
+								<th>Quantity</th>
+								<th>Price</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="lineItem in invoice.lineItems track by $index">
+								<td class="col-md-3" style="vertical-align: top">
+									<div class="form-group">
+
+										<input type="text"
+										class="form-control"
+										placeholder="My tshirt"
+										validate-for="lineItems.{{$index}}.name"
+										ng-model="lineItem.name"/>
+									</div>
+								</td>
+								<td  class="col-md-5"  style="vertical-align: top">
+									<div class="form-group">
+										<input type="text" 
+										class="form-control"  
+										placeholder="A regular tshirt" 
+										validate-for="lineItems.{{$index}}.description"
+										ng-model="lineItem.description"/>
+									</div>
+								</td>
+								<td  class="col-md-2"  style="vertical-align: top">
+									<div class="form-group">
+										<input type="number" 
+										class="form-control" 
+										validate-for="lineItems.{{$index}}.quantity"
+										ng-model="lineItem.quantity"/>
+									</div>
+								</td>
+								<td  class="col-md-2"  style="vertical-align: top">
+									<div class="form-group">
+										<input type="text" 
+										validate-for="lineItems.{{$index}}.price"
+										class="form-control" 
+										min="null"
+										ng-model="lineItem.price" money/>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+			<div class="card-footer">
+				<div class="row">
+					<div class="col-xs-6">
+						<b class="f24">Total</b>
+					</div>
+					<div class="col-xs-6 text-right">
+						<b class="f24">{{application.currency_code}} {{getInvoiceTotal()}}</b>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			
+			<div class="card mb50">
+				<div class="row">
+					<div class="text-right col-xs-12">
+						<button class="btn btn-primary" ng-click="saveInvoice(true)">Save and go to order</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

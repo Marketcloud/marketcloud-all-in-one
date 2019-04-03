@@ -1,0 +1,167 @@
+<% include ../../../header/ %>
+<% include ../../../navbar %>
+<link rel="stylesheet" type="text/css" href="/libs/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github.min.css" />
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" href="/modules/documentation/css/documentation.css" />
+
+<% include ../documentation-fixed-navbar.partial.ejs %>
+<section class="documentation-page">
+  <div class="container-fluid">
+    
+    <a name="introduction"></a>
+    <div class="row">
+      <div class="col-lg-3 col-md-3">
+        <%- include('v2/partials/index.partial.ejs') %>
+
+       
+      </div>
+      <div class="col-lg-6 col-lg-offset-0 col-md-9 col-md-offset-0 col-sm-9 col-sm-offset-3 col-xs-12">
+        <div>
+          <a href="#" class="documentation-index-handle"><i class="fa fa-bars"></i> Index</a>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-9 col-xs-12">
+            <h1>Javascript SDK documentation</h1>
+          </div>
+
+        </div>
+        <div class="row mb20">
+          <div class="col-lg-12 col-md-9 col-xs-12">
+            <nav id="mobile-index" >
+              <a class="link" data-toggle="collapse" href="#mobile-index-collapse"><i class="fa fa-chevron-right"></i> <b>TOGGLE INDEX</b></a>
+              <div class="collapse" aria-expanded="false" id="mobile-index-collapse">
+            <h5>Getting Started</h5>
+            
+            <ul>
+              <li><a href="#introduction">Introduction</a></li>
+              <li><a href="#installation">Installation</a></li>
+              <li><a href="#authentication">Authentication</a></li>
+              <li><a href="#promises">Promises</a></li>
+              <li><a href="#sorting">Sorting</a></li>
+            </ul>
+            
+            <h5>API Reference</h5>
+            
+            <ul id="api-reference-index">
+              
+              <li>
+                <a href="#products">Products</a>
+                
+              </li>
+              <li>
+                <a href="#brands" >Brands</a>
+                
+              </li>
+              <li>
+                <a href="#carts" >Carts</a>
+                
+              </li>
+              <li>
+                <a href="#users" >Users</a>
+               
+              </li>
+              <li>
+                <a href="#addresses" >Addresses</a>
+                
+              </li>
+              <li>
+                <a href="#orders" >Orders</a>
+                
+              </li>
+              <li>
+                <a href="#categories" >Categories</a>
+                
+              </li>
+              
+              
+            </ul>
+            </div>
+          </nav>
+          </div>
+        </div>
+       
+
+<!-- INTRODUCTION -->
+<%- include('v2/partials/introduction.partial.ejs') %>
+
+<!-- INSTALLATION -->
+<%- include('v2/partials/installation.partial.ejs') %>
+
+<!-- AUTHENTICATION -->
+<%- include('v2/partials/authentication.partial.ejs') %>
+
+<!-- PROMISES -->
+<%- include('v2/partials/promises.partial.ejs') %>
+
+<!-- SORTING -->
+<%- include('v2/partials/sorting.partial.ejs') %>
+
+<!-- ADDRESSES -->
+<%- include('v2/partials/addresses.partial.ejs') %>
+
+<!-- BRANDS -->
+<%- include('v2/partials/brands.partial.ejs') %>
+
+<!-- CARTS -->
+<%- include('v2/partials/carts.partial.ejs') %>
+
+<!-- COLLECTIONS -->
+<%- include('v2/partials/collections.partial.ejs') %>
+
+<!-- CONTENTS -->
+<%- include('v2/partials/contents.partial.ejs') %>
+
+<!-- COUPONS -->
+<%- include('v2/partials/coupons.partial.ejs') %>
+
+<!-- ORDERS METHODS -->
+<%- include('v2/partials/orders.partial.ejs') %>
+
+<!-- PAYMENT METHODS -->
+<%- include('v2/partials/paymentmethods.partial.ejs') %>
+
+<!-- PAYMENTS METHODS -->
+<%- include('v2/partials/payments.partial.ejs') %>
+
+<!-- PRODUCTS METHODS -->
+<%- include('v2/partials/products.partial.ejs') %>
+
+<!-- PROMOTIONS METHODS -->
+<%- include('v2/partials/promotions.partial.ejs') %>
+
+
+<!-- SHIPPING METHODS -->
+<%- include('v2/partials/shippings.partial.ejs') %>
+
+<!-- USERS METHODS -->
+<%- include('v2/partials/users.partial.ejs') %>
+
+<!-- VARIABLES METHODS -->
+<%- include('v2/partials/variables.partial.ejs') %>
+
+
+
+
+
+
+
+</div>
+</div>
+</div>
+</section>
+
+
+<!-- Scripts -->
+<script type="text/javascript" src="/modules/documentation/js/index.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  // Binding events to the index to hide show index and scroll to paragraph
+  Documentation.bindReferenceIndexEvents();
+})
+</script>
+
+</body>
+</html>

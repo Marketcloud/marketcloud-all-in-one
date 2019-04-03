@@ -1,0 +1,64 @@
+<div class="dashboard-section-header"><a class="root link" href="#/variables">Variables</a> / create
+<button class="btn btn-info pull-right" ng-click="save()">Save</button>
+<back-button></back-button>
+</div>
+<div class="container-fluid">
+<div class="row">
+	<div class="col-lg-8 col-xs-12">
+		
+		<div class="card mb50 mt20">
+			<div class="card-header"><h4>Basic information</h4></div>
+			<p class="text-muted small">Name the variable with something you will remember! And don't forget the secret code! The secret code is the word your customers will need to enter in order to receive a discount.</p>
+			<div class="form">
+				<div class="row">
+					<div class="form-group col-md-6">
+						<label>Name</label>
+						<input type="text"
+						class="form-control solid"
+						placeholder="e.g. Thriller"
+						ng-model="variable.name" />
+					</div>
+					<div class="form-group col-md-6">
+						<label>Type</label>
+						<select class="form-control"
+							ng-model="variable.type"
+							ng-options="o.type as o.label for o in availableTypes"
+							ng-init="variable.type"
+						></select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label>Value</label>
+
+					<div ng-if="variable.type === 'URL'">
+						<div class="input-group">
+							<input class="form-control solid" placeholder="http(s)://www.example.com/myfile" ng-model="variable.value">
+							<span class="input-group-btn">
+								<media-manager button-class="btn btn-info" button-text="Media manager" button-icon="ion-images" images="containerForNewMediaAttribute">
+								</media-manager>
+							</span>
+						</div>
+						<!-- /input-group -->
+						<div class="input-group" style="margin-top: 20px;" ng-if="variable.value">
+							<label>Preview</label>
+							<img ng-src="{{variable.value}}" />
+						</div>
+					</div>
+
+					
+					<textarea class="form-control" name="value" ng-model="variable.value" ng-if="'string' === variable.type"></textarea>
+
+					<input type="number" class="form-control" name="value" ng-model="variable.value" ng-if="'number' === variable.type">
+
+					<select class="form-control" ng-model="variable.value" ng-options="o as o for o in [true,false]" ng-if="'boolean' === variable.type">
+						
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+</div>

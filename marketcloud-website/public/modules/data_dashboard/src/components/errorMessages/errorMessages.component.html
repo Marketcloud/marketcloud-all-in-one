@@ -1,0 +1,44 @@
+<style type="text/css">
+	.error-message-component > div {
+		padding:5px;
+		color: #c0392b;
+		font-size: 13px;
+	}
+</style>
+
+<div ng-if="ctrl.validation.invalidPropertyName === ctrl.propertyName">
+<div class="error-message-component"
+      ng-switch="ctrl.validation.failedValidator">
+	
+
+	<div ng-switch-when="required">
+         <div ng-if="ctrl.messageRequired" ng-bind-html="ctrl.messageRequired"></div>
+        <div ng-if="!ctrl.messageRequired">This field is required</div>
+  </div>
+  <div ng-switch-when="missingRequiredProperty">
+        <div ng-if="ctrl.messageRequired" ng-bind-html="ctrl.messageRequired"></div>
+        <div ng-if="!ctrl.messageRequired">This field is required</div>
+  </div>
+  <div ng-switch-when="type">
+        <div ng-if="ctrl.messageType" ng-bind-html="ctrl.messageType"></div>
+        <div ng-if="!ctrl.messageType">This field's type must be {{ctrl.schema[ctrl.propertyName].type}}</div>
+  </div>
+  <div ng-switch-when="min" ng-if="ctrl.schema[ctrl.propertyName].type !== 'number'">
+        <div ng-if="ctrl.messageMin"  ng-bind-html="ctrl.messageMin"></div>
+        <div ng-if="!ctrl.messageMin">Minimum length is {{ctrl.schema[ctrl.propertyName].min}}</div>
+  </div>
+  <div ng-switch-when="min" ng-if="ctrl.schema[ctrl.propertyName].type === 'number'">
+        <div ng-if="ctrl.messageMin"  ng-bind-html="ctrl.messageMin"></div>
+        <div ng-if="!ctrl.messageMin">Minimum value is {{ctrl.schema[ctrl.propertyName].min}}</div>
+  </div>
+  <div ng-switch-when="max">
+        <div ng-if="ctrl.messageMax" ng-bind-html="ctrl.messageMax"></div>
+        <div ng-if="!ctrl.messageMax">Maximum length is {{ctrl.schema[ctrl.propertyName].max}</div>
+  </div>
+
+  <div ng-switch-default>
+        This field is invalid
+  </div>
+	
+</div>
+

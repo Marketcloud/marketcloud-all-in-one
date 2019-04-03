@@ -1,0 +1,25 @@
+<% include header %>
+<%include navbar %>
+
+<script type="text/javascript">
+  mixpanel.track('account.created', {
+    referrer: document.referrer
+  })
+</script>
+<section id="second-section">
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-xs-12 col-lg-4 col-lg-offset-4 mb50">
+
+        <div class="ct" style="border:0px;border-radius:3px;padding:20px;background-color:white;">
+          <a class="m-logo" href="/" style="">M</a>
+          <h3>Create an account</h3>
+          <p class="lead mt20 ct">Check your inbox</p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>

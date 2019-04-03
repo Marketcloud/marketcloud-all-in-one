@@ -1,0 +1,63 @@
+<div class="dashboard-section-header">
+  <span class="root">Notifications</span>
+  <back-button></back-button>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 mb20">
+      <div class="card card-table">
+        <div class="card-toolbar">
+          <div class="text-right">
+            <a class="btn btn-info btn-sm raised" href="#/notifications/create">Add a notification</a>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Event</th>
+                <th>Description</th>
+                <th>Active</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody ng-show="notifications.length > 0">
+              <tr ng-repeat="notification in notifications track by $index" style="cursor:pointer" ng-click="loadTemplate(notification)" ng-class="{'selected-row':notification.selected === true}">
+                <td>
+                  <a href="#/notifications/{{notification.id}}/edit" class="link">{{notification.name}}</a>
+                </td>
+                <td>{{notification.event}}</td>
+                <td>{{notification.description}}</td>
+                <td><switch value="notification.active" on-update="toggleNotification(notification)"></switch></td>
+                <td class="">
+                  <a href="#/notifications/{{notification.id}}/edit" class="btn btn-default btn-sm"><span class="fa fa-pencil"></span></a>
+                  <a class="btn btn-default btn-sm" ng-click="delete(notification,$index)"><span class="fa fa-trash-o"></span></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div ng-show="notifications.length === 0"  class="center text-muted p10">
+          <span class="fa fa-paper-plane-o f48"></span>
+          <p class="lead">Your notifications will be displayed here</p>
+          <a href="#/notifications/create" class="btn btn-info">Add a notification</a>
+          
+        </div>
+                  <div class="card-footer">
+            <div class="row">
+              <div class="col-xs-12 text-right">
+                <pagination-selector
+                  pagination="pagination"
+                  per-page="query.per_page"
+                  page="query.page"
+                  on-change-page-size="loadData({per_page : per_page })"
+                  on-change-page-number="loadPage(page)"
+                ></pagination-selector>
+              </div>
+            </div>
+          </div>
+      </div>
+      
+    </div>
+  </div>

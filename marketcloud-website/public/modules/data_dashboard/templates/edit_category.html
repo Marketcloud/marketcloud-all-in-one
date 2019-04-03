@@ -1,0 +1,84 @@
+<div class="dashboard-section-header"><a class="root link" href="#/categories">Categories</a> / {{category.name}}
+<div class="btn-group pull-right">
+  <button type="button" class="btn btn-info btn-sm" ng-click="updateCategory()">Save</button>
+  <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="caret"></span>
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a ng-click="updateCategory()">Save</a></li>
+    <li><a href="#/categories/{{category.id}}/translations">Edit translations</a></li>
+  </ul>
+</div>
+<back-button></back-button>
+</div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-8 col-xs-12">
+			
+			<div class="card mb50">
+				<div class="card-header"><h4>Basic information</h4></div>
+				<div class="form">
+					
+					<div class="form-group">
+						<label>Name</label>
+						<input type="text"
+						class="form-control"
+						placeholder="Smartphones"
+						ng-change="updateSlug()"
+						ng-model="category.name" />
+					</div>
+					<div class="checkbox">
+						<input type="checkbox" ng-model="unsafeSlug" id="unsafeSlug" />
+						<label for="unsafeSlug">
+							Editable slug
+						</label>
+					</div>
+					<div class="form-group">
+						<label>Slug</label>
+						<input type="text"
+						class="form-control  solid"
+						ng-disabled="false === unsafeSlug"
+						ng-model="category.slug" />
+					</div>
+					<div class="form-group">
+						<label>Parent Category</label>  <span class="fa fa-question-circle" data-placement="right" title="Choose the parent category"></span>
+						<select class="form-control " ng-model="category.parent_id" ng-options="category.id as category.name for category in categories">
+						</select>
+					</div>
+					<div class="form-group">
+							<label>Description</label>
+							<div trumbowyg-ng
+					     ng-model="category.description"
+					     editor-config="{btns:[['viewHTML'],['formatting'],'btnGrp-semantic',['superscript','subscript'],['link'],['insertImage'],'btnGrp-justify','btnGrp-lists',['horizontalRule'],['removeformat'],['fullscreen']]}">
+					</div>
+					</div>
+					
+					
+				</div>
+			</div>
+		</div>
+	</div>
+		
+
+	<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			<images-card items="category.images"></images-card>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-md-8">
+			
+			<custom-attributes-form
+			resource="category"
+			properties="customPropertiesData"
+			title="Custom properties"
+			></custom-attributes-form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-md-8">
+			<seo-form seo="category.seo"></seo-form>
+		</div>
+	</div>
+</div>

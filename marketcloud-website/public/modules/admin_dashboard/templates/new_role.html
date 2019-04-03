@@ -1,0 +1,80 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-6 col-lg-offset-3 col-xs-12">
+			<div class="card card-table mb50 mt20">
+				<div class="card-header">
+					<h4>New Role</h4>
+				</div>
+				<form class="form card-content" name="roleForm">
+					<div class="row">
+						<div class="col-xs-12">
+							<p class="small">Roles are how you define which permissions do your app's customers have. Can they review their orders? Can they create products? You decide with the following form.</p>
+						</div>
+					</div>
+					<div class="row">
+					<div class="form-group col-xs-12 col-md-6">
+						<label>Name</label>
+						<input type="text"
+						class="form-control solid"
+						placeholder="e.g. Seller"
+						min="1"
+						max="253"
+						ng-model="newRole.name" />
+						<p class="text-danger" ng-show="!!errors.name">{{errors.name}}</p>
+					</div>
+					<div class="form-group col-xs-12 col-md-6">
+						<label>Template</label>
+						<select class="form-control" ng-model="preset_name" ng-change="applyPreset()">
+							<option value="public">Public preset</option>
+							<option value="user">User preset</option>
+							<option value="admin">Admin preset</option>
+						</select>
+						<p class="small text-muted">Select a role template and modify it to fit your use case.</p>
+					</div>
+					</div>
+				</form>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>List</th>
+								<th>GetById</th>
+								<th>Create</th>
+								<th>Update</th>
+								<th>Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="(endpoint_name, endpoint_desc) in newRole.endpoints">
+								<td>{{endpoint_name}}</td>
+								<td ng-repeat="key in ['list','getById','create','update','delete']">
+									<div class="form-group m0">
+										<div class="checkbox m0">
+											<input type="checkbox" ng-model="newRole.endpoints[endpoint_name][key]" />
+											<label></label>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+				</table>
+					
+				
+				<div class="card-footer">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-xs-8">
+							<p class="text-danger" ng-show="formHasErrors() === true">There are some errors, check the data please.</p>
+						</div>
+						<div class="col-xs-4 text-right">
+							<button class="btn btn-lg btn-success" ng-click="saveRole()"><span class="ion-checkmark"></span> Save role</button>
+						</div>
+					</div>
+				</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

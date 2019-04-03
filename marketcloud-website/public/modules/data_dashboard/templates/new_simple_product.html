@@ -1,0 +1,355 @@
+<div class="dashboard-section-header">
+	<span class="hidden-xs">
+	<a class="root link" href="#/products">Products</a> / New <b>simple</b> product
+	</span>
+	<button class="btn btn-info pull-right" ng-click="saveProduct()">Save</button>
+	<back-button></back-button>
+</div>
+<div class="container-fluid" style="padding-bottom: 50px;">
+	<div class="row">
+		<div class="col-md-4 col-xs-12">
+			<div class="card mb20">
+				<div class="card-header">Load from template</div>
+				<div class="form-group">
+						<!-- <div class="text-muted small">Use an existing product as template and fill the form with existing data.</div> -->
+						<label>Search</label>
+						<input type="text"
+							class="form-control"
+							placeholder="Search for products.."
+							ng-model="query.name.$regex"
+							focus-on-show
+							ng-model-options='{ debounce: 600 }'
+							ng-change="prepareRegex();loadProducts()"
+							ng-focus="showList()"
+							ng-blur="hideList()"
+							>
+							<div style="position: absolute;left:0px;right:0px;z-index: 999;padding:15px;">
+								<div class="list-group"
+									style="border-top-left-radius: 0px;border-top-right-radius: 0px;"
+									ng-show="!!query.name.$regex == true && showTheList === true">
+									<a 	class="list-group-item"
+										style="cursor: pointer;"
+										ng-repeat="product in products track by $index"
+									ng-click="applyTemplate(product)">
+									<div class="row">
+										<div class="col-xs-2">
+											<img ng-src="{{product.images[0]}}"  class="img-reponsive"/>
+										</div>
+										<div class="col-xs-10">
+											<div>{{product.name}}</div>
+											<div class="text-muted">{{product.display_price}}</div>
+										</div>
+									</div>
+				          
+									</a>
+									<a class="list-group-item"
+										style="font-weight:bold"
+										href="#/products/create"
+									target="_blank">Add {{query.name.$regex}}..</a>
+								</div>
+							</div>
+					</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		
+		
+		<div class="col-xs-12 col-md-8">
+			
+			<div class="card card-form mb20">
+				<div class="card-header"><h4>Basic information</h4></div>
+				<div class="card-content">
+					<div class="form-group" ng-class="{'has-error' : errorField === 'name'}">
+						<label>Name*</label>
+						<input type="text"
+						class="form-control  "
+						placeholder="e.g. Lightsaber"
+						ng-change="updateSlug()"
+						ng-model="product.name" />
+						<error-messages
+						validation="validation"
+						schema="schema"
+						model-name="Product"
+						property-name="name">
+						</error-messages>
+					</div>
+					<div class="checkbox">
+						<input type="checkbox" ng-model="unsafeSlug" id="unsafeSlug" />
+						<label for="unsafeSlug">
+							Editable slug
+						</label>
+					</div>
+					<div class="form-group">
+						<label>Slug</label>
+						<input type="text"
+						class="form-control  solid"
+						ng-disabled="false === unsafeSlug"
+						ng-model="product.slug" />
+					</div>
+					<div class="row">
+						<div class="form-group col-xs-12">
+							
+							<label>Description</label>
+							<div trumbowyg-ng
+					     ng-model="product.description"
+					     editor-config="{btns:[['viewHTML'],['formatting'],'btnGrp-semantic',['superscript','subscript'],['link'],['insertImage'],'btnGrp-justify','btnGrp-lists',['horizontalRule'],['removeformat'],['fullscreen']]}">
+					</div>
+						</div>
+					</div>
+					
+					
+				</div>
+			</div>
+			<div class="card card-form mb50">
+				<div class="card-header"><h4>Inventory</h4></div>
+				<div class="card-content">
+					<div class="row">
+						<div class="form-group col-lg-6"  ng-class="{'has-error' : errorField === 'stock_type'}">
+							<label>Inventory policy *</label>  <span class="fa fa-question-circle" data-placement="right" title="Choose how should Marketcloud track your inventory"></span>
+							<select class="form-control  "
+								ng-model="product.stock_type">
+								<option value="track">Track quantities</option>
+								<option value="status">Status</option>
+							</select>
+						</div>
+						<div class="form-group col-lg-6"
+							ng-if="product.stock_type === 'track'"
+							ng-class="{'has-error' : errorField === 'stock_level'}">
+							<label>Stock level</label>
+							<input type="number"
+							class="form-control  "
+							placeholder="99"
+							ng-model="product.stock_level" />
+							<error-messages
+								validation="validation"
+								schema="schema"
+								model-name="Product"
+								property-name="stock_level">
+						</error-messages>
+						</div>
+						<div class="form-group col-lg-6"
+							ng-if="product.stock_type === 'status'"
+							ng-class="{'has-error' : errorField === 'stock_status'}">
+							<label>Stock status</label>
+							<select class="form-control  "
+								ng-model="product.stock_status"
+								ng-init="product.stock_status = 'in_stock'">
+								<option value="in_stock">In stock</option>
+								<option value="out_of_stock">Out of stock</option>
+								
+							</select>
+							<error-messages
+						validation="validation"
+						schema="schema"
+						model-name="Product"
+						property-name="stock_status">
+						</error-messages>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-lg-6"
+							ng-class="{'has-error' : errorField === 'sku'}">
+							<label>SKU</label>
+							<input type="text"
+							class="form-control  "
+							placeholder="any SKU"
+							ng-model="product.sku" />
+						</div>
+						<div class="form-group col-lg-6"
+							ng-class="{'has-error' : errorField === 'barcode'}">
+							<label>Barcode</label>
+							<input type="text"
+							class="form-control  "
+							placeholder="any barcode"
+							ng-model="product.barcode" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-4 col-xs-12">
+			<div class="card mb20">
+				<div class="card-header"><b>Publishing</b></div>
+				<div class="card-content">
+					<div class="form-group">
+						
+						<label>Product published</label>
+						<div>
+							<switch value="product.published"></switch>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			<div class="card mb50">
+				<div class="card-header"><h4>Pricing</h4></div>
+				<div class="card-content">
+					
+					<div class="form-group"  ng-class="{'has-error' : errorField === 'price'}">
+						<label>Price*</label>
+						<div class="input-group input-group-right">
+							<input type="text"
+							class="form-control "
+							placeholder="9.99" 
+							ng-model="product.price" money>
+							<span class="input-group-addon ">{{application.currency_code}}</span>
+						</div>
+						<error-messages
+						validation="validation"
+						property-name="price"
+						schema="schema">
+						</error-messages>
+					</div>
+					<div class="form-group"  ng-class="{'has-error' : errorField === 'price_discount'}">
+						<label>Discount price</label>
+						<div class="input-group input-group-right">
+							<input type="text"
+							class="form-control "
+							placeholder="9.99" 
+							ng-model="product.price_discount" money>
+							<span class="input-group-addon ">{{application.currency_code}}</span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label>Tax class</label>
+						<taxes-selector
+						tax="product.tax_id"></taxes-selector>
+					</div>
+					
+				</div>
+			</div>
+			<div class="card mb50">
+				<div class="card-header"><h4>Taxonomy</h4></div>
+				<div class="card-content">
+					<div class="form-group"
+						ng-class="{'has-error' : errorField === 'category_id'}">
+						<label>Category</label>  <span class="fa fa-question-circle" data-placement="right" title="Choose your product's category"></span>
+						<categories-selector
+						category="product.category_id"></categories-selector>
+					</div>
+					<div class="form-group"  ng-class="{'has-error' : errorField === 'brand_id'}">
+						<label>Brand</label>  <span class="fa fa-question-circle" data-placement="right" title="Choose your product's brand"></span>
+						
+						<brands-selector
+						brand="product.brand_id"></brands-selector>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-xs-12 col-md-8">
+			<images-card items="product.images"></images-card>
+		</div>
+		
+		<div class="col-xs-12 col-md-8">
+			
+			
+		</div>
+		
+		<div class="col-xs-12 col-md-8">
+			<div class="card card-form mb50">
+				<div class="card-header"><h4>Shipping information</h4></div>
+				<div class="card-content">
+					<div class="form-group">
+						<div class="checkbox">
+							<input type="checkbox"
+							ng-model="product.requires_shipping"
+							id="requires_shipping"
+							/>
+							<label for="requires_shipping">
+								This product requires shipping
+							</label>
+						</div>
+					</div>
+					<div ng-show="true === product.requires_shipping">
+						<div class="row">
+							<div class="form-group col-lg-8 col-xs-12">
+								<label>Weight (Kg)</label>
+								
+								<div class="input-group input-group-right">
+									<input type="number"
+									class="form-control  "
+									placeholder="0.1"
+									ng-model="product.weight" />
+									<span class="input-group-addon ">kg</span>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-xs-4">
+								<label>Depth</label>
+								
+								<div class="input-group input-group-right">
+									<input type="number"
+									class="form-control  "
+									placeholder="e.g. 22"
+									ng-model="product.depth" />
+									<span class="input-group-addon ">cm</span>
+								</div>
+							</div>
+							<div class="form-group col-xs-4">
+								<label>Width (cm)</label>
+								<div class="input-group input-group-right">
+									<input type="number"
+									class="form-control  "
+									placeholder="e.g. 22"
+									ng-model="product.width" />
+									<span class="input-group-addon ">cm</span>
+								</div>
+							</div>
+							<div class="form-group col-xs-4">
+								<label>Height (cm)</label>
+								<div class="input-group input-group-right">
+									<input type="number"
+									class="form-control  "
+									placeholder="e.g. 22"
+									ng-model="product.height" />
+									<span class="input-group-addon ">cm</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-xs-12 col-md-8">
+			
+			<custom-attributes-form
+			resource="product"
+			properties="customPropertiesData"
+			title="Custom properties"
+			></custom-attributes-form>
+		</div>
+		
+		<div class="col-xs-12 col-md-8">
+			
+			<seo-form seo="product.seo"></seo-form>
+		</div>
+		
+		<div class="col-xs-12 col-lg-8">
+			<div class="alert alert-danger" ng-show="null !== error">
+				{{error}}
+			</div>
+		</div>
+		
+		<div class="col-lg-8 col-xs-12">
+			
+			<div class="card card-form mb50">
+				<div class="row">
+					<div class="text-right col-xs-12">
+						<span class="text-danger">{{error}}</span>
+						<button class="btn btn-info" ng-click="saveProduct()">Save</button>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+</div>

@@ -1,0 +1,423 @@
+<style type="text/css">
+	
+	.tab-content>.active {
+		border:0px;
+	}
+	.tab-pane {
+		margin-top:20px;
+	}
+	.tier-feature {
+		text-align: left;
+	}
+.pricing-page-amount {
+font-size:48px;
+font-weight: bold;
+color:#2c3e50;
+}
+.pricing-page-currency {
+margin-right:5px;
+font-size:18px;
+}
+.pricing-tier {
+/*background-color:white;*/
+padding:20px;
+text-align: center;
+border-radius:2px;
+margin-bottom: 20px;
+border-top: 4px solid  #777;
+}
+/*.pricing-tier { border: 3px solid transparent;}*/
+.pricing-tier.best {
+/* background-color: #3498db;
+color: #FFF;*/
+border-top: 4px solid  #3498db;
+}
+.best .pricing-page-amount {
+/*color: #FFF;*/
+}
+.pricing-tier-title {
+font-size:24px;
+}
+.billed-yearly-disclaimer {
+color: #CCC;
+}
+</style>
+<div class="dashboard-section-header" style="box-shadow: none">
+	<span class="root">Application settings</span> / Billing
+	<back-button></back-button>
+	
+	
+</div>
+<div ng-include="'/modules/data_dashboard/templates/application_settings_navigation.partial.html'" class="navigation-container"></div>
+
+<div class="container-fluid">
+	<div class="row mb50 mt50"  ng-show="step === 1">
+		<div class="col-lg-10 col-lg-offset-1">
+			<h3>Choose a subscription plan</h3>
+			<div class="row mt20" >
+				<div class="col-xs-12 text-center">
+					<span style="margin-right: 20px;" ng-class="{'text-muted':true === showYearlyPlans}">Monthly</span>
+					<switch value="showYearlyPlans"></switch>
+					<span style="margin-left: 20px;" ng-class="{'text-muted': false === showYearlyPlans}">Yearly</span>
+				</div>
+			</div>
+	<!-- 		<div class="row mt20">
+				<div
+					ng-repeat="plan in plans  track by $index"
+					ng-class="{'col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-2' : $index % 2 === 0, 'col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-0' : $index % 2 === 1}"
+					>
+					<div class="pricing-tier card" id="tier-free">
+						<div class="pricing-tier-title">{{plan.name}}</div>
+						
+						
+						<div><span style="margin-right:5px;font-size:18px;">€</span><span class="pricing-page-amount" id="amount-0">{{plan.price}}</span><span >/{{plan.interval}}</span></div>
+						
+						<br/>
+						<div class="tier-feature"><b>{{plan.api_calls_quota_max}}</b> API requests /month</div>
+						<div class="tier-feature"><b>{{plan.storage}} GB</b> File storage</div>
+						<div class="tier-feature"><b>∞</b> Dashboard usage</div>
+						<div class="tier-feature"><b>∞</b> Collaborators</div>
+						<div class="tier-feature"><b>3rd party</b> Integrations</div>
+						<br/>
+						<div class="text-center">
+							<a class="btn btn-default disabled  btn-lg mb50 select-plan" ng-if="application.plan_name === plan.name">Current plan</a>
+							<a class="btn btn-info raised  btn-lg mb50 select-plan" ng-click="selectPlan(plan.id)" ng-if="application.plan_name !== plan.name">Choose plan</a>
+						</div>
+					</div>
+					
+				</div>
+			</div> -->
+			<div class="row mt20" ng-if="false === showYearlyPlans">
+					<div class="col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-2">
+							<div class="pricing-tier card" id="tier-free">
+									<span class="label label-success" style="visibility: hidden;">Recommended</span>
+									<div class="pricing-tier-title">Free</div>
+									
+									
+									<div><span style="margin-right:5px;font-size:18px;">€</span><span class="pricing-page-amount" id="amount-0">0</span><span >/month</span></div>
+									<p class="billed-yearly-disclaimer">For testing purposes</p>
+									
+									<br/>
+									<div class="tier-feature"><b>5K</b> API requests /month</div>
+									<div class="tier-feature"><b>0.5 GB</b> File storage</div>
+									<div class="tier-feature"><b>∞</b> Dashboard usage</div>
+									<br/>
+									<div class="text-center">
+											<a class="btn btn-default disabled  btn-lg mb50 select-plan" ng-if="application.plan_name === 'free'">Current plan</a>
+											<a class="btn btn-info raised  btn-lg mb50 select-plan" ng-click="selectPlan('free')" ng-if="application.plan_name !== 'free'">Choose plan</a>
+									</div>
+							</div>
+							
+					</div>
+					<div class="col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-0">
+							<div class="pricing-tier card" id="tier-0">
+									<span class="label label-success" style="visibility: hidden">Recommended</span>
+									<div class="pricing-tier-title">Cumulus</div>
+									
+									
+									<div><span style="margin-right:5px;font-size:18px;">€</span><span class="pricing-page-amount" id="amount-0">19</span><span >/month</span></div>
+									<p class="billed-yearly-disclaimer">Or € 190 per year</p>
+									
+									<br/>
+									<div class="tier-feature"><b>100K</b> API requests /month</div>
+									<div class="tier-feature"><b>1 GB</b> File storage</div>
+									<div class="tier-feature"><b>∞</b> Dashboard usage</div>
+									<div class="tier-feature"><b>∞</b> Collaborators</div>
+									<div class="tier-feature"><b>3rd party</b> Integrations</div>
+									<br/>
+									<div class="text-center">
+											<a class="btn btn-default disabled  btn-lg mb50 select-plan" ng-if="application.plan_name === 'cumulus'">Current plan</a>
+											<a class="btn btn-info raised  btn-lg mb50 select-plan" ng-click="selectPlan('month-19')" ng-if="application.plan_name !== 'cumulus'">Choose plan</a>
+									</div>
+							</div>
+							
+					</div>
+					<div class="col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-2">
+							<div class="pricing-tier card" id="tier-1">
+									<span class="label label-success" style="visibility: hidden;">Recommended</span>
+									<div class="pricing-tier-title">Stratus</div>
+									
+									
+									<div><span style="margin-right:5px;font-size:18px;">€</span><span class="pricing-page-amount" id="amount-1">49</span><span >/month</span></div>
+									<p class="billed-yearly-disclaimer">Or € 490 per year</p>
+									
+									<br/>
+									<div class="tier-feature"><b>450K</b> API requests /month</div>
+									<div class="tier-feature"><b>2 GB</b> File storage</div>
+									<div class="tier-feature"><b>∞</b> Collaborators</div>
+									<div class="tier-feature"><b>∞</b> Dashboard usage</div>
+									<div class="tier-feature"><b>3rd party</b> Integrations</div>
+									<br/>
+									<div class="text-center">
+											<a class="btn btn-default disabled  btn-lg mb50 select-plan" ng-if="application.plan_name === 'stratus'">Current plan</a>
+											<a class="btn btn-info raised  btn-lg mb50 select-plan" ng-click="selectPlan('month-49')" ng-if="application.plan_name !== 'stratus'">Choose plan</a>
+									</div>
+							</div>
+							
+					</div>
+					<div class="col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-0">
+							<div class="pricing-tier card best" id="tier-2">
+									<span class="label label-success">Best value</span>
+									<div class="pricing-tier-title">Nimbo Stratus</div>
+									
+									
+									<div><span style="margin-right:5px;font-size:18px;">€</span><span class="pricing-page-amount" id="amount-2">99</span><span >/month</span></div>
+									<p class="billed-yearly-disclaimer">Or € 990 per year</p>
+									<br/>
+									<div class="tier-feature"><b>1500K</b> API requests /month</div>
+									<div class="tier-feature"><b>5 GB</b> File storage</div>
+									<div class="tier-feature"><b>∞</b> Collaborators</div>
+									<div class="tier-feature"><b>∞</b> Dashboard usage</div>
+									<div class="tier-feature"><b>3rd party</b> Integrations</div>
+									<br/>
+									<div class="text-center">
+											<a class="btn btn-default disabled  btn-lg mb50 select-plan" ng-if="application.plan_name === 'nimbo stratus'">Current plan</a>
+											<a class="btn btn-info raised  btn-lg mb50 select-plan" ng-click="selectPlan('month-99')" ng-if="application.plan_name !== 'nimbo stratus'">Choose plan</a></div>
+											
+											
+									</div>
+									
+							</div>
+							<div class="col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-0" ng-if="eligibleForStartupPlan === true">
+								<div class="pricing-tier card" id="tier-0">
+										<span class="label label-success">{{application.owner}}</span>
+										<div class="pricing-tier-title">Startup plan</div>
+										
+										
+										<div><span style="margin-right:5px;font-size:18px;">€</span><span class="pricing-page-amount">10</span><span >/month</span></div>
+										<p class="billed-yearly-disclaimer">Or € 120 per year</p>
+										
+										<br/>
+										<div class="tier-feature"><b>50K</b> API requests /month</div>
+										<div class="tier-feature"><b>0.5 GB</b> File storage</div>
+										<div class="tier-feature"><b>∞</b> Collaborators</div>
+										<div class="tier-feature"><b>∞</b> Dashboard usage</div>
+										<div class="tier-feature"><b>3rd party</b> Integrations</div>
+										<br/>
+										<div class="text-center">
+												<a class="btn btn-default disabled  btn-lg mb50 select-plan" ng-if="application.plan_name === 'startup'">Current plan</a>
+												<a class="btn btn-info raised  btn-lg mb50 select-plan" ng-click="selectPlan('startup_plan_10_monthly')" ng-if="application.plan_name !== 'startup plan'">Choose plan</a>
+										</div>
+								</div>
+								
+						</div>
+						
+				</div>
+				<div class="row mt20" ng-if="true === showYearlyPlans">
+						
+						<div class="col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-2">
+								<div class="pricing-tier card" id="tier-free">
+										<span class="label label-success" style="visibility: hidden;">Recommended</span>
+										<div class="pricing-tier-title">Free</div>
+										
+										
+										<div><span style="margin-right:5px;font-size:18px;">€</span><span class="pricing-page-amount" id="amount-0">0</span><span >/year</span></div>
+										<p class="billed-yearly-disclaimer">For testing purposes</p>
+										
+										<br/>
+										<div class="tier-feature"><b>5K</b> API requests /month</div>
+										<div class="tier-feature"><b>0.5 GB</b> File storage</div>
+										<div class="tier-feature"><b>∞</b> Dashboard usage</div>
+										<br/>
+										<div class="text-center">
+												<a class="btn btn-default disabled  btn-lg mb50 select-plan" ng-if="application.plan_name === 'free'">Current plan</a>
+												<a class="btn btn-info raised  btn-lg mb50 select-plan" ng-click="selectPlan('free')" ng-if="application.plan_name !== 'free'">Choose plan</a>
+										</div>
+								</div>
+								
+						</div>
+						<div class="col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-0">
+								<div class="pricing-tier card" id="tier-0">
+										<span class="label label-success" style="visibility: hidden">Recommended</span>
+										<div class="pricing-tier-title">Cumulus</div>
+										
+										
+										<div><span style="margin-right:5px;font-size:18px;">€</span><span class="pricing-page-amount" id="amount-0">190</span><span >/year</span></div>
+										<p class="billed-yearly-disclaimer">Or € 19 per month</p>
+										
+										<br/>
+										<div class="tier-feature"><b>100K</b> API requests /month</div>
+										<div class="tier-feature"><b>1 GB</b> File storage</div>
+										<div class="tier-feature"><b>∞</b> Collaborators</div>
+										<div class="tier-feature"><b>∞</b> Dashboard usage</div>
+										<div class="tier-feature"><b>3rd party</b> Integrations</div>
+										<br/>
+										<div class="text-center">
+												<a class="btn btn-default disabled  btn-lg mb50 select-plan" ng-if="application.plan_name === 'cumulus'">Current plan</a>
+												<a class="btn btn-info raised  btn-lg mb50 select-plan" ng-click="selectPlan('year-190')" ng-if="application.plan_name !== 'cumulus'">Choose plan</a>
+										</div>
+								</div>
+								
+						</div>
+						<div class="col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-2">
+								<div class="pricing-tier card" id="tier-1">
+										<span class="label label-success" style="visibility: hidden;">Recommended</span>
+										<div class="pricing-tier-title">Stratus</div>
+										
+										
+										<div><span style="margin-right:5px;font-size:18px;">€</span><span class="pricing-page-amount" id="amount-1">490</span><span >/year</span></div>
+										<p class="billed-yearly-disclaimer">Or € 49 per month</p>
+										
+										<br/>
+										<div class="tier-feature"><b>450K</b> API requests /month</div>
+										<div class="tier-feature"><b>2 GB</b> File storage</div>
+										<div class="tier-feature"><b>∞</b> Collaborators</div>
+										<div class="tier-feature"><b>∞</b> Dashboard usage</div>
+										<div class="tier-feature"><b>3rd party</b> Integrations</div>
+										<br/>
+										<div class="text-center">
+												<a class="btn btn-default disabled  btn-lg mb50 select-plan" ng-if="application.plan_name === 'stratus'">Current plan</a>
+												<a class="btn btn-info raised  btn-lg mb50 select-plan" ng-click="selectPlan('year-490')" ng-if="application.plan_name !== 'stratus'">Choose plan</a>
+										</div>
+								</div>
+								
+						</div>
+						<div class="col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-0">
+								<div class="pricing-tier card best" id="tier-2">
+										<span class="label label-success">Best value</span>
+										<div class="pricing-tier-title">Nimbo Stratus</div>
+										
+										
+										<div><span style="margin-right:5px;font-size:18px;">€</span><span class="pricing-page-amount" id="amount-2">990</span><span >/year</span></div>
+										<p class="billed-yearly-disclaimer">Or € 99 per month</p>
+										<br/>
+										<div class="tier-feature"><b>1500K</b> API requests /month</div>
+										<div class="tier-feature"><b>5 GB</b> File storage</div>
+										<div class="tier-feature"><b>∞</b> Collaborators</div>
+										<div class="tier-feature"><b>∞</b> Dashboard usage</div>
+										<div class="tier-feature"><b>3rd party</b> Integrations</div>
+										<br/>
+										<div class="text-center">
+												<a class="btn btn-default disabled  btn-lg mb50 select-plan" ng-if="application.plan_name === 'nimbo stratus'">Current plan</a>
+												<a class="btn btn-info raised  btn-lg mb50 select-plan" ng-click="selectPlan('year-990')" ng-if="application.plan_name !== 'nimbo stratus'">Choose plan</a></div>
+												
+												
+										</div>
+										
+								</div>
+								
+					</div>
+					
+				</div>
+			</div>
+			<div class="row mt50"  ng-show="step === 2">
+				
+				<div class="col-xs-12 col-sm-4 col-md-4 col-md-offset-1">
+					<div class="pricing-tier card">
+						<div class="pricing-tier-title">{{selected_plan.name}}</div>
+						
+						
+						<div><span style="margin-right:5px;font-size:18px;">€</span><span class="pricing-page-amount" id="amount-0">{{selected_plan.price_monthly}}</span><span >/month</span></div>
+						
+						<br/>
+						<div class="tier-feature"><b>{{selected_plan.api_calls}}</b> API requests /month</div>
+						<div class="tier-feature"><b>{{selected_plan.storage}} GB</b> File storage</div>
+						<div class="tier-feature"><b>∞</b> Collaborators</div>
+						<div class="tier-feature"><b>∞</b> Dashboard usage</div>
+						<div class="tier-feature"><b>3rd party</b> Integrations</div>
+						<br/>
+						<div class="text-center">
+							<a class="btn btn-default select-plan" ng-click="goToStep(1)">Change plan</a>
+						</div>
+					</div>
+					<div class="pricing-tier card" id="tier-0" ng-if="'yearly' === selected_plan.interval">
+						<div class="pricing-tier-title">{{selected_plan.name}}</div>
+						
+						
+						<div><span style="margin-right:5px;font-size:18px;">€</span><span class="pricing-page-amount" id="amount-0">{{selected_plan.price_yearly}}</span><span >/year</span></div>
+						
+						<br/>
+						<div class="tier-feature"><b>{{selected_plan.api_calls}}</b> API requests /month</div>
+						<div class="tier-feature"><b>{{selected_plan.storage}} GB</b> File storage</div>
+						<div class="tier-feature"><b>∞</b> Collaborators</div>
+						<div class="tier-feature"><b>∞</b> Dashboard usage</div>
+						<div class="tier-feature"><b>3rd party</b> Integrations</div>
+						<br/>
+						<div class="text-center">
+							<a class="btn btn-default select-plan" ng-click="goToStep(1)">Change plan</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-8 col-md-5">
+					<div class="card mb20">
+						<div ng-show="!account.hasOwnProperty('stripe') || !account.stripe.hasOwnProperty('sources') || 0 === account.stripe.sources.data.length">
+							<p class="text-muted">In order to create subscriptions, you need to provide your billing informations first. You can do that in your account page or clicking the link below.</p>
+							<a href="/account/billing" target="_blank" class="link">Update your billing informations</a>
+						</div>
+						<div ng-repeat="card in account.stripe.sources.data">
+							<div>This account is billed to: <span style="margin-right: 20px"></span>
+							<i class="fa fa-cc-visa" ng-if="'Visa' === card.brand"></i>
+							<i class="fa fa-cc-amex" ng-if="'American Express' === card.brand"></i>
+							<i class="fa fa-cc-mastercard" ng-if="'MasterCard' === card.brand"></i>
+							<i class="fa fa-cc-diners-club" ng-if="'Diners Club' === card.brand"></i>
+							<i class="fa fa-cc-jcb" ng-if="'JCB' === card.brand"></i>
+							<i class="fa fa-cc-discover" ng-if="'Discover' === card.brand"></i>
+						<b>{{card.brand}}</b> ending in <b>{{card.last4}}</b></div>
+						<div class="small mt20"><a href="/account" class="link" target="_blank">Click here</a> to manage your billing information.</div>
+						<div class="text-right">
+							<button class="btn btn-info" ng-click="updateApplicationSubscription()">Confirm update</button>
+						</div>
+					</div>
+				</div>
+				<div class="card" ng-show="showAddCreditCardInformation">
+					<div class="card-header">
+						Credit card information
+					</div>
+					<div class="spinner" ng-show="'processing' === creditCardFormState" style="margin-top: 50px;margin-bottom: 50px;"></div>
+					<div class="form" ng-show="'processing' !== creditCardFormState">
+						<div class="form-group">
+							<label>Card number</label>
+							<input type="text" name="card_number" class="form-control" ng-model="card.number">
+							<div class="text-danger" ng-if="invalidPropertyName === 'card.number'">
+								{{error}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-xs-6">
+								<label>Expiry month</label>
+								<input type="text" name="expiry_month" class="form-control" placeholder="MM" ng-model="card.exp_month">
+							</div>
+							<div class="form-group col-xs-6">
+								<label>Expiry year</label>
+								<input type="text" name="expiry_year" class="form-control" placeholder="YYYY" ng-model="card.exp_year">
+							</div>
+							<div class="text-danger col-xs-12" ng-if="invalidPropertyName === 'card.expiration'">
+								{{error}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-xs-6">
+								<label>CVC / CVV</label>
+								<input type="number" name="cvc" class="form-control" placeholder="xxx" ng-model="card.cvc">
+								<div class="text-danger" ng-if="invalidPropertyName === 'card.cvc'">
+									{{error}}
+								</div>
+							</div>
+							
+						</div>
+					</div>
+					<div class="card-footer">
+						<div class="row">
+							<div class="col-xs-6 text-left">
+								<button class="btn btn-default" ng-click="goToStep(step-1)">Back</button>
+							</div>
+							
+							<div class="col-xs-6 text-right"> <button class="btn btn-primary" ng-click="checkout()">Confirm</button></div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<div class="row"  ng-show="step === 3">
+			<div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 text-center">
+				<div class="card">
+					
+					<h2>Update complete!</h2>
+					<p>Your application's subscription was successfully updated.</p>
+					<p>Remember, you can always review your active subscriptions in your account page, inside the <a href="/account/billing" class="link">billing tab</a>. </p>
+					<a href="#/application/overview" class="btn btn-lg btn-info">Ok! Awesome!</a>
+				</div>
+			</div>
+		</div>
+	</div>

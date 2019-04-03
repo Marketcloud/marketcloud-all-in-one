@@ -1,0 +1,30 @@
+module.exports = {
+      access: 'admin',
+      publicKey: 'c88b04e9-fcd8-42a8-b68e-38413e024c1b',
+      application_id: 12015,
+      application: {
+        'id': 12015,
+        'name': 'Test Application',
+        'created_at': '2016-01-22T07:51:58.000Z',
+        'owner': 'test@marketcloud.it',
+        'url': null,
+        'status': 'exceeded_quota',
+        'plan_name': 'free',
+        'api_calls_quota_left': 0,
+        'api_calls_quota_max': 5000,
+        'renew_date': '2016-02-22T07:51:58.000Z',
+        'public_key': 'c88b04e9-fcd8-42a8-b68e-38413e024c1b',
+        'secret_key': 'obscured',
+        'tax_rate': 22,
+        'tax_type': 'all',
+        'currency_code': 'EUR',
+        'timezone': 'GMT Standard Time',
+        'email_address': 'test@gmail.com',
+        'logo': 'https://www.marketcloud.it/img/logo/normal.png',
+        'stripe_subscription_id': null,
+        'storage_max': 524288,
+        'storage_left': 524288,
+        'locales': '',
+        'currencies': '[{"code":"USD", "rate" : 1.17}]'
+      }
+    }

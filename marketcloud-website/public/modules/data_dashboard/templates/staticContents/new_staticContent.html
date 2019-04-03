@@ -1,0 +1,59 @@
+<div class="dashboard-section-header">
+	<a href="#/contents" class="link root">Contents</a> / create
+
+<button class="btn btn-info pull-right" ng-click="saveContent()">Save</button>
+<back-button></back-button>
+</div>
+<div class="container-fluid">
+		
+		<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			<div class="card mb50">
+			<div class="card-header"><h4>Basic information</h4></div>
+				<div class="form-group">
+					<label>Name</label>
+					<input type="text"
+					class="form-control input-lg solid"
+					placeholder="e.g. Latest news"
+					ng-model="content.name" />
+				</div>
+			
+
+			</div>
+		</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-8 col-xs-12">
+				<images-card items="content.images"></images-card>
+			</div>
+		</div>
+		<div class="row">
+		<div class="col-lg-8 col-xs-12">
+			
+			<div class="card card-table mb50">
+				<div class="card-header"><h4>Editor</h4></div>
+				<div class="form-group">
+					<div trumbowyg-ng
+					     ng-model="content.content"
+					     editor-config="{btns:[['viewHTML'],['formatting'],'btnGrp-semantic',['superscript','subscript'],['link'],['insertImage'],'btnGrp-justify','btnGrp-lists',['horizontalRule'],['removeformat'],['fullscreen']]}">
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+
+
+		
+		<div class="row">
+			<div class="col-lg-8 col-xs-12">
+				
+				<div class="card mb50">
+					<div class="row">
+						<div class="text-right col-xs-12">
+							<button class="btn btn-lg btn-success" ng-click="saveContent()"> Save Content</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>

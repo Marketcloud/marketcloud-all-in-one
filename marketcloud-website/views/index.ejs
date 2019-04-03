@@ -1,0 +1,155 @@
+<% include header %>
+
+
+		
+		<section id="first-section" class="blue">
+			
+			
+			<% include navbar %>
+					<div class="container-fluid" style="padding:20px;">
+						<div class="row">
+							<div class="col-xs-12 ct mt-xs-20 mt-sm-20 mt-lg-20 ">
+								<h1 id="main-lead">E-Commerce backend as a service</h1>
+								<p class="lead">Less code, more customers. <a id="learn_more_link" href="/features" class="link-white">Learn more &#8594;</a></p>
+							</div>
+							<div class="col-xs-12 mt20 ct">
+								
+								<div class="form form-inline mb20" id="subscriptionForm">
+									<div class="form-group">
+										<input class="form-control input-lg noborder" type="email" placeholder="you@example.com" id="email" name="email"/>
+									</div>
+									<div class="form-group">
+										<button class="btn btn-lg btn-danger btn-block btn-embossed" id="request_access_button">Get early access</button>
+									</div>
+									<div class="mt20"> <p>We'll send you an invitation as soon as possible</p></div>
+								</div>
+
+								
+							</div>
+							<div class="col-xs-12 mt20 ct">
+								<p id="subscriptionSuccess" class="lead no-display">Check your inbox for the confirmation email!</p>
+								<p id="subscriptionError" class="lead no-display" ></p>
+							</div>
+						</div>
+						
+						
+					</div>
+				</section>
+				<section id="fourth-section"  class="grey">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-xs-12 ct mb50 mt50">
+								<h1>Simple and powerful API</h1>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-lg-4 col-lg-offset-2 mb50">
+								
+								<div class="mb20">
+									<h4>Efficient and concise api</h4>
+									<p class="lead">Build mobile and web e-commerce apps in minutes using our API.
+									Save time, your customers are waiting for your awesome products.</p>
+								</div>
+								<div class="mb20">
+									<h4>Javascript, NodeJS, PHP and more!</h4>
+									<p class="lead">Choose the sdk for your preferred language or use plain HTTP calls. More languages will be supported soon!</p>
+								</div>
+								<a href="/features" class="link f18">Feature list &#8594;</a>
+								
+								
+							</div>
+							<div class="col-xs-12 col-lg-4 mb50">
+								<ul class="nav nav-pills" style="margin-bottom:10px;">
+									<li role="presentation" class="active"><a href="#" id="show_nodejs_snippet_link" >NodeJS</a></li>
+									<li role="presentation"><a href="#" id="show_javascript_snippet_link">Javascript</a></li>
+									<li role="presentation"><a href="#" id="show_php_snippet_link"  >PHP</a></li>
+								</ul>
+								<div class="window editor fading">
+									<div class="header">
+										<span class="bullet bullet-red"></span><span class="bullet bullet-yellow"></span><span class="bullet bullet-green"></span>
+									</div>
+									<div class="body">
+										<ol class="code active" id="nodejs_snippet">
+											<li><span class="code"><span class="code_keyword">var</span> Marketcloud = <span>require(<span class="code_string">'marketcloud'</span>)</span>;</span></li>
+											<li><span class="code"><span class="code_keyword">var</span> cfg = require(<span class="code_string">'./config.json'</span>);</span></li>
+											<li><span class="code"><span class="code_keyword">var</span> api = <span class="code_keyword_2">new</span> Marketcloud.<span class="code_function">Api</span>(cfg)</span></li>
+											<li><span class="code"><span class="code_keyword">var</span> products = api.products.<span class="code_function">search</span>(<span class="code_string">‘abc’</span>);</span></li>
+											<li><span class="code">api.cart.<span class="code_function">addProduct</span>(products[<span class="code_number">2</span>]);</span></li>
+											<li><span class="code">api.cart.<span class="code_function">checkout</span>();</span></li>
+										</ol>
+										<ol class="code" id="javascript_snippet">
+											<li><span class="code"><span class="code_keyword">var</span> cfg = {...};</span></li>
+											<li><span class="code"><span class="code_keyword">var</span> api = <span class="code_keyword_2">new</span> Marketcloud.<span class="code_function">Api</span>(cfg)</span></li>
+											<li><span class="code"><span class="code_keyword">var</span> products = api.products.<span class="code_function">search</span>(<span class="code_string">‘abc’</span>);</span></li>
+											<li><span class="code">api.cart.<span class="code_function">addProduct</span>(products[<span class="code_number">2</span>]);</span></li>
+											<li><span class="code">api.cart.<span class="code_function">checkout</span>();</span></li>
+										</ol>
+										<ol class="code" id="php_snippet">
+											
+											<li><span class="code"> $config = [...]</li>
+											<li><span class="code"> $api = <span>Marketcloud::Client($config)</span>;</span></li>
+											<li><span class="code"> $products = $api::products::<span class="code_function">search</span>(<span class="code_string">‘abc’</span>);</span></li>
+											<li><span class="code">$api::cart::<span class="code_function">addProduct</span>($products[<span class="code_number">2</span>]);</span></li>
+											<li><span class="code">$api::cart::<span class="code_function">checkout</span>();</span></li>
+										</ol>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</section>
+				
+				<section id="third-section">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-xs-12 ct mb50 mt50">
+								<h1>Friendly dashboard</h1>
+							</div>
+							<div class="col-xs-12 col-lg-4 col-lg-offset-2 mb50">
+							<img alt="Dashboard preview image" src="img/screen_5.png" style="max-width:100%"/></div>
+							<div class="col-xs-12 col-lg-4 mb50">
+								<div class="mb20"><h4>For developers</h4><p class="lead">Create multiple e-commerce applications, manage permissions, resources and api keys.</p></div>
+								<div class="mb20"><h4>For store owners</h4><p class="lead">Create Products, Brands, Categories, shippings, manage customers and orders in a few clicks.</p></div>
+								<a href="/features" class="link f18">Feature list &#8594;</a>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section id="second-section" class="grey">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-xs-12 ct mb100 mt50">
+								<h1>Made by developers for developers</h1>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-lg-4 mb50">
+								<div class="ct">
+									<img src="img/Pocket.png" style="max-height:128px" alt="Ecommerce api shopping bag"/>
+									<h2>Production Ready</h2>
+									<p class="lead">We provide you cart, catalog, login, order and admin functionalities out of the box.</p>
+									
+								</div>
+							</div>
+							<div class="col-xs-12 col-lg-4 mb50">
+								<div class="ct">
+									<img src="img/Retina-Ready.png" style="max-height:128px" alt="API Quality sign"/>
+									<h2>Quality and performance</h2>
+									<p class="lead">Marketcloud is designed to be RESTful, HTTP compliant and fast.</p>
+									<a href="/features" class="link f18">Feature list &#8594;</a>
+								</div>
+							</div>
+							<div class="col-xs-12 col-lg-4 mb50">
+								<div class="ct">
+									<img src="img/Infinity-Loop.png" style="max-height:128px" alt="Ecommerce api pricing"/>
+									<h2>Flexible pricing</h2>
+									<p class="lead">Jump in with our free plan, then choose the resources you need with our price selector.</p>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</section>
+				<% include footer %>

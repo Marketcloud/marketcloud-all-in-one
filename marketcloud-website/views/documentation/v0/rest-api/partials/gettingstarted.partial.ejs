@@ -1,0 +1,18 @@
+
+				<h2>Getting started</h2>
+				
+						<h4>1. Create an account and log in</h4>
+						<p >The first thing to do is to <a href="/" class="link">obtain a Marketcloud account</a> and <a href="/account/login" class="link">log</a> into the web application.
+						<h4>2. Create an application</h4>
+						<p >Now create a new application, providing the desired name, and url (optional). By default the app is created with a FREE subscription plan, you can upgrade it anytime.</p>
+						
+						<img src="https://marketcloudstatic01.blob.core.windows.net/images/create_an_app.png" class="img-responsive" />
+						<h4>3. Add resources to your application</h4>
+						<p >Head over the application's dashboard by clicking "dashboard" in the dropdown menu. Here you can add entities for your app such as Products, Categories, Brands and more (remember to publish them if you want to be able to query the data using public key authentication).</p>
+						<h4>4. Query the api</h4>
+						<p >Every application has a public/secret keys pair. You can use it to query your application. Each api call must contain the <i>Authorization</i> header, as the following example:</p>
+						<pre><code class="http">curl --request GET \
+  --url https://api.marketcloud.it/v0/products \
+  --header 'Content-Type: application/json' \
+  --header 'Authorization: PUBLIC_KEY'</code></pre>
+						<p >You can learn more about it in the <a href="/documentation/rest-api/authentication" class="link">authentication section</a> of the documentation.</p>

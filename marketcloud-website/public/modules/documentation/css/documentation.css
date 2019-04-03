@@ -1,0 +1,286 @@
+body {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+.spacer {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.section-title {
+    margin-top: 100px;
+}
+section.resource {
+    margin-bottom: 50px;
+}
+
+.method-title {
+    font-size: 20px;
+    font-weight: 500;
+    padding-top: 30px;
+    margin-bottom: 10px;
+}
+
+.documentation-page {
+    padding-top: 150px;
+    padding-bottom: 50px;
+}
+
+
+nav#mobile-index {
+        position: fixed;
+        left: 0px;
+        top: 50px;
+        bottom: 0px;
+        right:0px;
+        overflow-y: scroll;
+        padding: 20px;
+        padding-bottom: 70px;
+        background-color: #F6F6F6;
+        z-index: 3;
+        display: none;
+    }
+.documentation-index-handle {
+      border: 2px solid #F6F6F6;
+      position: fixed;
+      right: 0px;
+      border-left: 0px;
+      padding: 10px 10px;
+      background-color: #F6F6F6;
+      top: 70px;
+  }
+
+@media (min-width: 768px) {
+    .documentation-index-handle {
+        display: none;
+    }
+    nav#index {
+        position: fixed;
+        left: 0px;
+        top: 90px;
+        bottom: 0px;
+        overflow-y: scroll;
+        padding: 20px;
+        padding-bottom: 70px;
+        background-color: #F6F6F6;
+        z-index: 3;
+    }
+    #page-wrapper {
+        position: fixed;
+        left: 250px;
+        top: 50px;
+        right: 0px;
+        background-color: #FFF;
+    }
+    
+}
+
+@media (max-width: 767px) {
+    nav#index {
+        display: none;
+    }
+
+    
+    .sub-header {
+        display: none;
+    }
+    
+    #mobile-index h5 {
+        text-transform: uppercase;
+    }
+    #mobile-index li {
+        font-size: 20px;
+        padding: 8px;
+        padding-left: 0px;
+    }
+    #mobile-index li>a {
+        font-size: 20px;
+    }
+}
+
+nav ul {
+    list-style-type: none;
+    padding-left: 0px;
+    margin-left: 0px;
+}
+
+nav>ul>li {
+    line-height: 32px;
+}
+
+nav>ul>li>a {
+    font-size: 16px;
+}
+
+nav>ul>li.active>a {
+    font-weight: bold;
+}
+
+nav>ul>li>ul>li.active {
+    font-weight: bold;
+}
+
+nav>ul>li>ul {
+    display: none;
+}
+
+nav>ul>li.active>ul {
+    display: block;
+    list-style-type: none;
+    border-left: 3px solid #bdc3c7;
+    padding-left: 10px;
+}
+
+nav>h5 {
+    text-transform: uppercase;
+    margin-top: 30px;
+    font-style: 16px;
+}
+
+h3>a>i {
+    margin-left: -28px;
+    visibility: hidden;
+}
+
+h3:hover>a>i {
+    visibility: visible;
+}
+
+pre code {
+    padding: 10px !important;
+    font-size: 14px;
+}
+
+pre {
+    padding: 0px !important;
+    border: 1px solid #ddd;
+    background-color: #F5F5F5;
+    font-size: 15px;
+    border-radius: 2px;
+}
+
+code.hljs {
+    background-color: #F5F5F5;
+    font-size: 13px;
+    font-family: "Menlo", monospace;
+}
+
+
+.documentation-platform-block {
+    padding-left: 10px;
+}
+
+.documentation-platform-block .title {
+    height: 48px;
+    vertical-align: middle;
+    line-height: 48px;
+}
+
+@media (max-width: 918px) {
+    .navbar-nav {
+        float: none!important;
+        margin-top: 0px;
+    }
+    .navbar-nav>li>a {
+        padding: 14px 10px;
+    }
+}
+
+a.anchor {
+    display: block;
+    position: relative;
+    top: -100px;
+    visibility: hidden;
+}
+
+
+h3.endpoint-title, .documentation h3{
+    margin-top: 100px;
+    margin-bottom: 20px;
+}
+p.endpoint-description, .documentation p {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.documentation pre {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+
+.table-responsive {
+    border:1px solid #DDD;
+}
+
+h3,h5 {
+    margin-top: 50px;
+}
+
+
+.page-title {
+    margin-top: 0px;
+    font-weight: 400;
+}
+
+
+.vertical-index{
+    padding-left: 20px;
+}
+
+.vertical-index .title {
+    text-transform: uppercase;
+    border-left: 4px solid #3498db;
+    background-color: rgba(52, 152, 219, 0.1);
+    font-size: 17px;
+    font-weight: bold;
+    padding: 10px;
+}
+.vertical-index ul {
+    padding-left: 14px;
+}
+.vertical-index ul>li>a {
+    font-size: 16px;
+    display: block;
+    
+}
+
+.vertical-index ul>li.active>a {
+font-weight: bold;
+    color: #333;
+    cursor: default;
+}
+.vertical-index ul>li.active {
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+
+.documentation-platform-block{
+padding-left: 10px;
+}
+.documentation-platform-block .title {
+height: 48px;
+vertical-align: middle;
+line-height: 48px;
+}
+
+
+footer {
+    padding-top: 50px;
+}
+footer ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
+footer ul > li {
+    font-size: 18px;
+}
+
+footer .title {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}

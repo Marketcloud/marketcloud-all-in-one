@@ -1,0 +1,31 @@
+<div class="dashboard-section-header">
+	<span class="fa fa-exchange"></span> <span class="root">Deploy</span>
+</div>
+
+<div class="container-fluid">
+	<div class="row">
+		
+		<div class="col-lg-8 col-xs-12">
+			<div class="card">
+				<div class="row">
+					<div class="col-xs-6">
+						<b>Deploy to Heroku</b>
+						<p class="text-muted">Choose a starter template and deploy it to heroku</p>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label>Application template</label>
+							<select class="form-control" ng-model="selectedTemplate">
+								<option value="https://github.com/Marketcloud/node-marketcloud-starter">NodeJS Starter</option>
+								<option value="https://github.com/Marketcloud/marketcloud-php-starter">PHP Starter</option>
+							</select>
+						</div>
+						<a ng-href="{{null === selectedTemplate ? '' : getHerokuURL()}}" ng-class="{disabled : null === selectedTemplate}" target="blank">
+						  <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
+						</a>
+					</div>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>

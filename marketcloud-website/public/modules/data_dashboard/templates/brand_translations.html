@@ -1,0 +1,95 @@
+<div class="dashboard-section-header">
+	<span class="fa fa-flag"></span> <a class="root link" href="#/brands">Brands</a> / <a href="#/simple_brand/{{brand.id}}/edit" class="link">{{brand.name}}</a> / translations
+	<button class="btn btn-info pull-right" style="margin-left: 20px;" ng-click="updateTranslations()">Save</button>
+	<back-button></back-button>
+</div>
+<div class="container-fluid" style="padding-bottom: 50px;">
+	<div class="row">
+		
+		
+		<div class="col-xs-12 col-lg-4 col-lg-push-8">
+			<div class="card mb20">
+				<div class="form-group">
+					<span class="flag-icon" ng-class="getFlagClassName()"></span>
+					<label>Current translation</label>
+					<select class="form-control"
+						ng-model="currentLocale"
+						ng-options="o as o.name for o in availableLocales"
+						ng-change="switchLocale()"
+						>
+					</select>
+				</div>
+				<a class="link" target="_blank" href="#/system/localization">Add languages..</a>
+			</div>
+		</div>
+
+		<div class="col-xs-12 col-lg-8 col-lg-pull-4">
+			
+			<div class="card card-form mb20">
+				<div class="card-header"><h4>Basic information</h4></div>
+				<div class="card-content">
+					<div class="form-group" ng-class="{'has-error' : errorField === 'name'}">
+						<label>Name*</label>
+						<input type="text"
+						class="form-control input-lg "
+						placeholder="{{brand.name}}"
+						ng-change="updateSlug()"
+						ng-model="brand.locales[currentLocale.code].name" />
+						<error-messages
+						validation="validation"
+						schema="schema"
+						property-name="name">
+						</error-messages>
+					</div>
+					<div class="checkbox">
+						<input type="checkbox" ng-model="unsafeSlug" id="unsafeSlug" />
+						<label for="unsafeSlug">
+							Editable slug
+						</label>
+					</div>
+					<div class="form-group">
+						<label>Slug</label>
+						<input type="text"
+						class="form-control input-lg solid"
+						ng-disabled="false === unsafeSlug"
+						ng-model="brand.locales[currentLocale.code].slug" />
+					</div>
+					<div class="row">
+						<div class="form-group col-xs-12">
+							
+							<label>Description</label>
+							<div trumbowyg-ng
+					     ng-model="brand.locales[currentLocale.code].description"
+					     editor-config="{btns:[['viewHTML'],['formatting'],'btnGrp-semantic',['superscript','subscript'],['link'],['insertImage'],'btnGrp-justify','btnGrp-lists',['horizontalRule'],['removeformat'],['fullscreen']]}">
+					</div>
+						</div>
+					</div>
+					
+					
+				</div>
+			</div>
+			
+			
+			<seo-form seo="brand.locales[currentLocale.code].seo"></seo-form>
+			
+			
+		</div>
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+	
+	
+	
+</div>

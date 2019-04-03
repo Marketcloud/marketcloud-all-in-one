@@ -1,0 +1,89 @@
+<h1>Translations</h1>
+  
+<p>In Marketcloud you can add multiple languages to your store and multiple translations to your products, categories, brands and more.</p>
+
+<h4 class="mt50">Table of contents</h4>
+<ol>
+  <li><a class="link" href="#addLanguages">Adding languages to your store</a></li>
+  <li><a class="link" href="#translateAProduct">Translating a product</a></li>
+  <li><a class="link" href="#usingTheTranslation">Using the translation in your code</a></li>
+</ol>
+
+
+<a class="anchor" id="addLanguages"></a>
+<h4 class="mt50">Adding languages to your store</h4>
+<p>The first thing to do is to log into your store's dashboard and open the localization settings tab by clicking on <b>system</b> > <b>localization</b>.</p>
+
+<img src="https://marketcloud.azureedge.net/images/localization.png" class="img-responsive mb20 zoomable">
+
+<p>To add a new language to your store, simply select a language from the selection menu and click "Add".</p>
+
+<p>At this point you are able to add a translation (for the selected language) to each of the resources supporting translations:</p>
+
+<ul class="list">
+  <li>Products</li>
+  <li>Brands</li>
+  <li>Categories</li>
+  <li>Collections</li>
+  <li>Notifications</li>
+</ul>
+
+
+<a class="anchor" id="translateAProduct"></a>
+<h4 class="mt50">Translating a product</h4>
+<p>Let's try it out. To translate a product, open the edit view of a single product by clicking on <b>Inventory</b> > <b>Products</b> and now click on one of your products. Here you can edit the product's properties and in the <i>top right corner</i> you can click on the dropdown menu and then on the <b>edit translations</b> button. </p>
+
+<img src="https://marketcloud.azureedge.net/images/editTranslations.png?v=2" class="img-responsive mb20 zoomable">
+
+<p>In the current view you can select the language you want to translate the product to and you can switch between all your store's languages.</p>
+<img src="https://marketcloud.azureedge.net/images/translateAProduct.png" class="img-responsive mb20 zoomable">
+
+<p>As you can see, the view is almost the same as the edit product view, so you should already be familiar with it, the difference is that every information you change here will not affect the base product, just its translations.</p>
+<p>With the same process you can translate the other resources listed above, just remember to navigate to the correct resource.</p>
+
+<a class="anchor" id="usingTheTranslation"></a>
+<h4 class="mt50">Using the translation in your code</h4>
+<blockquote class="blockquote-warning">
+  <b>Nerd alert</b>
+  <p>The following paragraph is meant for developers, so if you're not a developer and it doesn't make any sense to you, don't worry! The developer(s) building your store will surely understand this :) </p>
+</blockquote>
+<p>Once a product (or another resource) has translations, you will se an attached property called "locales" to your JSON objects. This top level property contains other properties, each one represents a translation, let's see an example:</p>
+
+<pre class="hljs"><code class="json">
+{
+  "name" : "Javascript sticker"
+  ...
+  "locales": {
+      "de-DE": {
+        "name" : "Javascript Aufkleber",
+        "description" : "Ein Javascript Aufkleber",
+        "slug" : "javascript-aufkleber "
+      }, 
+      "it-IT": {
+          "description": "Un adesivo javascript", 
+          "name": "Adesivo Javascript", 
+          "slug": "adesivo-javascript"
+      },
+      ...
+  }
+  ...
+}
+</code></pre>
+
+
+<p>In this way, all you have to do to translate resources in your code, is to access the same property but filtered by locale:</p>
+<pre><code class="javascript">
+  // Javascript example
+
+  marketcloud.products.list({
+    "slug" : "javascript-sticker"
+  })
+  .then( (response) => {
+
+    var product = response.data[0];
+
+    var germanProductName = product.locales["de-DE"].name;
+    var italianProductName = product.locales["de-DE"].name;
+  })
+  ...
+</code></pre>

@@ -1,0 +1,99 @@
+<div class="dashboard-section-header" style="box-shadow: none">
+  <span class="fa fa-cog"></span>
+  <span class="root">Application settings / Collaborators</span>
+  <back-button></back-button>
+  
+  
+</div>
+
+<div ng-include="'/modules/data_dashboard/templates/application_settings_navigation.partial.html'" class="navigation-container"></div>
+
+
+
+<!-- NEW collaborator MODAL -->
+<div class="modal fade" tabindex="-1" role="dialog" id="newCollaboratorModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">New collaborator</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form">
+					
+					
+					<div class="form-group">
+						<label>Email address</label>
+						<div class="text-muted f14 italic">The collaborator's email address. Please note that it must be registered on Marketcloud.</div>
+						<input class="form-control"
+						type="email"
+						ng-model="newCollaborator.email"
+						/>
+					</div>
+
+					<div class="form-group">
+						<label>Role</label>
+						<select class="form-control" ng-model="newCollaborator.role">
+							<option value="editor">Editor</option>
+							<option value="admin">Admin</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-empty-default" data-dismiss="modal">Close</button>
+				<button ng-show="mode === 'create'" type="button" class="btn btn-info" ng-click="saveCollaborator()">Add collaborator</button>
+				<button ng-show="mode === 'update'" type="button" class="btn btn-info" ng-click="updateCollaborator()">Update</button>
+			</div>
+			</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div>
+
+
+
+
+
+	<div class="container-fluid mt20">
+		<div class="row">
+			<div class="col-lg-8 col-lg-offset-2 col-xs-12">
+				<div class="card card-table">
+					<div class="card-toolbar text-right">
+						<button class="btn btn-info" ng-click="showCreateModal()"><span class="fa fa-plus"></span> add</button>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Email</th>
+									<th>Role</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody  ng-show="collaborators.length > 0 ">
+								<tr ng-repeat="collaborator in collaborators">
+									<td>{{collaborator.email}}</td>
+									<td>
+									<select class="form-control"
+									ng-model="collaborator.role"
+									ng-change="updateCollaborator(collaborator)">
+										<option value="editor">Editor</option>
+										<option value="admin">Admin</option>
+									</select>
+								</td>
+									<td class="text-right">
+										<button class="btn" ng-click="delete(collaborator)"><span class="fa fa-trash"></span></button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div ng-show="collaborators.length <= 0">
+						<div class="center text-muted mb20">
+							<span class="fa fa-user f48"></span>
+						</div>
+						<p class="lead text-muted text-center">You haven't added any collaborator yet</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

@@ -1,0 +1,111 @@
+<!-- Coupons -->
+<section class="resource">
+<h3 class="section-title"  id="coupons">Coupons</h3>
+
+
+ <a class="anchor" id="coupons.getById"></a>
+ <div class="method-title">Retrieve a coupon</div>
+      <h5>Example request</h5>
+        <pre><code class="php">//Retrieves a coupon by its id
+Marketcloud\Coupons::getById($id);
+      </code></pre>
+
+
+     <a class="anchor" id="coupons.list"></a>
+ <div class="method-title">List coupons</div>
+      <h5>Example request</h5>
+        <pre><code class="php">//Retrieves a paginated list of coupons
+$query = array(
+  "active" => true 
+)
+Marketcloud\Coupons::get($query);
+      </code></pre>
+
+
+     <a class="anchor" id="coupons.create"></a>
+ <div class="method-title">Create a coupon</div>
+      <h5>Parameters</h5>
+      <div class="table-responsive">
+  <table class="table table-striped documentation">
+    <thead>
+      <tr>
+        <th>Attribute</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="code">name <span  class="label label-success">Required</span></td>
+        <td>String</td>
+        <td>The coupon name</td>
+      </tr>
+      <tr>
+        <td class="code">code <span  class="label label-success">Required</span></td>
+        <td>String</td>
+        <td>The secret code that the customer must match to benefit from the coupon.</td>
+      </tr>
+      <tr>
+        <td class="code">target_type <span  class="label label-success">Required</span></td>
+        <td>String</td>
+        <td>This parameter tells the API where the coupon can be applied. Use  <code>'CART_COUPON'</code> if you want to apply a discount to the whole cart, <code>'PRODUCT_COUPON'</code> if the discount is appliable only to a specific product, and <code>'CATEGORY_COUPON'</code> if the discount can be applied to all products in a certain category.</td>
+      </tr>
+      
+      <tr>
+        <td class="code">discount_type <span  class="label label-success">Required</span></td>
+        <td>String</td>
+        <td>This parameter tells the API which is the type of discount. Use  <code>'NET_REDUCTION'</code> if you want to apply a net discount, or use <code>'PERCENTAGE_DISCOUNT'</code> if you want to apply a percentage discount.</td>
+      </tr>
+      
+      <tr>
+        <td class="code">discount_value <span  class="label label-success">Required</span></td>
+        <td>Number</td>
+        <td>The value of the discount, if the discount_type is <code>PERCENTAGE_DISCOUNT</code> the discount_value represent the percentage of discount to apply (the percentage is calculated against the target, cart, product or category) </td>
+      </tr>
+      <tr>
+        <td class="code">active</td>
+        <td>Boolean</td>
+        <td>Tells wether the coupon is active or not.</td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+      <h5>Example request</h5>
+        <pre><code class="php">//Creates a new coupon worth 10$
+$coupon = array(
+  "name" => "Welcome coupon 10$ discount",
+  "code" => "XS671GH",
+  "type" => "total",
+  "target_type" => "CART_COUPON",
+  "discount_type" => "NET_REDUCTION",
+  "discount_value" => 10
+)
+
+Marketcloud\Coupons::create($coupon);
+      </code></pre>
+
+
+     <a class="anchor" id="coupons.update"></a>
+ <div class="method-title">Updates a coupon</div>
+      <h5>Example request</h5>
+        <pre><code class="php">//Updates coupon, sets the discount value to 20
+$coupon_update = array(
+  "name" => "Welcome coupon 20$ discount",
+  "discount_value" => 20
+)
+
+Marketcloud\Coupons::update($coupon_id,$coupon_update);
+</code></pre>
+
+
+
+ <a class="anchor" id="coupons.delete"></a>
+ <div class="method-title">Delete a coupon</div>
+      <h5>Example request</h5>
+        <pre><code class="php">//Delete a coupon by its id
+Marketcloud\Coupons::delete($id);
+      </code></pre>
+
+<!-- End of Coupons -->
+</section>

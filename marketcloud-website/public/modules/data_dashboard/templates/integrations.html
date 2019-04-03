@@ -1,0 +1,63 @@
+<div class="dashboard-section-header">
+	<span class="fa fa-puzzle-piece"></span> <a href="#/integrations" class="link">Integrations</a>
+	<back-button></back-button>
+</div>
+
+<div class="container-fluid">
+					<div class="row" ng-show="integrations.length > 0" ng-cloak>
+					<div  ng-repeat="integration in integrations track by $index">
+						<div class="clearfix visible-sm-block" ng-if="$index % 2 == 0"></div>
+						<div class="clearfix visible-md-block" ng-if="$index % 3 == 0"></div>
+						<div class="clearfix visible-lg-block" ng-if="$index % 3 == 0"></div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+							<a class="card integration" href="#/integrations/{{integration.name}}">
+								<div class="row">
+									<div class="col-xs-4"><img src="{{integration.image}} " style="max-width:100%"></div>
+									<div class="col-xs-8">
+										<b>{{integration.name}}</b><br/>
+
+										<span class="label label-empty-info" ng-repeat="tag in integration.tags" style="margin-right:10px;">#{{tag}}</span>
+									</div>
+								</div>
+							</a>
+							
+						</div>
+					</div>
+
+				</div>
+<!-- 	<div class="row">
+		<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+			
+			<div class="card mb50">
+				
+				<div class="caption text-center">
+					<img ng-src="https://marketcloud.azureedge.net/storm-images/stripe.png" style="width:100%;">
+					<h3>Stripe</h3>
+					<p>Web and mobile payments. Built for developers.</p>
+					<p><a href="#/integrations/stripe" class="btn btn-empty-info btn-block">Settings</a></p>
+				</div>
+			</div>
+			
+		</div>
+
+		<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+			
+			<div class="card mb50">
+				
+				<div class="caption text-center">
+					<img ng-src="https://marketcloud.azureedge.net/storm-images/braintree-logo.jpg" style="width:100%;">
+					<h3>Braintree</h3>
+					<p>Accept Web and mobile payments almost anywhere. </p>
+					<p><a href="#/integrations/braintree" class="btn btn-empty-info btn-block">Settings</a></p>
+				</div>
+			</div>
+			
+		</div>
+		
+		
+	</div> -->
+	
+</div>
+
+
+				

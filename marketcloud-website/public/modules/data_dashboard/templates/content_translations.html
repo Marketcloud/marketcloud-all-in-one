@@ -1,0 +1,119 @@
+<div class="dashboard-section-header">
+  <span class="fa fa-flag"></span> <a class="root link" href="#/contents">Contents</a> / <a href="#/content/{{content.id}}/edit" class="link">{{content.title}}</a> / translations
+  <button class="btn btn-info pull-right" style="margin-left: 20px;" ng-click="updateTranslations()">Save</button>
+  <back-button></back-button>
+</div>
+<div class="container-fluid" style="padding-bottom: 50px;">
+  <div class="row">
+    
+    <div class="col-xs-12 col-lg-4 col-lg-push-8">
+      <div class="card mb20">
+        <div class="form-group">
+          <span class="flag-icon" ng-class="getFlagClassName()"></span>
+          <label>Current translation</label>
+          <select class="form-control"
+            ng-model="currentLocale"
+            ng-options="o as o.name for o in availableLocales"
+            ng-change="switchLocale()"
+            >
+          </select>
+        </div>
+        <a class="link" target="_blank" href="#/system/localization">Add languages..</a>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-lg-8 col-lg-pull-4">
+      
+      <div class="card mb50">
+        <div class="card-header"><h4>Basic information</h4></div>
+        <div class="form-group">
+          <label>Type</label>
+          <span class="fa fa-question-circle ml20 text-muted" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"></span>
+          <select class="form-control" ng-model="content.type" ng-disabled="true">
+            <option value="" selected="true" disabled="true" ng-if="!content.type">Select a content type</option>
+            <option value="post">Blog post</option>
+            <option value="page">Page</option>
+            <option value="element">Visual element</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text"
+          class="form-control"
+          placeholder="{{content.title}}"
+          ng-change="updateSlug()"
+          ng-model="content.locales[currentLocale.code].title" />
+        </div>
+        <div class="checkbox">
+          <input type="checkbox" ng-model="unsafeSlug" id="unsafeSlug" />
+          <label for="unsafeSlug">
+            Editable slug
+          </label>
+        </div>
+        <div class="form-group">
+          <label>Slug</label>
+          <input type="text"
+          class="form-control  "
+          ng-disabled="false === unsafeSlug"
+          placeholder="{{content.slug}}"
+          ng-model="content.locales[currentLocale.code].slug" />
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <input type="text"
+          class="form-control  "
+          placeholder="{{content.category}}"
+          ng-model="content.locales[currentLocale.code].category" />
+        </div>
+        <div class="form-group">
+          <label>Date</label>
+          <div class="input-group">
+            <input
+            ng-disabled="true"
+            type="text"
+            class="form-control"
+            placeholder="Select a date..."
+            moment-picker="content.date"
+            locale="en"
+            ng-model="content.locales[currentLocale.code].date"
+            format="MMMM Do YYYY"
+            today="true"
+            min-view="month"
+            max-view="month"
+            ng-model-options="{ updateOn: 'blur' }">
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-table mb50">
+        <div class="card-header"><h4>Editor</h4></div>
+        <div class="form-group">
+          <div trumbowyg-ng
+            ng-model="content.locales[currentLocale.code].text"
+            editor-config="{btns:[['viewHTML'],['formatting'],'btnGrp-semantic',['superscript','subscript'],['link'],['insertImage'],'btnGrp-justify','btnGrp-lists',['horizontalRule'],['removeformat'],['fullscreen']]}">
+          </div>
+        </div>
+      </div>
+
+      <seo-form seo="content.seo"></seo-form>
+      
+      
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </div>
+  
+  
+  
+</div>

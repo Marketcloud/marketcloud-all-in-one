@@ -1,0 +1,99 @@
+
+<div class="container-fluid mt20">
+  <div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+      <div class="card">
+        <div class="card-content">
+        <div class="f24">Create an application</div>
+        <div class="form-group" ng-class="{'has-error' : 'name' === _invalid}">
+          <label>Name</label>
+          <span class="text-muted small">Required</span>
+          <input type="text" class="form-control input-lg solid" ng-model="application.name">
+        </div>
+        <div class="form-group" ng-class="{'has-error' : 'url' === _invalid}">
+          <label>Website</label>
+          <p class="text-muted small">Do you already have a URL pointing to your new store?</p>
+          <input type="url"
+              class="form-control input-lg solid"
+              ng-model="application.url">
+        </div>
+        <div class="form-group">
+          <label>What do you sell</label>
+          <select class="form-control input-lg solid"
+              ng-model="application.ecommerce_category"
+              ng-class="{'has-error' : 'ecommerce_category' === _invalid}">
+            <option value="books">Books</option>
+            <option value="clothing">Clothing, shoes and accessories</option>
+            <option value="digital_goods">Digital goods</option>
+            <option value="electronics">Electronics</option>
+            <option value="food">Food and beverages</option>
+            <option value="furniture">Furniture</option>
+            <option value="family">Kids and family</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group" ng-class="{'has-error' : 'reason' === _invalid}">
+          
+          <div class="radio">
+            
+            <input type="radio" ng-model="application.reason" value="client" checked>
+            <label>
+              I am setting up this app for a client
+            </label>
+          </div>
+          <div class="radio">
+            <input type="radio" ng-model="application.reason" value="myself">
+            <label>
+              I am setting up this app for me/my company
+            </label>
+          </div>
+        </div>
+        
+        
+        <div class="row hide">
+          <div class="form-group col-lg-4">
+            <label>Select a pricing plan</label>
+            <!-- <select class="form-control input-lg solid">
+                <option value="">Free - 0€/mo</option>
+                <option value="">Cumuls - 19€/mo</option>
+                <option value="">Stratus - 49€/mo</option>
+                <option value="">Nimbo stratus - 99€/mo</option>
+                <option value="">Cirro stratus - 199€/mo</option>
+            </select> -->
+            <!-- <select class="form-control input-lg solid"
+                ng-options="plan as plan.name for plan in plans"></select>
+          </div> -->
+          <div class="form-group col-lg-8">
+            <label></label>
+            <div style="border:3px solid #2980b9;border-radius : 3px;padding:5px;">
+              <div class="row">
+                <div class="col-xs-4 text-center">
+                  <div class="xsmall uc bold">Requests</div>
+                  <div>5000</div>
+                </div>
+                <div class="col-xs-4 text-center">
+                  <div class="xsmall uc bold">Storage</div>
+                  <div>1GB</div>
+                </div>
+                <div class="col-xs-4 text-center">
+                  <div class="xsmall uc bold">Integrations</div>
+                  <div>0</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+    <div class="card-footer">
+      <div class="text-right">
+        <a class="btn btn-empty-default" href="#/" >Cancel</a>
+        <button class="btn btn-info" ng-click="create()">Create app</button>
+      </div>
+    </div>
+    </div>
+  </div>
+  
+</div>

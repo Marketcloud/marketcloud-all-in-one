@@ -1,0 +1,110 @@
+<div class="dashboard-section-header" style="box-shadow: none">
+  <span class="root">Application settings</span> / overview
+  <back-button></back-button>
+  
+  
+</div>
+
+<div ng-include="'/modules/data_dashboard/templates/application_settings_navigation.partial.html'" class="navigation-container"></div>
+
+
+<div class="container-fluid">
+  <div class="row mt20">
+    <div class="col-lg-8 col-lg-offset-2 col-xs-12">
+      
+       
+
+
+      <div class="card card-table mb20">
+        <div class="card-header">
+          <h4>Information</h4>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr><th>Property name</th><th>Value</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Name</td>
+              <td>{{application.name}}</td>
+            </tr>
+            <tr>
+              <td>Owner</td>
+              <td>{{application.owner}}</td>
+            </tr>
+            <tr>
+              <td>Created at</td>
+              <td>{{application.app_created_at | date : "MMM d, yyyy"}}</td>
+            </tr>
+            <!--<tr>
+                <td>Last edit</td>
+                <td>{{application.updated_at}}</td>
+            </tr>-->
+            <tr>
+              <td>Monthly api call quota left</td>
+              <td>{{application.api_calls_quota_left}}
+                /
+                {{application.api_calls_quota_max}}
+                <span class="label label-success" ng-show="application.api_calls_quota_left > 1000">OK</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Storage space left</td>
+              <td>{{kilobytesToGigabytes(application.storage_left)}} GB / {{kilobytesToGigabytes(application.storage_left)}} GB (0%)</td>
+            </tr>
+            <tr>
+              <td>Subscription plan</td>
+              <td>
+                <span class="">{{application.plan_name}}</span>
+                <a href="#/application/billing" class="btn btn-xs btn-info pull-right">Update plan</a>
+              </td>
+            </tr>
+            <tr>
+              <td>Renew date</td>
+              <td>{{application.renew_date  | date : "MMMM d, yyyy"}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="card card-table mb50">
+        <div class="card-header"><h4>API Requests</h4></div>
+          <div ng-if="activities.length === 0">
+              <div class="row">
+                  <div class="col-lg-12">
+                      <div class="center text-muted"><span class="fa fa-exchange f48"></span></div>
+                      <p class="lead text-muted center">There are no API requests to show yet.</p>
+                  </div>
+              </div>
+          </div>
+          <div class="table-responsive" ng-if="activities.length > 0">
+              <table class="table">
+                  <thead>
+                      <tr>
+                          <th>Method</th>
+                          <th>Path</th>
+                          <th>Response</th>
+                          <th>Date</th>
+                          <th>Source</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr ng-repeat="activity in activities">
+                          
+                          <td>
+                              <span class="label" ng-class='getMethodCSSClass(activity)'>{{activity.method}}</span>
+                              
+                          </td>
+                          <td>{{activity.path}}</td>
+                          <td>{{activity.status}}</td>
+                          <td>{{activity.time}}</td>
+                          <td>{{activity.source}}</td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,125 @@
+<h1>Work with currencies</h1>
+<p>With Marketcloud your store can support multiple currencies, allowing you to show prices and checkouts in multiple currencies.</p>
+<blockquote class="blockquote-warning"><b>Warning</b><br/>The currencies feature is still in beta, if you find any bug or have questions, don't hesitate to <a href="/community" class="link">let us know</a> :)</blockquote>
+<h4 class="mt50">Table of contents</h4>
+<ol>
+<li><a class="link" href="#setBaseCurrency">Set a base currency</a></li>
+<li><a class="link" href="#supportMultipleCurrencies">Support multiple currencies</a></li>
+<li><a class="link" href="#showPricesInOtherCurrencies">Show prices in other currencies</a></li>
+<li><a class="link" href="#checkout">Checkout and payments</a></li>
+</ol>
+<a class="anchor" id="setBaseCurrency"></a>
+<h4 class="mt50">Set a base currency</h4>
+<p>Every application in Marketcloud has a base currency. This is the currency used when entering the price of your products and it is used as default when no currency is specified during checkout and when requesting information from the API. Most stores will do just fine with one single currency, but others will sell their products in other cuntries.
+To set your basic currency, <a class="link" href="https://www.marketcloud.it/applications">open your dashboard</a> and click on your app's backoffice. <br/>
+Once your store's dashboard is loaded. click on <b>System > Settings > Basic information</b>, here you can find the currency section to set your base currency. Once you selected the basic currency for your store, remember to save your changes.
+</p>
+<blockquote class="blockquote-info"><b>Important</b><br/>The base currency is the one used internally to represent base prices. These basic values are then used to translate prices and fees in other currencies.</blockquote>
+<img src="https://marketcloud.azureedge.net/images/setup_base_currency.png" class="img-responsive mb20">
+<a class="anchor" id="supportMultipleCurrencies"></a>
+<h4 class="mt50">Support multiple currencies</h4>
+<p>Sometimes one currency is not enough, maybe the store wants to sell products in another country which requires to show prices and in another currency. For this kind of situations you can add multiple currencies to your store.</p>
+<p>To add multiple currencies, <a class="link" href="https://www.marketcloud.it/applications">open your dashboard</a> and click on your app's backoffice. <br/>
+Once your store's dashboard is loaded. click on <b>System > Localization > Currencies</b>, here you can find the currency section to add additional currencies for your store.
+<blockquote class="blockquote-warning"><b>Warning</b><br/>In order to be able to show prices in other currencies you must add each currency in this section with the most appropriate rate. We provide a <i>fetch rate</i> functionality that grabs the current value from various financial systems, but <b>this rate will not refresh automatically!</b></blockquote>
+</p>
+<img src="https://marketcloud.azureedge.net/images/setup_additional_currencies.png" class="img-responsive mb20">
+<a class="anchor" id="showPricesInOtherCurrencies"></a>
+<h4 class="mt50">Show prices in other currencies</h4>
+<blockquote class="blockquote-warning">
+<b>Nerd alert</b>
+<p>The following paragraph is meant for developers, so if you're not a developer and it doesn't make any sense to you, don't worry! The developer(s) building your store will surely understand this :) </p>
+</blockquote>
+
+<p>Once we added both base and additional currencies in our store we are ready to display our products prices in the correct currency.</p>
+<p>Retrieving products in a particular currency is as easy as setting a GET parameter named <code>currency</code> and setting it to one of the supported currency codes.</p>
+<p>Suppose we want to retrieve our products and our customer selected US Dollars as currency, all we have to do to show converted prices is:</p>
+<pre><code class="bash">curl -XGET https://api.marketcloud.it/v0/products?currency=USD</code></pre>
+
+<blockquote class="blockquote-info">
+<b>Info</b>
+<p>You can use the <code>currency</code> GET parameter to convert the currency of other resources, such as carts, orders, promotions and coupons.</p>
+</blockquote>
+
+
+<h5>Supported presentment currencies</h5>
+<table class="table table-bordered"><thead><tr><th>Name</th><th>Code</th><th>Symbol</th></tr></thead><tbody><tr><td>US Dollar</td><td>USD</td><td>$</td></tr><tr><td>Canadian Dollar</td><td>CAD</td><td>CA$</td></tr><tr><td>Euro</td><td>EUR</td><td>€</td></tr><tr><td>United Arab Emirates Dirham</td><td>AED</td><td>AED</td></tr><tr><td>Afghan Afghani</td><td>AFN</td><td>Af</td></tr><tr><td>Albanian Lek</td><td>ALL</td><td>ALL</td></tr><tr><td>Armenian Dram</td><td>AMD</td><td>AMD</td></tr><tr><td>Argentine Peso</td><td>ARS</td><td>AR$</td></tr><tr><td>Australian Dollar</td><td>AUD</td><td>AU$</td></tr><tr><td>Azerbaijani Manat</td><td>AZN</td><td>man.</td></tr><tr><td>Bosnia-Herzegovina Convertible Mark</td><td>BAM</td><td>KM</td></tr><tr><td>Bangladeshi Taka</td><td>BDT</td><td>Tk</td></tr><tr><td>Bulgarian Lev</td><td>BGN</td><td>BGN</td></tr><tr><td>Bahraini Dinar</td><td>BHD</td><td>BD</td></tr><tr><td>Burundian Franc</td><td>BIF</td><td>FBu</td></tr><tr><td>Brunei Dollar</td><td>BND</td><td>BN$</td></tr><tr><td>Bolivian Boliviano</td><td>BOB</td><td>Bs</td></tr><tr><td>Brazilian Real</td><td>BRL</td><td>R$</td></tr><tr><td>Botswanan Pula</td><td>BWP</td><td>BWP</td></tr><tr><td>Belarusian Ruble</td><td>BYR</td><td>BYR</td></tr><tr><td>Belize Dollar</td><td>BZD</td><td>BZ$</td></tr><tr><td>Congolese Franc</td><td>CDF</td><td>CDF</td></tr><tr><td>Swiss Franc</td><td>CHF</td><td>CHF</td></tr><tr><td>Chilean Peso</td><td>CLP</td><td>CL$</td></tr><tr><td>Chinese Yuan</td><td>CNY</td><td>CN¥</td></tr><tr><td>Colombian Peso</td><td>COP</td><td>CO$</td></tr><tr><td>Costa Rican Colón</td><td>CRC</td><td>₡</td></tr><tr><td>Cape Verdean Escudo</td><td>CVE</td><td>CV$</td></tr><tr><td>Czech Republic Koruna</td><td>CZK</td><td>Kč</td></tr><tr><td>Djiboutian Franc</td><td>DJF</td><td>Fdj</td></tr><tr><td>Danish Krone</td><td>DKK</td><td>Dkr</td></tr><tr><td>Dominican Peso</td><td>DOP</td><td>RD$</td></tr><tr><td>Algerian Dinar</td><td>DZD</td><td>DA</td></tr><tr><td>Estonian Kroon</td><td>EEK</td><td>Ekr</td></tr><tr><td>Egyptian Pound</td><td>EGP</td><td>EGP</td></tr><tr><td>Eritrean Nakfa</td><td>ERN</td><td>Nfk</td></tr><tr><td>Ethiopian Birr</td><td>ETB</td><td>Br</td></tr><tr><td>British Pound Sterling</td><td>GBP</td><td>£</td></tr><tr><td>Georgian Lari</td><td>GEL</td><td>GEL</td></tr><tr><td>Ghanaian Cedi</td><td>GHS</td><td>GH₵</td></tr><tr><td>Guinean Franc</td><td>GNF</td><td>FG</td></tr><tr><td>Guatemalan Quetzal</td><td>GTQ</td><td>GTQ</td></tr><tr><td>Hong Kong Dollar</td><td>HKD</td><td>HK$</td></tr><tr><td>Honduran Lempira</td><td>HNL</td><td>HNL</td></tr><tr><td>Croatian Kuna</td><td>HRK</td><td>kn</td></tr><tr><td>Hungarian Forint</td><td>HUF</td><td>Ft</td></tr><tr><td>Indonesian Rupiah</td><td>IDR</td><td>Rp</td></tr><tr><td>Israeli New Sheqel</td><td>ILS</td><td>₪</td></tr><tr><td>Indian Rupee</td><td>INR</td><td>Rs</td></tr><tr><td>Iraqi Dinar</td><td>IQD</td><td>IQD</td></tr><tr><td>Iranian Rial</td><td>IRR</td><td>IRR</td></tr><tr><td>Icelandic Króna</td><td>ISK</td><td>Ikr</td></tr><tr><td>Jamaican Dollar</td><td>JMD</td><td>J$</td></tr><tr><td>Jordanian Dinar</td><td>JOD</td><td>JD</td></tr><tr><td>Japanese Yen</td><td>JPY</td><td>¥</td></tr><tr><td>Kenyan Shilling</td><td>KES</td><td>Ksh</td></tr><tr><td>Cambodian Riel</td><td>KHR</td><td>KHR</td></tr><tr><td>Comorian Franc</td><td>KMF</td><td>CF</td></tr><tr><td>South Korean Won</td><td>KRW</td><td>₩</td></tr><tr><td>Kuwaiti Dinar</td><td>KWD</td><td>KD</td></tr><tr><td>Kazakhstani Tenge</td><td>KZT</td><td>KZT</td></tr><tr><td>Lebanese Pound</td><td>LBP</td><td>LB£</td></tr><tr><td>Sri Lankan Rupee</td><td>LKR</td><td>SLRs</td></tr><tr><td>Lithuanian Litas</td><td>LTL</td><td>Lt</td></tr><tr><td>Latvian Lats</td><td>LVL</td><td>Ls</td></tr><tr><td>Libyan Dinar</td><td>LYD</td><td>LD</td></tr><tr><td>Moroccan Dirham</td><td>MAD</td><td>MAD</td></tr><tr><td>Moldovan Leu</td><td>MDL</td><td>MDL</td></tr><tr><td>Malagasy Ariary</td><td>MGA</td><td>MGA</td></tr><tr><td>Macedonian Denar</td><td>MKD</td><td>MKD</td></tr><tr><td>Myanma Kyat</td><td>MMK</td><td>MMK</td></tr><tr><td>Macanese Pataca</td><td>MOP</td><td>MOP$</td></tr><tr><td>Mauritian Rupee</td><td>MUR</td><td>MURs</td></tr><tr><td>Mexican Peso</td><td>MXN</td><td>MX$</td></tr><tr><td>Malaysian Ringgit</td><td>MYR</td><td>RM</td></tr><tr><td>Mozambican Metical</td><td>MZN</td><td>MTn</td></tr><tr><td>Namibian Dollar</td><td>NAD</td><td>N$</td></tr><tr><td>Nigerian Naira</td><td>NGN</td><td>₦</td></tr><tr><td>Nicaraguan Córdoba</td><td>NIO</td><td>C$</td></tr><tr><td>Norwegian Krone</td><td>NOK</td><td>Nkr</td></tr><tr><td>Nepalese Rupee</td><td>NPR</td><td>NPRs</td></tr><tr><td>New Zealand Dollar</td><td>NZD</td><td>NZ$</td></tr><tr><td>Omani Rial</td><td>OMR</td><td>OMR</td></tr><tr><td>Panamanian Balboa</td><td>PAB</td><td>B/.</td></tr><tr><td>Peruvian Nuevo Sol</td><td>PEN</td><td>S/.</td></tr><tr><td>Philippine Peso</td><td>PHP</td><td>₱</td></tr><tr><td>Pakistani Rupee</td><td>PKR</td><td>PKRs</td></tr><tr><td>Polish Zloty</td><td>PLN</td><td>zł</td></tr><tr><td>Paraguayan Guarani</td><td>PYG</td><td>₲</td></tr><tr><td>Qatari Rial</td><td>QAR</td><td>QR</td></tr><tr><td>Romanian Leu</td><td>RON</td><td>RON</td></tr><tr><td>Serbian Dinar</td><td>RSD</td><td>din.</td></tr><tr><td>Russian Ruble</td><td>RUB</td><td>RUB</td></tr><tr><td>Rwandan Franc</td><td>RWF</td><td>RWF</td></tr><tr><td>Saudi Riyal</td><td>SAR</td><td>SR</td></tr><tr><td>Sudanese Pound</td><td>SDG</td><td>SDG</td></tr><tr><td>Swedish Krona</td><td>SEK</td><td>Skr</td></tr><tr><td>Singapore Dollar</td><td>SGD</td><td>S$</td></tr><tr><td>Somali Shilling</td><td>SOS</td><td>Ssh</td></tr><tr><td>Syrian Pound</td><td>SYP</td><td>SY£</td></tr><tr><td>Thai Baht</td><td>THB</td><td>฿</td></tr><tr><td>Tunisian Dinar</td><td>TND</td><td>DT</td></tr><tr><td>Tongan Paʻanga</td><td>TOP</td><td>T$</td></tr><tr><td>Turkish Lira</td><td>TRY</td><td>TL</td></tr><tr><td>Trinidad and Tobago Dollar</td><td>TTD</td><td>TT$</td></tr><tr><td>New Taiwan Dollar</td><td>TWD</td><td>NT$</td></tr><tr><td>Tanzanian Shilling</td><td>TZS</td><td>TSh</td></tr><tr><td>Ukrainian Hryvnia</td><td>UAH</td><td>₴</td></tr><tr><td>Ugandan Shilling</td><td>UGX</td><td>USh</td></tr><tr><td>Uruguayan Peso</td><td>UYU</td><td>$U</td></tr><tr><td>Uzbekistan Som</td><td>UZS</td><td>UZS</td></tr><tr><td>Venezuelan Bolívar</td><td>VEF</td><td>Bs.F.</td></tr><tr><td>Vietnamese Dong</td><td>VND</td><td>₫</td></tr><tr><td>CFA Franc BEAC</td><td>XAF</td><td>FCFA</td></tr><tr><td>CFA Franc BCEAO</td><td>XOF</td><td>CFA</td></tr><tr><td>Yemeni Rial</td><td>YER</td><td>YR</td></tr><tr><td>South African Rand</td><td>ZAR</td><td>R</td></tr><tr><td>Zambian Kwacha</td><td>ZMK</td><td>ZK</td></tr></tbody></table>
+
+
+
+
+<a class="anchor" id="checkout"></a>
+<h4 class="mt50">Checkout and payments</h4>
+<p>Until now we were just reading resources with different currencies, but what about orders and payments?</p>
+<p>The first thing to keep in mind is that order creation and payment are two separate processes. When you create an order through Marketcloud's API, you are putting together several instances of resources such as products, coupons, users and carts and turning them into something more valuable for your store, an order. This order will keep an internal snapshot of the state of those ingredients used to create it. This is because you want to know exactly which was the price you sold the product for when reviewing an order.</p>
+<p>This internal snapshot of resources uses the base currency to represent those values! So that you can always have a precise value for each order. </p>
+
+<pre><code class="javascript">
+ marketcloud.orders.create({
+  "cart_id"             : 1234,
+  "shipping_address_id" : 12345,
+  "user_id"             : 123456,
+  "currency"            : "USD"
+ })
+ .then( (response) => {
+  let order = response.data;
+ })
+</code></pre>
+<p>In the previous example, the created order will be something like this:</p>
+<pre>
+  <code class="json">{
+  "items": [
+    { ... }
+  ],
+  "shipping_address": { ... },
+  "billing_address": { ... },
+  "shipping": { ... },
+  "taxes": [
+    {...}
+  ],
+  "cart_id": 1234,
+  "shipping_id": 1234,
+  "products": [
+  { ... }
+  ],
+  "items_total": 15,
+  "shipping_total": 10,
+  "taxes_total": 4.3,
+  "total": 29.3,
+  "created_at": 1502960471492,
+  "status": "processing",
+  "payment_method": "StripeMethod",
+  "promotion_id": 0,
+  "currency": {
+    "symbol": "$",
+    "name": "US Dollar",
+    "symbol_native": "$",
+    "decimal_digits": 2,
+    "rounding": 0,
+    "code": "USD",
+    "name_plural": "US dollars",
+    "rate": 1.17
+  },
+  "id": 123,
+  "payments": [
+    { ... }
+  ],
+  "display_items_total": "15 EUR",
+  "display_total": "29.3 EUR"
+}
+    
+  </code>
+</pre>
+
+<p>As you can see the internal state of the order is still displayed in the base currency.</p>
+
+<p>When creating the payment, if the order was created with a specific currency, the payment method will have to translate the amount.</p>
+
+<p>
+<b>Example</b><br>
+In your online store you have EUR as base currency and USD as optional currency, a customer from the United States is browsing your store and he is able to see prices in USD thanks to the currency settings.<br>
+The customer decides to buy an article from the store, you will use Marketcloud's API to create an order instance setting the currency to <code>USD</code>.<br>
+The internal state of the order will keep all values in EUR because it's the base currency, but you are able to display order totals and subtotals in USD.
+</p>
+
+<blockquote class="blockquote-warning"><b>Warning</b><br/>Not every payment integration supporting automatic multi currency handling.<a class="link" target="_blank" href="/documentation/guides/integrations/stripe">Stripe</a> does but, for example, with Braintree you would need different merchant accounts and the most common thing to do is to charge the card in your base currency.</blockquote>

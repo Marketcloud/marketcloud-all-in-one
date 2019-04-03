@@ -1,0 +1,307 @@
+
+  <h2>Coupons</h2>
+  <p>Coupons are discounts that can be applied to carts and orders. Unlike promotions, to add a coupon to a cart/order the secret coupon code must be matched.</p>
+
+<div class="documentation mb50 mt50">
+  <h4>Table of contents</h4>
+  <ol>
+    <li><a href="#coupons.model">Resource model description</a></li>
+    <li><a href="#coupons.create">Create a coupon</a></li>
+    <li><a href="#coupons.list">List coupons</a></li>
+    <li><a href="#coupons.getbyid">Get coupon by id</a></li>
+    <li><a href="#coupons.update">Update a coupon</a></li>
+    <li><a href="#coupons.delete">Delete a coupon</a></li>
+  </ol>
+</div>
+
+  <h5>Model definition</h5>
+  <div class="table-responsive">
+    <table class="table table-striped documentation">
+      <thead>
+        <tr>
+          <th>Attribute</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="code">name <span  class="label label-success">Required</span></td>
+          <td>String</td>
+          <td>The coupon name</td>
+        </tr>
+        <tr>
+          <td class="code">code <span  class="label label-success">Required</span></td>
+          <td>String</td>
+          <td>The secret code that the customer must match to benefit from the coupon.</td>
+        </tr>
+        <tr>
+          <td class="code">target_type <span  class="label label-success">Required</span></td>
+          <td>String</td>
+          <td>This parameter tells the API where the coupon can be applied. Use  <code>'CART_COUPON'</code> if you want to apply a discount to the whole cart, <code>'PRODUCT_COUPON'</code> if the discount is appliable only to a specific product, and <code>'CATEGORY_COUPON'</code> if the discount can be applied to all products in a certain category.</td>
+        </tr>
+         <tr>
+          <td class="code">target_id</td>
+          <td>Number</td>
+          <td>This parameter is required when the target_type is equal to <code>'PRODUCT_COUPON'</code> or <code>'CATEGORY_COUPON'</code>. The value must be the id of the category or the product you want to restrict the coupon to. See the examples below.</td>
+        </tr>
+        
+        <tr>
+          <td class="code">discount_type <span  class="label label-success">Required</span></td>
+          <td>String</td>
+          <td>This parameter tells the API which is the type of discount. Use  <code>'NET_REDUCTION'</code> if you want to apply a net discount, or use <code>'PERCENTAGE_REDUCTION'</code> if you want to apply a percentage discount.</td>
+        </tr>
+        
+        <tr>
+          <td class="code">discount_value <span  class="label label-success">Required</span></td>
+          <td>Number</td>
+          <td>The value of the discount, if the discount_type is <code>PERCENTAGE_REDUCTION</code> the discount_value represent the percentage of discount to apply (the percentage is calculated against the target, cart, product or category) </td>
+        </tr>
+        <tr>
+          <td class="code">active <span  class="label label-success">Required</span></td>
+          <td>Boolean</td>
+          <td>Tells wether the coupon is active or not. If active, can be applied  to carts and orders.</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+
+  <h5>Examples</h5>
+  <p>Coupon that applies a 5% discount to all products that belong to a single category with id 123</p>
+  <pre><code class="json">
+{
+    "code" : "THSHIRTSMANIA",
+    "name" : "Tshirts coupon",
+    "target_type" : "CATEGORY_COUPON",
+    "target_id" : 123, // The id of the category
+    "discount_type" : "PERCENTAGE_REDUCTION",
+    "discount_value" : 5,
+    "active" : true
+}
+  </code></pre>
+  <p>Coupon that applies a 5 € discount to the whole cart</p>
+  <pre><code class="json">
+{
+    "code" : "WELCOME2018",
+    "name" : "5€ Welcome coupon",
+    "target_type" : "CART_COUPON",
+    "discount_type" : "NET_REDUCTION",
+    "discount_value" : 5,
+    "active" : true
+}
+  </code></pre>
+  <p>Coupon that applies a 10% discount only to a certain product</p>
+  <pre><code class="json">
+{
+    "code" : "MyDiscount",
+    "name" : "10% Discount XBOX",
+    "target_type" : "PRODUCT_COUPON",
+    "target_id" : 456, // The id of the product 
+    "discount_type" : "PPERCENTAGE_REDUCTION",
+    "discount_value" : 10,
+    "active" : true
+}
+  </code></pre>
+
+
+<!-- COUPON CREATE -->
+          <a class="anchor" id="coupons.create"></a>
+					<div class="documentation">
+						<h3>POST /coupons</h3>
+						<p >Creates a new Coupon. </p>
+						<pre><code class="http">POST https://api.marketcloud.it/v0/coupons</code></pre>
+						<h5>Parameters</h5>
+						<p>See the model description above.</p>
+						<h5>Example Request</h5>
+						<pre><code class="curl">
+curl --request POST \
+  --url https://api.marketcloud.it/v0/coupons \
+  --header 'accept: application/json' \
+  --header 'Authorization:PUBLIC_KEY:TOKEN' \
+  --header 'content-type: application/json' \
+  -d @- << EOF
+
+  {
+    "code" : "WELCOME2017",
+    "name" : "welcome_2017",
+    "target_type" : "CART_COUPON",
+    "discount_type" : "NET_REDUCTION",
+    "discount_value" : 10,
+    "active" : true
+}
+EOF
+						</code></pre>
+						<h5>Example JSON response (200)</h5>
+						<pre><code class="javascript">{
+  "status": true,
+  "data": {
+    "code": "WELCOME2017",
+    "name": "welcome_2017",
+    "target_type": "CART_COUPON",
+    "discount_type": "NET_REDUCTION",
+    "discount_value": 10,
+    "active": true,
+    "id": 1,
+  }
+}</code></pre>								
+							</div>
+            <a class="anchor" id="coupons.list"></a>
+						<div class="documentation">
+						<h3>GET /coupons</h3>
+						<p >Retrieves a list of coupons from your application. The response includes <a href="/documentation/rest-api/introduction#pagination" target="_blank" class="link">Paging information</a>.</p>
+						<pre><code class="http">GET https://api.marketcloud.it/v0/coupons</code></pre>
+						<h5>Request parameters</h5>
+						<div class="table-responsive"><table class="table table-striped documentation">
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        
+        <tr>
+                  <td  class="code">{Attribute}</td>
+                  <td>Mixed</td>
+                  <td>Any resource attribute that you want to use to filter the result list.</td>
+                </tr>
+        <tr>
+          <td class="code">fields</td>
+          <td>String</td>
+          <td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+        </tr>
+        <tr>
+          <td  class="code">per_page</td>
+          <td>Number</td>
+          <td>The number of coupons to retrieve per page</td>
+        </tr>
+        <tr>
+          <td class="code">page</td>
+          <td>Number</td>
+          <td>The page number of coupons to display</td>
+        </tr>
+      </tbody>
+    </table></div>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/coupons/list.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+						<pre><code class="javascript">
+{
+    "_links": {
+        "curr": "https://api.marketcloud.it/v0/coupons?"
+    }, 
+    "count": 2, 
+    "data": [
+        {
+            "active": true, 
+            "code": "WELCOMECOUPON", 
+            "discount_type": "NET_REDUCTION", 
+            "discount_value": 10, 
+            "id": 1, 
+            "name": "welcome", 
+            "target_type": "CART_COUPON", 
+        }, 
+        {
+            "active": false, 
+            "code": "NERDS-ONLY", 
+            "discount_type": "NET_REDUCTION", 
+            "discount_value": 10, 
+            "id": 5, 
+            "name": "Nerds only", 
+            "target_type": "CART_COUPON", 
+        }
+    ], 
+    "page": 1, 
+    "pages": 1, 
+    "status": true
+}</code></pre>								
+
+						</div>
+<!-- /COUPON LIST -->						
+<!-- COUPON GET BY ID -->
+            <a class="anchor" id="coupons.getbyid"></a>
+						<div class="documentation">
+						<h3>GET /coupons/:id</h3>
+						<p >Retrieve a specific coupon given its id.</p>
+						<pre><code class="http">GET https://api.marketcloud.it/v0/coupons/:id;</code></pre>
+						<h5>Parameters</h5>
+						<table class="table table-striped documentation">
+									<thead>
+										<tr>
+										<th>Field</th>
+										<th>Type</th>
+										<th>Description</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="code">fields</td>
+											<td>String</td>
+											<td>Comma separated list of attribute names to retrieve. Use it to retrieve only the fields you need.</td>
+										</tr>
+									</tbody>
+								</table>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/coupons/getbyid.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<div>
+						<h5>Example JSON response (200)</h5>
+						<pre><code class="javascript">
+{
+	status:true,
+	data: {
+       	"active": false, 
+        "code": "NERDS-ONLY", 
+        "discount_type": "NET_REDUCTION", 
+        "discount_value": 10, 
+        "id": 5, 
+        "name": "Nerds only", 
+        "target_type": "CART_COUPON", 
+}</code></pre>								
+							</div>
+						</div>
+<!-- /COUPON GET BY ID -->
+<!-- COUPON UPDATE BY ID -->
+        <a class="anchor" id="coupons.update"></a>
+				<div class="documentation">
+						<h3>PUT /coupons/:id</h3>
+						<p >Updates a coupon given an id. Returns the updated coupon.</p>
+						<pre><code class="http">PUT https://api.marketcloud.it/v0/coupons/:id;</code></pre>
+						<h5>Parameters</h5>
+						<p>See <a href="#coupons.create" class="link">POST /coupons</a></p>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/coupons/update.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+						<pre><code class="javascript">
+{
+	status:true,
+	data: {
+       	"active": false, 
+        "code": "NERDS-ONLY", 
+        "discount_type": "NET_REDUCTION", 
+        "discount_value": 10, 
+        "id": 5, 
+        "name": "10PERCENTDISCOUNT", 
+        "target_type": "CART_COUPON", 
+}
+
+}</code></pre>							
+						</div>	
+<!-- /COUPON UPDATE BY ID -->
+<!-- COUPON DELETE BY ID -->
+        <a class="anchor" id="coupons.delete"></a>
+				<div class="documentation">
+						<h3>DELETE /coupons/:id</h3>
+						<p >Deletes a specific coupon given its id.</p>
+						<pre><code class="http">DELETE https://api.marketcloud.it/v0/coupons/:id;</code></pre>
+						<h5>Example Request</h5>
+						<iframe src="//api.apiembed.com/?source=https://raw.githubusercontent.com/Marketcloud/json-request-examples/master/requests/coupons/delete.json&targets=shell:curl,java:unirest,python:requests,ruby:native,objc:nsurlsession,go:native,csharp:restsharp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+						<h5>Example JSON response (200)</h5>
+<pre><code class="javascript">
+{
+	status:true
+}</code></pre>			
+</div>							
+<!-- /COUPON DELETE BY ID -->

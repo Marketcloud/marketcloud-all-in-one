@@ -1,0 +1,45 @@
+<header>
+	<div style="position:fixed;padding:0px;background-color:#2c3e50;top:0px;left:0px;right:0px;z-index:999;">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-menu-mobile">
+					<!-- <span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span> -->
+					<i class="fa fa-bars fa-2x" style="color:white;"></i>
+					</button>
+					<a class="navbar-brand" href="/">Marketcloud</a>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="navbar-menu-mobile">
+					<ul class="nav navbar-nav">
+							<li><a href="/quickstart" title="Quickstart page" class="navbar-link">Quickstart</a></li>
+							<li><a href="/features" title="Features page">Features</a></li>
+							<li><a href="/pricing" title="Pricing page">Pricing</a></li>
+						<li><a href="/documentation/" title="Documentation page">Documentation</a></li>
+						<li><a href="/blog" title="Blog page">Blog</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<% if (user.isAuthenticated===true) { %>
+									<li>
+										<p class="navbar-btn">
+					                   		<a href="/applications" class="btn btn-empty-white">DASHBOARD</a>
+					                	</p>
+					                </li>
+							<% } else { %>
+								<li><a href="/account/login" title="Log in page">Log in</a></li>
+								<li>
+									<p class="navbar-btn">
+					                   		<a href="/account/signup" class="btn btn-empty-white">SIGN UP</a>
+					                </p>
+					            </li>
+							<% } %>
+					</ul>
+					
+				</div><!-- /.navbar-collapse -->
+			</div><!-- /.container-fluid -->
+		</nav>
+	</div>
+</header>
