@@ -82,7 +82,7 @@ The recommended way to run everything is through docker-compose, if your server 
 
 ```
 docker-compose -p marketcloud up -d
-``
+```
 
 The above command will take some time, doing the following things:
 - download missing docker images
